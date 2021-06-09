@@ -12,15 +12,15 @@ async function GetUserList(){
     let conn, rows;
     try{
         conn = await pool.getConnection();
-        conn.query('USE nodejs_test');
-        rows = await conn.query('SELECT * FROM users');
+        conn.query('USE MOA_DB');
+        rows = await conn.query('show tables');
     }
     catch(err){
         throw err;
     }
     finally{
         if (conn) conn.end();
-        return rows[0];
+        return rows;
     }
 }
  
