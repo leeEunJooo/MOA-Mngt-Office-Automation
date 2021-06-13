@@ -1,17 +1,25 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <!-- <img alt="Vue logo" src="./assets/logo.png">
+    <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+    
+    <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/login">로그인</router-link> |
+      <router-link to="/signUp">회원가입</router-link>
+      <router-link to="/pwReset">비밀번호 초기화</router-link>
+    </div>
+    <router-view><router-view/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+// import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    // HelloWorld
   }
 }
 </script>

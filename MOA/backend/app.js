@@ -5,9 +5,27 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var usersRouter = require('./routes/musers');
 
 var app = express();
+
+var mysql = require('mysql');
+
+var connection = mysql.createConnection({
+  host:'127.0.0.1',
+  port: 3307,
+  user: 'root',
+  password: 'wjdeorbs92',
+  database: 'MOA_DB'
+});
+
+connection.connect(function (err) {
+  if (err) {
+    console.error('mysql connection error');
+    console.error(err);
+    throw err;
+  }
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -20,7 +38,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+// app.use('/users', usersRouter);
+app.use('/api/musers', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

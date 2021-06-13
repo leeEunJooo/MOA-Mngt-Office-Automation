@@ -4,16 +4,24 @@ const pool = mariadb.createPool({
     host:'127.0.0.1', 
     port:3307,
     user: 'root',
-    password: '!New1234',
+    password: 'wjdeorbs92',
     connectionLimit: 5
 });
- 
+
+// pool.connect(function (err) {
+//     if (err) {
+//         console.error('mariadb connection error');
+//         console.error(err);
+//         throw err;
+//     }
+// });
+
 async function GetUserList(){
     let conn, rows;
     try{
         conn = await pool.getConnection();
         conn.query('USE MOA_DB');
-        rows = await conn.query('show tables');
+        rows = await conn.query('SELECT * FROM TBL_MOA_USER_BAS');
     }
     catch(err){
         throw err;
