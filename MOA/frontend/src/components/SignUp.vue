@@ -18,7 +18,7 @@
 <script>
 export default {
  methods: {
-    signUp: function (event) {
+    signUp: function () {
       this.$http.post("/api/musers/signUp", {
           user: this.user,
         })
@@ -31,7 +31,7 @@ export default {
             alert(res.data.message);
           }
         })
-        .catch(function (error) {
+        .catch(function () {
           alert("error");
         });
     }

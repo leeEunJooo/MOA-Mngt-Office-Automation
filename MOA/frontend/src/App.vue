@@ -1,5 +1,7 @@
 <template>
+
   <div id="app">
+    <DrawerNav></DrawerNav>
     <!-- <img alt="Vue logo" src="./assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/> -->
     
@@ -9,17 +11,17 @@
       <router-link to="/signUp">회원가입</router-link>
       <router-link to="/pwReset">비밀번호 초기화</router-link>
     </div>
-    <router-view><router-view/>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
+import DrawerNav from './components/DrawerNav.vue';
 
 export default {
   name: 'App',
   components: {
-    // HelloWorld
+    DrawerNav,
   }
 }
 </script>

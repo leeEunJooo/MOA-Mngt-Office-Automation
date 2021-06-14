@@ -24,7 +24,7 @@ export default {
     }
   },
   methods: {
-    login: function (event) {
+    login: function () {
       this.$http
         .post("/api/musers/login", {
           user: this.user,
@@ -34,7 +34,7 @@ export default {
             //로그인 성공
             alert(res.data.message);
           },
-          (err) => {
+          () => {
             // error 를 보여줌
             alert("Login failed! please check your id or password");
           }
