@@ -1,9 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Index from '@/components/UserList'
-import Login from '@/components/Login'
-import SignUp from '@/components/SignUp'
-import PwReset from '@/components/PwReset'
+import Login from '@/components/user/Login'
+import SignUp from '@/components/user/Signup'
 
 // Vue와 VueRouter 연결
 Vue.use(VueRouter)
@@ -12,11 +10,6 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'index',
-    component: Index
-  },
-  {
-    path: '/login',
     name: 'login',
     component: Login
   },
@@ -25,11 +18,7 @@ const routes = [
     name: 'signUp',
     component: SignUp
   },
-  {
-    path: '/pwReset',
-    name: 'pwReset',
-    component: PwReset
-  }
+
 ]
 
 // VueRouter에 route를 등록하고 설정한다.
