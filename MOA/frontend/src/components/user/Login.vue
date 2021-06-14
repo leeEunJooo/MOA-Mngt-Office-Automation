@@ -38,14 +38,18 @@
           md="12"
         >
           <v-text-field
+            v-model="user.user_id"
             label="아이디를 입력해주세요"
-            placeholder="Placeholder"
+            placeholder="아이디를 입력해주세요"
+            required
             solo
           ></v-text-field>
 
             <v-text-field
+            v-model="user.password"
             label="비밀번호를 입력해주세요"
-            placeholder="Placeholder"
+            placeholder="비밀번호를 입력해주세요"
+            required
             solo
           ></v-text-field>
   
@@ -66,7 +70,8 @@
     </v-col>
 
     <v-col>
-        <v-btn class="btn1" 
+        <v-btn class="btn1"
+        v-on:click="login" 
         block
         >
             로그인
@@ -92,16 +97,44 @@
 <script>
  
   export default {
-    data: () => ({
-      loading: false,
-      selection: 1,
-    }),
+    // data: () => ({
+    //   loading: false,
+    //   selection: 1,
+    // }),
+
+    data:function() {
+      return {
+        user:{
+          user_id: "",
+          password: "",
+        }
+      }
+    },
 
     methods: {
-      reserve () {
-        this.loading = true
-        setTimeout(() => (this.loading = false), 2000)
-      },
+      // reserve () {
+      //   this.loading = true
+      //   setTimeout(() => (this.loading = false), 2000)
+      // },
+      login: function () {
+      this.$http
+        .post("/api/musers/login", {
+          user: this.user,
+        })
+        .then(
+          (res) => {
+            //로그인 성공
+            alert(res.data.message);
+          },
+          () => {
+            // error 를 보여줌
+            alert("아이디가 없대");
+          }
+        )
+        .catch((err) => {
+          alert(err);
+        });
+    }
     },
   }
 </script>

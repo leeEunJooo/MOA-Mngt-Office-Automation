@@ -11,7 +11,7 @@
       <router-link to="/signUp">회원가입</router-link>
       <router-link to="/pwReset">비밀번호 초기화</router-link>
     </div>
-    <router-view></router-view>
+    <!-- <router-view></router-view> -->
   </div>
 </template>
 

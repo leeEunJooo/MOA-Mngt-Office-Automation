@@ -4,7 +4,7 @@ import Login from '@/components/user/Login'
 import SignUp from '@/components/user/Signup'
 
 // Vue와 VueRouter 연결
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 // 사용할 route 생성 및 설정
 const routes = [
