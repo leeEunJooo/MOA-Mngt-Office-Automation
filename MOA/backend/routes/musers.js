@@ -94,7 +94,9 @@ router.post('/login', function (req, res) {
 router.post('/pwReset', function (req, res) {
   console.log("비밀번호 초기화");
   const user = {
-    'user_id': req.body.user.user_id
+    'user_id': req.body.user.user_id,
+    'password1' : req.body.user.password1,
+    'password2' : req.body.user.password2
   };
 
   connection.query('SELECT user_id FROM TBL_MOA_USER_BAS WHERE user_id = "' + user.user_id + '"', function (err, row) {
@@ -105,15 +107,23 @@ router.post('/pwReset', function (req, res) {
       })
     }
     else {
-      const salt = bcrypt.genSaltSync();
-      const encryptedPassword = bcrypt.hashSync("1234", salt);
-      connection.query('UPDATE TBL_MOA_USER_BAS SET password = "' + encryptedPassword + '" where user_id = "' + user.user_id + '"', user, function (err, row2) {
-        if (err) throw err;
-      });
-      res.json({
-        success: true,
-        message: 'PW Reset Success!'
-      })
+      if(user.password1 == user.password2){
+        const salt = bcrypt.genSaltSync();
+        const encryptedPassword = bcrypt.hashSync(user.password1, salt);
+        connection.query('UPDATE TBL_MOA_USER_BAS SET password = "' + encryptedPassword + '" where user_id = "' + user.user_id + '"', user, function (err, row2) {
+          if (err) throw err;
+        });
+        res.json({
+          success: true,
+          message: 'PW Reset Success!'
+        })
+      }else{
+        res.json({
+          success: false,
+          message: '비밀번호가 동일하지 않습니다.'
+        })
+      }
+      
     }
   });
   
