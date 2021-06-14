@@ -9,24 +9,6 @@ var usersRouter = require('./routes/musers');
 
 var app = express();
 
-// var mysql = require('mysql');
-
-// var connection = mysql.createConnection({
-//   host:'127.0.0.1',
-//   port: 3307,
-//   user: 'root',
-//   password: 'wjdeorbs92',
-//   database: 'MOA_DB'
-// });
-
-// connection.connect(function (err) {
-//   if (err) {
-//     console.error('mysql connection error');
-//     console.error(err);
-//     throw err;
-//   }
-// });
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
