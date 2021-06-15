@@ -37,6 +37,7 @@
   import MenuList from './menu/MenuList.vue';
   import Login from './user/Login.vue';
   import Signup from './user/Signup.vue';
+  import List from './user/List.vue';
   
   Vue.use(VueRouter)
 
@@ -44,13 +45,18 @@
     routes : [
                 //메인페이지 정보
                 {
-                    path:'/',
-                    component:Login
+                  path:'/',
+                  component:Login
                 },
                 {
-                    path:'/signup',
-                    component:Signup
-                }
+                  path:'/signup',
+                  component:Signup
+                },
+                {
+                  path:'/list',
+                  component:List
+                },
+                
             ]
   });
 

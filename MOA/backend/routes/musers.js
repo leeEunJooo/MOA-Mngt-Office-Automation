@@ -79,9 +79,11 @@ router.post('/login', function (req, res) {
       if (row[0] !== undefined && row[0].user_id === user.user_id) {
         bcrypt.compare(user.password, row[0].password, function (err, res2) {
           if (res2) {
-            req.session.is_logined = true;
-            req.session.user_id =req.body.user.user_id; 
+            // req.session.is_logined = true;
+            req.session.user=row[0];
+            req.session.save();
             res.json({ // 로그인 성공 
+              token: req.session,
               success: true,
               message: '로그인 성공'
             })
@@ -96,6 +98,19 @@ router.post('/login', function (req, res) {
     }
   })
 });
+
+//아이디로 정보 조회
+router.get('/userinfo', function (req, res) {
+  console.log("정보조회");
+  const users = {
+    'user_id': localStorage.getItem("loginUser"),
+  };
+  connection.query('SELECT * FROM TBL_MOA_USER_BAS WHERE user_id = "' + user.user_id + '"', function (err, rows) {
+    if (err) throw err;
+    res.send(rows);
+    })
+});
+
 
 router.post('/pwReset', function (req, res) {
   console.log("비밀번호 초기화");
