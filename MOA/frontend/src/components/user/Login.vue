@@ -3,7 +3,7 @@
   <v-card
     :loading="loading"
     class="mx-auto my-12"
-    max-width="430"
+    max-width="470"
   >
     <template slot="progress">
       <v-progress-linear
@@ -22,7 +22,6 @@
         align="center"
         class="mx-0"
       >
-       
       </v-row>
 
     </v-card-text>
@@ -33,7 +32,7 @@
    
 
     <v-col
-          cols="12"
+          cols="13"
           sm="6"
           md="12"
         >
@@ -49,23 +48,24 @@
             solo
           ></v-text-field>
   
-        <v-row> 
-            
-            <div style="padding-left : 22px">
+        <v-row style="width:100%"> 
+            <!--로그인 상태 유지-->
+            <div class="login_save_box">
                 <v-checkbox
                     v-model="ex4"
                     label="로그인 상태 유지"
-                    value="indigo"
                     hide-details
+                    style="padding-left:20px;"
                 ></v-checkbox>
             </div>
-            <div style="padding-top : 22px; margin-left : 120px">
-                <a href="" class="href-link">비밀번호 초기화</a>
+            <!--비밀번호 초기화-->
+            <div class="reset_pw_box">
+                <ResetPW></ResetPW>
             </div>
         </v-row>
     </v-col>
 
-    <v-col>
+    <v-col md="13">
         <v-btn class="btn1" 
         block
         >
@@ -83,6 +83,10 @@
    <br>
 
   </v-card>
+
+
+
+  
   
 </div>
 
@@ -90,7 +94,8 @@
 
 
 <script>
- 
+  import ResetPW from './ResetPW.vue'
+
   export default {
     data: () => ({
       loading: false,
@@ -103,34 +108,47 @@
         setTimeout(() => (this.loading = false), 2000)
       },
     },
+    components:{
+      ResetPW
+    }
   }
 </script>
 
 
 <style>
-.v-card__title{
+
+.login_box .v-card__title{
     display: block !important;
     text-align: center;
 }
-.btn1{
+.login_box .btn1{
     margin:  15px 0px;
     background-color: #4f3dd8 !important;
     color: white !important;
     font-weight: bold !important;
 }
-.btn2{
+.login_box .btn2{
     color : #4f3dd8 !important;
     font-weight: bold !important;
 }
-.v-checkbox{
+.login_box .v-checkbox{
     background-color: #4f3dd8 !important; 
 }
 .v-btn__content{
     color: white;
 }
-.v-card__title{
+.login_box .v-card__title{
     color : #4f3dd8 !important;
     font-weight: bold !important;
+}
+.login_save_box,
+.reset_pw_box{
+  width: 50%;
+  margin: 0 !important;
+}
+.login_save_box .v-input--checkbox{
+  margin:0 !important;
+  font-size: 13px !important;
 }
 
 </style>
