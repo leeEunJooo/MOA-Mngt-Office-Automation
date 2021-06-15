@@ -98,18 +98,21 @@ router.post('/login', function (req, res) {
     }
   })
 });
-
 //아이디로 정보 조회
-router.get('/userinfo', function (req, res) {
+router.post('/userinfo', function (req, res) {
   console.log("정보조회");
   const users = {
-    'user_id': localStorage.getItem("loginUser"),
+    'user_id': JSON.parse(localStorage.getItem('token')).user.user_id,
   };
-  connection.query('SELECT * FROM TBL_MOA_USER_BAS WHERE user_id = "' + user.user_id + '"', function (err, rows) {
+  console.log(users.user_id);
+  connection.query('SELECT * FROM TBL_MOA_USER_BAS WHERE user_id = "' + users.user_id + '"', function (err, rows) {
     if (err) throw err;
+    console.log(res);
     res.send(rows);
-    })
+    });
 });
+
+
 
 
 router.post('/pwReset', function (req, res) {

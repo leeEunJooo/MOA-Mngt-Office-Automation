@@ -95,7 +95,7 @@
 
 
 <script>
-  import axios from 'axios';
+  // import axios from 'axios';
  
   export default {
     // data: () => ({
@@ -118,18 +118,20 @@
       //   setTimeout(() => (this.loading = false), 2000)
       // },
       login: function () {
-      axios
+      this.$http
         .post("/api/musers/login", {
           user: this.user,
         })
         .then(
           (res) => {
             //로그인 성공
-            localStorage.setItem("token", res.data.token);
-            localStorage.setItem("isLogin", true);
-            localStorage.setItem("loginUser", res.data.user_id);
-            localStorage.setItem("loginUsername", res.data.user_name);
+            localStorage.setItem('token', JSON.stringify(res.data.token));
+            // localStorage.setItem('isLogin', true);
+            localStorage.setItem('loginUser', JSON.stringify(res.data));
+            // localStorage.setItem("loginUsername", res.data.user_name);
             console.log(res);
+            console.log(res.data.token);
+            console.log(JSON.parse(localStorage.getItem('token')).user.user_id);
             alert(res.data.message);
             this.$router.push("/list");
           },

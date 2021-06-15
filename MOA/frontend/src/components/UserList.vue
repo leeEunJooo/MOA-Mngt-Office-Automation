@@ -26,7 +26,9 @@ export default {
     }
   },
   created() {
-    this.$http.get("/api/musers").then((response) => {
+    this.$http.get("/api/musers")
+    .then((response) => {
+      console.log(response);
       this.users = response.data;
     });
   }

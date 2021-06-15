@@ -6,7 +6,7 @@ import vuetify from './plugins/vuetify'
 import { store } from './store/store'
 
 Vue.config.productionTip = false
-Vue.prototype.$Axios = axios;
+Vue.prototype.$http = axios;
 
 new Vue({
   router,
