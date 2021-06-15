@@ -32,9 +32,12 @@
                   <input placeholder="비밀번호" type="password" class="signup_pw"/>
                   <input placeholder="비밀번호 확인" type="password" class="signup_pw"/>
               </div>
-              <button class="signup_cplt">
-                  완료
-              </button>
+
+              <router-link to="/">
+                <button class="signup_cplt">
+                    완료
+                </button>
+              </router-link>
           </v-col>
       </div>
       

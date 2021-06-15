@@ -50,7 +50,7 @@
   
         <v-row style="width:100%"> 
             <!--로그인 상태 유지-->
-            <div class="login_save_box">
+            <div class="login_save_box" style="padding-top: 10px">
                 <v-checkbox
                     v-model="ex4"
                     label="로그인 상태 유지"
@@ -59,7 +59,7 @@
                 ></v-checkbox>
             </div>
             <!--비밀번호 초기화-->
-            <div class="reset_pw_box">
+            <div class="reset_pw_box" style="padding-left: 75px" >
                 <ResetPW></ResetPW>
             </div>
         </v-row>
@@ -134,9 +134,7 @@
 .login_box .v-checkbox{
     background-color: #4f3dd8 !important; 
 }
-.v-btn__content{
-    color: white;
-}
+
 .login_box .v-card__title{
     color : #4f3dd8 !important;
     font-weight: bold !important;

@@ -85,7 +85,7 @@ export default {
   /*비밀번호 초기화 버튼*/
   .reset_pw_btn{
     width: 100%;
-    font-size: 13px !important;
+    font-size: 16px !important;
     text-decoration: underline;
     line-height: 3.38;
     color: #493dcf !important;
@@ -143,6 +143,7 @@ export default {
     margin: 40px auto 50px auto !important;
     border: solid 3px #313343;
     background-color: #313343;
+    color : white !important;
     font-weight: bold;
   }
   .rs-pw-close{
@@ -154,3 +155,4 @@ export default {
   }
 
 </style>
+

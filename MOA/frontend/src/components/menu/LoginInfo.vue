@@ -1,7 +1,9 @@
 <template>
   <div>
       <div id="notLoggedIn" class="notloggedIn" style = "padding-top: 20px">
-          로그인/회원가입
+          <router-link to="/">
+            로그인/회원가입
+          </router-link>
       </div>
       
   </div>
