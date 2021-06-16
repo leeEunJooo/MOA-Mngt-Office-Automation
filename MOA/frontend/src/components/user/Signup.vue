@@ -15,7 +15,7 @@
 
               <div>
                   <span class="ct-combo-title">전화번호</span>
-                  <input placeholder="01012345678" class="signup_ph" v-model="user.phone_num" />
+                  <input placeholder="01012345678" class="signup_ph" @:keyup="inputPhoneNumber(this);" maxlength="13" v-model="user.phone_num" />
               </div>
 
               <div>
@@ -61,44 +61,71 @@
 export default {
     
     methods: {
-    signUp: function (event) {
-      this.$http.post("/api/musers/signUp", {
-          user: this.user,
-        })
-        .then((res) => {
-          if (res.data.success == true) {
-            alert(res.data.message);
-            this.$router.push("/");
-          }
-          if (res.data.success == false) {
-            alert(res.data.message);
-          }
-        })
-        .catch(function (error) {
-          alert("error");
-        });
-      }
+        signUp: function () {
+        this.$http.post("/api/musers/signUp", {
+            user: this.user,
+            })
+            .then((res) => {
+            if (res.data.success == true) {
+                alert(res.data.message);
+                this.$router.push("/");
+            }
+            if (res.data.success == false) {
+                alert(res.data.message);
+            }
+            })
+            .catch(function () {
+            alert("error");
+            });
+        },
+
+        //phone number input 
+        inputPhoneNumber: function(obj) {
+            var number = obj.value.replace(/[^0-9]/g, "");
+            var phone = ""; 
+            if(number.length < 4) { return number; }
+            else if(number.length < 7) {
+                phone += number.substr(0, 3);
+                phone += "-"; phone += number.substr(3); 
+            }
+            else if(number.length < 11) {
+                phone += number.substr(0, 3); 
+                phone += "-"; phone += number.substr(3, 3);
+                phone += "-"; phone += number.substr(6);
+            } else {
+                phone += number.substr(0, 3);
+                phone += "-";
+                phone += number.substr(3, 4);
+                phone += "-";
+                phone += number.substr(7);
+            } 
+            obj.value = phone; 
+            }
+        
     },
-    data:() => ({
-    default_team: {
-      name: "팀1",
-      idx: "1"
-    },
-    team: [
-        {name: "팀1",idx: "1"},
-        {name: "팀2",idx: "2"},
-        {name: "팀3",idx: "3"}, 
-    ]
-  }),
     
-    return :{
+    data:() => ({
+        default_team: {
+        name: "팀1",
+        idx: "1"
+        },
     user: {
         phone_num:"",
         user_name:"",
         user_id:"",
         password:"",
     },
-    }
+    team: [
+        {name: "팀1",idx: "1"},
+        {name: "팀2",idx: "2"},
+        {name: "팀3",idx: "3"}, 
+    ]
+    }),
+
+    
+    
+    
+    
 }
 </script>
 

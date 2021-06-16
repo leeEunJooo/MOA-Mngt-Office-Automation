@@ -40,16 +40,16 @@
         <v-card-text class="rs-pw-cd-content">
           <!--현재 비밀번호-->
           <div>
-              <!-- <span class="rs-pw-input-title">아이디</span> -->
-              <input placeholder="초기화 할 아이디" class="reset_cur_pw" v-model="user.user_id" />
+              <span class="rs-pw-input-title">아이디</span>
+              <input placeholder="아이디 입력" class="cur_user_id" v-model="user.user_id" />
           </div>
           <!--새 비밀번호-->
           <div>
-              <!-- <span class="rs-pw-input-title">새 비밀번호</span> -->
+              <span class="rs-pw-input-title">새 비밀번호</span>
               <!-- <v-text-field label="새 비밀번호" type="password" :rules="new_pw1" v-model="user.password" class="reset_new_pw1"></v-text-field>
               <v-text-field label="새 비밀번호 확인" type="password" :rules="new_pw2" class="reset_new_pw2"></v-text-field> -->
               <input placeholder="새 비밀번호" type="password" class="reset_new_pw1" v-model="user.password" />
-              <!-- <input placeholder="새 비밀번호 확인" type="password"  class="reset_new_pw2"/> -->
+              <input placeholder="새 비밀번호 확인" type="password"  class="reset_new_pw2"/>
           </div>
         </v-card-text>
     
@@ -74,7 +74,7 @@
 <script>
 export default {
   methods: {
-    pwReset: function (event) {
+    pwReset: function () {
       this.$http.post("/api/musers/pwReset", {
           user: this.user,
         })
@@ -88,7 +88,7 @@ export default {
             this.$router.push("/");
           }
         })
-        .catch(function (error) {
+        .catch(function () {
           alert("error");
         });
     }
