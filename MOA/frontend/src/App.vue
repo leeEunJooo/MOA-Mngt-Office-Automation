@@ -1,32 +1,27 @@
 <template>
-  <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
 
   <div id="app">
     <DrawerNav></DrawerNav>
+
   </div>
 </template>
 
 <script>
+import DrawerNav from './components/DrawerNav.vue';
 
 export default {
   name: 'App',
-
-  data: () => ({
-    //
-  }),
-};
+  components: {
+    DrawerNav,
+  }
+}
 </script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}
+</style>

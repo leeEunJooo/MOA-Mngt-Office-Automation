@@ -1,7 +1,7 @@
 <template>
   <div id="list">
-    <div>
-      {{users.user_id}}님 안녕하세요.<br>
+    <div >
+      {{users.USER_ID}}님 안녕하세요.<br>
       여기는 홈 입니다.<br>
      </div>
   	<!-- <button class="btn" v-on:click="goAdmin">Admin</button> -->
@@ -23,8 +23,8 @@
           })
         .then((response) => {
           console.log("??????")
-           console.log(response);
-           this.users = response.data;
+           console.log(response.data[0]);
+           this.users = response.data[0];
         });
       }
   }
