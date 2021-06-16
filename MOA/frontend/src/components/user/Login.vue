@@ -42,6 +42,7 @@
             placeholder="아이디를 입력해주세요"
             required
             solo
+            v-model="user.user_id"
           ></v-text-field>
 
             <v-text-field
@@ -50,6 +51,8 @@
             placeholder="비밀번호를 입력해주세요"
             required
             solo
+            type="password"
+            v-model="user.password"
           ></v-text-field>
   
         <v-row style="width:100%"> 
@@ -73,6 +76,7 @@
         <v-btn class="btn1"
         v-on:click="login" 
         block
+        v-on:click="login"
         >
             로그인
         </v-btn>
@@ -149,7 +153,11 @@
         .catch((err) => {
           alert(err);
         });
-    }
+    },
+    reserve () {
+        this.loading = true
+        setTimeout(() => (this.loading = false), 2000)
+      },
     },
     components:{
       ResetPW
