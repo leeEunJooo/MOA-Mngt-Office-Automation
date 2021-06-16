@@ -40,12 +40,15 @@
             label="아이디를 입력해주세요"
             placeholder="Placeholder"
             solo
+            v-model="user.user_id"
           ></v-text-field>
 
             <v-text-field
             label="비밀번호를 입력해주세요"
             placeholder="Placeholder"
             solo
+            type="password"
+            v-model="user.password"
           ></v-text-field>
   
         <v-row style="width:100%"> 
@@ -68,6 +71,7 @@
     <v-col md="13">
         <v-btn class="btn1" 
         block
+        v-on:click="login"
         >
             로그인
         </v-btn>
@@ -97,12 +101,34 @@
   import ResetPW from './ResetPW.vue'
 
   export default {
-    data: () => ({
-      loading: false,
-      selection: 1,
-    }),
+    data: function () {
+    return {
+      user: {
+        user_id: "",
+        password: "",
+      }
+    }
+    },
+    // data: () => ({
+    //   loading: false,
+    //   selection: 1,
+    // }),
 
     methods: {
+      login: function(event) {
+        this.$http.post("/api/musers/login", {
+          user: this.user,
+        })
+        .then((res) => {
+          alert(res.data.message);
+        },
+        (err) => {
+          alert("Login failed! please check your id or password");
+        })
+        .catch((err) => {
+          alert(err);
+        });
+      },
       reserve () {
         this.loading = true
         setTimeout(() => (this.loading = false), 2000)
