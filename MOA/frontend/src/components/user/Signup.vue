@@ -91,14 +91,14 @@ export default {
     ]
   }),
     
-      return {
-        user: {
-            phone_num:"",
-            user_name:"",
-            user_id:"",
-            password:"",
-        },
-      }
+    return :{
+    user: {
+        phone_num:"",
+        user_name:"",
+        user_id:"",
+        password:"",
+    },
+    }
 }
 </script>
 
@@ -165,7 +165,7 @@ export default {
         padding:0 !important;
     }
     .rt-content {
-        martin-top:30px;
+        margin-top:30px;
         padding-left: 35px;
     }
     .signup_nm,
