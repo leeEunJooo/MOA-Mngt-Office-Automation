@@ -2,7 +2,7 @@
   <div class="signup">
       <div class="header">
         <img src="../../assets/img/signup_ic.png" class="signup-number">
-        <span>기본 정보</span>
+        <span>회원 가입</span>
         {{this.default_team}}
       </div>
       <div class="content" >
@@ -15,7 +15,7 @@
 
               <div>
                   <span class="ct-combo-title">전화번호</span>
-                  <input placeholder="010-XXXX-XXXX" class="signup_ph"/>
+                  <input placeholder="01012345678" class="signup_ph" v-model="user.phone_num" />
               </div>
 
               <div>
@@ -38,29 +38,48 @@
           <v-col class="rt-content">
               <div>
                   <span class="ct-combo-title">아이디</span>
-                  <input placeholder="아이디를 입력하세요" class="signup_id"/>
+                  <input placeholder="아이디를 입력하세요" class="signup_id" v-model="user.user_id" />
               </div>
               <div>
                   <span class="ct-combo-title">비밀번호</span>
-                  <input placeholder="비밀번호" type="password" class="signup_pw"/>
-                  <input placeholder="비밀번호 확인" type="password" class="signup_pw"/>
+                  <input placeholder="비밀번호" type="password" class="signup_pw" v-model="user.password" />
+                  <!-- <input placeholder="비밀번호 확인" type="password" class="signup_pw"/> -->
               </div>
 
-              <router-link to="/">
-                <button class="signup_cplt">
-                    완료
+              <!-- <router-link to="/"> -->
+                <button v-on:click="signUp" class="signup_cplt">
+                    가입
                 </button>
-              </router-link>
+              <!-- </router-link> -->
           </v-col>
       </div>
-      
   </div>
 </template>
 
 <script>
 
 export default {
-    data: () => ({
+    
+    methods: {
+    signUp: function (event) {
+      this.$http.post("/api/musers/signUp", {
+          user: this.user,
+        })
+        .then((res) => {
+          if (res.data.success == true) {
+            alert(res.data.message);
+            this.$router.push("/");
+          }
+          if (res.data.success == false) {
+            alert(res.data.message);
+          }
+        })
+        .catch(function (error) {
+          alert("error");
+        });
+      }
+    },
+    data:() => ({
     default_team: {
       name: "팀1",
       idx: "1"
@@ -71,8 +90,16 @@ export default {
         {name: "팀3",idx: "3"}, 
     ]
   }),
-
-  }
+    
+      return {
+        user: {
+            phone_num:"",
+            user_name:"",
+            user_id:"",
+            password:"",
+        },
+      }
+}
 </script>
 
 <style>
@@ -141,6 +168,7 @@ export default {
         martin-top:30px;
         padding-left: 35px;
     }
+    .signup_nm,
     .signup_ph,
     .signup_pw,
     .signup_id,
@@ -161,6 +189,7 @@ export default {
         margin-top:50px;
     }
     .v-input__control:focus,
+    .signup_nm:focus,
     .signup_ph:focus,
     .signup_pw:focus,
     .signup_id:focus,
