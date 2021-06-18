@@ -18,11 +18,11 @@
               </div> -->
               <div>
                   <span class="ct-combo-title">전화번호</span>
-                  <input placeholder="01012345678" class="signup_ph" v-model="user.phone_num" />
+                  <input placeholder="01012345678" class="signup_ph" v-model="user.user_tel_no" />
               </div>
               <div>
                   <span class="ct-combo-title">이름</span>
-                  <input placeholder="이름을 입력하세요" class="signup_nm" v-model="user.user_name" />
+                  <input placeholder="이름을 입력하세요" class="signup_nm" v-model="user.user_nm" />
               </div>  
           </v-col>
           <v-col class="rt-content">
@@ -32,7 +32,7 @@
               </div>
               <div>
                   <span class="ct-combo-title">비밀번호</span>
-                  <input placeholder="비밀번호" type="password" class="signup_pw" v-model="user.password" />
+                  <input placeholder="비밀번호" type="password" class="signup_pw" v-model="user.user_pwd" />
                   <!-- <input placeholder="비밀번호 확인" type="password" class="signup_pw"/> -->
               </div>
 
@@ -70,10 +70,10 @@ export default {
     data () {
       return {
         user: {
-            phone_num:"",
-            user_name:"",
+            user_tel_no:"",
+            user_nm:"",
             user_id:"",
-            password:"",
+            user_pwd:"",
         },
         // team: ['1팀'],
         // teamitems: [

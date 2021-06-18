@@ -35,16 +35,19 @@ router.get('/', function (req, res) {
 router.post('/signUp', function (req, res) {
   console.log("회원가입");
   const user = {
-    'phone_num':req.body.user.phone_num,
-    'user_name': req.body.user.user_name,
+    'user_tel_no':req.body.user.user_tel_no,
+    'user_nm': req.body.user.user_nm,
     'user_id': req.body.user.user_id,
-    'password': req.body.user.password
+    'user_pwd': req.body.user.user_pwd,
+    'upld_cascnt' : req.body.user.upld_cascnt,
+    'team_div_cd' : req.body.user.team_div_cd,
+    'emp_pos_div_cd' : req.body.user.emp_pos_div_cd
   };
   connection.query('SELECT user_id FROM TBL_MOA_USER_BAS WHERE user_id = "' + user.user_id + '"', function (err, row) {
     if (row[0] == undefined){ //  동일한 아이디가 없을경우,
       const salt = bcrypt.genSaltSync();
-      const encryptedPassword = bcrypt.hashSync(user.password, salt);
-      connection.query('INSERT INTO TBL_MOA_USER_BAS (dept_idx, user_id, password, phone_num, user_name, upload_cnt) VALUES (1, "' + user.user_id + '","' + encryptedPassword + '", "' + user.phone_num + '", "' + user.user_name + '", 0)', user, function (err, row2) {
+      const encryptedPassword = bcrypt.hashSync(user.user_pwd, salt);
+      connection.query('INSERT INTO TBL_MOA_USER_BAS (user_id, user_pwd, user_tel_no, user_name, upld_cascnt, team_div_cd, emp_pos_div_cd ) VALUES ("' + user.user_id + '","' + encryptedPassword + '", "' + user.user_tel_no + '", "' + user.user_nm + '","' + user.upld_cascnt + '","' + user.team_div_cd + '","' + user.emp_pos_div_cd + '")', user, function (err, row2) {
         if (err) throw err;
       });
       res.json({
@@ -65,9 +68,9 @@ router.post('/login', function (req, res) {
   console.log("로그인");
   const user = {
     'user_id': req.body.user.user_id,
-    'password': req.body.user.password
+    'user_pwd': req.body.user.user_pwd
   };
-  connection.query('SELECT user_id, password FROM TBL_MOA_USER_BAS WHERE user_id = "' + user.user_id + '"', function (err, row) {
+  connection.query('SELECT user_id, user_pwd FROM TBL_MOA_USER_BAS WHERE user_id = "' + user.user_id + '"', function (err, row) {
     if (err) {
       console.log
     }else{
@@ -78,7 +81,7 @@ router.post('/login', function (req, res) {
         })
       }
       if (row[0] !== undefined && row[0].user_id === user.user_id) {
-        bcrypt.compare(user.password, row[0].password, function (err, res2) {
+        bcrypt.compare(user.user_pwd, row[0].user_pwd, function (err, res2) {
           if (res2) {
             // req.session.is_logined = true;
             req.session.user=row[0];
@@ -122,7 +125,7 @@ router.post('/pwReset', function (req, res) {
   console.log("비밀번호 초기화");
   const user = {
     'user_id': req.body.user.user_id,
-    'password': req.body.user.password
+    'user_pwd': req.body.user.user_pwd
   };
 
   connection.query('SELECT user_id FROM TBL_MOA_USER_BAS WHERE user_id = "' + user.user_id + '"', function (err, row) {
@@ -134,7 +137,7 @@ router.post('/pwReset', function (req, res) {
     }
     else {
       const salt = bcrypt.genSaltSync();
-      const encryptedPassword = bcrypt.hashSync(user.password, salt);
+      const encryptedPassword = bcrypt.hashSync(user.user_pwd, salt);
       connection.query('UPDATE TBL_MOA_USER_BAS SET password = "' + encryptedPassword + '" where user_id = "' + user.user_id + '"', user, function (err, row2) {
         if (err) throw err;
       });

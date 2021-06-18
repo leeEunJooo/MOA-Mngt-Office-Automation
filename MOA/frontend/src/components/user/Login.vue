@@ -37,7 +37,6 @@
           md="12"
         >
           <v-text-field
-            v-model="user.user_id"
             label="아이디를 입력해주세요"
             placeholder="아이디를 입력해주세요"
             required
@@ -46,13 +45,12 @@
           ></v-text-field>
 
             <v-text-field
-            v-model="user.password"
             label="비밀번호를 입력해주세요"
             placeholder="비밀번호를 입력해주세요"
             required
             solo
             type="password"
-            v-model="user.password"
+            v-model="user.user_pwd"
           ></v-text-field>
   
         <v-row style="width:100%"> 
@@ -76,7 +74,6 @@
         <v-btn class="btn1"
         v-on:click="login" 
         block
-        v-on:click="login"
         >
             로그인
         </v-btn>
@@ -117,7 +114,7 @@
       return {
         user:{
           user_id: "",
-          password: "",
+          user_pwd: "",
         }
       }
     },
