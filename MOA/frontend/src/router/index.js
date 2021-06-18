@@ -22,10 +22,9 @@ const routes = [
     component: Login
   },
   {
-    path: '/signUp',
-    name: 'signUp',
-    component: SignUp,
-    // beforeEnter: loginCheck()
+    path: '/signup',
+    name: 'signup',
+    component: SignUp
   },
 
 ]
