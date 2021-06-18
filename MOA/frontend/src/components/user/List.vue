@@ -21,11 +21,17 @@
         .post("/api/musers/userinfo", {
           user_id: JSON.parse(localStorage.getItem('token')).user.user_id
           })
-        .then((response) => {
+        .then(
+          (response) => {
           console.log("??????")
            console.log(response.data[0]);
            this.users = response.data[0];
-        });
+        },
+        () => {
+          alert("로그인후 이용해주세요.");
+          this.$router.push("/");
+        }
+        );
       }
   }
 </script>
