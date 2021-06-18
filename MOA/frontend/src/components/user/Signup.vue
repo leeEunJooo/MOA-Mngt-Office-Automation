@@ -15,7 +15,7 @@
 
               <div>
                   <span class="ct-combo-title">전화번호</span>
-                  <input placeholder="01012345678" class="signup_ph" @:keyup="inputPhoneNumber(this);" maxlength="13" v-model="user.phone_num" />
+                  <input placeholder="01012345678" class="signup_ph" @:keyup="inputPhoneNumber(this);" maxlength="13" v-model="user.user_tel_no" />
               </div>
 
               <div>
@@ -30,10 +30,6 @@
                     return-object
                   ></v-select>
               </div>
-
-              
-              
-
           </v-col>
           <v-col class="rt-content">
               <div>
@@ -110,10 +106,10 @@ export default {
         idx: "1"
         },
     user: {
-        phone_num:"",
-        user_name:"",
+        user_tel_no:"",
+        user_nm:"",
         user_id:"",
-        password:"",
+        user_pwd:"",
     },
     team: [
         {name: "팀1",idx: "1"},
