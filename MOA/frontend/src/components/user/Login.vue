@@ -40,17 +40,20 @@
             label="아이디를 입력해주세요"
             placeholder="Placeholder"
             solo
+            v-model="user.user_id"
           ></v-text-field>
 
             <v-text-field
             label="비밀번호를 입력해주세요"
             placeholder="Placeholder"
             solo
+            type="password"
+            v-model="user.password"
           ></v-text-field>
   
         <v-row style="width:100%"> 
             <!--로그인 상태 유지-->
-            <div class="login_save_box">
+            <div class="login_save_box" style="padding-top: 10px">
                 <v-checkbox
                     v-model="ex4"
                     label="로그인 상태 유지"
@@ -59,7 +62,7 @@
                 ></v-checkbox>
             </div>
             <!--비밀번호 초기화-->
-            <div class="reset_pw_box">
+            <div class="reset_pw_box" style="padding-left: 75px" >
                 <ResetPW></ResetPW>
             </div>
         </v-row>
@@ -68,6 +71,7 @@
     <v-col md="13">
         <v-btn class="btn1" 
         block
+        v-on:click="login"
         >
             로그인
         </v-btn>
@@ -97,12 +101,34 @@
   import ResetPW from './ResetPW.vue'
 
   export default {
-    data: () => ({
-      loading: false,
-      selection: 1,
-    }),
+    data: function () {
+    return {
+      user: {
+        user_id: "",
+        password: "",
+      }
+    }
+    },
+    // data: () => ({
+    //   loading: false,
+    //   selection: 1,
+    // }),
 
     methods: {
+      login: function(event) {
+        this.$http.post("/api/musers/login", {
+          user: this.user,
+        })
+        .then((res) => {
+          alert(res.data.message);
+        },
+        (err) => {
+          alert("Login failed! please check your id or password");
+        })
+        .catch((err) => {
+          alert(err);
+        });
+      },
       reserve () {
         this.loading = true
         setTimeout(() => (this.loading = false), 2000)
@@ -134,9 +160,7 @@
 .login_box .v-checkbox{
     background-color: #4f3dd8 !important; 
 }
-.v-btn__content{
-    color: white;
-}
+
 .login_box .v-card__title{
     color : #4f3dd8 !important;
     font-weight: bold !important;

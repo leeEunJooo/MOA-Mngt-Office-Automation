@@ -40,21 +40,24 @@
         <v-card-text class="rs-pw-cd-content">
           <!--현재 비밀번호-->
           <div>
-              <span class="rs-pw-input-title">현재 비밀번호</span>
-              <input placeholder="현재 비밀번호" class="reset_cur_pw"/>
+              <span class="rs-pw-input-title">아이디</span>
+              <input placeholder="아이디 입력" class="cur_user_id" v-model="user.user_id" />
           </div>
           <!--새 비밀번호-->
           <div>
               <span class="rs-pw-input-title">새 비밀번호</span>
-              <input placeholder="새 비밀번호" type="password" class="reset_new_pw1"/>
+              <!-- <v-text-field label="새 비밀번호" type="password" :rules="new_pw1" v-model="user.password" class="reset_new_pw1"></v-text-field>
+              <v-text-field label="새 비밀번호 확인" type="password" :rules="new_pw2" class="reset_new_pw2"></v-text-field> -->
+              <input placeholder="새 비밀번호" type="password" class="reset_new_pw1" v-model="user.password" />
               <input placeholder="새 비밀번호 확인" type="password"  class="reset_new_pw2"/>
           </div>
         </v-card-text>
-
+    
         <!--확인 버튼-->
         <v-card-actions>
           
           <v-btn
+            v-on:click="pwReset"
             text
             @click="dialog = false"
             class="rs-pw-cmplt"
@@ -70,8 +73,39 @@
 
 <script>
 export default {
+  methods: {
+    pwReset: function () {
+      this.$http.post("/api/musers/pwReset", {
+          user: this.user,
+        })
+        .then((res) => {
+          if (res.data.success == true) {
+            alert(res.data.message);
+            this.$router.push("/");
+          }
+          if (res.data.success == false) {
+            alert(res.data.message);
+            this.$router.push("/");
+          }
+        })
+        .catch(function () {
+          alert("error");
+        });
+    }
+  },
   data () {
         return {
+          user: {
+            user_id:"",
+            password:"",
+          },
+          // new_pw1: [
+          //   v => this.state === 'ins' ? !!v || '패스워드는 필수 입력사항입니다.' : true,
+          // ],
+          // new_pw2: [
+          //   v => this.state === 'ins' ? !!v || '패스워드는 필수 입력사항입니다.' : true,
+          //   v => v === this.password || '패스워드가 일치하지 않습니다.'
+          // ],
           dialog: false,
           notifications: false,
           sound: true,
@@ -85,7 +119,7 @@ export default {
   /*비밀번호 초기화 버튼*/
   .reset_pw_btn{
     width: 100%;
-    font-size: 13px !important;
+    font-size: 16px !important;
     text-decoration: underline;
     line-height: 3.38;
     color: #493dcf !important;
@@ -115,7 +149,7 @@ export default {
   .rs-pw-cd-content div:nth-child(2){
     margin-top:50px !important;
   }
-  .reset_cur_pw,
+  .cur_user_id,
   .reset_new_pw1,
   .reset_new_pw2{
     display: block;
@@ -128,7 +162,7 @@ export default {
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.16);
     background-color: #ffffff;
   }
-  .reset_cur_pw:focus,
+  .cur_user_id:focus,
   .reset_new_pw1:focus,
   .reset_new_pw2:focus{
     outline: #493dcf;
@@ -143,6 +177,7 @@ export default {
     margin: 40px auto 50px auto !important;
     border: solid 3px #313343;
     background-color: #313343;
+    color : white !important;
     font-weight: bold;
   }
   .rs-pw-close{
@@ -154,3 +189,4 @@ export default {
   }
 
 </style>
+
