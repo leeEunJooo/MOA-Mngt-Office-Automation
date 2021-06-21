@@ -2,9 +2,17 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '@/components/user/Login'
 import SignUp from '@/components/user/Signup'
+import List from '@/components/user/List'
 
 // Vue와 VueRouter 연결
-Vue.use(VueRouter)
+Vue.use(VueRouter);
+
+// const loginCheck = () => (to, from, next) => {
+//   if (localStorage.is_logined == 'true')
+//     return next();
+//   else
+//     alert("로그인이 필요합니다.");
+// }
 
 // 사용할 route 생성 및 설정
 const routes = [
@@ -14,8 +22,8 @@ const routes = [
     component: Login
   },
   {
-    path: '/signUp',
-    name: 'signUp',
+    path: '/signup',
+    name: 'signup',
     component: SignUp
   },
 

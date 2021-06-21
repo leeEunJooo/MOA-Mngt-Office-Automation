@@ -39,13 +39,18 @@
           <v-text-field
             label="아이디를 입력해주세요"
             placeholder="아이디를 입력해주세요"
+            required
             solo
+            v-model="user.user_id"
           ></v-text-field>
 
             <v-text-field
             label="비밀번호를 입력해주세요"
             placeholder="비밀번호를 입력해주세요"
+            required
             solo
+            type="password"
+            v-model="user.user_pwd"
           ></v-text-field>
   
         <v-row style="width:100%"> 
@@ -65,8 +70,9 @@
         </v-row>
     </v-col>
 
-    <v-col md="13">
-        <v-btn class="btn1" 
+    <v-col>
+        <v-btn class="btn1"
+        v-on:click="login" 
         block
         >
             로그인
@@ -94,16 +100,58 @@
 
 
 <script>
+  // import axios from 'axios';
+ 
   import ResetPW from './ResetPW.vue'
 
   export default {
-    data: () => ({
-      loading: false,
-      selection: 1,
-    }),
+    // data: () => ({
+    //   loading: false,
+    //   selection: 1,
+    // }),
+
+    data:function() {
+      return {
+        user:{
+          user_id: "",
+          user_pwd: "",
+        }
+      }
+    },
 
     methods: {
-      reserve () {
+      // reserve () {
+      //   this.loading = true
+      //   setTimeout(() => (this.loading = false), 2000)
+      // },
+      login: function () {
+      this.$http
+        .post("/api/musers/login", {
+          user: this.user,
+        })
+        .then(
+          (res) => {
+            //로그인 성공
+            localStorage.setItem('token', JSON.stringify(res.data.token));
+            // localStorage.setItem('isLogin', true);
+            localStorage.setItem('loginUser', JSON.stringify(res.data));
+            // localStorage.setItem("loginUsername", res.data.user_name);
+            console.log(res);
+            console.log(res.data.token);
+            console.log(JSON.parse(localStorage.getItem('token')).user.user_id);
+            alert(res.data.message);
+            this.$router.push("/list");
+          },
+          () => {
+            // error 를 보여줌
+            alert("아이디가 없대");
+          }
+        )
+        .catch((err) => {
+          alert(err);
+        });
+    },
+    reserve () {
         this.loading = true
         setTimeout(() => (this.loading = false), 2000)
       },
