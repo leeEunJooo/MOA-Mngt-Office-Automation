@@ -1,46 +1,14 @@
 <template>
 <div class="login_box">
-  <v-card
-    :loading="loading"
-    class="mx-auto my-12"
-    max-width="470"
-  >
-    <template slot="progress">
-      <v-progress-linear
-        color="deep-purple"
-        height="10"
-        indeterminate
-      ></v-progress-linear>
-    </template>
-
-    <br>
- 
-    <v-card-title>MOA 로그인</v-card-title>
-
-    <v-card-text>
-      <v-row
-        align="center"
-        class="mx-0"
-      >
-      </v-row>
-
-    </v-card-text>
-
-    <!--선-->
-    <!-- <v-divider class="mx-4"></v-divider> -->
-
-   
-
-    <v-col
-          cols="13"
-          sm="6"
-          md="12"
-        >
+  <div class="card_box">
+    <div class="card-content">
+      <v-card-title>MOA 로그인</v-card-title>
           <v-text-field
             label="아이디를 입력해주세요"
             placeholder="Placeholder"
             solo
             v-model="user.user_id"
+            class="login-input1"
           ></v-text-field>
 
             <v-text-field
@@ -49,16 +17,16 @@
             solo
             type="password"
             v-model="user.password"
+            class="login-input2"
           ></v-text-field>
   
-        <v-row style="width:100%"> 
+        <v-row style="width:100%" class="login-save-rspw-box"> 
             <!--로그인 상태 유지-->
-            <div class="login_save_box" style="padding-top: 10px">
+            <div class="login_save_box">
                 <v-checkbox
-                    v-model="ex4"
-                    label="로그인 상태 유지"
-                    hide-details
-                    style="padding-left:20px;"
+                  v-model="login_state"
+                  :label="`로그인 상태 유지 ${login_state.toString()}`"
+                  color="indigo"
                 ></v-checkbox>
             </div>
             <!--비밀번호 초기화-->
@@ -66,14 +34,10 @@
                 <ResetPW></ResetPW>
             </div>
         </v-row>
-    </v-col>
 
-    <v-col md="13">
-        <v-btn class="btn1" 
-        block
-        v-on:click="login"
-        >
-            로그인
+
+        <v-btn class="btn1" block v-on:click="login">
+          로그인
         </v-btn>
         
         <router-link to="signup">
@@ -81,21 +45,10 @@
             회원가입
           </v-btn>
         </router-link>
-    </v-col>
-
-   <br>
-   <br>
-
-  </v-card>
-
-
-
-  
-  
+        </div>
+  </div>
 </div>
-
 </template>
-
 
 <script>
   import ResetPW from './ResetPW.vue'
@@ -106,23 +59,20 @@
       user: {
         user_id: "",
         password: "",
-      }
+      },
+      login_state: true,
     }
     },
-    // data: () => ({
-    //   loading: false,
-    //   selection: 1,
-    // }),
 
     methods: {
-      login: function(event) {
+      login: function() {
         this.$http.post("/api/musers/login", {
           user: this.user,
         })
         .then((res) => {
           alert(res.data.message);
         },
-        (err) => {
+        () => {
           alert("Login failed! please check your id or password");
         })
         .catch((err) => {
@@ -134,45 +84,105 @@
         setTimeout(() => (this.loading = false), 2000)
       },
     },
+    mounted(){
+      var login_save_box = document.querySelector('.reset_pw_box');
+      console.log(login_save_box.firstChild.classList.value);
+      login_save_box.firstChild.classList.remove('text-center')
+       
+        // ('text-center')
+        // console.log( login_save_box.classList.remove('text-center'));
+    },
+
     components:{
       ResetPW
-    }
+    },
+    
   }
 </script>
-
-
 <style>
+  .login_box{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    
+  }
+  .login_box .card_box{
+    margin: auto;
+    background-color: white;
+    width:520px;
+    height: 590px;
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.16);
+  }
+  .login_box .card-content{
+    padding: 65px 95px 65px 95px;
+    height: 100%;
+  }
+  .login_box .v-input__slot{
+    height: 52px;
+    border-radius: 6px;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.16) !important;
+  }
+  .login_box .login-input1{
+    margin-top:50px !important;
+  }
+  .login_box .login-input2{
+    margin-top:-10px !important;
+  }
 
-.login_box .v-card__title{
-    display: block !important;
-    text-align: center;
-}
-.login_box .btn1{
-    margin:  15px 0px;
-    background-color: #4f3dd8 !important;
-    color: white !important;
-    font-weight: bold !important;
-}
-.login_box .btn2{
-    color : #4f3dd8 !important;
-    font-weight: bold !important;
-}
-.login_box .v-checkbox{
-    background-color: #4f3dd8 !important; 
-}
+  .login_box .v-card__title{
+      display: block !important;
+      text-align: center;
+      padding: 0px !important;
+  }
+  .login_box .btn1,
+  .login_box .btn2{
+      height: 48px !important;
+  }
+  .login_box .btn1{
+      width: 100%;
+      margin: 50px 0px 15px 0px;
+      background-color: #4f3dd8 !important;
+      color: white !important;
+      font-weight: bold !important;
+  }
+  .login_box .btn2{
+      color : #4f3dd8 !important;
+      font-weight: bold !important;
+      background-color: white !important;
+      border:solid 2px #4f3dd8;
+      box-shadow: none;
+  }
+  .login_box .v-checkbox{
+      background-color: #4f3dd8 !important; 
+  }
 
-.login_box .v-card__title{
-    color : #4f3dd8 !important;
-    font-weight: bold !important;
-}
-.login_save_box,
-.reset_pw_box{
-  width: 50%;
-  margin: 0 !important;
-}
-.login_save_box .v-input--checkbox{
-  margin:0 !important;
-  font-size: 13px !important;
-}
+  .login_box .v-card__title{
+      color : #4f3dd8 !important;
+      font-weight: bold !important;
+  }
+  .login-save-rspw-box .v-input__slot{
+    box-shadow: none !important;
+    padding-left: 10px;
+  }
+  .login-save-rspw-box{
+    margin-top:-25px !important;
+  }
+  .login_save_box,
+  .reset_pw_box{
+    width: 50%;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-align: right;
+  }
+  .login_save_box .v-input--checkbox{
+    margin:0 !important;
+    font-size: 13px !important;
+  }
+  .login_save_box label{
+    font-size: 16px !important;
+    line-height: 3.38;
+    color: #493dcf !important;
+  }
+
 
 </style>
