@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '@/components/user/Login'
 import SignUp from '@/components/user/Signup'
+import DashBoard from '@/components/DashBoard'
+import MOAList from '@/components/MOAList'
 
 // Vue와 VueRouter 연결
 Vue.use(VueRouter)
@@ -17,6 +19,16 @@ const routes = [
     path: '/signup',
     name: 'signup',
     component: SignUp
+  },
+  {
+    path: '/dashboard',
+    name: 'dashboard',
+    component: DashBoard
+  },
+  {
+    path: '/moalist',
+    name: 'moalist',
+    component: MOAList
   },
 
 ]
