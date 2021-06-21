@@ -3,11 +3,17 @@
         <ul>
             <li>
                 <img src="../../assets/img/menu1.png" class="menu1_img"/>
-                <span>DashBoard</span>
+                &nbsp;&nbsp;
+                <router-link to="/dashboard">
+                    <span>DashBoard</span>
+                </router-link>
             </li>
             <li>
                 <img src="../../assets/img/menu2.png" class="menu1_img"/>
-                <span>MOA List</span>
+                &nbsp;&nbsp;
+                <router-link to="/moalist">
+                    <span>MOAList</span>
+                </router-link>
             </li>
         </ul>
         

@@ -18,9 +18,9 @@
       <v-app-bar-nav-icon @click="drawer = !drawer">
       </v-app-bar-nav-icon>
       <v-toolbar-title class="header-title">MOA</v-toolbar-title>
-
-      
     </v-app-bar>
+
+    <MOAList></MOAList>
 
     <v-main class="main-content">
       <!--로그인 정보-->
@@ -37,8 +37,13 @@
   import MenuList from './menu/MenuList.vue';
   import Login from './user/Login.vue';
   import Signup from './user/Signup.vue';
+<<<<<<< HEAD
   import List from './user/List.vue';
   
+=======
+  import MOAList from './MOAList.vue';
+
+>>>>>>> front
   Vue.use(VueRouter)
 
   var Router = new VueRouter({
@@ -49,6 +54,7 @@
                   component:Login
                 },
                 {
+<<<<<<< HEAD
                   path:'/signup',
                   component:Signup
                 },
@@ -57,6 +63,15 @@
                   component:List
                 },
                 
+=======
+                    path:'/signup',
+                    component:Signup
+                },
+                {
+                    path:'/moalist',
+                    component:MOAList
+                }
+>>>>>>> front
             ]
   });
 
@@ -67,6 +82,8 @@
     components: {
       LoginInfo,
       MenuList,
+      MOAList
+
     },
     router:Router
   }
