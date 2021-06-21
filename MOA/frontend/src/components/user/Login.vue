@@ -36,8 +36,7 @@
                 <ResetPW></ResetPW>
             </div>
         </v-row>
-
-    <v-col>
+        
         <v-btn class="btn1"
         v-on:click="login" 
         block
@@ -61,14 +60,7 @@
   import ResetPW from './ResetPW.vue'
 
   export default {
-    data: function () {
-    return {
-      user: {
-        user_id: "",
-        password: "",
-      }
-    }
-    },
+
     data: function () {
     return {
       user: {
