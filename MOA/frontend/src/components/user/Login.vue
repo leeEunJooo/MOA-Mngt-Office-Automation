@@ -38,13 +38,13 @@
         >
           <v-text-field
             label="아이디를 입력해주세요"
-            placeholder="Placeholder"
+            placeholder="아이디를 입력해주세요"
             solo
           ></v-text-field>
 
             <v-text-field
             label="비밀번호를 입력해주세요"
-            placeholder="Placeholder"
+            placeholder="비밀번호를 입력해주세요"
             solo
           ></v-text-field>
   
