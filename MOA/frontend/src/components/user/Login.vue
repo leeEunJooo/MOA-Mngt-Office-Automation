@@ -38,7 +38,7 @@
           로그인
         </v-btn>
         
-        <router-link to="signup">
+        <router-link to="signup" class="signup-link">
           <v-btn class = "btn2" block>
             회원가입
           </v-btn>
@@ -108,7 +108,7 @@
     margin: auto;
     background-color: white;
     width:520px;
-    height: 590px;
+    height: 600px;
     box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.16);
   }
   .login_box .card-content{
@@ -121,7 +121,7 @@
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.16) !important;
   }
   .login_box .login-input1{
-    margin-top:50px !important;
+    margin-top:60px !important;
   }
   .login_box .login-input2{
     margin-top:-10px !important;
@@ -135,17 +135,22 @@
   .login_box .btn1,
   .login_box .btn2{
       height: 48px !important;
+      font-size: 15px;
+  }
+  .signup-link{
+      text-decoration: none !important ;
   }
   .login_box .btn1{
       width: 100%;
-      margin: 60px 0px 15px 0px;
+      margin: 70px 0px 15px 0px;
       background-color: #4f3dd8 !important;
       color: white !important;
-      font-weight: bold !important;
+      font-weight: 700 !important;
+      
   }
   .login_box .btn2{
       color : #4f3dd8 !important;
-      font-weight: bold !important;
+      font-weight: 700 !important;
       background-color: white !important;
       border:solid 2px #4f3dd8;
       box-shadow: none;

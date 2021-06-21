@@ -12,6 +12,11 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
+    name: 'moalist',
+    component: MOAList
+  },
+  {
+    path: '/login',
     name: 'login',
     component: Login
   },

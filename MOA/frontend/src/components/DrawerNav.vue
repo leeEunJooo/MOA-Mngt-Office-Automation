@@ -17,7 +17,9 @@
     <v-app-bar app>
       <v-app-bar-nav-icon @click="drawer = !drawer">
       </v-app-bar-nav-icon>
-      <v-toolbar-title class="header-title">MOA</v-toolbar-title>
+      <router-link to="/" class="home-link">
+        <v-toolbar-title class="header-title">MOA</v-toolbar-title>
+      </router-link>
     </v-app-bar>
 
     <!-- <MOAList></MOAList> -->
@@ -60,7 +62,9 @@
   }
   .header-title{
     font-family: GmarketSansBold;
+    font-size: 25px !important;
     color: #5244f5;
+    padding-left: 20px;
   }
   .v-toolbar__content{
     height:70px;
@@ -89,5 +93,10 @@
     margin: 50px auto;
     margin-top:50px;
     
+  }
+  .home-link{
+    font-family: GmarketSansBold;
+    color: #5244f5;
+    text-decoration: none !important;
   }
 </style>
