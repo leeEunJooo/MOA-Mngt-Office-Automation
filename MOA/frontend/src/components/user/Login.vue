@@ -5,7 +5,6 @@
       <v-card-title>MOA 로그인</v-card-title>
           <v-text-field
             label="아이디를 입력해주세요"
-            placeholder="Placeholder"
             solo
             v-model="user.user_id"
             class="login-input1"
@@ -13,7 +12,6 @@
 
             <v-text-field
             label="비밀번호를 입력해주세요"
-            placeholder="Placeholder"
             solo
             type="password"
             v-model="user.password"
@@ -140,7 +138,7 @@
   }
   .login_box .btn1{
       width: 100%;
-      margin: 50px 0px 15px 0px;
+      margin: 60px 0px 15px 0px;
       background-color: #4f3dd8 !important;
       color: white !important;
       font-weight: bold !important;

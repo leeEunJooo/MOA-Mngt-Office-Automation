@@ -20,7 +20,7 @@
       <v-toolbar-title class="header-title">MOA</v-toolbar-title>
     </v-app-bar>
 
-    <MOAList></MOAList>
+    <!-- <MOAList></MOAList> -->
 
     <v-main class="main-content">
       <!--로그인 정보-->
@@ -31,33 +31,10 @@
 </template>
 
 <script>
-  import Vue from 'vue'
-  import VueRouter from 'vue-router'  
+ 
   import LoginInfo from './menu/LoginInfo.vue';
   import MenuList from './menu/MenuList.vue';
-  import Login from './user/Login.vue';
-  import Signup from './user/Signup.vue';
-  import MOAList from './MOAList.vue';
 
-  Vue.use(VueRouter)
-
-  var Router = new VueRouter({
-    routes : [
-                //메인페이지 정보
-                {
-                    path:'/',
-                    component:Login
-                },
-                {
-                    path:'/signup',
-                    component:Signup
-                },
-                {
-                    path:'/moalist',
-                    component:MOAList
-                }
-            ]
-  });
 
   
   export default {
@@ -66,16 +43,18 @@
     components: {
       LoginInfo,
       MenuList,
-      MOAList
+      // MOAList
 
     },
-    router:Router
   }
   
   
 </script>
 
 <style>
+  .v-sheet.v-toolbar:not(.v-sheet--outlined){
+    box-shadow:none !important;
+  }
   .main-content{
     background-color:#f5f7fc;
   }
