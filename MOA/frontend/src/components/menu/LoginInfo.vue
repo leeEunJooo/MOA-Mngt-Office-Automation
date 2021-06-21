@@ -2,7 +2,7 @@
   <div>
     
       <div id="notLoggedIn" class="notloggedIn" style = "padding-top: 20px">
-          <router-link to="/">
+          <router-link to="/login" class="login-info-link">
             로그인/회원가입
           </router-link>
       </div>
@@ -21,7 +21,17 @@ export default {
         width:100%;
         height: inherit;
         text-align: center;
-        text-decoration: underline;
+        
         margin:auto !important;
+    }
+    .login-info-link {
+      color: #585858 !important;
+    }
+    #notLoggedIn > a:hover{
+      font-weight: bold !important;
+    }
+    #notLoggedIn > a{
+      color: #585858 !important;
+      transition:all .08s !important;
     }
 </style>
