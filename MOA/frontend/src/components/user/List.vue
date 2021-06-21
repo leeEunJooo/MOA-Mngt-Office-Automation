@@ -1,7 +1,7 @@
 <template>
   <div id="list">
     <div >
-      {{users.USER_ID}}님 안녕하세요.<br>
+      {{users.USER_NM}}님 안녕하세요.<br>
       여기는 홈 입니다.<br>
      </div>
   	<!-- <button class="btn" v-on:click="goAdmin">Admin</button> -->

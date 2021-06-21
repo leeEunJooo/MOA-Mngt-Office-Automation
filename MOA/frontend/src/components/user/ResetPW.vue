@@ -49,7 +49,7 @@
               <!-- <v-text-field label="새 비밀번호" type="password" :rules="new_pw1" v-model="user.password" class="reset_new_pw1"></v-text-field>
               <v-text-field label="새 비밀번호 확인" type="password" :rules="new_pw2" class="reset_new_pw2"></v-text-field> -->
               <input placeholder="새 비밀번호" type="password" class="reset_new_pw1" v-model="user.user_pwd" />
-              <input placeholder="새 비밀번호 확인" type="password"  class="reset_new_pw2"/>
+              <input placeholder="새 비밀번호 확인" type="password"  class="reset_new_pw2" v-model="user.confirm_user_pwd"/>
           </div>
         </v-card-text>
     
@@ -98,6 +98,7 @@ export default {
           user: {
             user_id:"",
             user_pwd:"",
+            confirm_user_pwd:""
           },
           // new_pw1: [
           //   v => this.state === 'ins' ? !!v || '패스워드는 필수 입력사항입니다.' : true,
