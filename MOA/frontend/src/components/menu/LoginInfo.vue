@@ -1,8 +1,8 @@
 <template>
   <div>
       <div id="notLoggedIn" class="notloggedIn" style = "padding-top: 20px">
-          <div v-if="login">
-            <button @click="login">
+          <div v-if="login_state">
+            <button @click="loginchk">
               로그인/회원가입
             </button>
           </div>
@@ -24,13 +24,13 @@
 <script>
 export default {
     el:'#notLoggedIn',
-     data: function() {
-      return {
-        users: "",
-        login:true,
-        localStorage:[],
-        }
-      },
+    data: function() {
+     return {
+      users: "",
+      login_state:true,
+      localStorage:[],
+       }
+     },
       created:function() {
       this.$http
         .post("/api/musers/userinfo", {
@@ -38,36 +38,26 @@ export default {
           })
         .then(
           (response) => {
-            //  this.$router.reload();
           console.log("??????")
-          this.login = false;
+          this.login_state = false;
            console.log(response.data[0]);
            this.users = response.data[0];
         },
         () => {
           alert("로그인후 이용해주세요.");
-          this.$router.push("/");
+          this.$router.push("/login");
         }
         );
       },
-      // mounted: {
-       
-      //   logout(){
-      //     this.login=true;
-      //     // localStorage.clear();
-      //     // this.$store.dispath("logout")
-      //     // this.$router.push("/");
-      //   },
-      //   login(){
-      //     this.login = false;
-      //   }
-      // },
       methods: {
         logout(){
-          this.login=true;
+          this.login_state=true;
           localStorage.clear();
           // this.$store.dispath("logout")
-          this.$router.push("/");
+          this.$router.push("/login");
+        },
+        loginchk(){
+          this.$router.push("/login");
         }
       },
 
