@@ -32,7 +32,7 @@ export const store = new Vuex.Store({
                     console.log(res);
                     state.role = res.data.token.role;
                 },
-                error => {
+                () => {
                     console.log('로그인 정보가 없음');
                     router.push('/Login');
                 }

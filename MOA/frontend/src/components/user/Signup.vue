@@ -44,7 +44,7 @@
 
               <!-- <router-link to="/"> -->
                 <button v-on:click="signUp" class="signup_cplt">
-                    가입
+                    완료
                 </button>
               <!-- </router-link> -->
           </v-col>
@@ -254,6 +254,7 @@ export default {
         color:white;
         float: right;
         margin: 135px 10px 100px 100px;
+        font-weight: 700;
         text-align: center;
         border-radius: 5px;
         border: solid 1px #493dcf;

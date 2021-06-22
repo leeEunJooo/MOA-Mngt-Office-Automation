@@ -79,7 +79,17 @@ export default {
         width:100%;
         height: inherit;
         text-align: center;
-        text-decoration: underline;
+        
         margin:auto !important;
+    }
+    .login-info-link {
+      color: #585858 !important;
+    }
+    #notLoggedIn > a:hover{
+      font-weight: bold !important;
+    }
+    #notLoggedIn > a{
+      color: #585858 !important;
+      transition:all .08s !important;
     }
 </style>
