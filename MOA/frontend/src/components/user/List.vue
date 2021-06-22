@@ -1,4 +1,17 @@
 <template>
+  <v-card
+    :loading="loading"
+    class="mx-auto my-12"
+    max-width="470"
+  >
+    <template slot="progress">
+      <v-progress-linear
+        color="deep-purple"
+        height="10"
+        indeterminate
+      ></v-progress-linear>
+    </template>
+
   <div id="list">
     <div >
       {{users.USER_NM}}님 안녕하세요.<br>

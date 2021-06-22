@@ -56,7 +56,6 @@
                   path:'/list',
                   component:List
                 },
-                
             ]
   });
 

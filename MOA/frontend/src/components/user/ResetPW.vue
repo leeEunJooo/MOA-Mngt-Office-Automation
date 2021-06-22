@@ -86,11 +86,15 @@ export default {
           if (res.data.success == false) {
             alert(res.data.message);
             this.$router.push("/");
+            this.clearInput();
           }
         })
         .catch(function () {
           alert("error");
         });
+    },
+    clearInput(){
+      this.user = "";
     }
   },
   data () {
