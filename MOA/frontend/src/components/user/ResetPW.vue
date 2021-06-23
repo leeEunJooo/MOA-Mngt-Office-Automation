@@ -4,7 +4,7 @@
     
     <v-dialog
       v-model="dialog"
-      width="480"
+      width="510"
     >
     <!--버튼-->
       <template v-slot:activator="{ on, attrs }">
@@ -86,11 +86,15 @@ export default {
           if (res.data.success == false) {
             alert(res.data.message);
             this.$router.push("/");
+            this.clearInput();
           }
         })
         .catch(function () {
           alert("error");
         });
+    },
+    clearInput(){
+      this.user = "";
     }
   },
   data () {
@@ -131,10 +135,10 @@ export default {
     color: #313343 !important;
     font-weight: bold !important;
     text-align: center !important;
-    padding-top:50px !important;
+    padding-top:70px !important;
   }
   .rs-pw-cd-content{
-    width:350px !important;
+    width:370px !important;
     margin:auto;
   }
   .rs-pw-input-title{
@@ -156,7 +160,7 @@ export default {
     display: block;
     width: 100%;
     font-size: 14px;
-    height: 42px;
+    height: 48px;
     margin-top:12px;
     padding: 9px 48px 9px 14px;
     border-radius: 6px;
@@ -173,9 +177,9 @@ export default {
   .rs-pw-cmplt{
     width: 190px;
     height: 50px;
-    padding: 17px 100px !important;
+    padding: 20px 100px !important;
     border-radius: 50px !important;
-    margin: 40px auto 50px auto !important;
+    margin: 50px auto 70px auto !important;
     border: solid 3px #313343;
     background-color: #313343;
     color : white !important;

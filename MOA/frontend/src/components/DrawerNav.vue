@@ -17,10 +17,12 @@
     <v-app-bar app>
       <v-app-bar-nav-icon @click="drawer = !drawer">
       </v-app-bar-nav-icon>
-      <v-toolbar-title class="header-title">MOA</v-toolbar-title>
+      <router-link to="/" class="home-link">
+        <v-toolbar-title class="header-title">MOA</v-toolbar-title>
+      </router-link>
     </v-app-bar>
 
-    <MOAList></MOAList>
+    <!-- <MOAList></MOAList> -->
 
     <v-main class="main-content">
       <!--로그인 정보-->
@@ -31,73 +33,36 @@
 </template>
 
 <script>
-  import Vue from 'vue'
-  import VueRouter from 'vue-router'  
+ 
   import LoginInfo from './menu/LoginInfo.vue';
   import MenuList from './menu/MenuList.vue';
-  import Login from './user/Login.vue';
-  import Signup from './user/Signup.vue';
-<<<<<<< HEAD
-  import List from './user/List.vue';
-  
-=======
-  import MOAList from './MOAList.vue';
 
->>>>>>> front
-  Vue.use(VueRouter)
-
-  var Router = new VueRouter({
-    routes : [
-                //메인페이지 정보
-                {
-                  path:'/',
-                  component:Login
-                },
-                {
-<<<<<<< HEAD
-                  path:'/signup',
-                  component:Signup
-                },
-                {
-                  path:'/list',
-                  component:List
-                },
-                
-=======
-                    path:'/signup',
-                    component:Signup
-                },
-                {
-                    path:'/moalist',
-                    component:MOAList
-                }
->>>>>>> front
-            ]
-  });
-
-  
   export default {
     data: () => ({ drawer: null }),
 
     components: {
       LoginInfo,
       MenuList,
-      MOAList
+      // MOAList
 
     },
-    router:Router
   }
   
   
 </script>
 
 <style>
+  .v-sheet.v-toolbar:not(.v-sheet--outlined){
+    box-shadow:none !important;
+  }
   .main-content{
     background-color:#f5f7fc;
   }
   .header-title{
     font-family: GmarketSansBold;
+    font-size: 25px !important;
     color: #5244f5;
+    padding-left: 20px;
   }
   .v-toolbar__content{
     height:70px;
@@ -126,5 +91,10 @@
     margin: 50px auto;
     margin-top:50px;
     
+  }
+  .home-link{
+    font-family: GmarketSansBold;
+    color: #5244f5;
+    text-decoration: none !important;
   }
 </style>

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ul>
+        <ul class="menu-list">
             <li>
                 <img src="../../assets/img/menu1.png" class="menu1_img"/>
                 &nbsp;&nbsp;
@@ -51,5 +51,11 @@ export default {
     }
     li:last-child{
         margin-top:30px;
+    }
+    .menu-list li a{
+        font-family: GmarketSansBold;
+        font-size: 20px;
+        color:#5244f5;
+        text-decoration: none;
     }
 </style>
