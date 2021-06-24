@@ -8,15 +8,15 @@ var mysql = require('mysql');
 // Connection 객체 생성 
 var connection = mysql.createConnection({
   host: '127.0.0.1',
-  port: 3306,
+  port: 3307,
   user: 'root',   
-  password: 'root',
+  password: 'wjdeorbs92',
   database: 'MOA_DB'  
 });
 
 // Connect
 connection.connect(function (err) {   
-  console.log("MOA_DB 접속");
+  console.log("MOA_DB 접속_musers");
   if (err) {     
     console.error('mysql connection error');     
     console.error(err);     

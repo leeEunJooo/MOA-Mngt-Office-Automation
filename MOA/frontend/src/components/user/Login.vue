@@ -87,7 +87,7 @@
             console.log(res.data.token);
             console.log(JSON.parse(localStorage.getItem('token')).user.user_id);
             alert(res.data.message);
-            this.$router.push("/list");
+            this.$router.push("/");
           },
           () => {
             // error 를 보여줌

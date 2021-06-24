@@ -2,12 +2,12 @@
   <div>
       <div id="notLoggedIn" class="notloggedIn" style = "padding-top: 20px">
           <div v-if="login">
-            <button @click="login">
+            <button @click="loginAndSignUp">
               로그인/회원가입
             </button>
           </div>
           <div v-else >
-            <button @click="logout">
+            <button @click="$store.dispath('logout')">
               로그아웃
             </button>
       </div>
@@ -22,12 +22,14 @@
 </template>
 
 <script>
+// import { mapState } from "vuex"
+
 export default {
     el:'#notLoggedIn',
      data: function() {
       return {
         users: "",
-        login:true,
+        login:"",
         localStorage:[],
         }
       },
@@ -40,13 +42,15 @@ export default {
           (response) => {
             //  this.$router.reload();
           console.log("??????")
+          console.log("1 : " + this.login);
           this.login = false;
-           console.log(response.data[0]);
-           this.users = response.data[0];
+          console.log("2: " + this.login);
+          console.log(response.data[0]);
+          this.users = response.data[0];
         },
         () => {
-          alert("로그인후 이용해주세요.");
-          this.$router.push("/");
+          alert("로그인 후 이용해주세요.");
+          this.$router.push("/login");
         }
         );
       },
@@ -63,12 +67,19 @@ export default {
       //   }
       // },
       methods: {
-        logout(){
-          this.login=true;
-          localStorage.clear();
+        loginAndSignUp(){
+          // this.login = false;
+          // localStorage.clear();
           // this.$store.dispath("logout")
-          this.$router.push("/");
-        }
+          this.$router.push("/login");
+        },
+
+        // logout(){
+        //   this.login=true;
+        //   localStorage.clear();
+        //   // this.$store.dispath("logout")
+        //   this.$router.push("/").catch(() => {});
+        // }
       },
 
 }
