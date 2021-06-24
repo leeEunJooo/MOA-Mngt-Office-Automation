@@ -1,13 +1,14 @@
 <template>
   <div>
       <div id="notLoggedIn" class="notloggedIn" style = "padding-top: 20px">
-          <div v-if="login">
-            <button @click="loginAndSignUp">
+          <div v-if="login_state">
+            <button @click="loginchk">
               로그인/회원가입
             </button>
           </div>
           <div v-else >
-            <button @click="$store.dispath('logout')">
+            {{users.USER_NM}}님 안녕하세요.<br>
+            <button @click="logout">
               로그아웃
             </button>
       </div>
@@ -19,6 +20,7 @@
           </router-link>
       </div>
    </div> -->
+  </div>
 </template>
 
 <script>
@@ -26,61 +28,43 @@
 
 export default {
     el:'#notLoggedIn',
-     data: function() {
-      return {
-        users: "",
-        login:"",
-        localStorage:[],
-        }
-      },
-      created:function() {
+    data: function() {
+     return {
+      users: "",
+      login_state:true,
+      localStorage:[],
+       }
+     },
+      mounted() {
       this.$http
         .post("/api/musers/userinfo", {
           user_id: JSON.parse(localStorage.getItem('token')).user.user_id
           })
         .then(
           (response) => {
-            //  this.$router.reload();
           console.log("??????")
-          console.log("1 : " + this.login);
-          this.login = false;
-          console.log("2: " + this.login);
-          console.log(response.data[0]);
-          this.users = response.data[0];
+          this.login_state = false;
+           console.log(response.data[0]);
+           this.users = response.data[0];
         },
         () => {
-          alert("로그인 후 이용해주세요.");
+          alert("로그인후 이용해주세요.");
           this.$router.push("/login");
         }
         );
       },
-      // mounted: {
-       
-      //   logout(){
-      //     this.login=true;
-      //     // localStorage.clear();
-      //     // this.$store.dispath("logout")
-      //     // this.$router.push("/");
-      //   },
-      //   login(){
-      //     this.login = false;
-      //   }
-      // },
       methods: {
-        loginAndSignUp(){
-          // this.login = false;
-          // localStorage.clear();
+        logout(){
+          this.login_state=true;
+          localStorage.clear();
           // this.$store.dispath("logout")
           this.$router.push("/login");
         },
-
-        // logout(){
-        //   this.login=true;
-        //   localStorage.clear();
-        //   // this.$store.dispath("logout")
-        //   this.$router.push("/").catch(() => {});
-        // }
+        loginchk(){
+          this.$router.push("/login");
+        }
       },
+      
 
 }
 </script>

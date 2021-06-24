@@ -87,6 +87,7 @@
             console.log(res.data.token);
             console.log(JSON.parse(localStorage.getItem('token')).user.user_id);
             alert(res.data.message);
+            this.login_state = false;
             this.$router.push("/");
           },
           () => {

@@ -2,17 +2,12 @@ var express = require('express');
 var router = express.Router();
 const bcrypt = require('bcryptjs');
 
+const conn = require('./dbConnection.js');
+
 //추가한 부분
 // const mariadb = require('mariadb');
-var mysql = require('mysql');
-// Connection 객체 생성 
-var connection = mysql.createConnection({
-  host: '127.0.0.1',
-  port: 3307,
-  user: 'root',   
-  password: 'wjdeorbs92',
-  database: 'MOA_DB'  
-});
+
+var connection = conn.connection;
 
 // Connect
 connection.connect(function (err) {   
@@ -76,6 +71,7 @@ router.post('/login', function (req, res) {
     'user_id': req.body.user.user_id,
     'user_pwd': req.body.user.user_pwd
   };
+
   connection.query('SELECT user_id, user_pwd FROM TBL_MOA_USER_BAS WHERE user_id = "' + user.user_id + '"', function (err, row) {
     if (err) {
       console.log(err);
