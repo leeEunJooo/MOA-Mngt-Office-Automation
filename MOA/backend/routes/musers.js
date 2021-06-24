@@ -97,6 +97,7 @@ router.post('/login', function (req, res) {
           }
           else {
             res.json({ // 매칭되는 아이디는 있으나, 비밀번호가 틀린 경우            success: false,
+              success:false,
               message: '비밀번호가 틀립니다.'
             })
           }

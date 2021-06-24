@@ -24,6 +24,7 @@
 
             <v-btn
                 class="search_btn"
+                v-on:click="search"
                 height="49px">
                 Search
             </v-btn>
@@ -78,8 +79,22 @@ export default {
     .then((response) => {
       console.log(response);
       this.moa_list = response.data;
-    });
-  }
+      });
+    },
+
+    // methods: {
+    //   search: function(){
+    //     this.$$http.post("api/mlist/search",{
+    //       list:this.list,
+    //     })
+    //     .then(
+    //       (res)=>{
+
+    //       }
+    //     )
+    //   }
+    // },
+
   }
 </script>
 
