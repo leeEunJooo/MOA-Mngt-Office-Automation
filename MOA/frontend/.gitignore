@@ -2,6 +2,7 @@
 node_modules
 /dist
 
+../backend/routes/dbConnection.js
 
 # local env files
 .env.local
