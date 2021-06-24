@@ -1,6 +1,6 @@
 const mysql = require('mysql');
 // Connection 객체 생성 
-const connection = mysql.createConnection({
+var connection = mysql.createConnection({
   host: '127.0.0.1',
   port: 3307,
   user: 'root',   
