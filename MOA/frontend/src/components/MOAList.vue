@@ -15,16 +15,12 @@
                 solo
             ></v-select>
 
-            &nbsp;&nbsp; 
-
             <v-text-field
                 class="search_box2"
                 label="%1팀%"
                 placeholder="%1팀%"
                 solo
             ></v-text-field>
-
-            &nbsp;&nbsp; 
 
             <v-btn
                 class="search_btn"
