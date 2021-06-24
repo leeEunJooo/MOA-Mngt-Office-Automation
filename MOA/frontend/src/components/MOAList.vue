@@ -5,7 +5,6 @@
       <br>
       <br>
 
-
       <div class ="font_title"> MOA List </div>
 
       <br>
@@ -20,27 +19,28 @@
                     :items="items"
                     label="검색기준"
                     solo
-                ></v-select>
+            ></v-select>
 
-                &nbsp;
+            &nbsp;
 
-                <v-text-field
-                    class="search_box2"
-                    label="%1팀%"
-                    placeholder="%1팀%"
-                    solo
-                ></v-text-field>
+            <v-text-field
+                class="search_box2"
+                label="%1팀%"
+                placeholder="%1팀%"
+                solo
+            ></v-text-field>
 
-                &nbsp;
+            &nbsp;
 
-                <v-btn
-                    class="search_btn"
-                    height="32px">
-                    Search
-                </v-btn>
-              </v-row>
+            <v-btn
+                class="search_btn"
+                height="32px">
+                Search
+            </v-btn>
+
+          </v-row>
         </v-col>
-
+      
         <v-col cols="6">
           <v-row>
             <v-btn
@@ -48,9 +48,11 @@
                 height="32px">
                 Add File
             </v-btn> 
-            
-        </v-row>
-<!-- 
+          </v-row>
+        </v-col>
+
+      </v-row>
+      <!-- 
         v-data-table에서는 3가지 prop를 사용
         :headers = 필드명을 지정하는 prop로 text,align,sortable, value로 구분. value의 경우는 향후 data를 적용시 데이터 내 DTO와 일치시키면 된다.
         :items = API로 받아온 결과 list가 저장되는 장소
@@ -60,12 +62,11 @@
             :headers="headers"
             :items="moa_list"
             :items-per-page="5"
-            class="elevation-1"
+            class="data_table"
         >      
         </v-data-table>
         
-
-    </v-col>
+    </v-container>
   </div>
 </template>
 
@@ -144,5 +145,10 @@ export default {
 }
 .v-input__slot{
   min-height: 45% !important;
+}
+.data_table{
+
+  text-align: center;
+  
 }
 </style>

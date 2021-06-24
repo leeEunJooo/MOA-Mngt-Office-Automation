@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import vueMoment from 'vue-moment'
 import Login from '@/components/user/Login'
 import SignUp from '@/components/user/Signup'
 import DashBoard from '@/components/DashBoard'
@@ -9,7 +8,6 @@ import MOAList from '@/components/MOAList'
 
 // Vue와 VueRouter 연결
 Vue.use(VueRouter);
-Vue.use(vueMoment);
 
 
 // 사용할 route 생성 및 설정
