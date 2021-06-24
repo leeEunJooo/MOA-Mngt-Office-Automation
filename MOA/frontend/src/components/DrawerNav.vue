@@ -37,8 +37,6 @@
   import LoginInfo from './menu/LoginInfo.vue';
   import MenuList from './menu/MenuList.vue';
 
-
-  
   export default {
     data: () => ({ drawer: null }),
 
