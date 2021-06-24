@@ -93,7 +93,7 @@
             }
             if (res.data.success == false) {
               alert(res.data.message);
-              this.$router.push("/login");
+              this.$router.go();
            }
           },
           () => {

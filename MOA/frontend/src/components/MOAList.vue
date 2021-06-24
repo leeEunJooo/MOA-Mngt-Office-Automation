@@ -60,15 +60,22 @@
 </template>
 
 <script>
+import dayjs from 'dayjs'
+
 export default {
+   component: {
+      dayjs
+    },
+
     data: function(){
       return { 
         moa_list:[], 
+        date:"",
         items: ['팀', '담당자', '대상시스템', '수행시간', '사용기술', '자동화 명칭', '매뉴얼', '전체검색'],
         headers: [
           { text: '자동화파일', value: 'NTCART_TITLE_NM' },
           { text: '작성자', value: 'TKCGR_NM' },
-          { text: '업로드일', value:'FIRST_REG_DATE'},
+          { text: '업로드일', value: 'FIRST_REG_DATE'},
           { text: '최근수행시간', value: 'FIRST_REG_DATE' },
         ],
       };
@@ -79,6 +86,10 @@ export default {
     .then((response) => {
       console.log(response);
       this.moa_list = response.data;
+      console.log(this.moa_list);
+      for(let i = 0; i < this.moa_list.length; i++) {
+        this.moa_list[i].FIRST_REG_DATE = dayjs(this.moa_list[i].FIRST_REG_DATE).format('YYYY-MM-DD');
+      }
       });
     },
 

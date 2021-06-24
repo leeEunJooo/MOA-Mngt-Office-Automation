@@ -58,8 +58,15 @@ FOREIGN KEY(CUST_IDFY_SEQ) REFERENCES TBL_MOA_USER_BAS(CUST_IDFY_SEQ)
 INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
 TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
 ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE) 
-VALUES (3, '\download\moa.xml', 'L01', 'S01', 'C01', '','10:00', 'R01', 'B01', '', 
+VALUES (3, '\\download\\moa.xml', 'L01', 'S01', 'C01', '','10:00', 'R01', 'B01', '', 
 '완료', 'E01', '실환경에서 개통과 기기변경이 실제로 이루어지는 것이기 때문에 그날 퇴근하기전에 개통하기 전과 기기변경되기 전으로 다시 정보들을 원복시켜주어야한다.', 'N', '', 'Y/N', '', '윈도우상 스케줄러를 통해 실행한다.', '조근점검', '윤동섭', '윤동섭', 
+sysdate(), sysdate(), '9999-12-31');
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE) 
+VALUES (1, '\\download\\moa.xml', 'L01', 'S06', 'C01', '','09:00', 'R01', 'B01', '', 
+'완료', 'E01', '정의된 스케줄 외에 실행하면 안됨(사업부서에 SMS 발송됨)', 'N', '', '올레TV탭 실시간 실적 SMS', 'SMS', 'AntBot Manager 서버(AntBot 웹 페이지에 등록해 놓은 스케줄에 따라 자동 수행됨)', '올레TV탭 실적 SMS 자동 발송', '황윤섭', '정헌수', 
 sysdate(), sysdate(), '9999-12-31');
 
 select * from tbl_moa_bas;
@@ -103,9 +110,8 @@ FOREIGN KEY(CUST_IDFY_SEQ) REFERENCES TBL_MOA_BAS(CUST_IDFY_SEQ)
 INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
 DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
 OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD) 
-VALUES (1,3, '\download\moa.xml', 'L01', 'S01', 'C01', '월요일', sysdate(), 'R01', 
-'B01', '', '완료', 'E01', '실환경에서 개통과 기기변경이 실제로 이루어지는 것이기 때문에 그날 퇴근하기전에 개통하기 전과 기기변경되기 전으로 다시 정보들을 원복시켜주어야한다.', 'N', '', 'Y/N', '', '윈도우상 스케줄러를 통해 실행한다.', '조근점검', 
-'정대균', '정대균', sysdate(), '9999-12-31', 'Y', 'N', 'R');
+VALUES (1,3, '\\download\\moa.xml', 'L01', 'S01', 'C01', '','10:00', 'R01', 'B01', '', 
+'완료', 'E01', '실환경에서 개통과 기기변경이 실제로 이루어지는 것이기 때문에 그날 퇴근하기전에 개통하기 전과 기기변경되기 전으로 다시 정보들을 원복시켜주어야한다.', 'N', '', 'Y/N', '', '윈도우상 스케줄러를 통해 실행한다.', '조근점검', '윤동섭', '윤동섭', sysdate(), '9999-12-31', 'Y', 'N', 'R');
 
 select * from TBL_MOA_HST;
 
@@ -125,7 +131,7 @@ FOREIGN KEY(CUST_IDFY_SEQ) REFERENCES TBL_MOA_BAS(CUST_IDFY_SEQ)
 
 -- 실행 테이블 데이터 INSERT
 INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST) 
-VALUES (1, 1, '정대균', sysdate(), 'N', '');
+VALUES (1, 3, '윤동섭', sysdate(), 'N', '');
 
 select * from tbl_moa_execution_txn;
 
