@@ -69,6 +69,7 @@ export default {
 
     data: function(){
       return { 
+        // FIRST_REG_DATE.getFullYear() + "-" + (FIRST_REG_DATE.getMonth() + 1) + "-" + FIRST_REG_DATE.getDate()}
         moa_list:[], 
         date:"",
         items: ['팀', '담당자', '대상시스템', '수행시간', '사용기술', '자동화 명칭', '매뉴얼', '전체검색'],
@@ -80,7 +81,6 @@ export default {
         ],
       };
     },
-
     created() {
     this.$http.get("/api/mlist/selectList")
     .then((response) => {
@@ -119,7 +119,6 @@ export default {
 }
 .search_box2{
     width: 30%;
-
 }
 .search_btn{
     width: 8%;
@@ -131,5 +130,4 @@ export default {
     background-color: #5244f5 !important;
     color : white !important
 }
-
 </style>
