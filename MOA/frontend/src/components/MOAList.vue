@@ -1,13 +1,12 @@
 <template>
   <div>
-    <v-col style=" padding-left: 45px; padding-right: 45px">
-        <div class ="font_title"> MOA List </div>
 
-        <br>
-        <br>
-   
-        <v-row justify-sm>
+    <v-container>
 
+      <div class ="font_title"> MOA List </div>
+
+
+      <div class="list-btn-row-box">
             <v-select
                 v-model="search_select"
                 class="search_box1"
@@ -26,23 +25,18 @@
 
             <v-btn
                 class="search_btn"
-                v-on:click="search"
-                height="49px">
+                height="32px">
                 Search
             </v-btn>
-
-            <!-- 버튼간의 공간(다시 수정필요)-->
-            <div style="padding-left : 500px"></div>
-
-
+    
             <v-btn
                 class="addfile_btn"
-                height="49px">
+                height="32px">
                 Add File
             </v-btn> 
-            
-        </v-row>
-<!-- 
+      </div>
+
+      <!-- 
         v-data-table에서는 3가지 prop를 사용
         :headers = 필드명을 지정하는 prop로 text,align,sortable, value로 구분. value의 경우는 향후 data를 적용시 데이터 내 DTO와 일치시키면 된다.
         :items = API로 받아온 결과 list가 저장되는 장소
@@ -52,12 +46,11 @@
             :headers="headers"
             :items="moa_list"
             :items-per-page="5"
-            class="elevation-1"
+            class="data_table"
         >      
         </v-data-table>
         
-
-    </v-col>
+    </v-container>
   </div>
 </template>
 
@@ -122,20 +115,38 @@ export default {
     font-size: 26px !important;
     font-weight: bold !important;
 }
-.search_box1{
+.list-btn-row-box{
+  max-width:1200px;
+  margin-top:100px;
+}
+.list-btn-row-box .search_box1,
+.list-btn-row-box .search_box2,
+.list-btn-row-box .search_btn,
+.list-btn-row-box .addfile_btn{
+  display: inline-block;
+}
+.list-btn-row-box .search_box1{
     width: 10%;
 }
-.search_box2{
+.list-btn-row-box .search_box2{
     width: 30%;
+    margin: 0px 10px;
 }
-.search_btn{
-    width: 8%;
+.list-btn-row-box .search_btn{
+    width: 3%;
     background-color: #f54479 !important;
     color : white !important
 }
-.addfile_btn{
-    width: 8%;
+.list-btn-row-box .addfile_btn{
+    width: 3%;
     background-color: #5244f5 !important;
-    color : white !important
+    color : white !important;
+    float:right;
+}
+.v-input__slot{
+  min-height: 45% !important;
+}
+.data_table{
+  text-align: center;
 }
 </style>
