@@ -2,7 +2,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '@/components/user/Login'
 import SignUp from '@/components/user/Signup'
-import List from '@/components/user/List'
 import DashBoard from '@/components/DashBoard'
 import MOAList from '@/components/MOAList'
 

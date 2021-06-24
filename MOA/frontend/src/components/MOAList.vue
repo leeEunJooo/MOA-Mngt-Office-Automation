@@ -1,55 +1,68 @@
 <template>
   <div>
-    <v-col style=" padding-left: 45px; padding-right: 45px">
-        <div class ="font_title"> MOA List </div>
 
-        <br>
-        <br>
-   
-        <v-row justify-sm>
+    <v-container>
+      <br>
+      <br>
 
+
+      <div class ="font_title"> MOA List </div>
+
+      <br>
+      <br>
+
+      <v-row>
+        <v-col cols="6">
+          <v-row>
+            &nbsp;&nbsp;&nbsp;
             <v-select
-                class="search_box1"
-                :items="items"
-                label="검색기준"
-                solo
-            ></v-select>
+                    class="search_box1"
+                    :items="items"
+                    label="검색기준"
+                    solo
+                ></v-select>
 
-            <v-text-field
-                class="search_box2"
-                label="%1팀%"
-                placeholder="%1팀%"
-                solo
-            ></v-text-field>
+                &nbsp;
 
-            <v-btn
-                class="search_btn"
-                height="49px">
-                Search
-            </v-btn>
+                <v-text-field
+                    class="search_box2"
+                    label="%1팀%"
+                    placeholder="%1팀%"
+                    solo
+                ></v-text-field>
 
-            <!-- 버튼간의 공간(다시 수정필요)-->
-            <div style="padding-left : 500px"></div>
+                &nbsp;
 
+                <v-btn
+                    class="search_btn"
+                    height="32px">
+                    Search
+                </v-btn>
+              </v-row>
+        </v-col>
 
+        <v-col cols="6">
+          <v-row>
             <v-btn
                 class="addfile_btn"
-                height="49px">
+                height="32px">
                 Add File
-            </v-btn> 
-            
-        </v-row>
+            </v-btn>
+          </v-row>  
+        </v-col>
+      </v-row>
 
-        
-        <v-data-table
-            :headers="headers"
-            :items="desserts"
-            :items-per-page="5"
-            class="elevation-1"
-        ></v-data-table>
-        
 
-    </v-col>
+      <v-data-table
+          :headers="headers"
+          :items="desserts"
+          :items-per-page="5"
+          class="elevation-1"
+      ></v-data-table>
+      
+    </v-container>
+
+
   </div>
 </template>
 
@@ -164,21 +177,26 @@ export default {
     font-weight: bold !important;
 }
 .search_box1{
-    width: 10%;
+    width: 3%;
 }
 .search_box2{
-    width: 30%;
+    width: 40%;
 
 }
 .search_btn{
-    width: 8%;
+    width: 15%;
     background-color: #f54479 !important;
     color : white !important
 }
 .addfile_btn{
-    width: 8%;
+    width: 6%;
     background-color: #5244f5 !important;
-    color : white !important
+    color : white !important;
+    position: absolute;
+    right: 52px;
+}
+.v-input__slot{
+  min-height: 45% !important;
 }
 
 </style>
