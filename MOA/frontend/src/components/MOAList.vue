@@ -9,6 +9,7 @@
         <v-row justify-sm>
 
             <v-select
+                v-model="search_select"
                 class="search_box1"
                 :items="items"
                 label="검색기준"
@@ -16,6 +17,7 @@
             ></v-select>
 
             <v-text-field
+                v-model="search_text"
                 class="search_box2"
                 label="%1팀%"
                 placeholder="%1팀%"
@@ -79,8 +81,11 @@ export default {
           { text: '업로드일', value: 'FIRST_REG_DATE'},
           { text: '최근수행시간', value: 'FIRST_REG_DATE' },
         ],
+        search_select: '',
+        search_text: '',
       };
     },
+
     created() {
     this.$http.get("/api/mlist/selectList")
     .then((response) => {
@@ -93,19 +98,22 @@ export default {
       });
     },
 
-    // methods: {
-    //   search: function(){
-    //     this.$$http.post("api/mlist/search",{
-    //       list:this.list,
-    //     })
-    //     .then(
-    //       (res)=>{
-
-    //       }
-    //     )
-    //   }
-    // },
-
+    methods: {
+      search: function(){
+        console.log("!!!!!!!!!!!!!!!!!!!!!", this.search_select);
+        console.log("@@@@@@@@@@@@@@@@@@@@@", this.search_text);
+        this.$http.post("/api/mlist/search",{
+          search_select:this.search_select,
+          search_text:this.search_text,
+        })
+        .then(
+          (response)=>{
+            console.log("#################", response);
+          }
+        )
+      }
+    },
+    
   }
 </script>
 

@@ -68,6 +68,22 @@ router.post('/insertList',function(req,res){
   //목록 수정
 
   //목록 검색
+  router.post('/search', function (req, res) {
+    console.log("목록 검색");
 
+    const search = {
+      'search_select': req.body.search_select,
+      'search_text': req.body.search_text,
+    };
+
+    console.log("search_select : ", search.search_select);
+    console.log("search_text : ", search.search_text);
+
+    connection.query('SELECT * FROM TBL_MOA_BAS', function (err, rows) {
+      if (err) throw err;
+      console.log(rows);
+      res.send(rows);
+    });
+  });
   
 module.exports = router;
