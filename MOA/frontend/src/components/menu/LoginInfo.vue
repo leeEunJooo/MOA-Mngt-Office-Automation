@@ -7,6 +7,7 @@
             </button>
           </div>
           <div v-else >
+            {{users.USER_NM}}님 안녕하세요.<br>
             <button @click="logout">
               로그아웃
             </button>
@@ -23,6 +24,8 @@
 </template>
 
 <script>
+// import { mapState } from "vuex"
+
 export default {
     el:'#notLoggedIn',
     data: function() {
@@ -32,7 +35,7 @@ export default {
       localStorage:[],
        }
      },
-      created:function() {
+      mounted() {
       this.$http
         .post("/api/musers/userinfo", {
           user_id: JSON.parse(localStorage.getItem('token')).user.user_id
@@ -61,6 +64,7 @@ export default {
           this.$router.push("/login");
         }
       },
+      
 
 }
 </script>

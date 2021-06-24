@@ -81,21 +81,19 @@ export default {
         .then((res) => {
           if (res.data.success == true) {
             alert(res.data.message);
-            this.$router.push("/");
+            this.$router.go();
           }
           if (res.data.success == false) {
             alert(res.data.message);
-            this.$router.push("/");
+            this.$router.go();
             this.clearInput();
           }
         })
         .catch(function () {
-          alert("error");
+          // alert("error");
         });
     },
-    clearInput(){
-      this.user = "";
-    }
+    
   },
   data () {
         return {

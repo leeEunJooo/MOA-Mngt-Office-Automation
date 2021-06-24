@@ -11,7 +11,7 @@ var connection = conn.connection;
 
 // Connect
 connection.connect(function (err) {   
-  console.log("MOA_DB 접속");
+  console.log("MOA_DB 접속_musers");
   if (err) {     
     console.error('mysql connection error');     
     console.error(err);     
@@ -97,6 +97,7 @@ router.post('/login', function (req, res) {
           }
           else {
             res.json({ // 매칭되는 아이디는 있으나, 비밀번호가 틀린 경우            success: false,
+              success:false,
               message: '비밀번호가 틀립니다.'
             })
           }
@@ -132,7 +133,7 @@ router.post('/pwReset', function (req, res) {
     'confirm_user_pwd' : req.body.user.confirm_user_pwd
   };
 
-  connection.query('SELECT user_id FROM TBL_MOA_USER_BAS WHERE user_id = "' + user.user_id + '"', function (err, row) {
+  connection.query('SELECT * FROM TBL_MOA_USER_BAS WHERE user_id = "' + user.user_id + '"', function (err, row) {
     if (row[0] == undefined){ //  동일한 아이디가 없을경우,
       res.json({
         success: false,
@@ -141,15 +142,25 @@ router.post('/pwReset', function (req, res) {
     }
     else {
       if(user.user_pwd == user.confirm_user_pwd){
-        const salt = bcrypt.genSaltSync();
-        const encryptedPassword = bcrypt.hashSync(user.user_pwd, salt);
-        connection.query('UPDATE TBL_MOA_USER_BAS SET user_pwd = "' + encryptedPassword + '" where user_id = "' + user.user_id + '"', user, function (err, row2) {
-          if (err) throw err;
+        bcrypt.compare(user.user_pwd, row[0].USER_PWD, function (err, res2) {
+          console.log(res2);
+          if(res2){
+            res.json({
+              success: false,
+              message: '이전 비밀번호와 일치합니다.'
+            })
+          }else{
+            const salt = bcrypt.genSaltSync();
+            const encryptedPassword = bcrypt.hashSync(user.user_pwd, salt);
+            connection.query('UPDATE TBL_MOA_USER_BAS SET user_pwd = "' + encryptedPassword + '" where user_id = "' + user.user_id + '"', user, function (err, row2) {
+              if (err) throw err;
+            });
+            res.json({
+              success: true,
+              message: '비밀번호 초기화가 완료되었습니다.'
+            })
+          }
         });
-        res.json({
-          success: true,
-          message: '비밀번호 초기화가 완료되었습니다.'
-        })
       }else{
         res.json({
           success: false,

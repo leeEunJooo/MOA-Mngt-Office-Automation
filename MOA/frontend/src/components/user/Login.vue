@@ -78,17 +78,23 @@
         })
         .then(
           (res) => {
-            //로그인 성공
-            localStorage.setItem('token', JSON.stringify(res.data.token));
-            // localStorage.setItem('isLogin', true);
-            localStorage.setItem('loginUser', JSON.stringify(res.data));
-            // localStorage.setItem("loginUsername", res.data.user_name);
-            console.log(res);
-            console.log(res.data.token);
-            console.log(JSON.parse(localStorage.getItem('token')).user.user_id);
-            alert(res.data.message);
-            this.login_state = false;
-            this.$router.push("/");
+            if(res.data.success == true){
+              //로그인 성공
+              localStorage.setItem('token', JSON.stringify(res.data.token));
+              // localStorage.setItem('isLogin', true);
+              localStorage.setItem('loginUser', JSON.stringify(res.data));
+              // localStorage.setItem("loginUsername", res.data.user_name);
+              console.log(res);
+              console.log(res.data.token);
+              console.log(JSON.parse(localStorage.getItem('token')).user.user_id);
+              alert(res.data.message);
+              this.login_state = false;
+              this.$router.push("/");
+            }
+            if (res.data.success == false) {
+              alert(res.data.message);
+              this.$router.go();
+           }
           },
           () => {
             // error 를 보여줌
