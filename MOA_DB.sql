@@ -71,6 +71,8 @@ sysdate(), sysdate(), '9999-12-31');
 
 select * from tbl_moa_bas;
 
+SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,'') as e.EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq;
+
 drop table tbl_moa_hst;
 -- 자동화 세부정보 이력 테이블 생성
 CREATE TABLE TBL_MOA_HST(

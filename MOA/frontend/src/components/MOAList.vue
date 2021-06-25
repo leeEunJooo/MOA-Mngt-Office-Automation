@@ -90,11 +90,11 @@ export default {
       console.log(this.moa_list);
       for(let i = 0; i < this.moa_list.length; i++) {
         this.moa_list[i].FIRST_REG_DATE = dayjs(this.moa_list[i].FIRST_REG_DATE).format('YYYY-MM-DD');
-        if(this.moa_list[i].EXE_DATE == null){
-          this.moa_list[i].EXE_DATE = dayjs("0000-00-00T00:00:00.000Z").format('YYYY-MM-DD HH:mm:ss');
-        }else{
+        // console.log(this.moa_list[i].EXE_DATE);
+        if(this.moa_list[i].EXE_DATE != '0000-00-00 00:00:00'){
           this.moa_list[i].EXE_DATE = dayjs(this.moa_list[i].EXE_DATE).format('YYYY-MM-DD HH:mm:ss');
         }
+        // console.log(this.moa_list[i].EXE_DATE);
       }
       });
     },
@@ -104,7 +104,7 @@ export default {
       handleClick: function(items) {
           // set active row and deselect others
           console.log(items.NTCART_TITLE_NM);
-          window.open("http://localhost:8080/#/moalist", "_blank","width=800, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
+          window.open("http://localhost:3000/#/moalist", "_blank","width=800, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
 
           // 모달창 만들기
           //거기로 데이터 넘겨주기
