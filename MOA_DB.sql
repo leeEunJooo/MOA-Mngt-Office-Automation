@@ -71,6 +71,8 @@ sysdate(), sysdate(), '9999-12-31');
 
 select * from tbl_moa_bas;
 
+SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,'') as e.EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq;
+
 drop table tbl_moa_hst;
 -- 자동화 세부정보 이력 테이블 생성
 CREATE TABLE TBL_MOA_HST(
@@ -129,9 +131,14 @@ FOREIGN KEY(FILE_SEQ) REFERENCES TBL_MOA_BAS(FILE_SEQ),
 FOREIGN KEY(CUST_IDFY_SEQ) REFERENCES TBL_MOA_BAS(CUST_IDFY_SEQ)
 );
 
+delete from TBL_MOA_EXECUTION_TXN where EXE_SEQ =8;
+
 -- 실행 테이블 데이터 INSERT
 INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST) 
 VALUES (1, 3, '윤동섭', sysdate(), 'N', '');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST) 
+VALUES (2, 1, '정대균', sysdate(), 'N', '');
 
 select * from tbl_moa_execution_txn;
 
