@@ -4,20 +4,8 @@ const bcrypt = require('bcryptjs');
 
 const conn = require('./dbConnection.js');
 
-//추가한 부분
-// const mariadb = require('mariadb');
-
+// Connection 객체 생성
 var connection = conn.connection;
-
-// Connect
-connection.connect(function (err) {   
-  console.log("MOA_DB 접속_musers");
-  if (err) {     
-    console.error('mysql connection error');     
-    console.error(err);     
-    throw err;   
-  } 
-});
 
 router.get('/', function (req, res) {
   console.log("메인");

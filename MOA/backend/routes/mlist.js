@@ -2,35 +2,20 @@ var express = require('express');
 var router = express.Router();
 const bcrypt = require('bcryptjs');
 
+const conn = require('./dbConnection.js');
 
-var mysql = require('mysql');
 // Connection 객체 생성 
-var connection = mysql.createConnection({
-  host: '127.0.0.1',
-  port: 3306,
-  user: 'root',   
-  password: 'root',
-  database: 'MOA_DB'  
-});
-// Connect
-connection.connect(function (err) {   
-    console.log("MOA_DB 접속");
-    if (err) {     
-      console.error('mysql connection error');     
-      console.error(err);     
-      throw err;   
-    } 
-  });
+var connection = conn.connection;
 
-  //목록 올 조회
-  router.get('/selectList', function (req, res) {
-    console.log("메인");
-    connection.query('SELECT * FROM TBL_MOA_BAS', function (err, rows) {
-      if (err) throw err;
-      console.log(rows);
-      res.send(rows);
-    });
+//목록 올 조회
+router.get('/selectList', function (req, res) {
+  console.log("메인");
+  connection.query('SELECT * FROM TBL_MOA_BAS', function (err, rows) {
+    if (err) throw err;
+    console.log(rows);
+    res.send(rows);
   });
+});
 
   //목록 등록
 router.post('/insertList',function(req,res){

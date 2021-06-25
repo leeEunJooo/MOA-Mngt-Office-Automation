@@ -11,6 +11,8 @@
                 v-model="search_select"
                 class="search_box1"
                 :items="items"
+                item-text="name"
+                item-value="idx"
                 label="검색기준"
                 solo
             ></v-select>
@@ -67,7 +69,17 @@ export default {
         // FIRST_REG_DATE.getFullYear() + "-" + (FIRST_REG_DATE.getMonth() + 1) + "-" + FIRST_REG_DATE.getDate()}
         moa_list:[], 
         date:"",
-        items: ['팀', '담당자', '대상시스템', '수행시간', '사용기술', '자동화 명칭', '매뉴얼', '전체검색'],
+        items: [
+          // '팀', '담당자', '대상시스템', '수행시간', '사용기술', '자동화 명칭', '매뉴얼', '전체검색'],
+          {name: "팀", idx: "TDC"},
+          {name: "담당자", idx: "ETC"},
+          {name: "대상시스템", idx: "SYD"},
+          {name: "수행시간", idx: "CDC"},
+          {name: "사용기술", idx: "LDC"},
+          {name: "자동화 명칭", idx: "ETC"},
+          {name: "메뉴얼", idx: "ETC"},
+          {name: "전체검색", idx: "ETC"},
+        ],
         headers: [
           { text: '자동화파일', value: 'NTCART_TITLE_NM' },
           { text: '작성자', value: 'TKCGR_NM' },
