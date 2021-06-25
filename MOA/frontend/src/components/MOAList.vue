@@ -48,6 +48,8 @@
             :items="moa_list"
             :items-per-page="5"
             class="data_table"
+            @click:row="handleClick"
+            
         >      
         </v-data-table>
         
@@ -98,6 +100,23 @@ export default {
     },
 
     methods: {
+      
+      handleClick: function(items) {
+          // set active row and deselect others
+          console.log(items.NTCART_TITLE_NM);
+          window.open("http://localhost:8080/#/moalist", "_blank","width=800, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
+
+          // 모달창 만들기
+          //거기로 데이터 넘겨주기
+      },
+      onClickRedirect: function(){
+        window.open("https://google.com", "_blank");
+        window.open("https://google.com", "_blank");
+      },
+      highlightClickedRow: function(value) {
+          const tr = value.target.parentNode;
+          tr.classList.add('highlight');
+      },
       search: function(){
         if(this.search_select == "대상시스템") this.search_select = "S01";
         console.log("!!!!!!!!!!!!!!!!!!!!!", this.search_select);
