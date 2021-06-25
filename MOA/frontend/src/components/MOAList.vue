@@ -24,6 +24,7 @@
             ></v-text-field>
 
             <v-btn
+                v-on:click="search"
                 class="search_btn"
                 height="32px">
                 Search
@@ -72,7 +73,7 @@ export default {
           { text: '자동화파일', value: 'NTCART_TITLE_NM' },
           { text: '작성자', value: 'TKCGR_NM' },
           { text: '업로드일', value: 'FIRST_REG_DATE'},
-          { text: '최근수행시간', value: 'FIRST_REG_DATE' },
+          { text: '최근수행시간', value: 'EXE_DATE' },
         ],
         search_select: '',
         search_text: '',
@@ -87,12 +88,18 @@ export default {
       console.log(this.moa_list);
       for(let i = 0; i < this.moa_list.length; i++) {
         this.moa_list[i].FIRST_REG_DATE = dayjs(this.moa_list[i].FIRST_REG_DATE).format('YYYY-MM-DD');
+        if(this.moa_list[i].EXE_DATE == null){
+          this.moa_list[i].EXE_DATE = dayjs("0000-00-00T00:00:00.000Z").format('YYYY-MM-DD HH:mm:ss');
+        }else{
+          this.moa_list[i].EXE_DATE = dayjs(this.moa_list[i].EXE_DATE).format('YYYY-MM-DD HH:mm:ss');
+        }
       }
       });
     },
 
     methods: {
       search: function(){
+        if(this.search_select == "대상시스템") this.search_select = "S01";
         console.log("!!!!!!!!!!!!!!!!!!!!!", this.search_select);
         console.log("@@@@@@@@@@@@@@@@@@@@@", this.search_text);
         this.$http.post("/api/mlist/search",{
