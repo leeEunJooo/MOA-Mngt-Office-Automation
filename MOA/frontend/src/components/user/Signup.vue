@@ -10,19 +10,19 @@
           <v-col class="lf-content">
               <div>
                   <span class="ct-combo-title">이름</span>
-                  <input placeholder="이름을 입력하세요" class="signup_nm"/>
+                  <input placeholder="이름을 입력하세요" class="signup_nm" v-model="user.user_nm"/>
               </div>
 
               <div>
                   <span class="ct-combo-title">전화번호</span>
-                  <input placeholder="01012345678" class="signup_ph" @:keyup="inputPhoneNumber(this);" maxlength="13" v-model="user.phone_num" />
+                  <input placeholder="01012345678" class="signup_ph" @:keyup="inputPhoneNumber(this);" maxlength="13" v-model="user.user_tel_no" />
               </div>
 
               <div>
                   <span class="ct-combo-title">팀</span>
                   <v-select
-                    v-model="default_team"
-                    :items="team"
+                    v-model="user.default_team"
+                    :items="team_div_cd"
                     item-text="name"
                     item-value="idx"
                     item-color='#f2f3ff'
@@ -30,10 +30,6 @@
                     return-object
                   ></v-select>
               </div>
-
-              
-              
-
           </v-col>
           <v-col class="rt-content">
               <div>
@@ -42,7 +38,7 @@
               </div>
               <div>
                   <span class="ct-combo-title">비밀번호</span>
-                  <input placeholder="비밀번호" type="password" class="signup_pw" v-model="user.password" />
+                  <input placeholder="비밀번호" type="password" class="signup_pw" v-model="user.user_pwd" />
                   <!-- <input placeholder="비밀번호 확인" type="password" class="signup_pw"/> -->
               </div>
 
@@ -62,10 +58,12 @@ export default {
     
     methods: {
         signUp: function () {
-        this.$http.post("/api/musers/signUp", {
-            user: this.user,
+        this.$http
+        .post("/api/musers/signUp", {
+            user: this.user
             })
             .then((res) => {
+                console.log(res);
             if (res.data.success == true) {
                 alert(res.data.message);
                 this.$router.push("/");
@@ -105,20 +103,28 @@ export default {
     },
     
     data:() => ({
-        default_team: {
-        name: "팀1",
-        idx: "1"
-        },
     user: {
-        phone_num:"",
-        user_name:"",
+        user_tel_no:"",
+        user_nm:"",
         user_id:"",
-        password:"",
+        user_pwd:"",
+        default_team: ""
     },
-    team: [
-        {name: "팀1",idx: "1"},
-        {name: "팀2",idx: "2"},
-        {name: "팀3",idx: "3"}, 
+    team_div_cd: [
+        {name: "1팀",idx: "T01", idx2:"D01"},
+        {name: "2팀",idx: "T02", idx2:"D01"},
+        {name: "3팀",idx: "T03", idx2:"D01"}, 
+        {name: "4팀",idx: "T04", idx2:"D01"},
+        {name: "5팀",idx: "T05", idx2:"D02"},
+        {name: "6팀",idx: "T06", idx2:"D02"}, 
+        {name: "7팀",idx: "T07", idx2:"D02"},
+        {name: "8팀",idx: "T08", idx2:"D02"},
+        {name: "9팀",idx: "T09", idx2:"D03"}, 
+        {name: "10팀",idx: "T10", idx2:"D03"}, 
+        {name: "11팀",idx: "T11", idx2:"D03"},
+        {name: "12팀",idx: "T12", idx2:"D03"},
+        {name: "13팀",idx: "T13", idx2:"D03"},
+
     ]
     }),
 

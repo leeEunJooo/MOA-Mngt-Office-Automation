@@ -1,5 +1,9 @@
 <template>
-  <DrawerNav></DrawerNav>
+
+  <div id="app">
+    <DrawerNav></DrawerNav>
+
+  </div>
 </template>
 
 <script>
@@ -7,8 +11,17 @@ import DrawerNav from './components/DrawerNav.vue';
 
 export default {
   name: 'App',
-    components:{
-      DrawerNav
-    }
-};
+  components: {
+    DrawerNav,
+  }
+}
 </script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}
+</style>

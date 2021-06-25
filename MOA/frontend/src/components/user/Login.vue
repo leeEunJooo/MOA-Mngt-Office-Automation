@@ -5,6 +5,8 @@
       <v-card-title>MOA 로그인</v-card-title>
           <v-text-field
             label="아이디를 입력해주세요"
+            placeholder="아이디를 입력해주세요"
+            required
             solo
             v-model="user.user_id"
             class="login-input1"
@@ -12,9 +14,11 @@
 
             <v-text-field
             label="비밀번호를 입력해주세요"
+            placeholder="비밀번호를 입력해주세요"
+            required
             solo
             type="password"
-            v-model="user.password"
+            v-model="user.user_pwd"
             class="login-input2"
           ></v-text-field>
   
@@ -32,10 +36,12 @@
                 <ResetPW></ResetPW>
             </div>
         </v-row>
-
-
-        <v-btn class="btn1" block v-on:click="login">
-          로그인
+        
+        <v-btn class="btn1"
+        v-on:click="login" 
+        block
+        >
+            로그인
         </v-btn>
         
         <router-link to="signup" class="signup-link">
@@ -49,9 +55,12 @@
 </template>
 
 <script>
+  // import axios from 'axios';
+ 
   import ResetPW from './ResetPW.vue'
 
   export default {
+
     data: function () {
     return {
       user: {
@@ -67,17 +76,36 @@
         this.$http.post("/api/musers/login", {
           user: this.user,
         })
-        .then((res) => {
-          alert(res.data.message);
-        },
-        () => {
-          alert("Login failed! please check your id or password");
-        })
+        .then(
+          (res) => {
+            if(res.data.success == true){
+              //로그인 성공
+              localStorage.setItem('token', JSON.stringify(res.data.token));
+              // localStorage.setItem('isLogin', true);
+              localStorage.setItem('loginUser', JSON.stringify(res.data));
+              // localStorage.setItem("loginUsername", res.data.user_name);
+              console.log(res);
+              console.log(res.data.token);
+              console.log(JSON.parse(localStorage.getItem('token')).user.user_id);
+              alert(res.data.message);
+              this.login_state = false;
+              this.$router.push("/");
+            }
+            if (res.data.success == false) {
+              alert(res.data.message);
+              this.$router.go();
+           }
+          },
+          () => {
+            // error 를 보여줌
+            alert("아이디가 없대");
+          }
+        )
         .catch((err) => {
           alert(err);
         });
-      },
-      reserve () {
+    },
+    reserve () {
         this.loading = true
         setTimeout(() => (this.loading = false), 2000)
       },
