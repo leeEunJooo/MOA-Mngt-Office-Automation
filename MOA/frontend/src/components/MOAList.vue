@@ -12,9 +12,10 @@
                 class="search_box1"
                 :items="items"
                 item-text="name"
-                item-value="idx"
+                item-value="code"
                 label="검색기준"
                 solo
+                return-object
             ></v-select>
 
             <v-text-field
@@ -74,14 +75,14 @@ export default {
         date:"",
         items: [
           // '팀', '담당자', '대상시스템', '수행시간', '사용기술', '자동화 명칭', '매뉴얼', '전체검색'],
-          {name: "팀", idx: "TDC"},
-          {name: "담당자", idx: "ETC"},
-          {name: "대상시스템", idx: "SYD"},
-          {name: "수행시간", idx: "CDC"},
-          {name: "사용기술", idx: "LDC"},
-          {name: "자동화 명칭", idx: "ETC"},
-          {name: "메뉴얼", idx: "ETC"},
-          {name: "전체검색", idx: "ETC"},
+          {name: "팀", code: "TDC"},
+          {name: "담당자", code: "ETC1"},
+          {name: "대상시스템", code: "SYD"},
+          {name: "수행시간", code: "CDC"},
+          {name: "사용기술", code: "LDC"},
+          {name: "자동화 명칭", code: "ETC2"},
+          {name: "메뉴얼", code: "ETC3"},
+          {name: "전체검색", code: "ETC4"},
         ],
         headers: [
           { text: '자동화파일', value: 'NTCART_TITLE_NM' },
@@ -130,7 +131,7 @@ export default {
           tr.classList.add('highlight');
       },
       search: function(){
-        if(this.search_select == "대상시스템") this.search_select = "S01";
+        // if(this.search_select == "대상시스템") this.search_select = "S01";
         console.log("!!!!!!!!!!!!!!!!!!!!!", this.search_select);
         console.log("@@@@@@@@@@@@@@@@@@@@@", this.search_text);
         this.$http.post("/api/mlist/search",{
@@ -140,6 +141,15 @@ export default {
         .then(
           (response)=>{
             console.log("#################", response);
+            this.moa_list = response.data;
+            for(let i = 0; i < this.moa_list.length; i++) {
+              this.moa_list[i].FIRST_REG_DATE = dayjs(this.moa_list[i].FIRST_REG_DATE).format('YYYY-MM-DD');
+              // console.log(this.moa_list[i].EXE_DATE);
+              if(this.moa_list[i].EXE_DATE != '0000-00-00 00:00:00'){
+                this.moa_list[i].EXE_DATE = dayjs(this.moa_list[i].EXE_DATE).format('YYYY-MM-DD HH:mm:ss');
+              }
+              // console.log(this.moa_list[i].EXE_DATE);
+            }
           }
         )
       }
