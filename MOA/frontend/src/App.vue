@@ -1,18 +1,18 @@
 <template>
 
   <div id="app">
-    <DrawerNav></DrawerNav>
-
+    <!-- <DrawerNav></DrawerNav> -->
+    <router-view> </router-view>
   </div>
 </template>
 
 <script>
-import DrawerNav from './components/DrawerNav.vue';
+// import DrawerNav from './components/DrawerNav.vue';
 
 export default {
   name: 'App',
   components: {
-    DrawerNav,
+    // DrawerNav,
   }
 }
 </script>

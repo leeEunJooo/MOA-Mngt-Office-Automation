@@ -51,7 +51,6 @@
             :items-per-page="5"
             class="data_table"
             @click:row="handleClick"
-            
         >      
         </v-data-table>
         
@@ -95,40 +94,39 @@ export default {
     },
 
     created() {
-    this.$http.get("/api/mlist/selectList")
-    .then((response) => {
-      console.log(response);
-      this.moa_list = response.data;
-      console.log(this.moa_list);
-      for(let i = 0; i < this.moa_list.length; i++) {
-        this.moa_list[i].FIRST_REG_DATE = dayjs(this.moa_list[i].FIRST_REG_DATE).format('YYYY-MM-DD');
-        // console.log(this.moa_list[i].EXE_DATE);
-        if(this.moa_list[i].EXE_DATE != '0000-00-00 00:00:00'){
-          this.moa_list[i].EXE_DATE = dayjs(this.moa_list[i].EXE_DATE).format('YYYY-MM-DD HH:mm:ss');
+      this.$http.get("/api/mlist/selectList")
+      .then((response) => {
+        // console.log("asdasd"+response);
+        this.moa_list = response.data;
+        // console.log(this.moa_list);
+        
+        for(let i = 0; i < this.moa_list.length; i++) {
+          this.moa_list[i].FIRST_REG_DATE = dayjs(this.moa_list[i].FIRST_REG_DATE).format('YYYY-MM-DD');
+          // console.log(this.moa_list[i].EXE_DATE);
+          if(this.moa_list[i].EXE_DATE != '0000-00-00 00:00:00'){
+            this.moa_list[i].EXE_DATE = dayjs(this.moa_list[i].EXE_DATE).format('YYYY-MM-DD HH:mm:ss');
+          }
+          // console.log(this.moa_list[i].EXE_DATE);
         }
-        // console.log(this.moa_list[i].EXE_DATE);
-      }
-      });
+        });
     },
 
     methods: {
       
       handleClick: function(items) {
-          // set active row and deselect others
-          console.log(items.NTCART_TITLE_NM);
-          window.open("http://localhost:3000/#/moalist", "_blank","width=800, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
+        let routeData = this.$router.resolve({
 
+                                              name: 'listdetail',
+                                              params: {id: items.FILE_SEQ}
+                                            });
+
+          
+        window.open(routeData.href, "_blank","width=680, height=850, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
+          
           // 모달창 만들기
           //거기로 데이터 넘겨주기
       },
-      onClickRedirect: function(){
-        window.open("https://google.com", "_blank");
-        window.open("https://google.com", "_blank");
-      },
-      highlightClickedRow: function(value) {
-          const tr = value.target.parentNode;
-          tr.classList.add('highlight');
-      },
+      
       search: function(){
         if(this.search_select == "대상시스템") this.search_select = "S01";
         console.log("!!!!!!!!!!!!!!!!!!!!!", this.search_select);
