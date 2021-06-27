@@ -75,13 +75,13 @@ export default {
         items: [
           // '팀', '담당자', '대상시스템', '수행시간', '사용기술', '자동화 명칭', '매뉴얼', '전체검색'],
           {name: "팀", idx: "TDC"},
-          {name: "담당자", idx: "ETC"},
+          {name: "담당자", idx: "TKCGR_NM"},
           {name: "대상시스템", idx: "SYD"},
           {name: "수행시간", idx: "CDC"},
           {name: "사용기술", idx: "LDC"},
-          {name: "자동화 명칭", idx: "ETC"},
-          {name: "메뉴얼", idx: "ETC"},
-          {name: "전체검색", idx: "ETC"},
+          {name: "자동화 명칭", idx: "NTCART_TITLE_NM"},
+          // {name: "메뉴얼", idx: "ATC_FILE_MANUAL_"}, // 메뉴얼에 무엇을 검색하는지???
+          {name: "전체검색", idx: "ALL"},
         ],
         headers: [
           { text: '자동화파일', value: 'NTCART_TITLE_NM' },
@@ -130,7 +130,7 @@ export default {
           tr.classList.add('highlight');
       },
       search: function(){
-        if(this.search_select == "대상시스템") this.search_select = "S01";
+        if(this.search_select == "대상시스템") this.search_select = "SYD";
         console.log("!!!!!!!!!!!!!!!!!!!!!", this.search_select);
         console.log("@@@@@@@@@@@@@@@@@@@@@", this.search_text);
         this.$http.post("/api/mlist/search",{
