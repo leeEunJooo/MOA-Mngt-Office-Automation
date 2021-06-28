@@ -20,8 +20,8 @@
             <v-text-field
                 v-model="search_text"
                 class="search_box2"
-                label="%1팀%"
-                placeholder="%1팀%"
+                label="1팀"
+                placeholder="1팀"
                 solo
             ></v-text-field>
 
@@ -78,7 +78,7 @@ export default {
           {name: "사용기술", code: "LDC"},
           {name: "자동화 명칭", code: "ETC2"},
           // {name: "메뉴얼", code: "ETC3"},
-          {name: "전체검색", code: "ETC4"},
+          {name: "전체검색", code: "ETC3"},
         ],
         headers: [
           { text: '자동화파일', value: 'NTCART_TITLE_NM' },
@@ -113,10 +113,9 @@ export default {
       
       handleClick: function(items) {
         let routeData = this.$router.resolve({
-
-                                              name: 'listdetail',
-                                              params: {id: items.FILE_SEQ}
-                                            });
+          name: 'listdetail',
+          params: {id: items.FILE_SEQ}
+         });
 
           
         window.open(routeData.href, "_blank","width=680, height=850, toolbar=no, menubar=no, scrollbars=no, resizable=yes");

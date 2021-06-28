@@ -69,9 +69,9 @@ VALUES (1, '\\download\\moa.xml', 'L01', 'S06', 'C01', '','09:00', 'R01', 'B01',
 '완료', 'E01', '정의된 스케줄 외에 실행하면 안됨(사업부서에 SMS 발송됨)', 'N', '', '올레TV탭 실시간 실적 SMS', 'SMS', 'AntBot Manager 서버(AntBot 웹 페이지에 등록해 놓은 스케줄에 따라 자동 수행됨)', '올레TV탭 실적 SMS 자동 발송', '황윤섭', '정헌수', 
 sysdate(), sysdate(), '9999-12-31');
 
-select * from tbl_moa_bas;
+select * from tbl_moa_bas where cust_idfy_seq = 2 or cust_idfy_seq = 3 or cust_idfy_seq = 4 ;
 
-SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,'0000-00-00 00:00:00') as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq;
+SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,'0000-00-00 00:00:00') as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where m.cust_idfy_seq = 3;
 
 alter table tbl_moa_bas add FULLTEXT(SROC_FILE_PATH_NM, DOW_NM, DATA_EXE_TIME, INPUT_VAL, TRT_STEP_NM, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM);
 alter table tbl_moa_bas add FULLTEXT(LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, CONN_EVN_DIV_CD);
