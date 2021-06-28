@@ -41,15 +41,15 @@ export default {
         margin:0;
         padding:0 !important;
     }
-    ul> li{
+    .menu-list ul> li{
         font-family: GmarketSansBold;
         font-size: 20px;
         color:#5244f5;
     }
-    li > span{
+    .menu-list li > span{
         padding-left:30px;
     }
-    li:last-child{
+    .menu-list li:last-child{
         margin-top:30px;
     }
     .menu-list li a{

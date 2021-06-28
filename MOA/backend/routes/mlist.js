@@ -10,12 +10,15 @@ var connection = conn.connection;
   //목록 올 조회
   router.get('/selectList', function (req, res) {
     console.log("메인");
-    connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq ', function (err, rows) {
+    connection.query('SELECT m.FILE_SEQ, m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq ', function (err, rows) {
       if (err) throw err;
       console.log(rows);
       res.send(rows);
     });
   });
+
+  
+
   
   //목록 검색
 
@@ -72,5 +75,16 @@ var connection = conn.connection;
     //   res.send(rows);
     // });
   });
-  
+
+  //detail
+  router.post('/listDetail/:id', function (req, res) {
+    const id = parseInt(req.params.id);
+    connection.query('SELECT * FROM TBL_MOA_BAS WHERE FILE_SEQ='+id, function (err, rows) {
+      if (err) throw err;
+      console.log(rows);
+      res.send(rows);
+    });
+
+  });
+
 module.exports = router;
