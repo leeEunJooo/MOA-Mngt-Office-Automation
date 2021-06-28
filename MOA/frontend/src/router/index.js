@@ -3,7 +3,9 @@ import VueRouter from 'vue-router'
 import Login from '@/components/user/Login'
 import SignUp from '@/components/user/Signup'
 import DashBoard from '@/components/DashBoard'
-import MOAList from '@/components/MOAList'
+import MOAList from '@/components/moaList/MOAList'
+import ListDetail from '@/components/moaList/ListDetail'
+import DrawerNav from '@/components/DrawerNav'
 
 
 // Vue와 VueRouter 연결
@@ -13,40 +15,46 @@ Vue.use(VueRouter);
 // 사용할 route 생성 및 설정
 const routes = [
   {
+    path:'/',
+     redirect: '/login',
+  },
+  {
     path: '/',
-    name: 'moalist',
-    component: MOAList
+    name: 'drawernav',
+    component: DrawerNav,
+    children:[
+      {
+        path:'login',
+        component: Login
+      },
+      {
+        path:'signup',
+        component: SignUp
+      },
+      {
+        path: 'dashboard',
+        component: DashBoard
+      },
+      {
+        path: 'moalist',
+        component: MOAList
+      },
+    ]
   },
+
   {
-    path: '/login',
-    name: 'login',
-    component: Login
+    path: '/moalist/:id',
+    name: 'listdetail',
+    components: {
+      default:  ListDetail
+    }
   },
-  {
-    path: '/signup',
-    name: 'signup',
-    component: SignUp
-  },
-  {
-    path: '/dashboard',
-    name: 'dashboard',
-    component: DashBoard
-  },
-  {
-    path: '/moalist',
-    name: 'moalist',
-    component: MOAList
-  },
-  // {
-  //   path: '/',
-  //   name: 'login',
-  //   component: Login
-  // }
 
 ]
 
 // VueRouter에 route를 등록하고 설정한다.
 const router = new VueRouter({
+  mode: 'history',
   routes
 })
 

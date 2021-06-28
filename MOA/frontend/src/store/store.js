@@ -7,9 +7,7 @@ import router from '../router';
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
-    // modules: {
-    //     moalist,
-    // },
+
 
     state:{
         host: 'http://127.0.0.1:3000',
@@ -18,6 +16,7 @@ export const store = new Vuex.Store({
         isLogin: false,
         isLoginError: false
     },
+
     mutations:{
         loginToken:function(state,payload){
             state.isLogin = true

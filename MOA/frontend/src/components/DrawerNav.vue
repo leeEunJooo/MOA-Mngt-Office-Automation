@@ -22,10 +22,8 @@
       </router-link>
     </v-app-bar>
 
-    <!-- <MOAList></MOAList> -->
 
     <v-main class="main-content">
-      <!--로그인 정보-->
       <router-view> </router-view>
     </v-main>
     
