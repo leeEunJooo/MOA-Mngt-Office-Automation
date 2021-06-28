@@ -2,11 +2,11 @@
   <div>
 
     <v-container>
-
+      <br>
       <div class ="font_title"> MOA List </div>
 
-
       <div class="list-btn-row-box">
+        
             <v-select
                 v-model="search_select"
                 class="search_box1"
@@ -138,7 +138,7 @@ export default {
     color : white !important
 }
 .list-btn-row-box .addfile_btn{
-    width: 3%;
+    width: 6%;
     background-color: #5244f5 !important;
     color : white !important;
     float:right;
