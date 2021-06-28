@@ -32,6 +32,7 @@
                 Search
             </v-btn>
             <v-btn
+                v-on:click="addfile"
                 class="addfile_btn"
                 height="32px">
                 Add File
@@ -148,15 +149,26 @@ export default {
         )
       }
     },
+
+    addfile: function(){
+      let routeData = this.$router.resolve({
+                                              name: 'listdetail',
+                                            });
+      window.open(routeData.href, "_blank","width=680, height=850, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
+
+    }
     
   }
 </script>
 
 <style>
+.v-text-field.v-text-field--solo:not(.v-text-field--solo-flat) > .v-input__control > .v-input__slot{
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16) !important;
+}
 .moalist{
   width:100%;
-    padding:70px 70px 0px 70px;
-    height: fit-content;
+  padding:70px 70px 0px 70px;
+  height: fit-content;
 }
 .moalist .title-section{
     width:100%;
@@ -174,36 +186,47 @@ export default {
     font-weight: bold !important;
 }
 .list-btn-row-box{
-  max-width:1200px;
-  margin-top:100px;
+  margin-top:60px;
+  width:100%;
+}
+.moalist .v-input__slot{
+  min-height: 0px !important;
+  height: 40px;
 }
 .list-btn-row-box .search_box1,
 .list-btn-row-box .search_box2,
 .list-btn-row-box .search_btn,
 .list-btn-row-box .addfile_btn{
   display: inline-block;
+  
 }
 .list-btn-row-box .search_box1{
-    width: 10%;
+  width: 120px !important;
+  height: 45px !important;
 }
 .list-btn-row-box .search_box2{
     width: 30%;
     margin: 0px 10px;
 }
 .list-btn-row-box .search_btn{
-    width: 3%;
+    width: 90px !important;
+    height: 40px !important;
     background-color: #f54479 !important;
-    color : white !important
+    color : white !important;
+    padding: 10px 15px !important;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16);
+    
 }
 .list-btn-row-box .addfile_btn{
-    width: 100px !important;
-    height: 45px !important;
+    width: 90px !important;
+    height: 40px !important;
     background-color: #5244f5 !important;
     color : white !important;
     float:right;
-    padding: 11px 25px 11px 21px;
-    border-radius: 10px;
-    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    padding: 5px 15px !important;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16);
 }
 .v-input__slot{
   min-height: 45% !important;
@@ -211,5 +234,6 @@ export default {
 .data_table{
   text-align: center;
 }
+
 
 </style>
