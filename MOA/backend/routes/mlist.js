@@ -47,7 +47,7 @@ var connection = conn.connection;
       });
     } else {
       console.log("코드 테이블에 포함되어 있는 경우");
-      connection.query('SELECT CD_ID FROM TBL_MOA_CD_BAS WHERE ITG_CD_GROUP_ID = "' + search.search_select_code + '" and CD_NM = "' + search.search_text + '"', function (err, row) {
+      connection.query('SELECT CD_ID FROM TBL_MOA_CD_BAS WHERE ITG_CD_GROUP_ID = "' + search.search_select_code + '" and CD_NM like "' + search.search_text + '"', function (err, row) {
         if (err) throw err;
         console.log(row);
         console.log(row[0]);

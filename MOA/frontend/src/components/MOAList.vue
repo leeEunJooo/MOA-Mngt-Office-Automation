@@ -81,7 +81,7 @@ export default {
           {name: "수행시간", code: "CDC"},
           {name: "사용기술", code: "LDC"},
           {name: "자동화 명칭", code: "ETC2"},
-          {name: "메뉴얼", code: "ETC3"},
+          // {name: "메뉴얼", code: "ETC3"},
           {name: "전체검색", code: "ETC4"},
         ],
         headers: [
