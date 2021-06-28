@@ -39,6 +39,10 @@ const routes = [
         path: 'moalist',
         component: MOAList
       },
+      {
+        path: 'moalist',
+        component: MOAList
+      },
     ]
   },
 
