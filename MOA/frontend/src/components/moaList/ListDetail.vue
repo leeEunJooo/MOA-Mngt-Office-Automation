@@ -113,10 +113,14 @@
 export default {
     props : {
         Id : Number,
-        detailInfo : {}
+        detailInfo : {},
     },
 
-    
+    data:function(){
+        return {
+            cd_nm:"",
+        }
+    },
     methods:{
             getInfo : function(){
                 var id = this.$route.params.id
@@ -125,7 +129,59 @@ export default {
                 (res)=>{
                     this.detailInfo = res.data[0]
                     console.log("detail",this.detailInfo);
-                    console.log(this.detailInfo.CONN_EVN_DIV_CD);
+                    // console.log("갯수", this.detailInfo);
+                    //코드성
+                    console.log(this.detailInfo);
+                    console.log(this.detailInfo.CYCL_DATE_TYPE_CD);
+                    // this.cd_nm = this.detailInfo.CYCL_DATE_TYPE_CD;
+                    this.$http.post(`/api/mlist/codeselect/${this.detailInfo.CYCL_DATE_TYPE_CD}`)
+                    .then(
+                        (response)=>{
+                            console.log(response.data[0].CD_NM);
+                            this.detailInfo.CYCL_DATE_TYPE_CD = response.data[0].CD_NM;
+                            console.log("this.detailInfo.CYCL_DATE_TYPE_CD",this.detailInfo.CYCL_DATE_TYPE_CD);
+                        }
+                    )
+
+                    console.log(this.detailInfo.LANG_CD);
+                    this.$http.post(`/api/mlist/codeselect/${this.detailInfo.LANG_CD}`)
+                    .then(
+                        (response)=>{
+                            console.log(response.data[0].CD_NM);
+                            this.detailInfo.LANG_CD = response.data[0].CD_NM;
+                            console.log("this.detailInfo.LANG_CD",this.detailInfo.LANG_CD);
+                        }
+                    )
+                    
+                    console.log(this.detailInfo.SYS_DIV_CD);
+                    this.$http.post(`/api/mlist/codeselect/${this.detailInfo.SYS_DIV_CD}`)
+                    .then(
+                        (response)=>{
+                            console.log(response.data[0].CD_NM);
+                            this.detailInfo.SYS_DIV_CD = response.data[0].CD_NM;
+                            console.log("this.detailInfo.SYS_DIV_CD",this.detailInfo.SYS_DIV_CD);
+                        }
+                    )
+
+                    console.log(this.detailInfo.TROBL_SVC_TYPE_CD);
+                    this.$http.post(`/api/mlist/codeselect/${this.detailInfo.TROBL_SVC_TYPE_CD}`)
+                    .then(
+                        (response)=>{
+                            console.log(response.data[0].CD_NM);
+                            this.detailInfo.TROBL_SVC_TYPE_CD = response.data[0].CD_NM;
+                            console.log("TROBL_SVC_TYPE_CD",this.detailInfo.TROBL_SVC_TYPE_CD);
+                        }
+                    )
+
+                    console.log(this.detailInfo.RPY_RESLT_CD);
+                    this.$http.post(`/api/mlist/codeselect/${this.detailInfo.RPY_RESLT_CD}`)
+                    .then(
+                        (response)=>{
+                            console.log(response.data[0].CD_NM);
+                            this.detailInfo.RPY_RESLT_CD = response.data[0].CD_NM;
+                            console.log("RPY_RESLT_CD",this.detailInfo.RPY_RESLT_CD);
+                        }
+                    )
             });
         }
     },
