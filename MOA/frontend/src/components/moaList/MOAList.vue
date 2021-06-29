@@ -136,6 +136,11 @@ export default {
         .then(
           (response)=>{
             console.log("#################", response);
+            console.log("response.data", response.data);
+            if(response.data == "not found"){
+              alert("검색한 단어는 존재하지 않습니다.");
+              this.moa_list=[];
+            }else{
             this.moa_list = response.data;
             for(let i = 0; i < this.moa_list.length; i++) {
               this.moa_list[i].FIRST_REG_DATE = dayjs(this.moa_list[i].FIRST_REG_DATE).format('YYYY-MM-DD');
@@ -144,6 +149,7 @@ export default {
                 this.moa_list[i].EXE_DATE = dayjs(this.moa_list[i].EXE_DATE).format('YYYY-MM-DD HH:mm:ss');
               }
               // console.log(this.moa_list[i].EXE_DATE);
+            }
             }
           }
         )

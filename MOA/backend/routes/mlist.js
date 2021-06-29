@@ -48,7 +48,11 @@ var connection = conn.connection;
         connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where TKCGR_NM LIKE "%'+search.search_text +'%"', function (err, rows) {
           if (err) throw err;
           console.log(rows);
-          res.send(rows);
+          if(rows!=""){
+            res.send(rows);
+          }else{
+            res.send("not found");
+          }
         });
       }
 
@@ -57,7 +61,11 @@ var connection = conn.connection;
         connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where NTCART_TITLE_NM LIKE "%'+search.search_text +'%"', function (err, rows) {
           if (err) throw err;
           console.log(rows);
-          res.send(rows);
+          if(rows!=""){
+            res.send(rows);
+          }else{
+            res.send("not found");
+          }
         });
       }
 
@@ -66,7 +74,11 @@ var connection = conn.connection;
         connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(SROC_FILE_PATH_NM, DOW_NM, DATA_EXE_TIME, INPUT_VAL, TRT_STEP_NM, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM) against("' + search.search_text + '*" in boolean mode)', function (err, rows) {
           if (err) throw err;
           console.log(rows);
-          res.send(rows);
+          if(rows!=""){
+            res.send(rows);
+          }else{
+            res.send("not found");
+          }
         });  
       }
       
@@ -79,13 +91,12 @@ var connection = conn.connection;
         //팀의 CD_ID를 조회
         connection.query('SELECT CD_ID FROM TBL_MOA_CD_BAS WHERE ITG_CD_GROUP_ID = "' + search.search_select_code + '" and CD_NM like "%' + search.search_text + '%"', function (err, row) {
           if(err) throw err;
-          console.log(row[0].CD_ID);
-          //조회한 CD_ID를 가지고 USER_BAS에서 사용자 일련번호를 조회
-          connection.query('SELECT CUST_IDFY_SEQ FROM TBL_MOA_USER_BAS WHERE TEAM_DIV_CD = "'+ row[0].CD_ID+'"',function(err,rows){
-            if(err) throw err;
-            console.log("사용자일련번호 조회");
-            console.log(rows);
-            if(rows.length>1){
+          if(row!=""){
+            //조회한 CD_ID를 가지고 USER_BAS에서 사용자 일련번호를 조회
+            connection.query('SELECT CUST_IDFY_SEQ FROM TBL_MOA_USER_BAS WHERE TEAM_DIV_CD = "'+ row[0].CD_ID+'"',function(err,rows){
+              if(err) throw err;
+              console.log("사용자일련번호 조회");
+              console.log(rows);
               for(var i=0; i<rows.length; i++){
                 //조회한 사용자 일련번호로 자동화 목록리스트 조회
                 connection.query('SELECT NTCART_TITLE_NM, TKCGR_NM, FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE m.CUST_IDFY_SEQ in('+ rows[i].CUST_IDFY_SEQ+')',function(err,row3){
@@ -96,18 +107,12 @@ var connection = conn.connection;
                     console.log("왔다");
                     res.send(row3);
                   }
-                });              
-              }
-            }else{
-              //조회한 사용자 일련번호로 자동화 목록리스트 조회
-                connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where m.CUST_IDFY_SEQ = "'+rows.CUST_IDFY_SEQ+'"',function(err,row3){
-                  if(err) throw err;
-                  console.log("자동화목록 조회");
-                  console.log(row3.data);
-                  res.send(row3);
                 });
-            }
-          });
+              }             
+            });
+          }else{
+            res.send("not found");
+          }
         });
       }else{
         //그게 아닌 다른 코드 테이블포함된 경우
@@ -116,32 +121,35 @@ var connection = conn.connection;
           connection.query('SELECT CD_ID FROM TBL_MOA_CD_BAS WHERE ITG_CD_GROUP_ID = "' + search.search_select_code + '" and CD_NM like "%' + search.search_text + '%"', function (err, row) {
             if (err) throw err;
             console.log(row);
-            console.log(row[0]);
-            console.log(row[0].CD_ID);
-            // res.send(row);
-    
-            connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE LANG_CD = "'+ row[0].CD_ID+'"', function (err, rows) {
-              if (err) throw err;
-              console.log(rows);
-              res.send(rows);
-            });
+            if(row!=""){
+              connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE LANG_CD = "'+ row[0].CD_ID+'"', function (err, rows) {
+                if (err) throw err;
+                console.log(rows);
+                res.send(rows);
+              });
+            }else{
+              res.send("not found");
+            }
           });
         }
 
         //대상시스템(SYD)
         if(search.search_select_code == 'SYD'){
           connection.query('SELECT CD_ID FROM TBL_MOA_CD_BAS WHERE ITG_CD_GROUP_ID = "' + search.search_select_code + '" and CD_NM like "%' + search.search_text + '%"', function (err, row) {
-            if (err) throw err;
+            if (err) res.send("");
             console.log(row);
             console.log(row[0]);
-            console.log(row[0].CD_ID);
+            // console.log(row[0].CD_ID);
             // res.send(row);
-    
-            connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE SYS_DIV_CD = "'+ row[0].CD_ID+'"', function (err, rows) {
-              if (err) throw err;
-              console.log(rows);
-              res.send(rows);
-            });
+            if(row!=""){
+              connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE SYS_DIV_CD = "'+ row[0].CD_ID+'"', function (err, rows) {
+                if (err) res.send("");
+                console.log(rows);
+                res.send(rows);
+              });
+            }else{
+              res.send("not found");
+            }
           });
         }
 
@@ -150,15 +158,15 @@ var connection = conn.connection;
           connection.query('SELECT CD_ID FROM TBL_MOA_CD_BAS WHERE ITG_CD_GROUP_ID = "' + search.search_select_code + '" and CD_NM like "%' + search.search_text + '%"', function (err, row) {
             if (err) throw err;
             console.log(row);
-            console.log(row[0]);
-            console.log(row[0].CD_ID);
-            // res.send(row);
-    
-            connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE CYCL_DATE_TYPE_CD = "'+ row[0].CD_ID+'"', function (err, rows) {
-              if (err) throw err;
-              console.log(rows);
-              res.send(rows);
-            });
+            if(row!=""){
+              connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE CYCL_DATE_TYPE_CD = "'+ row[0].CD_ID+'"', function (err, rows) {
+                if (err) throw err;
+                console.log(rows);
+                res.send(rows);
+              });
+            }else{
+              res.send("not found");
+            }
           });
         }
         
