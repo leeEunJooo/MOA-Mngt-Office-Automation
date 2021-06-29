@@ -17,16 +17,12 @@ var connection = conn.connection;
     });
   });
 
-  
-
-  
-  //목록 검색
-
   //목록 등록
 
 
   //목록 수정
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //목록 검색
   router.post('/search', function (req, res) {
     console.log("목록 검색");
@@ -171,8 +167,8 @@ var connection = conn.connection;
         }
         
       };
-
     }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // 공통코드가서 맞는거 가지고 오기
 
@@ -185,7 +181,7 @@ var connection = conn.connection;
     // });
   });
 
-  //detail
+  //목록 상세 조회
   router.post('/listDetail/:id', function (req, res) {
     const id = parseInt(req.params.id);
     connection.query('SELECT * FROM TBL_MOA_BAS WHERE FILE_SEQ='+id, function (err, rows) {

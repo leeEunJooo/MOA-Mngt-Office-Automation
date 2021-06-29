@@ -159,6 +159,7 @@ export default {
     addfile: function(){
       let routeData = this.$router.resolve({
                                               name: 'listdetail',
+                                              
                                             });
       window.open(routeData.href, "_blank","width=680, height=850, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
 

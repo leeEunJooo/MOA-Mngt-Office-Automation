@@ -89,7 +89,7 @@
               console.log(JSON.parse(localStorage.getItem('token')).user.user_id);
               alert(res.data.message);
               this.login_state = false;
-              this.$router.push("/");
+              this.$router.push("/moalist");
             }
             if (res.data.success == false) {
               alert(res.data.message);
