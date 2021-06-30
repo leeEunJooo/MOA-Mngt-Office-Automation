@@ -7,6 +7,7 @@ import MOAList from '@/components/moaList/MOAList'
 import ListDetail from '@/components/moaList/ListDetail'
 import DrawerNav from '@/components/DrawerNav'
 import NotFound from '@/components/NotFound'
+import Upload from '@/components/moaList/Upload'
 
 
 // Vue와 VueRouter 연결
@@ -62,6 +63,11 @@ const routes = [
   {
       path: '*',
       redirect: "/404"
+  },
+  {
+    path: '/upload',
+    name : Upload,
+    component : Upload
   },
     
 
