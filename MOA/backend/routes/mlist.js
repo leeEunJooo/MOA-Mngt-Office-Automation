@@ -187,34 +187,11 @@ var connection = conn.connection;
     connection.query('SELECT * FROM TBL_MOA_BAS WHERE FILE_SEQ='+id, function (err, rows) {
       if (err) throw err;
       console.log(rows);
-      // console.log("!@!@", Object.keys(rows[0])[0]);
-      // console.log("!@!@", Object.keys(rows[0]).indexOf[0]);
-      // console.log("!@!@", Object.keys(rows[0]).slice(0, 2));
-      // console.log("!@!@", Object.keys(rows[0]).find);
-      // console.log(rows[0].)
-      // for(let i=0; i<Object.keys(rows[0]).length; i++){
-      //   if(Object.keys(rows[0])[i].includes("_CD")){
-      //     // console.log(Object.keys(rows[0])[i]);
-      //     // console.log(i);
-      //     console.log("??????", Object.values(rows[0])[i]);
-      //     // console.log(Object.keys(rows[0])[i].)
-      //     connection.query('SELECT CD_NM FROM TBL_MOA_CD_BAS WHERE CD_ID = "'+ Object.values(rows[0])[i]+'"',function(err,row2){
-      //       if(err) throw err;
-      //       console.log(row2[0].CD_NM);
-      //       // console.log(rows[0][i]);.
-      //       // rows[0][i].values = row2[0].CD_NM;
-      //       Object.keys(rows[0])[i]=row2[0].CD_NM;
-      //       console.log(Object.values(rows[0])[i]);
-      //       // res.send(row2);
-      //     });
-      // }
-      // console.log(Object.keys(rows[0]).length);
-      // console.log(rows[0].CYCL_DATE_TYPE_CD);
-      // }
       res.send(rows);
     });
   });
 
+ 
 
 //코드성조회
   router.post('/codeselect/:cd_nm', function(req,res){
