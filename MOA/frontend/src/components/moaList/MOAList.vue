@@ -77,7 +77,6 @@ export default {
           {name: "수행시간", code: "CDC"},
           {name: "사용기술", code: "LDC"},
           {name: "자동화 명칭", code: "ETC2"},
-          {name: "메뉴얼", code: "ETC3"},
           {name: "전체검색", code: "ETC4"},
         ],
         headers: [
@@ -85,6 +84,8 @@ export default {
           { text: '작성자', value: 'TKCGR_NM' },
           { text: '업로드일', value: 'FIRST_REG_DATE'},
           { text: '최근수행시간', value: 'EXE_DATE' },
+          { text: '최근수행시간', value: 'EXE_DATE' },
+          { text: '실행', value: 'EXE_DATE' },
         ],
         search_select: '',
         search_text: '',
