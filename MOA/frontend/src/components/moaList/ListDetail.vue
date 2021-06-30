@@ -9,32 +9,32 @@
                 <li>
                     <div class="sm_title">담당자</div>
                     <div>
-                        <input v-model="detailInfo.RUSER_NM">
+                        <input v-model="detailInfo.TKCGR_NM">
                     </div>
                 </li>
                 <li>
                     <div class="sm_title">사용자</div>
                     <div>
-                        <input v-model="detailInfo.TKCGR_NM">
+                        <input v-model="detailInfo.RUSER_NM">
                     </div>
                 </li>
                 <li>
                     <div class="sm_title">작동시기</div>
                     <div>
-                        <input value="매달">
+                        <input v-model="detailInfo.CYCL_DATE_TYPE_CD">
                         <input v-model="detailInfo.DATA_EXE_TIME">
                     </div>
                 </li>
                 <li>
                     <div class="sm_title">대상시스템</div>
                     <div>
-                        <input v-model="detailInfo.EXE_SBST">
+                        <input v-model="detailInfo.SYS_DIV_CD">
                     </div>
                 </li>
                 <li>
                     <div class="sm_title">사용기술</div>
                     <div>
-                        <input v-model="detailInfo.L01">
+                        <input v-model="detailInfo.LANG_CD">
                     </div>
                 </li>
                 <li>
@@ -58,29 +58,29 @@
                 <li>
                     <div class="sm_title">실행후결과</div>
                     <div>
-                        <input v-model="detailInfo.OTPUT_SBST">
+                        <input v-model="detailInfo.RPY_RESLT_CD">
                     </div>
                 </li>
                 <li>
                     <div class="sm_title">Workaround</div>
-                    <input v-model="detailInfo.OTPUT_SBST">
+                    <input v-model="detailInfo.TROBL_SVC_TYPE_CD">
                 </li>
                 <li>
                     <div class="sm_title">매뉴얼여부</div>
                     <div>
-                        <input v-model="detailInfo.OTPUT_SBST">
+                        <input v-model="detailInfo.ATC_FILE_MANUAL_YN">
                     </div>
                 </li>
                 <li>
                     <div class="sm_title">매뉴얼파일</div>
                     <div>
-                        <input v-model="detailInfo.OTPUT_SBST">
+                        <input v-model="detailInfo.ATC_FILE_UPLD_PATH_NM">
                     </div>
                 </li>
                 <li>
                     <div class="sm_title">파일첨부</div>
                     <div>
-                        <input v-model="detailInfo.OTPUT_SBST">
+                        <input v-model="detailInfo.SROC_FILE_PATH_NM">
                     </div>
                 </li>
                 <li>
@@ -94,7 +94,7 @@
                 <li>
                     <div class="sm_title">실행시주의점</div>
                     <div class="textarea">
-                        <textarea v-model="detailInfo.ATTEN_MTR_SBST">
+                        <textarea v-model="detailInfo.EXE_SBST">
 
                         </textarea>
                     </div>
@@ -113,10 +113,14 @@
 export default {
     props : {
         Id : Number,
-        detailInfo : {}
+        detailInfo : {},
     },
 
-    
+    data:function(){
+        return {
+            cd_nm:"",
+        }
+    },
     methods:{
             getInfo : function(){
                 var id = this.$route.params.id
@@ -124,6 +128,27 @@ export default {
                 .then(
                 (res)=>{
                     this.detailInfo = res.data[0]
+                    console.log("detail",this.detailInfo);
+
+                    console.log(Object.keys(this.detailInfo).length);
+                    console.log(Object.keys(this.detailInfo)[0]);
+
+                    //코드성 변경
+                    for(let i=0; i<Object.keys(this.detailInfo).length; i++){
+                        if(Object.keys(this.detailInfo)[i].includes("_CD")){
+                            console.log(Object.values(this.detailInfo)[i]);
+                            this.cd_nm = Object.values(this.detailInfo)[i];
+                            this.$http.post(`/api/mlist/codeselect/${Object.values(this.detailInfo)[i]}`)
+                            .then(
+                                (response)=>{
+                                    console.log("?????",response.data[0].CD_NM);
+                                    this.detailInfo[Object.keys(this.detailInfo)[i]] = response.data[0].CD_NM;
+                                    console.log("this.detailInfo",Object.values(this.detailInfo)[i]);
+                                }
+                            )   
+                        }
+                    }
+ 
             });
         }
     },

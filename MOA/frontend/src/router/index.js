@@ -6,6 +6,7 @@ import DashBoard from '@/components/DashBoard'
 import MOAList from '@/components/moaList/MOAList'
 import ListDetail from '@/components/moaList/ListDetail'
 import DrawerNav from '@/components/DrawerNav'
+import NotFound from '@/components/NotFound'
 
 
 // Vue와 VueRouter 연결
@@ -39,6 +40,10 @@ const routes = [
         path: 'moalist',
         component: MOAList
       },
+      {
+        path: 'addfile',
+        component: MOAList
+      },
     ]
   },
 
@@ -49,12 +54,21 @@ const routes = [
       default:  ListDetail
     }
   },
+  {
+        path: "/404",
+        name: "notFound",
+        component: NotFound
+    },
+  {
+      path: '*',
+      redirect: "/404"
+  },
+    
 
 ]
 
 // VueRouter에 route를 등록하고 설정한다.
 const router = new VueRouter({
-  mode: 'history',
   routes
 })
 
