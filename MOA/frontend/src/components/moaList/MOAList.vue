@@ -11,16 +11,17 @@
                 class="search_box1"
                 :items="items"
                 item-text="name"
-                item-value="idx"
+                item-value="code"
                 label="검색기준"
                 solo
+                return-object
             ></v-select>
 
             <v-text-field
                 v-model="search_text"
                 class="search_box2"
-                label="%1팀%"
-                placeholder="%1팀%"
+                label="1팀"
+                placeholder="1팀"
                 solo
             ></v-text-field>
 
@@ -31,6 +32,7 @@
                 Search
             </v-btn>
             <v-btn
+                v-on:click="addfile"
                 class="addfile_btn"
                 height="32px">
                 Add File
@@ -70,14 +72,14 @@ export default {
         date:"",
         items: [
           // '팀', '담당자', '대상시스템', '수행시간', '사용기술', '자동화 명칭', '매뉴얼', '전체검색'],
-          {name: "팀", idx: "TDC"},
-          {name: "담당자", idx: "ETC"},
-          {name: "대상시스템", idx: "SYD"},
-          {name: "수행시간", idx: "CDC"},
-          {name: "사용기술", idx: "LDC"},
-          {name: "자동화 명칭", idx: "ETC"},
-          {name: "메뉴얼", idx: "ETC"},
-          {name: "전체검색", idx: "ETC"},
+          {name: "팀", code: "TDC"},
+          {name: "담당자", code: "ETC1"},
+          {name: "대상시스템", code: "SYD"},
+          {name: "수행시간", code: "CDC"},
+          {name: "사용기술", code: "LDC"},
+          {name: "자동화 명칭", code: "ETC2"},
+          // {name: "메뉴얼", code: "ETC3"},
+          {name: "전체검색", code: "ETC3"},
         ],
         headers: [
           { text: '자동화파일', value: 'NTCART_TITLE_NM' },
@@ -112,10 +114,9 @@ export default {
       
       handleClick: function(items) {
         let routeData = this.$router.resolve({
-
-                                              name: 'listdetail',
-                                              params: {id: items.FILE_SEQ}
-                                            });
+          name: 'listdetail',
+          params: {id: items.FILE_SEQ}
+         });
 
           
         window.open(routeData.href, "_blank","width=680, height=850, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
@@ -125,7 +126,7 @@ export default {
       },
       
       search: function(){
-        if(this.search_select == "대상시스템") this.search_select = "S01";
+        // if(this.search_select == "대상시스템") this.search_select = "S01";
         console.log("!!!!!!!!!!!!!!!!!!!!!", this.search_select);
         console.log("@@@@@@@@@@@@@@@@@@@@@", this.search_text);
         this.$http.post("/api/mlist/search",{
@@ -135,19 +136,46 @@ export default {
         .then(
           (response)=>{
             console.log("#################", response);
+            console.log("response.data", response.data);
+            if(response.data == "not found"){
+              alert("검색한 단어는 존재하지 않습니다.");
+              this.moa_list=[];
+            }else{
+            this.moa_list = response.data;
+            for(let i = 0; i < this.moa_list.length; i++) {
+              this.moa_list[i].FIRST_REG_DATE = dayjs(this.moa_list[i].FIRST_REG_DATE).format('YYYY-MM-DD');
+              // console.log(this.moa_list[i].EXE_DATE);
+              if(this.moa_list[i].EXE_DATE != '0000-00-00 00:00:00'){
+                this.moa_list[i].EXE_DATE = dayjs(this.moa_list[i].EXE_DATE).format('YYYY-MM-DD HH:mm:ss');
+              }
+              // console.log(this.moa_list[i].EXE_DATE);
+            }
+            }
           }
         )
       }
     },
+
+    addfile: function(){
+      let routeData = this.$router.resolve({
+                                              name: 'listdetail',
+                                              
+                                            });
+      window.open(routeData.href, "_blank","width=680, height=850, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
+
+    }
     
   }
 </script>
 
 <style>
+.v-text-field.v-text-field--solo:not(.v-text-field--solo-flat) > .v-input__control > .v-input__slot{
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16) !important;
+}
 .moalist{
   width:100%;
-    padding:70px 70px 0px 70px;
-    height: fit-content;
+  padding:70px 70px 0px 70px;
+  height: fit-content;
 }
 .moalist .title-section{
     width:100%;
@@ -165,36 +193,47 @@ export default {
     font-weight: bold !important;
 }
 .list-btn-row-box{
-  max-width:1200px;
-  margin-top:100px;
+  margin-top:60px;
+  width:100%;
+}
+.moalist .v-input__slot{
+  min-height: 0px !important;
+  height: 40px;
 }
 .list-btn-row-box .search_box1,
 .list-btn-row-box .search_box2,
 .list-btn-row-box .search_btn,
 .list-btn-row-box .addfile_btn{
   display: inline-block;
+  
 }
 .list-btn-row-box .search_box1{
-    width: 10%;
+  width: 120px !important;
+  height: 45px !important;
 }
 .list-btn-row-box .search_box2{
     width: 30%;
     margin: 0px 10px;
 }
 .list-btn-row-box .search_btn{
-    width: 3%;
+    width: 90px !important;
+    height: 40px !important;
     background-color: #f54479 !important;
-    color : white !important
+    color : white !important;
+    padding: 10px 15px !important;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16);
+    
 }
 .list-btn-row-box .addfile_btn{
-    width: 100px !important;
-    height: 45px !important;
+    width: 90px !important;
+    height: 40px !important;
     background-color: #5244f5 !important;
     color : white !important;
     float:right;
-    padding: 11px 25px 11px 21px;
-    border-radius: 10px;
-    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    padding: 5px 15px !important;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16);
 }
 .v-input__slot{
   min-height: 45% !important;
@@ -202,5 +241,6 @@ export default {
 .data_table{
   text-align: center;
 }
+
 
 </style>

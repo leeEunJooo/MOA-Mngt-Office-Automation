@@ -3,6 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+// var multer = require('multer');
+// var upload = multer({dest:'uploads/'})
 
 var session = require('express-session'); // npm install express-session
 var FileStore = require('session-file-store')(session) // npm install session-file-store
@@ -10,6 +12,7 @@ var FileStore = require('session-file-store')(session) // npm install session-fi
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/musers');
 var listRouter = require('./routes/mlist');
+var uploadRouter = require('./routes/upload');
 
 var app = express();
 
@@ -39,6 +42,7 @@ app.use('/', indexRouter);
 // app.use('/users', usersRouter);
 app.use('/api/musers', usersRouter);
 app.use('/api/mlist', listRouter);
+app.use('/api/upload', uploadRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
