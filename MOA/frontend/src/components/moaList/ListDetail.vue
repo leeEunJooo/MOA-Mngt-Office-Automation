@@ -143,7 +143,7 @@ export default {
                                 (response)=>{
                                     console.log("?????",response.data[0].CD_NM);
                                     this.detailInfo[Object.keys(this.detailInfo)[i]] = response.data[0].CD_NM;
-                                    console.log("this.detailInfo.CYCL_DATE_TYPE_CD",Object.values(this.detailInfo)[i]);
+                                    console.log("this.detailInfo",Object.values(this.detailInfo)[i]);
                                 }
                             )   
                         }
