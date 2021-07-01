@@ -166,6 +166,7 @@ props : {
 
 data:function(){
     return{
+        detail:{},
         users: "",
         detailInfo:{
             CUST_IDFY_SEQ:"",
@@ -209,36 +210,41 @@ data:function(){
 
 methods:{
     save: function(){
-        var checkY = document.querySelector('input[name="Y"]');
-        console.log(checkY);
-        checkY
+        // var checkY = document.querySelector('input[name="Y"]');
+        // console.log(checkY);
+        // check
 
-         //코드성 변경
-        for(let i=0; i<Object.keys(this.detailInfo).length; i++){
-            if(Object.keys(this.detailInfo)[i].includes("_CD")){
-                console.log(Object.values(this.detailInfo)[i]);
-                this.cd_nm = Object.values(this.detailInfo)[i];
-                this.$http.post(`/api/mlist/cdidselect/${Object.values(this.detailInfo)[i]}`)
-                .then(
-                    (response)=>{
-                        console.log("?????",response.data[0].CD_ID);
-                        this.detailInfo[Object.keys(this.detailInfo)[i]] = response.data[0].CD_ID;
-                        console.log("this.detailInfo",Object.values(this.detailInfo)[i]);
-                    }
-                )   
+            //코드성 변경
+            for(let i=0; i<Object.keys(this.detailInfo).length; i++){
+                if(Object.keys(this.detailInfo)[i].includes("_CD")){
+                    console.log(Object.values(this.detailInfo)[i]);
+                    // this.cd_nm = Object.values(this.detailInfo)[i];
+                    this.$http.post(`/api/mlist/cdidselect/${Object.values(this.detailInfo)[i]}`)
+                    .then(
+                        (response)=>{
+                            console.log("?????",response.data[0].CD_ID);
+                            this.detailInfo[Object.keys(this.detailInfo)[i]] = response.data[0].CD_ID;
+                            console.log("this.detailInfo",Object.values(this.detailInfo)[i]);
+                        }
+                    )   
+                }
             }
-        }
-
-        //그다음 순서
-        this.$http.post("/api/mlist/addFile", {
-            detailInfo: this.detailInfo,
-            users:this.users,
-        })
-        .then(
-            (res) => {
-                console.log(res);
-            }
-        )
+            console.log("....................",this.detailInfo);
+            this.detail = this.detailInfo;
+            console.log("/////////////////////",this.detail);
+    
+        
+            //그다음 순서\
+            this.$http.post("/api/mlist/addFile", {
+                detailInfo: this.detail,
+                users:this.users,
+            })
+            .then(
+                (res) => {
+                    console.log(res);
+                }
+            )
+        
     }
         
 },
