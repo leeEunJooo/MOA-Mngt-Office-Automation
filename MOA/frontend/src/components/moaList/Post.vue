@@ -1,4 +1,5 @@
 <template>
+<v-app>
 <div class="posting">
     <div class="post_title">
         <div class="ic_circle" >
@@ -18,19 +19,20 @@
                 <div class="sm_title">사용자</div>
                 <div>
                     <input class="typing"/>
-                    <!-- <v-select
-                    :items="team_div_cd"
-                    item-text="name"
-                    item-value="idx"
-                    item-color='#f2f3ff'
-                    solo
-                    return-object
-                  ></v-select> -->
+                    
                 </div>
             </li>
             <li>
-                    <div class="sm_title">진행단계</div>
-                    <input disabled>
+                <div class="sm_title">진행단계</div>
+                <!-- <input disabled> -->
+                <v-select
+                :items="items"
+                item-text="name"
+                item-value="idx"
+                item-color='#f2f3ff'
+                solo
+                return-object
+                ></v-select>
                 </li>
             <li>
                 <div class="sm_title">작동시기</div>
@@ -43,14 +45,7 @@
                 <div class="sm_title">대상시스템</div>
                 <div>
                     <input class="typing"/>
-                    <!-- <v-select
-                    :items="team_div_cd"
-                    item-text="name"
-                    item-value="idx"
-                    item-color='#f2f3ff'
-                    solo
-                    return-object
-                  ></v-select> -->
+                    
                 </div>
             </li>
             <li>
@@ -98,22 +93,15 @@
             <li>
                 <div class="sm_title">Workaround</div>
                 <input class="typing"/>
-                <!-- <v-select
-                    :items="team_div_cd"
-                    item-text="name"
-                    item-value="idx"
-                    item-color='#f2f3ff'
-                    solo
-                    return-object
-                  ></v-select> -->
+                
             </li>
             <li>
                 <div class="sm_title">매뉴얼여부</div>
                 <div>
                     <input type="checkbox" class="checkbox" name="Y" v-model="checkedY">
-                    <label>Y</label>
+                    <label>Y{{checkedY}}</label>
                     <input type="checkbox" class="checkbox" name="N" v-model="checkedN">
-                    <label>N</label>
+                    <label>N{{checkedN}}</label>
                 </div>
             </li>
             <li class="height_fit_content">
@@ -168,6 +156,7 @@
         <v-btn class="save">저장</v-btn>
     </div>
 </div>
+</v-app>
 </template>
 
 <script>
@@ -180,21 +169,8 @@ props : {
 },
 
 data:()=>({
-    team_div_cd: [
-        {name: "1팀",idx: "T01", idx2:"D01"},
-        {name: "2팀",idx: "T02", idx2:"D01"},
-        {name: "3팀",idx: "T03", idx2:"D01"}, 
-        {name: "4팀",idx: "T04", idx2:"D01"},
-        {name: "5팀",idx: "T05", idx2:"D02"},
-        {name: "6팀",idx: "T06", idx2:"D02"}, 
-        {name: "7팀",idx: "T07", idx2:"D02"},
-        {name: "8팀",idx: "T08", idx2:"D02"},
-        {name: "9팀",idx: "T09", idx2:"D03"}, 
-        {name: "10팀",idx: "T10", idx2:"D03"}, 
-        {name: "11팀",idx: "T11", idx2:"D03"},
-        {name: "12팀",idx: "T12", idx2:"D03"},
-        {name: "13팀",idx: "T13", idx2:"D03"},
-    ],
+    items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
+
     checkedY: false,
     checkedN: false
 }),
@@ -389,5 +365,27 @@ mounted(){
     background-color: #3b2fcb !important;
 }
 /* 선택박스 */
-
+    .posting .v-input__slot{
+        width: 510px !important;
+        height: 42px !important;
+        padding: 0px 10px;
+        border-radius: 6px;
+        box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.16);
+        background-color: #ffffff;
+        border-radius: 6px;
+        margin-top:0px !important;  
+        
+    }
+    .posting .v-input__control > .v-input__slot{
+        /* box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.16) !important; */
+    }
+    .posting .v-input{
+        /* margin-top:12px !important; */
+    }
+    .posting .v-input__control{
+        /* height: 50px !important; */
+    }
+    .posting .v-select__selections{
+        /* height: 50px !important; */
+    }
 </style>

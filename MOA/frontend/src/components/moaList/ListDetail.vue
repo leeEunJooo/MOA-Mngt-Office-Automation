@@ -122,6 +122,7 @@
             </ul>
 
         </div>
+        
         <div class="post_btn">
             <v-btn class="close">취소</v-btn>
         </div>
@@ -135,12 +136,22 @@ export default {
     props : {
         Id : Number,
         detailInfo : {},
+        
     },
 
     data:function(){
         return {
+            team_div_cd: [
+                {name: "1팀",idx: "T01", idx2:"D01"},
+                {name: "2팀",idx: "T02", idx2:"D01"},
+                {name: "3팀",idx: "T03", idx2:"D01"}, 
+                {name: "4팀",idx: "T04", idx2:"D01"},
+                {name: "5팀",idx: "T05", idx2:"D02"},
+                {name: "6팀",idx: "T06", idx2:"D02"}
+            ],
             cd_nm:"",
         }
+        
     },
     methods:{
             getInfo : function(){
@@ -299,5 +310,5 @@ export default {
         border: solid 3px #3b2fcb;
         background: white;
     }
-
+    
 </style>
