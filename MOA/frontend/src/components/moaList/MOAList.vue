@@ -160,7 +160,7 @@ export default {
         let routeData = this.$router.resolve({
                                               name: 'posting',
                                             });
-        window.open(routeData.href, "_blank","width=680, height=850, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
+        window.open(routeData.href, "_blank","width=700, height=850, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
 
     }
       

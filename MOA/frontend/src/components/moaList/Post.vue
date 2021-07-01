@@ -19,61 +19,74 @@
                 <div class="sm_title">사용자</div>
                 <div>
                     <input class="typing" v-model="detailInfo.RUSER_NM"/>
-                    <!-- <v-select
-                    :items="team_div_cd"
+                </div>
+            </li>
+            <li>
+                <div class="sm_title">진행단계</div>
+                <!-- <input class="typing" v-model="detailInfo.TRT_STEP_NM"/> -->
+                <v-select
+                    :items="select_stage"
                     item-text="name"
                     item-value="idx"
                     item-color='#f2f3ff'
                     solo
                     return-object
-                  ></v-select> -->
-                </div>
-            </li>
-            <li>
-                <div class="sm_title">진행단계</div>
-                <input class="typing" v-model="detailInfo.TRT_STEP_NM"/>
-                <!-- <v-select
-                :items="items"
-                item-text="name"
-                item-value="idx"
-                item-color='#f2f3ff'
-                solo
-                return-object
-                ></v-select> -->
+                  ></v-select>
                 </li>
             <li>
                 <div class="sm_title">작동시기</div>
-                <div>
-                        <input class="typing sm_typing" v-model="detailInfo.CYCL_DATE_TYPE_CD"/>
-                        <input class="typing sm_typing" v-model="detailInfo.DATA_EXE_TIME"/>
+                <div class="cycle">
+                        <!-- <input class="typing sm_typing" v-model="detailInfo.CYCL_DATE_TYPE_CD"/>
+                        <input class="typing sm_typing" v-model="detailInfo.DATA_EXE_TIME"/> -->
+                        <v-select
+                        :items="select_cycle"
+                        item-text="name"
+                        item-value="idx"
+                        item-color='#f2f3ff'
+                        solo
+                        return-object
+                        
+                        ></v-select>
+                        <v-select
+                        :items="select_cycle_detail"
+                        item-text="name"
+                        item-value="idx"
+                        item-color='#f2f3ff'
+                        solo
+                        return-object
+                        
+                        ></v-select>
+                        
+                        <input type="number" min="0" max="100" class="typing"/>
+                        <input type="number" min="0" max="100" class="typing"/>
                 </div>
             </li>
             <li>
                 <div class="sm_title">대상시스템</div>
                 <div>
-                    <input class="typing" v-model="detailInfo.SYS_DIV_CD"/>
-                    <!-- <v-select
-                    :items="team_div_cd"
+                    <!-- <input class="typing" v-model="detailInfo.SYS_DIV_CD"/> -->
+                    <v-select
+                    :items="select_target_system"
                     item-text="name"
                     item-value="idx"
                     item-color='#f2f3ff'
                     solo
                     return-object
-                  ></v-select> -->
+                  ></v-select>
                 </div>
             </li>
             <li>
                 <div class="sm_title">사용기술</div>
                 <div>
-                    <input class="typing" v-model="detailInfo.LANG_CD"/>
-                    <!-- <v-select
-                    :items="team_div_cd"
+                    <!-- <input class="typing" v-model="detailInfo.LANG_CD"/> -->
+                    <v-select
+                    :items="select_tech"
                     item-text="name"
                     item-value="idx"
                     item-color='#f2f3ff'
                     solo
                     return-object
-                  ></v-select> -->
+                  ></v-select>
                 </div>
             </li>
             <li>
@@ -84,7 +97,15 @@
             </li>
             <li>
                 <div class="sm_title">실행환경</div>
-                <input class="typing" v-model="detailInfo.CONN_EVN_DIV_CD">
+                <!-- <input class="typing" v-model="detailInfo.CONN_EVN_DIV_CD"> -->
+                <v-select
+                    :items="select_execution_env"
+                    item-text="name"
+                    item-value="idx"
+                    item-color='#f2f3ff'
+                    solo
+                    return-object
+                  ></v-select>
             </li>
             <li>
                 <div class="sm_title">Input</div>
@@ -106,15 +127,15 @@
             </li>
             <li>
                 <div class="sm_title">Workaround</div>
-                <input class="typing" v-model="detailInfo.TROBL_SVC_TYPE_CD"/>
-                <!-- <v-select
-                    :items="team_div_cd"
+                <!-- <input class="typing" v-model="detailInfo.TROBL_SVC_TYPE_CD"/> -->
+                <v-select
+                    :items="select_error_cure"
                     item-text="name"
                     item-value="idx"
                     item-color='#f2f3ff'
                     solo
                     return-object
-                  ></v-select> -->
+                  ></v-select>
             </li>
             <li>
                 <div class="sm_title">매뉴얼여부</div>
@@ -173,7 +194,7 @@
 
     </div>
     <div class="post_btn">
-        <v-btn class="close">취소</v-btn>
+        <v-btn class="close" v-on:click="close_browser">취소</v-btn>
         <v-btn class="save" v-on:click="save">저장</v-btn>
     </div>
 </div>
@@ -214,26 +235,42 @@ data:function(){
             ATC_FILE_MANUAL_YN:"N",
             ETC_SBST:"",
         },
-        team_div_cd: [
-        {name: "1팀",idx: "T01", idx2:"D01"},
-        {name: "2팀",idx: "T02", idx2:"D01"},
-        {name: "3팀",idx: "T03", idx2:"D01"}, 
-        {name: "4팀",idx: "T04", idx2:"D01"},
-        {name: "5팀",idx: "T05", idx2:"D02"},
-        {name: "6팀",idx: "T06", idx2:"D02"}, 
-        {name: "7팀",idx: "T07", idx2:"D02"},
-        {name: "8팀",idx: "T08", idx2:"D02"},
-        {name: "9팀",idx: "T09", idx2:"D03"}, 
-        {name: "10팀",idx: "T10", idx2:"D03"}, 
-        {name: "11팀",idx: "T11", idx2:"D03"},
-        {name: "12팀",idx: "T12", idx2:"D03"},
-        {name: "13팀",idx: "T13", idx2:"D03"},
 
-    ]
+        select_stage: [
+            {name: "1",cd: "T01"},
+            {name: "2",cd: "T02"},
+        ],
+        select_target_system: [
+            {name: "3",cd: "T01"},
+            {name: "4",cd: "T02"},
+        ],
+        select_tech: [
+            {name: "5",cd: "T01"},
+            {name: "6",cd: "T02"},
+        ],
+        select_execution_env: [
+            {name: "7",cd: "T01"},
+            {name: "8",cd: "T02"},
+        ],
+        select_error_cure: [
+            {name: "9",cd: "T01"},
+            {name: "10",cd: "T02"},
+        ],
+        select_cycle: [
+            {name: "11",cd: "T01"},
+            {name: "12",cd: "T02"},
+        ],
+        select_cycle_detail: [
+            {name: "13",cd: "T01"},
+            {name: "14",cd: "T02"},
+        ]
     }
 },
 
 methods:{
+    close_browser: function(){
+        window.close();
+    },
     save: function(){
         // var checkY = document.querySelector('input[name="Y"]');
         // console.log(checkY);
@@ -334,9 +371,11 @@ mounted(){
 }
 .posting .title{
     padding: 0px 15px;
+    
 }
 .posting .title:focus{
     outline:none;
+    
 }
 .posting .typing{
     width: 510px;
@@ -345,10 +384,15 @@ mounted(){
     border-radius: 6px;
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.16);
     background-color: #ffffff;
+    
 }
 .posting .typing:focus{
     outline: solid 1px #5d51eb;
-    border-radius: 6px;
+    border-radius: 6px; 
+}
+.posting .filebox1,
+.posting .filebox2{
+    display: block !important;
 }
 .posting .filebox1 .typing,
 .posting .filebox2 .typing{
@@ -394,7 +438,8 @@ mounted(){
     margin-left: 20px;
     border-bottom: solid 2.5px #5d51eb;
     font-family: AppleSDGothicNeoEB00;
-    font-size: 26px;
+    font-size: 27px !important;
+    font-weight: 700 !important;
     line-height: 1;
     letter-spacing: normal;
     text-align: left;
@@ -416,6 +461,7 @@ mounted(){
 }
 .post_contents ul li div{
     display: inline-block;
+    vertical-align: middle;
 }
 .post_contents ul li .sm_title{
     width:20%;
@@ -443,6 +489,7 @@ mounted(){
 }
 .posting .file_list{
     width: 100%;
+    
     margin: 10px 0px;
 } 
 .posting .checkbox{
@@ -460,6 +507,7 @@ mounted(){
     color: #3b3b3b;
 }
 .posting .file_hr{
+    
     opacity: 0.2;
     border: solid 0.5px #707070;
     margin-top:5px;
@@ -495,25 +543,53 @@ mounted(){
 /* 선택박스 */
     .posting .v-input__slot{
         width: 510px !important;
-        height: 42px !important;
+        max-height: 42px !important;
         padding: 0px 10px;
         border-radius: 6px;
-        box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.16);
+        box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.16) !important;
         background-color: #ffffff;
         border-radius: 6px;
         margin-top:0px !important;  
         
     }
-    .posting .v-input__control > .v-input__slot{
-        /* box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.16) !important; */
+    .posting .v-text-field input{
+        max-width: 0px !important;
     }
-    .posting .v-input{
-        /* margin-top:12px !important; */
+    .posting .v-text-field.v-text-field--enclosed:not(.v-text-field--rounded) > .v-input__control > .v-input__slot, .v-text-field.v-text-field--enclosed .v-text-field__details{
+        padding:0 !important;
     }
-    .posting .v-input__control{
-        /* height: 50px !important; */
+    .posting .v-input__append-inner{
+        float: right;
+        padding: 10px 20px;
     }
     .posting .v-select__selections{
-        /* height: 50px !important; */
+        float: left;
+        max-height: 40px !important;
+        padding: 5px 10px;
+    }
+    .posting .v-text-field.v-text-field--solo:not(.v-text-field--solo-flat) > .v-input__control > .v-input__slot {
+        box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.16) !important;
+    }
+
+    /* 작동시기 */
+    .posting .cycle .v-input__slot{
+        width: 120px !important;
+        max-height: 42px !important;
+        padding: 0px 10px;
+        border-radius: 6px;
+        box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.16) !important;
+        background-color: #ffffff;
+        border-radius: 6px;
+        margin-top:0px !important;  
+        vertical-align: middle !important;
+        margin-right: 10px;
+    }
+    .posting .cycle .typing{
+         width: 120px !important;
+         margin-right: 10px;    
+    }   
+    .posting .v-input__control{
+        height: 42px !important;
+        margin-top: 4px;
     }
 </style>
