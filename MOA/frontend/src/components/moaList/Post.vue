@@ -31,15 +31,15 @@
             </li>
             <li>
                 <div class="sm_title">진행단계</div>
-                <!-- <input disabled> -->
-                <v-select
+                <input class="typing" v-model="detailInfo.TRT_STEP_NM"/>
+                <!-- <v-select
                 :items="items"
                 item-text="name"
                 item-value="idx"
                 item-color='#f2f3ff'
                 solo
                 return-object
-                ></v-select>
+                ></v-select> -->
                 </li>
             <li>
                 <div class="sm_title">작동시기</div>
@@ -84,7 +84,7 @@
             </li>
             <li>
                 <div class="sm_title">실행환경</div>
-                <input disabled>
+                <input class="typing" v-model="detailInfo.CONN_EVN_DIV_CD">
             </li>
             <li>
                 <div class="sm_title">Input</div>
@@ -165,7 +165,7 @@
             <li class="height_fit_content" style="margin-top:15px">
                 <div class="sm_title" style="margin: 5px 0px">기타사항</div>
                 <div class="textarea">
-                    <textarea >
+                    <textarea  v-model="detailInfo.ETC_SBST">
                     </textarea>
                 </div>
             </li>  
@@ -191,7 +191,6 @@ props : {
 
 data:function(){
     return{
-        detail:{},
         users: "",
         detailInfo:{
             CUST_IDFY_SEQ:"",
@@ -211,8 +210,9 @@ data:function(){
             ATTEN_MTR_SBST:"",
             DOW_NM:"",
             TRT_STEP_NM:"",
-            CONN_EVN_DIV_CD:"로컬",
+            CONN_EVN_DIV_CD:"",
             ATC_FILE_MANUAL_YN:"N",
+            ETC_SBST:"",
         },
         team_div_cd: [
         {name: "1팀",idx: "T01", idx2:"D01"},
@@ -254,14 +254,20 @@ methods:{
                     )   
                 }
             }
-            console.log("....................",this.detailInfo);
-            this.detail = this.detailInfo;
-            console.log("/////////////////////",this.detail);
-    
-        
+            //등록하면 유저에 UPLD_CASCNT값 증가(ok)
+            this.$http.post("/api/musers/uploadUpdate",{
+                users:this.users
+            })
+            .then(
+                (res)=>{
+                    console.log(res);
+                }
+            )
+
+
             //그다음 순서\
             this.$http.post("/api/mlist/addFile", {
-                detailInfo: this.detail,
+                detailInfo: this.detailInfo,
                 users:this.users,
             })
             .then(
@@ -269,6 +275,7 @@ methods:{
                     console.log(res);
                 }
             )
+
         
     }
         
@@ -292,6 +299,19 @@ mounted(){
            this.users = response.data[0];
             }
         )
+    
+    //for문으로 묶어준다
+    // this.$http
+    // .post("/api/mlist/searchcdinfo",{
+
+    // })
+    // .then(
+    //     (response) => {
+    //         console.log("response", response.data[0]);
+
+    //     }
+    // )
+    //여기까지
     
 }
 

@@ -160,4 +160,19 @@ router.post('/pwReset', function (req, res) {
   
 });
 
+//업로드 업데이트
+router.post('/uploadUpdate', function(req,res){
+  const user = {
+    'CUST_IDFY_SEQ': req.body.users.CUST_IDFY_SEQ,
+  };
+  console.log(user.CUST_IDFY_SEQ);
+  connection.query('UPDATE TBL_MOA_USER_BAS SET UPLD_CASCNT = UPLD_CASCNT+ 1 where CUST_IDFY_SEQ = "' + user.CUST_IDFY_SEQ + '"', user, function (err, row2){
+    if(err) throw err;
+    console.log(row2);
+    res.send(row2);
+  });
+});
+
+
+
 module.exports = router;

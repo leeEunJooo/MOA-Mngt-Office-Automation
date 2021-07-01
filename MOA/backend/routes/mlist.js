@@ -29,7 +29,7 @@ var connection = conn.connection;
   });
 
   //목록 등록
-  router.post('/addFile', async function(req, res){
+  router.post('/addFile',  function(req, res){
     const detailInfo = {
       'CUST_IDFY_SEQ':req.body.users.CUST_IDFY_SEQ,
       'SROC_FILE_PATH_NM':req.body.detailInfo.SROC_FILE_PATH_NM,
@@ -50,7 +50,7 @@ var connection = conn.connection;
       'CONN_EVN_DIV_CD':req.body.detailInfo.CONN_EVN_DIV_CD,
     };
     console.log('cust_idfy_seq', detailInfo);
-    connection.query('INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE) VALUES ("' + detailInfo.CUST_IDFY_SEQ + '","' + "" + '", "' + detailInfo.LANG_CD + '", "' + detailInfo.SYS_DIV_CD + '","' + detailInfo.CYCL_DATE_TYPE_CD + '","' + "월" + '","' + detailInfo.DOW_NM +'","' + detailInfo.DATA_EXE_TIME +'","' + detailInfo.RPY_RESLT_CD+'","' + detailInfo.TROBL_SVC_TYPE_CD  +'","' + detailInfo.INPUT_VAL +'","' + detailInfo.TRT_STEP_NM +'","' + detailInfo.CONN_EVN_DIV_CD +'","' + detailInfo.ATTEN_MTR_SBST+'","' + detailInfo.ATC_FILE_MANUAL_YN+'","' + "" +'","' + detailInfo.OTPUT_SBST +'","' + "" +'","' + detailInfo.EXE_SBST +'","' + detailInfo.NTCART_TITLE_NM +'","' + detailInfo.TKCGR_NM+'","' + sysdate() +'","' + sysdate()+'","' + "9999-12-31"+ '")', detailInfo, function (err, row){
+    connection.query('INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE) VALUES ("' + detailInfo.CUST_IDFY_SEQ + '"," ", "' + detailInfo.LANG_CD + '", "' + detailInfo.SYS_DIV_CD + '","' + detailInfo.CYCL_DATE_TYPE_CD + '","' + 월 + '","' + detailInfo.DOW_NM +'","' + detailInfo.DATA_EXE_TIME +'","' + detailInfo.RPY_RESLT_CD+'","' + detailInfo.TROBL_SVC_TYPE_CD  +'","' + detailInfo.INPUT_VAL +'","' + detailInfo.TRT_STEP_NM +'","' + detailInfo.CONN_EVN_DIV_CD +'","' + detailInfo.ATTEN_MTR_SBST+'","' + detailInfo.ATC_FILE_MANUAL_YN+'"," ","' + detailInfo.OTPUT_SBST +'"," ","' + detailInfo.EXE_SBST +'","' + detailInfo.NTCART_TITLE_NM +'","' + detailInfo.TKCGR_NM+'","' + sysdate() +'","' + sysdate()+'","' + 9999-12-31+ '")', detailInfo, function (err, row){
       if(err) throw err;
       console.log(row);
       res.send(row);

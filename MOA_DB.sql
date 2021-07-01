@@ -16,6 +16,7 @@ EMP_POS_DIV_CD VARCHAR(3) NOT NULL
 );
 
 select * from TBL_MOA_USER_BAS;
+update tbl_moa_user_bas set upld_cascnt +=1 where cust_idfy_seq = 3;
 
 -- 사용자 테이블 데이터 INSERT
 INSERT INTO TBL_MOA_USER_BAS(CUST_IDFY_SEQ, USER_ID, USER_PWD, USER_TEL_NO, USER_NM, UPLD_CASCNT, TEAM_DIV_CD, EMP_POS_DIV_CD) 
@@ -71,7 +72,7 @@ sysdate(), sysdate(), '9999-12-31');
 
 select * from tbl_moa_bas;
 
-SELECT * FROM TBL_MOA_BAS WHERE FILE_SEQ= 2 AND column_name like "%_cd"
+SELECT * FROM TBL_MOA_BAS WHERE FILE_SEQ= 2 AND column_name like "%_cd";
 
 SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,'0000-00-00 00:00:00') as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where m.cust_idfy_seq = 3;
 
@@ -227,3 +228,5 @@ INSERT INTO TBL_MOA_CD_BAS(ITG_CD_GROUP_ID, ITG_CD_GROUP_NM, CD_ID, CD_NM) VALUE
 
 INSERT INTO TBL_MOA_CD_BAS(ITG_CD_GROUP_ID, ITG_CD_GROUP_NM, CD_ID, CD_NM) VALUES ('CEC', '접속환경', 'E01', '로컬');
 INSERT INTO TBL_MOA_CD_BAS(ITG_CD_GROUP_ID, ITG_CD_GROUP_NM, CD_ID, CD_NM) VALUES ('CEC', '접속환경', 'E02', '사외망');
+
+select * from TBL_MOA_CD_BAS;
