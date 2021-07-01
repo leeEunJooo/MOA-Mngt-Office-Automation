@@ -29,10 +29,14 @@
                 </div>
             </li>
             <li>
+                    <div class="sm_title">진행단계</div>
+                    <input disabled>
+                </li>
+            <li>
                 <div class="sm_title">작동시기</div>
                 <div>
-                        <input class="typing sm_typing"/>
-                        <input class="typing sm_typing"/>
+                    <input class="typing sm_typing"/>
+                    <input class="typing sm_typing"/>
                 </div>
             </li>
             <li>
@@ -70,6 +74,10 @@
                 </div>
             </li>
             <li>
+                <div class="sm_title">실행환경</div>
+                <input disabled>
+            </li>
+            <li>
                 <div class="sm_title">Input</div>
                 <div>
                     <input class="typing"/>
@@ -102,9 +110,9 @@
             <li>
                 <div class="sm_title">매뉴얼여부</div>
                 <div>
-                    <input type="checkbox" class="checkbox">
+                    <input type="checkbox" class="checkbox" name="Y" v-model="checkedY">
                     <label>Y</label>
-                    <input type="checkbox" class="checkbox">
+                    <input type="checkbox" class="checkbox" name="N" v-model="checkedN">
                     <label>N</label>
                 </div>
             </li>
@@ -144,7 +152,14 @@
                     <textarea >
                     </textarea>
                 </div>
-            </li> 
+            </li>
+            <li class="height_fit_content" style="margin-top:15px">
+                <div class="sm_title" style="margin: 5px 0px">기타사항</div>
+                <div class="textarea">
+                    <textarea >
+                    </textarea>
+                </div>
+            </li>  
         </ul>
 
     </div>
@@ -179,17 +194,21 @@ data:()=>({
         {name: "11팀",idx: "T11", idx2:"D03"},
         {name: "12팀",idx: "T12", idx2:"D03"},
         {name: "13팀",idx: "T13", idx2:"D03"},
-
-    ]
+    ],
+    checkedY: false,
+    checkedN: false
 }),
 methods:{
-        
+
 },
+
 created() {
     this.getInfo();
+    
 },
 mounted(){
     console.log(this.detailInfo);
+
 }
 
 
@@ -211,7 +230,6 @@ mounted(){
 }
 .posting .title{
     padding: 0px 15px;
-    
 }
 .posting .title:focus{
     outline:none;
@@ -224,7 +242,6 @@ mounted(){
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.16);
     background-color: #ffffff;
 }
-
 .posting .typing:focus{
     outline: solid 1px #5d51eb;
     border-radius: 6px;

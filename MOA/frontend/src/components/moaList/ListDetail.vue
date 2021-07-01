@@ -21,6 +21,10 @@
                     </div>
                 </li>
                 <li>
+                    <div class="sm_title">잔행단계</div>
+                    <input v-model="detailInfo.TROBL_SVC_TYPE_CD" disabled>
+                </li>
+                <li>
                     <div class="sm_title">작동시기</div>
                     <div>
                          <input v-model="detailInfo.CYCL_DATE_TYPE_CD" disabled>
@@ -44,6 +48,10 @@
                     <div>
                         <input v-model="detailInfo.EXE_SBST" disabled>
                     </div>
+                </li>
+                <li>
+                    <div class="sm_title">실행환경</div>
+                    <input v-model="detailInfo.TROBL_SVC_TYPE_CD" disabled>
                 </li>
                 <li>
                     <div class="sm_title">Input</div>
@@ -104,6 +112,13 @@
                         </textarea>
                     </div>
                 </li> 
+                <li class="height_fit_content" style="margin-top:15px">
+                    <div class="sm_title" style="margin: 5px 0px">기타사항</div>
+                    <div class="textarea">
+                        <textarea v-model="detailInfo.EXE_SBST" disabled>
+                        </textarea>
+                    </div>
+                </li>
             </ul>
 
         </div>
