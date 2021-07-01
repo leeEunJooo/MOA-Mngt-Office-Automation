@@ -21,6 +21,10 @@
                     </div>
                 </li>
                 <li>
+                    <div class="sm_title">잔행단계</div>
+                    <input v-model="detailInfo.TROBL_SVC_TYPE_CD" disabled>
+                </li>
+                <li>
                     <div class="sm_title">작동시기</div>
                     <div>
                          <input v-model="detailInfo.CYCL_DATE_TYPE_CD" disabled>
@@ -44,6 +48,10 @@
                     <div>
                         <input v-model="detailInfo.EXE_SBST" disabled>
                     </div>
+                </li>
+                <li>
+                    <div class="sm_title">실행환경</div>
+                    <input v-model="detailInfo.TROBL_SVC_TYPE_CD" disabled>
                 </li>
                 <li>
                     <div class="sm_title">Input</div>
@@ -104,9 +112,17 @@
                         </textarea>
                     </div>
                 </li> 
+                <li class="height_fit_content" style="margin-top:15px">
+                    <div class="sm_title" style="margin: 5px 0px">기타사항</div>
+                    <div class="textarea">
+                        <textarea v-model="detailInfo.EXE_SBST" disabled>
+                        </textarea>
+                    </div>
+                </li>
             </ul>
 
         </div>
+        
         <div class="post_btn">
             <v-btn class="close">취소</v-btn>
         </div>
@@ -120,12 +136,22 @@ export default {
     props : {
         Id : Number,
         detailInfo : {},
+        
     },
 
     data:function(){
         return {
+            team_div_cd: [
+                {name: "1팀",idx: "T01", idx2:"D01"},
+                {name: "2팀",idx: "T02", idx2:"D01"},
+                {name: "3팀",idx: "T03", idx2:"D01"}, 
+                {name: "4팀",idx: "T04", idx2:"D01"},
+                {name: "5팀",idx: "T05", idx2:"D02"},
+                {name: "6팀",idx: "T06", idx2:"D02"}
+            ],
             cd_nm:"",
         }
+        
     },
     methods:{
             getInfo : function(){
@@ -284,5 +310,5 @@ export default {
         border: solid 3px #3b2fcb;
         background: white;
     }
-
+    
 </style>

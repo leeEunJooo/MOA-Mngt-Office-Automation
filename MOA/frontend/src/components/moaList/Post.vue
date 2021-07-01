@@ -1,4 +1,5 @@
 <template>
+<v-app>
 <div class="posting">
     <div class="post_title">
         <div class="ic_circle" >
@@ -28,6 +29,18 @@
                   ></v-select> -->
                 </div>
             </li>
+            <li>
+                <div class="sm_title">진행단계</div>
+                <!-- <input disabled> -->
+                <v-select
+                :items="items"
+                item-text="name"
+                item-value="idx"
+                item-color='#f2f3ff'
+                solo
+                return-object
+                ></v-select>
+                </li>
             <li>
                 <div class="sm_title">작동시기</div>
                 <div>
@@ -70,6 +83,10 @@
                 </div>
             </li>
             <li>
+                <div class="sm_title">실행환경</div>
+                <input disabled>
+            </li>
+            <li>
                 <div class="sm_title">Input</div>
                 <div>
                     <input class="typing" v-model="detailInfo.INPUT_VAL"/>
@@ -102,10 +119,10 @@
             <li>
                 <div class="sm_title">매뉴얼여부</div>
                 <div>
-                    <input type="checkbox" class="checkbox" name="Y">
-                    <label>Y</label>
-                    <input type="checkbox" class="checkbox" name="N">
-                    <label>N</label>
+                    <input type="checkbox" class="checkbox" name="Y" v-model="checkedY">
+                    <label>Y{{checkedY}}</label>
+                    <input type="checkbox" class="checkbox" name="N" v-model="checkedN">
+                    <label>N{{checkedN}}</label>
                 </div>
             </li>
             <li class="height_fit_content">
@@ -144,7 +161,14 @@
                     <textarea  v-model="detailInfo.ATTEN_MTR_SBST">
                     </textarea>
                 </div>
-            </li> 
+            </li>
+            <li class="height_fit_content" style="margin-top:15px">
+                <div class="sm_title" style="margin: 5px 0px">기타사항</div>
+                <div class="textarea">
+                    <textarea >
+                    </textarea>
+                </div>
+            </li>  
         </ul>
 
     </div>
@@ -153,6 +177,7 @@
         <v-btn class="save" v-on:click="save">저장</v-btn>
     </div>
 </div>
+</v-app>
 </template>
 
 <script>
@@ -248,8 +273,10 @@ methods:{
     }
         
 },
+
 created() {
     this.getInfo();
+    
 },
 mounted(){
     console.log(this.detailInfo);
@@ -287,7 +314,6 @@ mounted(){
 }
 .posting .title{
     padding: 0px 15px;
-    
 }
 .posting .title:focus{
     outline:none;
@@ -300,7 +326,6 @@ mounted(){
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.16);
     background-color: #ffffff;
 }
-
 .posting .typing:focus{
     outline: solid 1px #5d51eb;
     border-radius: 6px;
@@ -448,5 +473,27 @@ mounted(){
     background-color: #3b2fcb !important;
 }
 /* 선택박스 */
-
+    .posting .v-input__slot{
+        width: 510px !important;
+        height: 42px !important;
+        padding: 0px 10px;
+        border-radius: 6px;
+        box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.16);
+        background-color: #ffffff;
+        border-radius: 6px;
+        margin-top:0px !important;  
+        
+    }
+    .posting .v-input__control > .v-input__slot{
+        /* box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.16) !important; */
+    }
+    .posting .v-input{
+        /* margin-top:12px !important; */
+    }
+    .posting .v-input__control{
+        /* height: 50px !important; */
+    }
+    .posting .v-select__selections{
+        /* height: 50px !important; */
+    }
 </style>
