@@ -148,9 +148,11 @@
             </li>
             <li class="height_fit_content">
                 <div class="sm_title" style="margin-bottom:5px">매뉴얼파일</div>
+                
                 <v-btn class="addfilebtn">
                     <img src="../../assets/img/paperclip.png" class=""/>
-                </v-btn>
+                </v-btn>    
+                
                 <!-- 매뉴얼파일 리스트 -->
                 <div class="filebox1">
                     <input class="typing file_list" disabled/>
