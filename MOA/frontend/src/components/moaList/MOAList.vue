@@ -86,9 +86,11 @@ export default {
           { text: '작성자', value: 'TKCGR_NM' },
           { text: '업로드일', value: 'FIRST_REG_DATE'},
           { text: '최근수행시간', value: 'EXE_DATE' },
+          { text: '', value: 'exe_btn' }
         ],
         search_select: '',
         search_text: '',
+        exe_btn:'s',
       };
     },
 
@@ -153,17 +155,18 @@ export default {
             }
           }
         )
-      }
-    },
-
-    addfile: function(){
-      let routeData = this.$router.resolve({
-                                              name: 'listdetail',
-                                              
+      },
+      addfile: function(){
+        let routeData = this.$router.resolve({
+                                              name: 'posting',
                                             });
-      window.open(routeData.href, "_blank","width=680, height=850, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
+        window.open(routeData.href, "_blank","width=680, height=850, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
 
     }
+      
+    },
+
+    
     
   }
 </script>
@@ -240,6 +243,9 @@ export default {
 }
 .data_table{
   text-align: center;
+}
+.data_table span{
+  font-size: 14px;
 }
 
 
