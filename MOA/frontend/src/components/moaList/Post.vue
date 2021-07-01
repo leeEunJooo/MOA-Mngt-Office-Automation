@@ -4,20 +4,20 @@
         <div class="ic_circle" >
             <img src="../../assets/img/folder.png" class="folder_ic"/>
         </div>
-        <input class="title" placeholder="자동화 제목을 입력해 주세요"/>
+        <input class="title" placeholder="자동화 제목을 입력해 주세요" v-model="detailInfo.NTCART_TITLE_NM"/>
     </div>
     <div class="post_contents">
         <ul>
             <li>
                 <div class="sm_title">담당자</div>
                 <div>
-                    <input class="typing" />
+                    <input v-model="users.USER_NM" class="typing" disabled/>
                 </div>
             </li>
             <li>
                 <div class="sm_title">사용자</div>
                 <div>
-                    <input class="typing"/>
+                    <input class="typing" v-model="detailInfo.RUSER_NM"/>
                     <!-- <v-select
                     :items="team_div_cd"
                     item-text="name"
@@ -31,14 +31,14 @@
             <li>
                 <div class="sm_title">작동시기</div>
                 <div>
-                        <input class="typing sm_typing"/>
-                        <input class="typing sm_typing"/>
+                        <input class="typing sm_typing" v-model="detailInfo.CYCL_DATE_TYPE_CD"/>
+                        <input class="typing sm_typing" v-model="detailInfo.DATA_EXE_TIME"/>
                 </div>
             </li>
             <li>
                 <div class="sm_title">대상시스템</div>
                 <div>
-                    <input class="typing"/>
+                    <input class="typing" v-model="detailInfo.SYS_DIV_CD"/>
                     <!-- <v-select
                     :items="team_div_cd"
                     item-text="name"
@@ -52,7 +52,7 @@
             <li>
                 <div class="sm_title">사용기술</div>
                 <div>
-                    <input class="typing"/>
+                    <input class="typing" v-model="detailInfo.LANG_CD"/>
                     <!-- <v-select
                     :items="team_div_cd"
                     item-text="name"
@@ -66,30 +66,30 @@
             <li>
                 <div class="sm_title">실행방법</div>
                 <div>
-                    <input class="typing"/>
+                    <input class="typing" v-model="detailInfo.EXE_SBST"/>
                 </div>
             </li>
             <li>
                 <div class="sm_title">Input</div>
                 <div>
-                    <input class="typing"/>
+                    <input class="typing" v-model="detailInfo.INPUT_VAL"/>
                 </div>
             </li>
             <li>
                 <div class="sm_title">Output</div>
                 <div>
-                    <input class="typing"/>
+                    <input class="typing" v-model="detailInfo.OTPUT_SBST"/>
                 </div>
             </li>
             <li>
                 <div class="sm_title">실행후결과</div>
                 <div>
-                    <input class="typing"/>
+                    <input class="typing" v-model="detailInfo.RPY_RESLT_CD"/>
                 </div>
             </li>
             <li>
                 <div class="sm_title">Workaround</div>
-                <input class="typing"/>
+                <input class="typing" v-model="detailInfo.TROBL_SVC_TYPE_CD"/>
                 <!-- <v-select
                     :items="team_div_cd"
                     item-text="name"
@@ -102,9 +102,9 @@
             <li>
                 <div class="sm_title">매뉴얼여부</div>
                 <div>
-                    <input type="checkbox" class="checkbox">
+                    <input type="checkbox" class="checkbox" name="Y">
                     <label>Y</label>
-                    <input type="checkbox" class="checkbox">
+                    <input type="checkbox" class="checkbox" name="N">
                     <label>N</label>
                 </div>
             </li>
@@ -133,7 +133,7 @@
             <li class="height_fit_content" style="margin-top:15px">
                 <div class="sm_title" style="margin: 5px 0px">상세설명</div>
                 <div class="textarea">
-                    <textarea>
+                    <textarea v-model="detailInfo.ATTEN_MTR_SBST">
 
                     </textarea>
                 </div>
@@ -141,7 +141,7 @@
             <li class="height_fit_content" style="margin-top:15px">
                 <div class="sm_title" style="margin: 5px 0px">실행시주의점</div>
                 <div class="textarea">
-                    <textarea >
+                    <textarea  v-model="detailInfo.ATTEN_MTR_SBST">
                     </textarea>
                 </div>
             </li> 
@@ -150,7 +150,7 @@
     </div>
     <div class="post_btn">
         <v-btn class="close">취소</v-btn>
-        <v-btn class="save">저장</v-btn>
+        <v-btn class="save" v-on:click="save">저장</v-btn>
     </div>
 </div>
 </template>
@@ -161,11 +161,34 @@
 export default {
 props : {
     Id : Number,
-    detailInfo : {},
+    // detailInfo : {},
 },
 
-data:()=>({
-    team_div_cd: [
+data:function(){
+    return{
+        users: "",
+        detailInfo:{
+            CUST_IDFY_SEQ:"",
+            SROC_FILE_PATH_NM:"",
+            NTCART_TITLE_NM:"",
+            TKCGR_NM:"",
+            RUSER_NM:"",
+            CYCL_DATE_TYPE_CD:"",
+            DATA_EXE_TIME:"",
+            SYS_DIV_CD:"",
+            LANG_CD:"",
+            EXE_SBST:"",
+            INPUT_VAL:"",
+            OTPUT_SBST:"",
+            RPY_RESLT_CD:"",
+            TROBL_SVC_TYPE_CD:"",
+            ATTEN_MTR_SBST:"",
+            DOW_NM:"",
+            TRT_STEP_NM:"",
+            CONN_EVN_DIV_CD:"로컬",
+            ATC_FILE_MANUAL_YN:"N",
+        },
+        team_div_cd: [
         {name: "1팀",idx: "T01", idx2:"D01"},
         {name: "2팀",idx: "T02", idx2:"D01"},
         {name: "3팀",idx: "T03", idx2:"D01"}, 
@@ -181,8 +204,42 @@ data:()=>({
         {name: "13팀",idx: "T13", idx2:"D03"},
 
     ]
-}),
+    }
+},
+
 methods:{
+    save: function(){
+        var checkY = document.querySelector('input[name="Y"]');
+        console.log(checkY);
+        checkY
+
+         //코드성 변경
+        for(let i=0; i<Object.keys(this.detailInfo).length; i++){
+            if(Object.keys(this.detailInfo)[i].includes("_CD")){
+                console.log(Object.values(this.detailInfo)[i]);
+                this.cd_nm = Object.values(this.detailInfo)[i];
+                this.$http.post(`/api/mlist/cdidselect/${Object.values(this.detailInfo)[i]}`)
+                .then(
+                    (response)=>{
+                        console.log("?????",response.data[0].CD_ID);
+                        this.detailInfo[Object.keys(this.detailInfo)[i]] = response.data[0].CD_ID;
+                        console.log("this.detailInfo",Object.values(this.detailInfo)[i]);
+                    }
+                )   
+            }
+        }
+
+        //그다음 순서
+        this.$http.post("/api/mlist/addFile", {
+            detailInfo: this.detailInfo,
+            users:this.users,
+        })
+        .then(
+            (res) => {
+                console.log(res);
+            }
+        )
+    }
         
 },
 created() {
@@ -190,6 +247,19 @@ created() {
 },
 mounted(){
     console.log(this.detailInfo);
+    this.$http
+        .post("/api/musers/userinfo", {
+          user_id: JSON.parse(localStorage.getItem('token')).user.user_id
+          })
+        .then(
+          (response) => {
+          console.log("??????");
+          this.login_state = false;
+           console.log(response.data[0].USER_NM);
+           this.users = response.data[0];
+            }
+        )
+    
 }
 
 
