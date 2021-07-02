@@ -264,17 +264,19 @@ methods:{
                 }
             )
 
-
-            //그다음 순서\
-            this.$http.post("/api/mlist/addFile", {
-                detailInfo: this.detailInfo,
-                users:this.users,
-            })
-            .then(
-                (res) => {
-                    console.log(res);
-                }
-            )
+            setTimeout(() => {
+                //그다음 순서\
+                this.$http.post("/api/mlist/addFile", {
+                    detailInfo: this.detailInfo,
+                    users:this.users,
+                })
+                .then(
+                    (res) => {
+                        console.log(res);
+                    }
+                )
+            },500)
+            
 
         
     }
