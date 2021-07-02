@@ -23,22 +23,17 @@
             </li>
             <li>
                 <div class="sm_title">진행단계</div>
-                <!-- <input class="typing" v-model="detailInfo.TRT_STEP_NM"/> -->
-                <v-select
-                    :items="select_stage"
-                    item-text="name"
-                    item-value="idx"
-                    item-color='#f2f3ff'
-                    solo
-                    return-object
-                  ></v-select>
-                </li>
+                <div>
+                    <input class="typing" v-model="detailInfo.TRT_STEP_NM"/>
+                </div>
+            </li>
             <li>
                 <div class="sm_title">작동시기</div>
                 <div class="cycle">
                         <!-- <input class="typing sm_typing" v-model="detailInfo.CYCL_DATE_TYPE_CD"/>
                         <input class="typing sm_typing" v-model="detailInfo.DATA_EXE_TIME"/> -->
                         <v-select
+                        v-model="detailInfo.CYCL_DATE_TYPE_CD"
                         :items="select_cycle"
                         item-text="name"
                         item-value="idx"
@@ -47,15 +42,16 @@
                         return-object
                         
                         ></v-select>
-                        <v-select
+                        <!-- <v-select
                         :items="select_cycle_detail"
                         item-text="name"
-                        item-value="idx"
+                        item-value="cd"
                         item-color='#f2f3ff'
                         solo
                         return-object
                         
-                        ></v-select>
+                        ></v-select> -->
+                        <input class="typing sm_typing" v-model="detailInfo.DOW_NM"/>
                         
                         <input type="number" min="0" max="100" class="typing"/>
                         <input type="number" min="0" max="100" class="typing"/>
@@ -66,9 +62,10 @@
                 <div>
                     <!-- <input class="typing" v-model="detailInfo.SYS_DIV_CD"/> -->
                     <v-select
-                    :items="select_target_system"
+                    :items="select_SYD"
+                    v-model="detailInfo.SYS_DIV_CD"
                     item-text="name"
-                    item-value="idx"
+                    item-value="cd"
                     item-color='#f2f3ff'
                     solo
                     return-object
@@ -80,9 +77,10 @@
                 <div>
                     <!-- <input class="typing" v-model="detailInfo.LANG_CD"/> -->
                     <v-select
-                    :items="select_tech"
+                    :items="select_LDC"
+                    v-model="detailInfo.LANG_CD"
                     item-text="name"
-                    item-value="idx"
+                    item-value="cd"
                     item-color='#f2f3ff'
                     solo
                     return-object
@@ -100,8 +98,9 @@
                 <!-- <input class="typing" v-model="detailInfo.CONN_EVN_DIV_CD"> -->
                 <v-select
                     :items="select_execution_env"
+                    v-model="detailInfo.CONN_EVN_DIV_CD"
                     item-text="name"
-                    item-value="idx"
+                    item-value="cd"
                     item-color='#f2f3ff'
                     solo
                     return-object
@@ -121,17 +120,26 @@
             </li>
             <li>
                 <div class="sm_title">실행후결과</div>
-                <div>
-                    <input class="typing" v-model="detailInfo.RPY_RESLT_CD"/>
-                </div>
-            </li>
+                <!-- <input class="typing" v-model="detailInfo.TRT_STEP_NM"/> -->
+                <v-select
+                    :items="select_RRC"
+                    v-model="detailInfo.RPY_RESLT_CD"
+                    item-text="name"
+                    item-value="cd"
+                    item-color='#f2f3ff'
+                    solo
+                    return-object
+                  ></v-select>
+                </li>
+            
             <li>
                 <div class="sm_title">Workaround</div>
                 <!-- <input class="typing" v-model="detailInfo.TROBL_SVC_TYPE_CD"/> -->
                 <v-select
                     :items="select_error_cure"
+                    v-model="detailInfo.TROBL_SVC_TYPE_CD"
                     item-text="name"
-                    item-value="idx"
+                    item-value="cd"
                     item-color='#f2f3ff'
                     solo
                     return-object
@@ -239,40 +247,60 @@ data:function(){
         },
 
         cd_bas:{
-            SDC:{},
-            LDC:{},
-            SYD:{},
-            CDC:{},
-            RRC:{},
-            TSC:{},
-            CEC:{},
+            LDC:{}, //언어코드
+            SYD:{}, //시스템코드
+            CDC:{}, //작동시기
+            RRC:{}, //응답결과
+            TSC:{}, // 장애대응
+            CEC:{}, // 접속환경
         },
 
-        select_stage: [
+        select_RRC: [ //응답결과
             {name: "1",cd: "T01"},
             {name: "2",cd: "T02"},
         ],
-        select_target_system: [
-            {name: "3",cd: "T01"},
+        select_SYD: [ //시스템코드
+            {name: "4",cd: "T02"},
+            {name: "4",cd: "T02"},
+            {name: "4",cd: "T02"},
+            {name: "4",cd: "T02"},
+            {name: "4",cd: "T02"},
+            {name: "4",cd: "T02"},
+            {name: "4",cd: "T02"},
+            {name: "4",cd: "T02"},
+            {name: "4",cd: "T02"},
+            {name: "4",cd: "T02"},
+            {name: "4",cd: "T02"},
+            {name: "4",cd: "T02"},
+            {name: "4",cd: "T02"},
+            {name: "4",cd: "T02"},
+            {name: "4",cd: "T02"},
+            {name: "4",cd: "T02"},
             {name: "4",cd: "T02"},
         ],
-        select_tech: [
+        select_LDC: [//언어코드
+            {name: "5",cd: "T01"},
+            {name: "6",cd: "T02"},
+            {name: "5",cd: "T01"},
+            {name: "6",cd: "T02"},
             {name: "5",cd: "T01"},
             {name: "6",cd: "T02"},
         ],
-        select_execution_env: [
+        select_CEC: [//접속환경
+            {name: "7",cd: "T01"},
+            {name: "8",cd: "T02"},
             {name: "7",cd: "T01"},
             {name: "8",cd: "T02"},
         ],
-        select_error_cure: [
+        select_TSC: [ //장애대응
             {name: "9",cd: "T01"},
             {name: "10",cd: "T02"},
         ],
-        select_cycle: [
+        select_CDC: [ // 작동시기
             {name: "11",cd: "T01"},
             {name: "12",cd: "T02"},
         ],
-        select_cycle_detail: [
+        select_cycle_detail: [ //이건 빼는게 좋나?
             {name: "13",cd: "T01"},
             {name: "14",cd: "T02"},
         ]
@@ -293,14 +321,16 @@ methods:{
                 if(Object.keys(this.detailInfo)[i].includes("_CD")){
                     console.log(Object.values(this.detailInfo)[i]);
                     // this.cd_nm = Object.values(this.detailInfo)[i];
-                    this.$http.post(`/api/mlist/cdidselect/${Object.values(this.detailInfo)[i]}`)
-                    .then(
-                        (response)=>{
-                            console.log("?????",response.data[0].CD_ID);
-                            this.detailInfo[Object.keys(this.detailInfo)[i]] = response.data[0].CD_ID;
-                            console.log("this.detailInfo",Object.values(this.detailInfo)[i]);
-                        }
-                    )   
+                    // this.$http.post(`/api/mlist/cdidselect/${Object.values(this.detailInfo)[i]}`)
+                    // .then(
+                    //     (response)=>{
+                    //         console.log("?????",response.data[0].CD_ID);
+                    //         this.detailInfo[Object.keys(this.detailInfo)[i]] = response.data[0].CD_ID;
+                    //         console.log("this.detailInfo",Object.values(this.detailInfo)[i]);
+                    //     }
+                    // )   
+
+
                 }
             }
             //등록하면 유저에 UPLD_CASCNT값 증가(ok)
@@ -365,7 +395,21 @@ mounted(){
                         console.log(cd_bas, this.cd_bas[Object.keys(this.cd_bas)[i]]);
                     }
                 )
+    }
+    setTimeout(() => {
+
+        for(let j=0; j<Object.keys(this.cd_bas).length; j++){
+            for(let i=0; i<this.cd_bas[Object.keys(this.cd_bas)[j]].length; i++){
+                this.select_target_system[i].name = this.cd_bas.SYD[i].CD_NM;
+                this.select_target_system[i].cd = this.cd_bas.SYD[i].CD_ID;
             }
+            
+            console.log("하하하하", this.cd_bas[Object.keys(this.cd_bas)[j]].length);
+        }
+               
+                console.log("........................................................",this.select_target_system);
+            },5000)
+    
     //for문으로 묶어준다
     // this.$http
     // .post("/api/mlist/searchcdinfo",{
