@@ -221,7 +221,7 @@ export default {
 .list-btn-row-box .search_btn{
     width: 90px !important;
     height: 40px !important;
-    background-color: #f54479 !important;
+    background-color: #f0217b !important;
     color : white !important;
     padding: 10px 15px !important;
     border-radius: 5px;
@@ -246,6 +246,8 @@ export default {
 }
 .data_table span{
   font-size: 14px;
+  color: rgb(52, 52, 52);
+  font-weight: bold;
 }
 
 

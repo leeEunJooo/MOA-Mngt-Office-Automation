@@ -40,7 +40,6 @@
                         <input class="typing sm_typing" v-model="detailInfo.DATA_EXE_TIME"/> -->
                         <v-select
                         :items="select_option[1]"
-                        v-model="detailInfo.CYCL_DATE_TYPE_CD"
                         item-text="name"
                         item-value="cd"
                         item-color='#f2f3ff'
@@ -48,7 +47,7 @@
                         return-object
                         
                         ></v-select>
-                        <!-- <v-select
+                        <v-select
                         :items="select_option[0]"
                         item-text="name"
                         item-value="cd"
@@ -56,8 +55,7 @@
                         solo
                         return-object
                         
-                        ></v-select> -->
-                        <input class="typing sm_typing" v-model="detailInfo.DOW_NM"/>
+                        ></v-select>
                         
                         <input type="number" min="0" max="100" class="typing"/>
                         <input type="number" min="0" max="100" class="typing"/>
@@ -69,7 +67,6 @@
                     <!-- <input class="typing" v-model="detailInfo.SYS_DIV_CD"/> -->
                     <v-select
                     :items="select_option[2]"
-                    v-model="detailInfo.SYS_DIV_CD"
                     item-text="name"
                     item-value="cd"
                     item-color='#f2f3ff'
@@ -84,7 +81,6 @@
                     <!-- <input class="typing" v-model="detailInfo.LANG_CD"/> -->
                     <v-select
                     :items="select_option[3]"
-                    v-model="detailInfo.LANG_CD"
                     item-text="name"
                     item-value="cd"
                     item-color='#f2f3ff'
@@ -104,7 +100,6 @@
                 <!-- <input class="typing" v-model="detailInfo.CONN_EVN_DIV_CD"> -->
                 <v-select
                     :items="select_option[4]"
-                    v-model="detailInfo.CONN_EVN_DIV_CD"
                     item-text="name"
                     item-value="cd"
                     item-color='#f2f3ff'
@@ -130,7 +125,6 @@
                     <!-- <input class="typing" v-model="detailInfo.RPY_RESLT_CD"/> -->
                     <v-select
                     :items="select_option[5]"
-                    v-model="detailInfo.RPY_RESLT_CD"
                     item-text="name"
                     item-value="cd"
                     item-color='#f2f3ff'
@@ -144,7 +138,6 @@
                 <!-- <input class="typing" v-model="detailInfo.TROBL_SVC_TYPE_CD"/> -->
                 <v-select
                     :items="select_option[6]"
-                    v-model="detailInfo.TROBL_SVC_TYPE_CD"
                     item-text="name"
                     item-value="cd"
                     item-color='#f2f3ff'
@@ -161,16 +154,18 @@
                     <label>N</label>
                 </div>
             </li>
-            <li class="height_fit_content">
+            <li class="height_fit_content" id="mannual_file">
                 <div class="sm_title" style="margin-bottom:5px">매뉴얼파일</div>
-                
-                <v-btn class="addfilebtn">
+                <v-btn class="addfilebtn" id="addFileBtn">
                     <img src="../../assets/img/paperclip.png" class=""/>
                 </v-btn>    
                 
                 <!-- 매뉴얼파일 리스트 -->
-                <div class="filebox1">
-                    <input class="typing file_list" disabled/>
+                <div class="filebox1 file_list">
+                    <span class="fileType" id="fileType">파일형식</span>
+                    <span class="fileContent" id="fileContent">파일 내용</span>
+                    <input type="file" id="realFile" name="mannual" @change="changeVal($event)" hidden/>
+                    <span class="deletebtn" id="deletebtn">X</span>
                     <hr class="file_hr"/>
                 </div>
             </li>
@@ -255,14 +250,15 @@ data:function(){
         checkedY:false,
         checkedN:false,
         
-        //Select 박스 Option (name, code)
+        // Select 박스 Option (name, code)
         select_option:[
-            // 0 : select_cycle
-            // 1 : select_target_system
-            // 2 : select_tech_lng
-            // 3 : select_conn_env
-            // 4 : select_rpy_result
-            // 5 : select_trobl
+            //0 : 시간(월화수목금1일~31일)
+            //1 : 작동시기(매일,매주, 매월...)
+            //2 : 대상시스템(DT플랫폼, 비바체...)
+            //3 : 사용기술(AntBot, 파이썬...)
+            //4 : 실행환경(로컬,사외망)
+            //5 : 실행후결과(매일, SMS, 없음)
+            //6 : workaround
         ],
     }
 },
@@ -318,8 +314,6 @@ methods:{
     },
 
     loadCD: function(){
-
-
         this.$http
             .post("/api/musers/userinfo", {
             user_id: JSON.parse(localStorage.getItem('token')).user.user_id
@@ -331,7 +325,6 @@ methods:{
             this.users = response.data[0];
                 }
             )
-
 
         // 코드성테이블에서 CD_ID와 CD_NM조회
         var allCode = [];
@@ -357,7 +350,34 @@ methods:{
         allCode.push(days);
 
         this.select_option = allCode;
-}
+    },
+    
+    //매뉴얼 파일
+    mannualFile :function(){
+        var mannualLI = document.querySelector('#mannual_file');
+        var addBtn = mannualLI.querySelector('#addFileBtn');
+        var file = mannualLI.querySelector('#realFile');
+
+        addBtn.onclick = () =>{
+            file.click();
+        } 
+    },
+
+    changeVal : function(e){
+
+        if(window.FileReader){ // modern browser
+            const filename = e.target.value; 
+            console.log(filename);
+
+            const parent = e.target.parentNode;
+            const fileContent = parent.querySelector('#fileContent');
+
+            fileContent.value = filename;
+            console.log(parent);
+            
+         } 
+
+    }
         
         
 
@@ -369,59 +389,7 @@ created() {
     this.loadCD();
 },
 mounted(){
-    console.log(this.detailInfo);
-    this.$http
-        .post("/api/musers/userinfo", {
-          user_id: JSON.parse(localStorage.getItem('token')).user.user_id
-          })
-        .then(
-          (response) => {
-          console.log("??????");
-          this.login_state = false;
-           console.log(response.data[0].USER_NM);
-           this.users = response.data[0];
-            }
-        )
-
-    // // 코드성테이블에서 CD_ID와 CD_NM조회
-    // console.log("this.cd_bas 길이",Object.keys(this.cd_bas).length);
-    // for(let i=0;i<Object.keys(this.cd_bas).length; i++){
-    //             this.$http.post(`/api/mlist/select/${Object.keys(this.cd_bas)[i]}`)
-    //             .then(
-    //                 (res) => {
-    //                     const cd_bas = Object.keys(this.cd_bas)[i];
-    //                     console.log(res.data);
-    //                     this.cd_bas[Object.keys(this.cd_bas)[i]] = res.data;
-    //                     console.log(cd_bas, this.cd_bas[Object.keys(this.cd_bas)[i]]);
-    //                 }
-    //             )
-    // }
-    // setTimeout(() => {
-
-    //     for(let j=0; j<Object.keys(this.cd_bas).length; j++){
-    //         for(let i=0; i<this.cd_bas[Object.keys(this.cd_bas)[j]].length; i++){
-    //             this.select_target_system[i].name = this.cd_bas.SYD[i].CD_NM;
-    //             this.select_target_system[i].cd = this.cd_bas.SYD[i].CD_ID;
-    //         }
-            
-    //         console.log("하하하하", this.cd_bas[Object.keys(this.cd_bas)[j]].length);
-    //     }
-               
-    //             console.log("........................................................",this.select_target_system);
-    //         },5000)
-    
-    //for문으로 묶어준다
-    // this.$http
-    // .post("/api/mlist/searchcdinfo",{
-
-    // })
-    // .then(
-    //     (response) => {
-    //         console.log("response", response.data[0]);
-
-    //     }
-    // )
-    
+    this.mannualFile();  
 }
 
 
@@ -665,4 +633,25 @@ mounted(){
         height: 42px !important;
         margin-top: 4px;
     }
+
+    /* 파일 */
+    .posting .fileType,
+    .posting .fileContent,
+    .posting.deletebtn{
+        display: inline-block;
+        text-align: left;
+        padding:0px 10px;
+    }
+
+    .posting .fileType{
+        width:15%;
+    }
+    .posting .fileContent{
+        width:80%;
+    }
+    .posting.deletebtn{
+        width:5%;
+        
+    }
+
 </style>
