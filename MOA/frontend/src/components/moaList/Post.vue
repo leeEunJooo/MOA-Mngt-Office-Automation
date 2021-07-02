@@ -329,19 +329,18 @@ methods:{
         const cd = ['CDC','SYD','LDC','CEC','RRC','TSC'];
         for(let i=0;i<cd.length; i++){
             const code = cd[i];
-                    this.$http.post(`/api/mlist/select/${code}`)
-                    .then(
-                        (res) => {
-                            var groupCode = [];
-                            res.data.forEach(val => {
-                                groupCode.push({'name':val.CD_NM, 'cd':val.CD_ID});
-                            }); 
-                            allCode.push(groupCode);
-                        }
-                    )
+            this.$http.post(`/api/mlist/select/${code}`)
+            .then(
+                (res) => {
+                    var groupCode = [];
+                    res.data.forEach(val => {
+                        groupCode.push({'name':val.CD_NM, 'cd':val.CD_ID});
+                    }); 
+                    allCode.push(groupCode);
+                }
+            )
         }
-        
-
+    
         //주기
         let days = ['월요일','화요일','수요일','목요일','금요일','토요일','일요일'];
         for(let i=1; i<31; i++) 
@@ -349,7 +348,7 @@ methods:{
         allCode.push(days);
 
         this.select_option = allCode;
-        }
+}
         
         
 
