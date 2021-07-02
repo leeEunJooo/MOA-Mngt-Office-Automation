@@ -35,7 +35,6 @@ var connection = conn.connection;
   //코드성 조회(CD_ID조회)
   router.post('/cdidselect/:cd_nm', function(req,res){
     const cd_nm = req.params.cd_nm;
-    // console.log("??????????",cd_nm);
     connection.query('SELECT CD_ID FROM TBL_MOA_CD_BAS WHERE CD_NM = "'+ cd_nm+'"',function(err,row2){
       if(err) throw err;
       console.log(row2[0].CD_ID);
