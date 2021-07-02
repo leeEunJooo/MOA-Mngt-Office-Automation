@@ -24,7 +24,7 @@ var connection = conn.connection;
     
     connection.query('SELECT CD_ID, CD_NM FROM TBL_MOA_CD_BAS WHERE ITG_CD_GROUP_ID="'+group_id+'"', function(err,rows){
       if(err) throw err;
-      console.log(rows);
+      // console.log(rows);
       res.send(rows);
     })
   });
@@ -44,30 +44,39 @@ var connection = conn.connection;
 
   //목록 등록
   router.post('/addFile',  function(req, res){
+    console.log("자동화 목록 등록");
     const detailInfo = {
       'CUST_IDFY_SEQ':req.body.users.CUST_IDFY_SEQ,
       'SROC_FILE_PATH_NM':req.body.detailInfo.SROC_FILE_PATH_NM,
       'NTCART_TITLE_NM':req.body.detailInfo.NTCART_TITLE_NM,
       'TKCGR_NM':req.body.users.USER_NM,
       'RUSER_NM':req.body.detailInfo.RUSER_NM,
-      'CYCL_DATE_TYPE_CD':req.body.detailInfo.CYCL_DATE_TYPE_CD,
+      'CYCL_DATE_TYPE_CD':req.body.detailInfo.CYCL_DATE_TYPE_CD.cd,
       'DATA_EXE_TIME':req.body.detailInfo.DATA_EXE_TIME,
-      'SYS_DIV_CD':req.body.detailInfo.SYS_DIV_CD,
-      'LANG_CD':req.body.detailInfo.LANG_CD,
+      'SYS_DIV_CD':req.body.detailInfo.SYS_DIV_CD.cd,
+      'LANG_CD':req.body.detailInfo.LANG_CD.cd,
       'EXE_SBST':req.body.detailInfo.EXE_SBST,
       'INPUT_VAL':req.body.detailInfo.INPUT_VAL,
       'OTPUT_SBST':req.body.detailInfo.OTPUT_SBST,
-      'RPY_RESLT_CD':req.body.detailInfo.RPY_RESLT_CD,
-      'TROBL_SVC_TYPE_CD':req.body.detailInfo.TROBL_SVC_TYPE_CD,
+      'RPY_RESLT_CD':req.body.detailInfo.RPY_RESLT_CD.cd,
+      'TROBL_SVC_TYPE_CD':req.body.detailInfo.TROBL_SVC_TYPE_CD.cd,
       'ATTEN_MTR_SBST':req.body.detailInfo.ATTEN_MTR_SBST,
       'ATC_FILE_MANUAL_YN':req.body.detailInfo.ATC_FILE_MANUAL_YN,
-      'CONN_EVN_DIV_CD':req.body.detailInfo.CONN_EVN_DIV_CD,
+      'CONN_EVN_DIV_CD':req.body.detailInfo.CONN_EVN_DIV_CD.cd,
+      'DOW_NM':req.body.detailInfo.DOW_NM,
+      'TRT_STEP_NM':req.body.detailInfo.TRT_STEP_NM,
+      'ATC_FILE_MANUAL_YN':req.body.detailInfo.ATC_FILE_MANUAL_YN,
+      'ETC_SBST':req.body.detailInfo.ETC_SBST,
+      'ATC_FILE_UPLD_PATH_NM':req.body.detailInfo.ATC_FILE_UPLD_PATH_NM,
     };
     console.log('cust_idfy_seq', detailInfo);
-    connection.query('INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE) VALUES ("' + detailInfo.CUST_IDFY_SEQ + '"," ", "' + detailInfo.LANG_CD + '", "' + detailInfo.SYS_DIV_CD + '","' + detailInfo.CYCL_DATE_TYPE_CD + '","' + 월 + '","' + detailInfo.DOW_NM +'","' + detailInfo.DATA_EXE_TIME +'","' + detailInfo.RPY_RESLT_CD+'","' + detailInfo.TROBL_SVC_TYPE_CD  +'","' + detailInfo.INPUT_VAL +'","' + detailInfo.TRT_STEP_NM +'","' + detailInfo.CONN_EVN_DIV_CD +'","' + detailInfo.ATTEN_MTR_SBST+'","' + detailInfo.ATC_FILE_MANUAL_YN+'"," ","' + detailInfo.OTPUT_SBST +'"," ","' + detailInfo.EXE_SBST +'","' + detailInfo.NTCART_TITLE_NM +'","' + detailInfo.TKCGR_NM+'","' + sysdate() +'","' + sysdate()+'","' + 9999-12-31+ '")', detailInfo, function (err, row){
+    connection.query('INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE) VALUES ("' + detailInfo.CUST_IDFY_SEQ + '","'+ detailInfo.SROC_FILE_PATH_NM+'", "' + detailInfo.LANG_CD + '", "' + detailInfo.SYS_DIV_CD + '","' + detailInfo.CYCL_DATE_TYPE_CD + '","' + detailInfo.DOW_NM + '","' + detailInfo.DATA_EXE_TIME +'","' + detailInfo.RPY_RESLT_CD+'","' + detailInfo.TROBL_SVC_TYPE_CD  +'","' + detailInfo.INPUT_VAL +'","' + detailInfo.TRT_STEP_NM +'","' + detailInfo.CONN_EVN_DIV_CD +'","' + detailInfo.ATTEN_MTR_SBST+'","' + detailInfo.ATC_FILE_MANUAL_YN+'","' + detailInfo.ATC_FILE_UPLD_PATH_NM+'","' + detailInfo.OTPUT_SBST +'","' + detailInfo.ETC_SBST+'","' + detailInfo.EXE_SBST +'","' + detailInfo.NTCART_TITLE_NM +'","' + detailInfo.TKCGR_NM+'","' +detailInfo.RUSER_NM+'","'+ sysdate() +'","' + sysdate()+'",' + 9999-12-31+ '")', detailInfo, function (err, row){
       if(err) throw err;
       console.log(row);
-      res.send(row);
+      res.json({
+        success: true,
+        message: '등록이 완료되었습니다.'
+      })
     });
 
   });

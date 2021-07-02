@@ -39,6 +39,7 @@
                         <!-- <input class="typing sm_typing" v-model="detailInfo.CYCL_DATE_TYPE_CD"/>
                         <input class="typing sm_typing" v-model="detailInfo.DATA_EXE_TIME"/> -->
                         <v-select
+                        v-model="detailInfo.CYCL_DATE_TYPE_CD"
                         :items="select_option[1]"
                         item-text="name"
                         item-value="cd"
@@ -48,6 +49,7 @@
                         
                         ></v-select>
                         <v-select
+                        v-model="detailInfo.DOW_NM"
                         :items="select_option[0]"
                         item-text="name"
                         item-value="cd"
@@ -57,8 +59,8 @@
                         
                         ></v-select>
                         
-                        <input type="number" min="0" max="100" class="typing"/>
-                        <input type="number" min="0" max="100" class="typing"/>
+                        <input type="number" min="0" max="100" class="typing" id = "hour" value=""/>
+                        <input type="number" min="0" max="100" class="typing" id = "min" value=""/>
                 </div>
             </li>
             <li>
@@ -66,6 +68,7 @@
                 <div>
                     <!-- <input class="typing" v-model="detailInfo.SYS_DIV_CD"/> -->
                     <v-select
+                    v-model="detailInfo.SYS_DIV_CD"
                     :items="select_option[2]"
                     item-text="name"
                     item-value="cd"
@@ -80,6 +83,7 @@
                 <div>
                     <!-- <input class="typing" v-model="detailInfo.LANG_CD"/> -->
                     <v-select
+                    v-model="detailInfo.LANG_CD"
                     :items="select_option[3]"
                     item-text="name"
                     item-value="cd"
@@ -99,6 +103,7 @@
                 <div class="sm_title">실행환경</div>
                 <!-- <input class="typing" v-model="detailInfo.CONN_EVN_DIV_CD"> -->
                 <v-select
+                    v-model="detailInfo.CONN_EVN_DIV_CD"
                     :items="select_option[4]"
                     item-text="name"
                     item-value="cd"
@@ -124,12 +129,13 @@
                 <div>
                     <!-- <input class="typing" v-model="detailInfo.RPY_RESLT_CD"/> -->
                     <v-select
-                    :items="select_option[5]"
-                    item-text="name"
-                    item-value="cd"
-                    item-color='#f2f3ff'
-                    solo
-                    return-object
+                        v-model="detailInfo.RPY_RESLT_CD"
+                        :items="select_option[5]"
+                        item-text="name"
+                        item-value="cd"
+                        item-color='#f2f3ff'
+                        solo
+                        return-object
                   ></v-select>
                 </div>
             </li>
@@ -137,6 +143,7 @@
                 <div class="sm_title">Workaround</div>
                 <!-- <input class="typing" v-model="detailInfo.TROBL_SVC_TYPE_CD"/> -->
                 <v-select
+                    v-model="detailInfo.TROBL_SVC_TYPE_CD"
                     :items="select_option[6]"
                     item-text="name"
                     item-value="cd"
@@ -227,7 +234,7 @@ data:function(){
         users: "",
         detailInfo:{
             CUST_IDFY_SEQ:"",
-            SROC_FILE_PATH_NM:"",
+            SROC_FILE_PATH_NM:"\\download\\moa.xml",
             NTCART_TITLE_NM:"",
             TKCGR_NM:"",
             RUSER_NM:"",
@@ -238,27 +245,28 @@ data:function(){
             EXE_SBST:"",
             INPUT_VAL:"",
             OTPUT_SBST:"",
+            CONN_EVN_DIV_CD:"",
             RPY_RESLT_CD:"",
             TROBL_SVC_TYPE_CD:"",
             ATTEN_MTR_SBST:"",
             DOW_NM:"",
             TRT_STEP_NM:"",
-            CONN_EVN_DIV_CD:"",
             ATC_FILE_MANUAL_YN:"N",
             ETC_SBST:"",
+            ATC_FILE_UPLD_PATH_NM:"",
         },
         checkedY:false,
         checkedN:false,
         
         // Select 박스 Option (name, code)
         select_option:[
-            //0 : 시간(월화수목금1일~31일)
-            //1 : 작동시기(매일,매주, 매월...)
-            //2 : 대상시스템(DT플랫폼, 비바체...)
-            //3 : 사용기술(AntBot, 파이썬...)
-            //4 : 실행환경(로컬,사외망)
-            //5 : 실행후결과(매일, SMS, 없음)
-            //6 : workaround
+            // 0 : 시간(월화수목금1일~31일)
+            // 1 : 작동시기(매일,매주, 매월...)
+            // 2 : 대상시스템(DT플랫폼, 비바체...)
+            // 3 : 사용기술(AntBot, 파이썬...)
+            // 4 : 실행환경(로컬,사외망)
+            // 5 : 실행후결과(매일, SMS, 없음)
+            // 6 : workaround
         ],
     }
 },
@@ -271,33 +279,20 @@ methods:{
         // var checkY = document.querySelector('input[name="Y"]');
         // console.log(checkY);
         // check
+        console.log("detailinfo는???",this.detailInfo);
 
-            //코드성 변경
-            for(let i=0; i<Object.keys(this.detailInfo).length; i++){
-                if(Object.keys(this.detailInfo)[i].includes("_CD")){
-                    console.log(Object.values(this.detailInfo)[i]);
-                    // this.cd_nm = Object.values(this.detailInfo)[i];
-                    // this.$http.post(`/api/mlist/cdidselect/${Object.values(this.detailInfo)[i]}`)
-                    // .then(
-                    //     (response)=>{
-                    //         console.log("?????",response.data[0].CD_ID);
-                    //         this.detailInfo[Object.keys(this.detailInfo)[i]] = response.data[0].CD_ID;
-                    //         console.log("this.detailInfo",Object.values(this.detailInfo)[i]);
-                    //     }
-                    // )   
-
-
-                }
-            }
             //등록하면 유저에 UPLD_CASCNT값 증가(ok)
-            this.$http.post("/api/musers/uploadUpdate",{
-                users:this.users
-            })
-            .then(
-                (res)=>{
-                    console.log(res);
-                }
-            )
+            // this.$http.post("/api/musers/uploadUpdate",{
+            //     users:this.users
+            // })
+            // .then(
+            //     (res)=>{
+            //         console.log(res);
+            //     }
+            // )
+            const datetime = document.getElementById('hour').value +":"+ document.getElementById('min').value;
+            this.detailInfo.DATA_EXE_TIME = datetime;
+            console.log("시간",this.detailInfo.DATA_EXE_TIME);
 
             setTimeout(() => {
                 //그다음 순서\
