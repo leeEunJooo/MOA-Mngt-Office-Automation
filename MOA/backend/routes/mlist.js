@@ -17,6 +17,21 @@ var connection = conn.connection;
     });
   });
 
+
+  //CD_ID, CD_NM조회
+  router.post('/select/:group_id',function(req,res){
+    const group_id = req.params.group_id;
+    
+    connection.query('SELECT CD_ID, CD_NM FROM TBL_MOA_CD_BAS WHERE ITG_CD_GROUP_ID="'+group_id+'"', function(err,rows){
+      if(err) throw err;
+      console.log(rows);
+      res.send(rows);
+    })
+  });
+
+
+
+
   //코드성 조회(CD_ID조회)
   router.post('/cdidselect/:cd_nm', function(req,res){
     const cd_nm = req.params.cd_nm;
