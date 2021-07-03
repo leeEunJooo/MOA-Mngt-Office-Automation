@@ -67,13 +67,109 @@ var connection = conn.connection;
 
       //전체검색(ETC3)
       if(search.search_select_code=="ETC3"){
-        connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(SROC_FILE_PATH_NM, DOW_NM, DATA_EXE_TIME, INPUT_VAL, TRT_STEP_NM, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM) against("' + search.search_text + '*" in boolean mode)', function (err, rows) {
+        // var sql1 = 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(SROC_FILE_PATH_NM, DOW_NM, DATA_EXE_TIME, INPUT_VAL, TRT_STEP_NM, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM) against("' + search.search_text + '*" in boolean mode)';
+        // var sql2 = 'SELECT CD_ID FROM TBL_MOA_CD_BAS WHERE CD_NM LIKE "%' + search.search_text + '%"';
+        // var sqlResult;
+        
+        connection.query('SELECT CD_ID FROM TBL_MOA_CD_BAS WHERE CD_NM LIKE "%' + search.search_text + '%"', function (err, row) {
           if (err) throw err;
-          console.log(rows);
-          if(rows!=""){
-            res.send(rows);
-          }else{
-            res.send("not found");
+          // console.log(rows);
+          
+          // console.log("results[0] : ", row[0].CD_ID);
+          // console.log("results[1] : ", row[1].CD_ID);
+
+          // var sql1_result = row[0];
+          // var sql2_result = row[1];
+
+          // console.log("sql1_result : " + sql1_result);
+          // console.log("sql2_result : " + sql2_result);
+
+          if (row != "") {
+            console.log("11111 - 코드 검색 포함");
+            console.log("11111 - row 길이? ", row.length);
+            connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(SROC_FILE_PATH_NM, DOW_NM, DATA_EXE_TIME, INPUT_VAL, TRT_STEP_NM, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM) against("' + search.search_text + '*" in boolean mode)',function(err,row1) {
+              if(err) throw err;
+
+              if (row1 != "") {
+                console.log("22222 - 코드외 존재");
+                console.log("22222 - row1 길이? ", row1.length);
+                for (var i = 0; i < row.length; i++) {
+                  connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, CONN_EVN_DIV_CD) against("' + row[i].CD_ID + '*" in boolean mode)',function(err,row2) {
+                    // console.log("row : ", row[i].CD_ID);
+                    if(err) throw err;
+                    // console.log("row2 : ", row2);
+                    // console.log("row22 : ", row2[i]);
+                    // sqlResult = row2[i];
+  
+                    // console.log(row1 + row2);
+                    
+                    console.log("!!", row1);
+                    console.log("@@", row2);
+
+                    if (row2 != "") {
+                      console.log("33333 - 코드성 존재 & 코드외 존재");
+                      console.log("33333 - row2 길이? ", row2.length);
+                      console.log("!!!", row1);
+                      console.log("@@@", row2);
+
+                      res.json({
+                        row1 : row1,
+                        row2 : row2,
+                      });
+                    } else {
+                      console.log("!!!!", row1);
+                      console.log("@@@@", row2);
+                      console.log("44444 - 코드외만 존재");
+
+                      res.send(row1);
+                    }
+                  });
+                  // console.log("sqlResult : ", sqlResult);
+                }
+              } else {
+                console.log("55555 - 코드외 존재 안함 & 코드성만 존재");
+                console.log("55555 - row 길이? ", row.length);
+                for (var i = 0; i < row.length; i++) {
+                  connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, CONN_EVN_DIV_CD) against("' + row[i].CD_ID + '*" in boolean mode)',function(err,row2) {
+                    // console.log("row : ", row[i].CD_ID);
+                    if(err) throw err;
+                    // console.log("row2 : ", row2);
+                    // console.log("row22 : ", row2[i]);
+                    // sqlResult = row2[i];
+                    
+                    console.log("??", row2);
+                    
+                    if (row2 != "") {
+                      console.log("???", row2);
+                      res.send(row2);
+                    } 
+                    // else {
+                    //   // 이 부분 에러 처리 필요
+                    //   res.send("not found");
+                    // }
+                  });
+                  // console.log("sqlResult : ", sqlResult);
+                }
+              }
+            });
+          } else {
+            console.log("88888 - 코드 검색 포함 안함");
+            console.log("88888 - row 길이? ", row.length);
+            connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(SROC_FILE_PATH_NM, DOW_NM, DATA_EXE_TIME, INPUT_VAL, TRT_STEP_NM, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM) against("' + search.search_text + '*" in boolean mode)',function(err,row1) {
+              if(err) throw err;
+
+              console.log("??", row1);
+
+              if(row1 != ""){
+                console.log("99999 - 코드외만 존재");
+                console.log("???", row1);
+                res.send(row1);
+              }else{
+                console.log("10 - 코드성 & 코드외 존재 안함");
+                console.log("???", row1);
+                res.send("not found");
+              }
+            });
           }
         });  
       }
@@ -186,32 +282,60 @@ var connection = conn.connection;
     const id = parseInt(req.params.id);
     connection.query('SELECT * FROM TBL_MOA_BAS WHERE FILE_SEQ='+id, function (err, rows) {
       if (err) throw err;
-      console.log(rows);
-      // console.log("!@!@", Object.keys(rows[0])[0]);
+      console.log("1", rows);
+      console.log("2", rows[0]);
+      
+      console.log("!@!@", Object.keys(rows[0])[0]);
       // console.log("!@!@", Object.keys(rows[0]).indexOf[0]);
       // console.log("!@!@", Object.keys(rows[0]).slice(0, 2));
       // console.log("!@!@", Object.keys(rows[0]).find);
-      // console.log(rows[0].)
-      // for(let i=0; i<Object.keys(rows[0]).length; i++){
-      //   if(Object.keys(rows[0])[i].includes("_CD")){
-      //     // console.log(Object.keys(rows[0])[i]);
-      //     // console.log(i);
-      //     console.log("??????", Object.values(rows[0])[i]);
-      //     // console.log(Object.keys(rows[0])[i].)
-      //     connection.query('SELECT CD_NM FROM TBL_MOA_CD_BAS WHERE CD_ID = "'+ Object.values(rows[0])[i]+'"',function(err,row2){
-      //       if(err) throw err;
-      //       console.log(row2[0].CD_NM);
-      //       // console.log(rows[0][i]);.
-      //       // rows[0][i].values = row2[0].CD_NM;
-      //       Object.keys(rows[0])[i]=row2[0].CD_NM;
-      //       console.log(Object.values(rows[0])[i]);
-      //       // res.send(row2);
-      //     });
-      // }
+      
+      for(let i = 0; i < Object.keys(rows[0]).length; i++) {
+        console.log("for 들어옴");
+        if(Object.keys(rows[0])[i].includes("_CD")) {
+          console.log("if 들어옴");
+          // console.log(Object.keys(rows[0])[i]);
+          // console.log(i);
+          // console.log("??????", Object.values(rows[0])[i]);
+          // console.log(Object.keys(rows[0])[i].)
+          connection.query('SELECT CD_NM FROM TBL_MOA_CD_BAS WHERE CD_ID = "'+ Object.values(rows[0])[i]+'"',function(err,row2){
+            console.log("두 번째 쿼리");
+            if(err) throw err;
+            console.log("!!!", row2[0].CD_NM);
+            // console.log(rows[0][i]);.
+            // rows[0][i].values = row2[0].CD_NM;
+            // Object.keys(rows[0])[i].values = row2[0].CD_NM;
+            console.log("###", Object.keys(rows[0])[i]);
+            console.log("$$$", Object.values(rows[0])[i]);
+            // Object.values(rows[0])[i] = row2[0].CD_NM;
+            
+            console.log("---0", rows[0]['CYCL_DATE_TYPE_CD']);
+
+            console.log("---1", rows[0][Object.keys(rows[0])[i]]);
+
+            rows[0][Object.keys(rows[0])[i]] = row2[0].CD_NM;
+            
+            console.log("---2", rows[0][Object.keys(rows[0])[i]]);
+            // console.log("%%%", rows);
+
+            // console.log("@@@", Object.values(rows[0])[i]);
+            // Object.keys(rows[0])[i] = row2[0].CD_NM;
+            // console.log("@@@", Object.values(rows[0])[i]);
+            // console.log("###", Object.keys(rows[0])[i]);
+            
+            // res.send(row2);
+
+            console.log("??", rows[0]);
+          });
+          console.log("next");
+      }
       // console.log(Object.keys(rows[0]).length);
-      // console.log(rows[0].CYCL_DATE_TYPE_CD);
-      // }
-      res.send(rows);
+      // console.log("###", rows[0].CYCL_DATE_TYPE_CD);
+    }
+    console.log("~~~", rows[0]);
+
+    res.send(rows);
+
     });
   });
 
@@ -222,7 +346,8 @@ var connection = conn.connection;
     console.log("??????????",cd_nm);
     connection.query('SELECT CD_NM FROM TBL_MOA_CD_BAS WHERE CD_ID = "'+ cd_nm+'"',function(err,row2){
       if(err) throw err;
-      console.log(row2[0].CD_NM);
+      console.log("11111111111", row2[0].CD_NM);
+      console.log("22222222222", row2);
       res.send(row2);
     });
   });
