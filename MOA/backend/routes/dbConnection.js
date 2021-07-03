@@ -11,7 +11,7 @@ var connection = mysql.createConnection({
 // Connect
 connection.connect(function (err) {   
   console.log("MOA_DB 접속");
-  if (err) {     
+  if (err) {
     console.error('mysql connection error');     
     console.error(err);     
     throw err;   

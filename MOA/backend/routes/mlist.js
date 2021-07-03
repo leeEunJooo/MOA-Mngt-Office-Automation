@@ -17,7 +17,69 @@ var connection = conn.connection;
     });
   });
 
+
+  //CD_ID, CD_NM조회
+  router.post('/select/:group_id',function(req,res){
+    const group_id = req.params.group_id;
+    
+    connection.query('SELECT CD_ID, CD_NM FROM TBL_MOA_CD_BAS WHERE ITG_CD_GROUP_ID="'+group_id+'"', function(err,rows){
+      if(err) throw err;
+      // console.log(rows);
+      res.send(rows);
+    })
+  });
+
+
+
+
+  //코드성 조회(CD_ID조회)
+  router.post('/cdidselect/:cd_nm', function(req,res){
+    const cd_nm = req.params.cd_nm;
+    connection.query('SELECT CD_ID FROM TBL_MOA_CD_BAS WHERE CD_NM = "'+ cd_nm+'"',function(err,row2){
+      if(err) throw err;
+      console.log(row2[0].CD_ID);
+      res.send(row2);
+    });
+  });
+
   //목록 등록
+  router.post('/addFile',  function(req, res){
+    console.log("자동화 목록 등록");
+    const detailInfo = {
+      'CUST_IDFY_SEQ':req.body.users.CUST_IDFY_SEQ,
+      'SROC_FILE_PATH_NM':req.body.detailInfo.SROC_FILE_PATH_NM,
+      'NTCART_TITLE_NM':req.body.detailInfo.NTCART_TITLE_NM,
+      'TKCGR_NM':req.body.users.USER_NM,
+      'RUSER_NM':req.body.detailInfo.RUSER_NM,
+      'CYCL_DATE_TYPE_CD':req.body.detailInfo.CYCL_DATE_TYPE_CD.cd,
+      'DATA_EXE_TIME':req.body.detailInfo.DATA_EXE_TIME,
+      'SYS_DIV_CD':req.body.detailInfo.SYS_DIV_CD.cd,
+      'LANG_CD':req.body.detailInfo.LANG_CD.cd,
+      'EXE_SBST':req.body.detailInfo.EXE_SBST,
+      'INPUT_VAL':req.body.detailInfo.INPUT_VAL,
+      'OTPUT_SBST':req.body.detailInfo.OTPUT_SBST,
+      'RPY_RESLT_CD':req.body.detailInfo.RPY_RESLT_CD.cd,
+      'TROBL_SVC_TYPE_CD':req.body.detailInfo.TROBL_SVC_TYPE_CD.cd,
+      'ATTEN_MTR_SBST':req.body.detailInfo.ATTEN_MTR_SBST,
+      'ATC_FILE_MANUAL_YN':req.body.detailInfo.ATC_FILE_MANUAL_YN,
+      'CONN_EVN_DIV_CD':req.body.detailInfo.CONN_EVN_DIV_CD.cd,
+      'DOW_NM':req.body.detailInfo.DOW_NM,
+      'TRT_STEP_NM':req.body.detailInfo.TRT_STEP_NM,
+      'ATC_FILE_MANUAL_YN':req.body.detailInfo.ATC_FILE_MANUAL_YN,
+      'ETC_SBST':req.body.detailInfo.ETC_SBST,
+      'ATC_FILE_UPLD_PATH_NM':req.body.detailInfo.ATC_FILE_UPLD_PATH_NM,
+    };
+    console.log('cust_idfy_seq', detailInfo);
+    connection.query('INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE) VALUES ("' + detailInfo.CUST_IDFY_SEQ + '","'+ detailInfo.SROC_FILE_PATH_NM+'", "' + detailInfo.LANG_CD + '", "' + detailInfo.SYS_DIV_CD + '","' + detailInfo.CYCL_DATE_TYPE_CD + '","' + detailInfo.DOW_NM + '","' + detailInfo.DATA_EXE_TIME +'","' + detailInfo.RPY_RESLT_CD+'","' + detailInfo.TROBL_SVC_TYPE_CD  +'","' + detailInfo.INPUT_VAL +'","' + detailInfo.TRT_STEP_NM +'","' + detailInfo.CONN_EVN_DIV_CD +'","' + detailInfo.ATTEN_MTR_SBST+'","' + detailInfo.ATC_FILE_MANUAL_YN+'","' + detailInfo.ATC_FILE_UPLD_PATH_NM+'","' + detailInfo.OTPUT_SBST +'","' + detailInfo.ETC_SBST+'","' + detailInfo.EXE_SBST +'","' + detailInfo.NTCART_TITLE_NM +'","' + detailInfo.TKCGR_NM+'","' +detailInfo.RUSER_NM+'","'+ sysdate() +'","' + sysdate()+'",' + 9999-12-31+ '")', detailInfo, function (err, row){
+      if(err) throw err;
+      console.log(row);
+      res.json({
+        success: true,
+        message: '등록이 완료되었습니다.'
+      })
+    });
+
+  });
 
 
   //목록 수정
@@ -282,72 +344,20 @@ var connection = conn.connection;
     const id = parseInt(req.params.id);
     connection.query('SELECT * FROM TBL_MOA_BAS WHERE FILE_SEQ='+id, function (err, rows) {
       if (err) throw err;
-      console.log("1", rows);
-      console.log("2", rows[0]);
-      
-      console.log("!@!@", Object.keys(rows[0])[0]);
-      // console.log("!@!@", Object.keys(rows[0]).indexOf[0]);
-      // console.log("!@!@", Object.keys(rows[0]).slice(0, 2));
-      // console.log("!@!@", Object.keys(rows[0]).find);
-      
-      for(let i = 0; i < Object.keys(rows[0]).length; i++) {
-        console.log("for 들어옴");
-        if(Object.keys(rows[0])[i].includes("_CD")) {
-          console.log("if 들어옴");
-          // console.log(Object.keys(rows[0])[i]);
-          // console.log(i);
-          // console.log("??????", Object.values(rows[0])[i]);
-          // console.log(Object.keys(rows[0])[i].)
-          connection.query('SELECT CD_NM FROM TBL_MOA_CD_BAS WHERE CD_ID = "'+ Object.values(rows[0])[i]+'"',function(err,row2){
-            console.log("두 번째 쿼리");
-            if(err) throw err;
-            console.log("!!!", row2[0].CD_NM);
-            // console.log(rows[0][i]);.
-            // rows[0][i].values = row2[0].CD_NM;
-            // Object.keys(rows[0])[i].values = row2[0].CD_NM;
-            console.log("###", Object.keys(rows[0])[i]);
-            console.log("$$$", Object.values(rows[0])[i]);
-            // Object.values(rows[0])[i] = row2[0].CD_NM;
-            
-            console.log("---0", rows[0]['CYCL_DATE_TYPE_CD']);
-
-            console.log("---1", rows[0][Object.keys(rows[0])[i]]);
-
-            rows[0][Object.keys(rows[0])[i]] = row2[0].CD_NM;
-            
-            console.log("---2", rows[0][Object.keys(rows[0])[i]]);
-            // console.log("%%%", rows);
-
-            // console.log("@@@", Object.values(rows[0])[i]);
-            // Object.keys(rows[0])[i] = row2[0].CD_NM;
-            // console.log("@@@", Object.values(rows[0])[i]);
-            // console.log("###", Object.keys(rows[0])[i]);
-            
-            // res.send(row2);
-
-            console.log("??", rows[0]);
-          });
-          console.log("next");
-      }
-      // console.log(Object.keys(rows[0]).length);
-      // console.log("###", rows[0].CYCL_DATE_TYPE_CD);
-    }
-    console.log("~~~", rows[0]);
-
-    res.send(rows);
-
+      console.log(rows);
+      res.send(rows);
     });
   });
 
+ 
 
-//코드성조회
+//코드성조회(cd_nm 조회)
   router.post('/codeselect/:cd_nm', function(req,res){
     const cd_nm = req.params.cd_nm;
-    console.log("??????????",cd_nm);
+    // console.log("??????????",cd_nm);
     connection.query('SELECT CD_NM FROM TBL_MOA_CD_BAS WHERE CD_ID = "'+ cd_nm+'"',function(err,row2){
       if(err) throw err;
-      console.log("11111111111", row2[0].CD_NM);
-      console.log("22222222222", row2);
+      // console.log(row2[0].CD_NM);
       res.send(row2);
     });
   });

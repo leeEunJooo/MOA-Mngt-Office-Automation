@@ -87,9 +87,11 @@ export default {
           { text: '작성자', value: 'TKCGR_NM' },
           { text: '업로드일', value: 'FIRST_REG_DATE'},
           { text: '최근수행시간', value: 'EXE_DATE' },
+          { text: '', value: 'exe_btn' }
         ],
         search_select: '',
         search_text: '',
+        exe_btn:'s',
       };
     },
 
@@ -254,17 +256,18 @@ export default {
             }
           }
         )
-      }
-    },
-
-    addfile: function(){
-      let routeData = this.$router.resolve({
-                                              name: 'listdetail',
-                                              
+      },
+      addfile: function(){
+        let routeData = this.$router.resolve({
+                                              name: 'posting',
                                             });
-      window.open(routeData.href, "_blank","width=680, height=850, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
+        window.open(routeData.href, "_blank","width=700, height=850, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
 
     }
+      
+    },
+
+    
     
   }
 </script>
@@ -319,7 +322,7 @@ export default {
 .list-btn-row-box .search_btn{
     width: 90px !important;
     height: 40px !important;
-    background-color: #f54479 !important;
+    background-color: #f0217b !important;
     color : white !important;
     padding: 10px 15px !important;
     border-radius: 5px;
@@ -341,6 +344,11 @@ export default {
 }
 .data_table{
   text-align: center;
+}
+.data_table span{
+  font-size: 14px;
+  color: rgb(52, 52, 52);
+  font-weight: bold;
 }
 
 
