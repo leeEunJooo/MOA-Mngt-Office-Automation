@@ -143,120 +143,68 @@ export default {
             console.log("#################", response);
             
             console.log("response.data", response.data);
+            console.log("response.data", response.data.length);
 
-            if (response.data == "not found") {
-              alert("검색한 단어는 존재하지 않습니다.");
-              this.moa_list=[];
-            } else {
             if (Object.keys(response.data).includes('row1') && Object.keys(response.data).includes('row2')) {
-              console.log("둘 다 포함");
-              console.log("response.data.data1 : ", response.data.row1);
-              console.log("response.data.data2 : ", response.data.row2);
-              console.log("response.data.data1 길이 : ", response.data.row1.length);
-              console.log("response.data.data2 길이 : ", response.data.row2.length);
-              // this.moa_list = response.data.row1;
-              // this.moa_list2 = response.data.row2;
+              if (response.data.row1.length == 0 && response.data.row2.length == 0) {
+                alert("검색한 단어는 존재하지 않습니다.");
+                this.moa_list=[];
+              } else {
+                console.log("둘 다 포함");
+                console.log("response.data.data1 : ", response.data.row1);
+                console.log("response.data.data2 : ", response.data.row2);
+                console.log("response.data.data1 길이 : ", response.data.row1.length);
+                console.log("response.data.data2 길이 : ", response.data.row2.length);
               
-              for(let i = 0; i < response.data.row1.length; i++) {
-                this.moa_list.push(response.data.row1[i]);
-                this.moa_list2.push(response.data.row1[i]);
-              }
+                for(let i = 0; i < response.data.row1.length; i++) {
+                  this.moa_list.push(response.data.row1[i]);
+                  this.moa_list2.push(response.data.row1[i]);
+                }
 
-              console.log("moa_list21 : ", this.moa_list2);
+                console.log("moa_list21 : ", this.moa_list2);
 
-              for (let i = 0; i < this.moa_list2.length; i++) {
-                for(let j = 0; j < response.data.row2.length; j++) {
-                  if (this.moa_list2[i].NTCART_TITLE_NM != response.data.row2[j].NTCART_TITLE_NM) {
-                    this.moa_list.push(response.data.row2[j]);
-                  }                  
+                for (let i = 0; i < this.moa_list2.length; i++) {
+                  for(let j = 0; j < response.data.row2.length; j++) {
+                    if ((this.moa_list2[i].NTCART_TITLE_NM != response.data.row2[j].NTCART_TITLE_NM) && (this.moa_list2[i].TKCGR_NM != response.data.row2[j].TKCGR_NM)) {
+                      this.moa_list.push(response.data.row2[j]);
+                    }                  
+                  }
+                }
+              
+                console.log("moa_list : ", this.moa_list);
+
+                for(let i = 0; i < this.moa_list.length; i++) {
+                  this.moa_list[i].FIRST_REG_DATE = dayjs(this.moa_list[i].FIRST_REG_DATE).format('YYYY-MM-DD');
+                  if(this.moa_list[i].EXE_DATE != '0000-00-00 00:00:00'){
+                    this.moa_list[i].EXE_DATE = dayjs(this.moa_list[i].EXE_DATE).format('YYYY-MM-DD HH:mm:ss');
+                  }
                 }
               }
-              
-
-              // console.log("moa_list2 : ", this.moa_list2);
-              
-              // console.log("moa_list : ", this.moa_list);
-              console.log("moa_list : ", this.moa_list);
-
-              // console.log("!! : ", this.moa_list2[0].NTCART_TITLE_NM);
-              // console.log("@@ : ", this.moa_list2[1].NTCART_TITLE_NM);
-              // console.log("## : ", this.moa_list2[2].NTCART_TITLE_NM);
-
-              
-
-              for(let i = 0; i < this.moa_list.length; i++) {
-              this.moa_list[i].FIRST_REG_DATE = dayjs(this.moa_list[i].FIRST_REG_DATE).format('YYYY-MM-DD');
-              // console.log(this.moa_list[i].EXE_DATE);
-                if(this.moa_list[i].EXE_DATE != '0000-00-00 00:00:00'){
-                  this.moa_list[i].EXE_DATE = dayjs(this.moa_list[i].EXE_DATE).format('YYYY-MM-DD HH:mm:ss');
-                }
-              // console.log(this.moa_list[i].EXE_DATE);
-              }
-
-              // for(let i = 0; i < this.moa_list2.length; i++) {
-              // this.moa_list2[i].FIRST_REG_DATE = dayjs(this.moa_list2[i].FIRST_REG_DATE).format('YYYY-MM-DD');
-              // // console.log(this.moa_list[i].EXE_DATE);
-              //   if(this.moa_list2[i].EXE_DATE != '0000-00-00 00:00:00'){
-              //     this.moa_list2[i].EXE_DATE = dayjs(this.moa_list2[i].EXE_DATE).format('YYYY-MM-DD HH:mm:ss');
-              //   }
-              // // console.log(this.moa_list[i].EXE_DATE);
-              // }
             } else {
-              console.log("코드성 제외");
-              console.log("response.data : ", response.data);
-              console.log("response.data 길이 : ", response.data.length);
-              this.moa_list = response.data;
-              console.log("moa_list : ", this.moa_list);
+              if (response.data.length == 0) {
+                alert("검색한 단어는 존재하지 않습니다.");
+                this.moa_list=[];
+              } else {
+                console.log("코드성 제외");
+                console.log("response.data : ", response.data);
+                console.log("response.data 길이 : ", response.data.length);
+                this.moa_list = response.data;
+                console.log("moa_list : ", this.moa_list);
 
-              for(let i = 0; i < this.moa_list.length; i++) {
-              this.moa_list[i].FIRST_REG_DATE = dayjs(this.moa_list[i].FIRST_REG_DATE).format('YYYY-MM-DD');
-              // console.log(this.moa_list[i].EXE_DATE);
-                if(this.moa_list[i].EXE_DATE != '0000-00-00 00:00:00'){
-                  this.moa_list[i].EXE_DATE = dayjs(this.moa_list[i].EXE_DATE).format('YYYY-MM-DD HH:mm:ss');
+                for(let i = 0; i < this.moa_list.length; i++) {
+                this.moa_list[i].FIRST_REG_DATE = dayjs(this.moa_list[i].FIRST_REG_DATE).format('YYYY-MM-DD');
+                // console.log(this.moa_list[i].EXE_DATE);
+                  if(this.moa_list[i].EXE_DATE != '0000-00-00 00:00:00'){
+                    this.moa_list[i].EXE_DATE = dayjs(this.moa_list[i].EXE_DATE).format('YYYY-MM-DD HH:mm:ss');
+                  }
+                // console.log(this.moa_list[i].EXE_DATE);
                 }
-              // console.log(this.moa_list[i].EXE_DATE);
               }
-            }
-
-            
-
-            // if (this.moa_list.row1.length != 0 && this.moa_list.row2.length != 0) {
-            //   console.log("둘 다 포함");
-              
-
-            //   for(let i = 0; i < this.moa_list.row1.length; i++) {
-            //   this.moa_list.row1[i].FIRST_REG_DATE = dayjs(this.moa_list.row1[i].FIRST_REG_DATE).format('YYYY-MM-DD');
-            //   // console.log(this.moa_list[i].EXE_DATE);
-            //     if(this.moa_list.row1[i].EXE_DATE != '0000-00-00 00:00:00'){
-            //       this.moa_list.row1[i].EXE_DATE = dayjs(this.moa_list.row1[i].EXE_DATE).format('YYYY-MM-DD HH:mm:ss');
-            //     }
-            //   // console.log(this.moa_list[i].EXE_DATE);
-            //   }
-
-            //   for(let i = 0; i < this.moa_list.row2.length; i++) {
-            //   this.moa_list.row2[i].FIRST_REG_DATE = dayjs(this.moa_list.row2[i].FIRST_REG_DATE).format('YYYY-MM-DD');
-            //   // console.log(this.moa_list[i].EXE_DATE);
-            //     if(this.moa_list.row2[i].EXE_DATE != '0000-00-00 00:00:00'){
-            //       this.moa_list.row2[i].EXE_DATE = dayjs(this.moa_list.row2[i].EXE_DATE).format('YYYY-MM-DD HH:mm:ss');
-            //     }
-            //   // console.log(this.moa_list[i].EXE_DATE);
-            //   }
-            // } else {
-            //   for(let i = 0; i < this.moa_list.length; i++) {
-            //   this.moa_list[i].FIRST_REG_DATE = dayjs(this.moa_list[i].FIRST_REG_DATE).format('YYYY-MM-DD');
-            //   // console.log(this.moa_list[i].EXE_DATE);
-            //     if(this.moa_list[i].EXE_DATE != '0000-00-00 00:00:00'){
-            //       this.moa_list[i].EXE_DATE = dayjs(this.moa_list[i].EXE_DATE).format('YYYY-MM-DD HH:mm:ss');
-            //     }
-            //   // console.log(this.moa_list[i].EXE_DATE);
-            //   }
-            // }
-
-            
             }
           }
         )
       },
+
       addfile: function(){
         let routeData = this.$router.resolve({
                                               name: 'posting',
