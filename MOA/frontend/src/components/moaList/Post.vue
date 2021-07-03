@@ -282,18 +282,19 @@ methods:{
         console.log("detailinfo는???",this.detailInfo);
 
             //등록하면 유저에 UPLD_CASCNT값 증가(ok)
-            // this.$http.post("/api/musers/uploadUpdate",{
-            //     users:this.users
-            // })
-            // .then(
-            //     (res)=>{
-            //         console.log(res);
-            //     }
-            // )
+            this.$http.post("/api/musers/uploadUpdate",{
+                users:this.users
+            })
+            .then(
+                (res)=>{
+                    console.log(res);
+                }
+            )
             const datetime = document.getElementById('hour').value +":"+ document.getElementById('min').value;
             this.detailInfo.DATA_EXE_TIME = datetime;
             console.log("시간",this.detailInfo.DATA_EXE_TIME);
-
+            // this.detailInfo.DOW_NM = this.select_option[0];
+            // console.log("요일",this.detailInfo.DOW_NM);
             setTimeout(() => {
                 //그다음 순서\
                 this.$http.post("/api/mlist/addFile", {
@@ -303,6 +304,7 @@ methods:{
                 .then(
                     (res) => {
                         console.log(res);
+
                     }
                 )
             },500)
