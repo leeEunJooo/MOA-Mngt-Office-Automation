@@ -68,7 +68,8 @@ export default {
     data: function(){
       return { 
         // FIRST_REG_DATE.getFullYear() + "-" + (FIRST_REG_DATE.getMonth() + 1) + "-" + FIRST_REG_DATE.getDate()}
-        moa_list:[], 
+        moa_list:[],
+        moa_list2:[], 
         date:"",
         items: [
           // '팀', '담당자', '대상시스템', '수행시간', '사용기술', '자동화 명칭', '매뉴얼', '전체검색'],
@@ -85,11 +86,11 @@ export default {
           { text: '작성자', value: 'TKCGR_NM' },
           { text: '업로드일', value: 'FIRST_REG_DATE'},
           { text: '최근수행시간', value: 'EXE_DATE' },
-          { text: '최근수행시간', value: 'EXE_DATE' },
-          { text: '실행', value: 'EXE_DATE' },
+          { text: '', value: 'exe_btn' }
         ],
         search_select: '',
         search_text: '',
+        exe_btn:'s',
       };
     },
 
@@ -127,6 +128,8 @@ export default {
       },
       
       search: function(){
+        this.moa_list = [];
+        this.moa_list2 = [];
         // if(this.search_select == "대상시스템") this.search_select = "S01";
         console.log("!!!!!!!!!!!!!!!!!!!!!", this.search_select);
         console.log("@@@@@@@@@@@@@@@@@@@@@", this.search_text);
@@ -137,34 +140,81 @@ export default {
         .then(
           (response)=>{
             console.log("#################", response);
+            
             console.log("response.data", response.data);
-            if(response.data == "not found"){
-              alert("검색한 단어는 존재하지 않습니다.");
-              this.moa_list=[];
-            }else{
-            this.moa_list = response.data;
-            for(let i = 0; i < this.moa_list.length; i++) {
-              this.moa_list[i].FIRST_REG_DATE = dayjs(this.moa_list[i].FIRST_REG_DATE).format('YYYY-MM-DD');
-              // console.log(this.moa_list[i].EXE_DATE);
-              if(this.moa_list[i].EXE_DATE != '0000-00-00 00:00:00'){
-                this.moa_list[i].EXE_DATE = dayjs(this.moa_list[i].EXE_DATE).format('YYYY-MM-DD HH:mm:ss');
+            console.log("response.data", response.data.length);
+
+            if (Object.keys(response.data).includes('row1') && Object.keys(response.data).includes('row2')) {
+              if (response.data.row1.length == 0 && response.data.row2.length == 0) {
+                alert("검색한 단어는 존재하지 않습니다.");
+                this.moa_list=[];
+              } else {
+                console.log("둘 다 포함");
+                console.log("response.data.data1 : ", response.data.row1);
+                console.log("response.data.data2 : ", response.data.row2);
+                console.log("response.data.data1 길이 : ", response.data.row1.length);
+                console.log("response.data.data2 길이 : ", response.data.row2.length);
+              
+                for(let i = 0; i < response.data.row1.length; i++) {
+                  this.moa_list.push(response.data.row1[i]);
+                  this.moa_list2.push(response.data.row1[i]);
+                }
+
+                console.log("moa_list21 : ", this.moa_list2);
+
+                for (let i = 0; i < this.moa_list2.length; i++) {
+                  for(let j = 0; j < response.data.row2.length; j++) {
+                    if ((this.moa_list2[i].NTCART_TITLE_NM != response.data.row2[j].NTCART_TITLE_NM) && (this.moa_list2[i].TKCGR_NM != response.data.row2[j].TKCGR_NM)) {
+                      this.moa_list.push(response.data.row2[j]);
+                    }                  
+                  }
+                }
+              
+                console.log("moa_list : ", this.moa_list);
+
+                for(let i = 0; i < this.moa_list.length; i++) {
+                  this.moa_list[i].FIRST_REG_DATE = dayjs(this.moa_list[i].FIRST_REG_DATE).format('YYYY-MM-DD');
+                  if(this.moa_list[i].EXE_DATE != '0000-00-00 00:00:00'){
+                    this.moa_list[i].EXE_DATE = dayjs(this.moa_list[i].EXE_DATE).format('YYYY-MM-DD HH:mm:ss');
+                  }
+                }
               }
-              // console.log(this.moa_list[i].EXE_DATE);
-            }
+            } else {
+              if (response.data.length == 0) {
+                alert("검색한 단어는 존재하지 않습니다.");
+                this.moa_list=[];
+              } else {
+                console.log("코드성 제외");
+                console.log("response.data : ", response.data);
+                console.log("response.data 길이 : ", response.data.length);
+                this.moa_list = response.data;
+                console.log("moa_list : ", this.moa_list);
+
+                for(let i = 0; i < this.moa_list.length; i++) {
+                this.moa_list[i].FIRST_REG_DATE = dayjs(this.moa_list[i].FIRST_REG_DATE).format('YYYY-MM-DD');
+                // console.log(this.moa_list[i].EXE_DATE);
+                  if(this.moa_list[i].EXE_DATE != '0000-00-00 00:00:00'){
+                    this.moa_list[i].EXE_DATE = dayjs(this.moa_list[i].EXE_DATE).format('YYYY-MM-DD HH:mm:ss');
+                  }
+                // console.log(this.moa_list[i].EXE_DATE);
+                }
+              }
             }
           }
         )
-      }
-    },
+      },
 
-    addfile: function(){
-      let routeData = this.$router.resolve({
-                                              name: 'listdetail',
-                                              
+      addfile: function(){
+        let routeData = this.$router.resolve({
+                                              name: 'posting',
                                             });
-      window.open(routeData.href, "_blank","width=680, height=850, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
+        window.open(routeData.href, "_blank","width=700, height=850, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
 
     }
+      
+    },
+
+    
     
   }
 </script>
@@ -219,7 +269,7 @@ export default {
 .list-btn-row-box .search_btn{
     width: 90px !important;
     height: 40px !important;
-    background-color: #f54479 !important;
+    background-color: #f0217b !important;
     color : white !important;
     padding: 10px 15px !important;
     border-radius: 5px;
@@ -241,6 +291,11 @@ export default {
 }
 .data_table{
   text-align: center;
+}
+.data_table span{
+  font-size: 14px;
+  color: rgb(52, 52, 52);
+  font-weight: bold;
 }
 
 
