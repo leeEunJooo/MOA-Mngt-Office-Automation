@@ -259,7 +259,7 @@ export default {
   
 }
 .list-btn-row-box .search_box1{
-  width: 120px !important;
+  width: 160px !important;
   height: 45px !important;
 }
 .list-btn-row-box .search_box2{
