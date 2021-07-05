@@ -143,7 +143,6 @@ var connection = conn.connection;
         // var sql1 = 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(SROC_FILE_PATH_NM, DOW_NM, DATA_EXE_TIME, INPUT_VAL, TRT_STEP_NM, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM) against("' + search.search_text + '*" in boolean mode)';
         // var sql2 = 'SELECT CD_ID FROM TBL_MOA_CD_BAS WHERE CD_NM LIKE "%' + search.search_text + '%"';
         // var sqlResult;
-        
         connection.query('SELECT CD_ID FROM TBL_MOA_CD_BAS WHERE CD_NM LIKE "%' + search.search_text + '%"', function (err, row) {
           if (err) throw err;
           // console.log(rows);
@@ -168,14 +167,8 @@ var connection = conn.connection;
                 console.log("22222 - row1 길이? ", row1.length);
                 for (var i = 0; i < row.length; i++) {
                   connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, CONN_EVN_DIV_CD) against("' + row[i].CD_ID + '*" in boolean mode)',function(err,row2) {
-                    // console.log("row : ", row[i].CD_ID);
                     if(err) throw err;
-                    // console.log("row2 : ", row2);
-                    // console.log("row22 : ", row2[i]);
-                    // sqlResult = row2[i];
-  
-                    // console.log(row1 + row2);
-                    
+
                     console.log("!!", row1);
                     console.log("@@", row2);
 
@@ -197,33 +190,25 @@ var connection = conn.connection;
                       res.send(row1);
                     }
                   });
-                  // console.log("sqlResult : ", sqlResult);
                 }
               } else {
                 console.log("55555 - 코드외 존재 안함 & 코드성만 존재");
                 console.log("55555 - row 길이? ", row.length);
-                console.log("55555555555- row", row);
+              
                 for (var i = 0; i < row.length; i++) {
                   connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, CONN_EVN_DIV_CD) against("' + row[i].CD_ID + '*" in boolean mode)',function(err,row2) {
-                    // console.log("row : ", row[i].CD_ID);
                     if(err) throw err;
-                    // console.log("row2 : ", row2);
-                    // console.log("row22 : ", row2[i]);
-                    // sqlResult = row2[i];
                     
-                    console.log("??",row2.length);
-                    
+                    console.log("??", row2);
+
                     if (row2 != "") {
+                      console.log("row2 길이? ", row2.length);
                       console.log("???", row2);
                       res.send(row2);
-                    } 
-                
-                    // else {
-                    //   // 이 부분 에러 처리 필요
-                    //   res.send("not found");
-                    // }
+                    } else {
+                      console.log("row2 길이? ", row2.length); 
+                    }
                   });
-                  // console.log("sqlResult : ", sqlResult);
                 }
               }
             });
@@ -242,7 +227,7 @@ var connection = conn.connection;
               }else{
                 console.log("10 - 코드성 & 코드외 존재 안함");
                 console.log("???", row1);
-                res.send("not found");
+                res.send("");
               }
             });
           }
