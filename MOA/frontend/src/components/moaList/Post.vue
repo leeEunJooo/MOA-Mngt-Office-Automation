@@ -231,6 +231,7 @@ props : {
 
 data:function(){
     return{
+        file_seq:"",
         users: "",
         detailInfo:{
             CUST_IDFY_SEQ:"",
@@ -295,19 +296,36 @@ methods:{
             console.log("시간",this.detailInfo.DATA_EXE_TIME);
             // this.detailInfo.DOW_NM = this.select_option[0];
             // console.log("요일",this.detailInfo.DOW_NM);
-            setTimeout(() => {
-                //그다음 순서\
-                this.$http.post("/api/mlist/addFile", {
-                    detailInfo: this.detailInfo,
-                    users:this.users,
-                })
-                .then(
-                    (res) => {
-                        console.log(res);
+            // setTimeout(() => {
+            //     //그다음 순서\
+            //     this.$http.post("/api/mlist/addFile", {
+            //         detailInfo: this.detailInfo,
+            //         users:this.users,
+            //     })
+            //     .then(
+            //         (res) => {
+            //             console.log(res);
 
-                    }
-                )
-            },500)
+            //         }
+            //     )
+            // },500)
+
+            //그다음 순서\
+            this.$http.post("/api/mlist/addFile", {
+                detailInfo: this.detailInfo,
+                users:this.users,
+            })
+            .then(
+                (res) => {
+                    console.log(res);
+                    alert(res.data.message);
+                    window.close();
+                }
+            )
+
+            //목록조회
+
+            //이력등록
     },
 
     loadCD: function(){
