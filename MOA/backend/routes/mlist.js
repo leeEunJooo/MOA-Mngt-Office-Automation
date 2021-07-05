@@ -202,6 +202,7 @@ var connection = conn.connection;
               } else {
                 console.log("55555 - 코드외 존재 안함 & 코드성만 존재");
                 console.log("55555 - row 길이? ", row.length);
+                console.log("55555555555- row", row);
                 for (var i = 0; i < row.length; i++) {
                   connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, CONN_EVN_DIV_CD) against("' + row[i].CD_ID + '*" in boolean mode)',function(err,row2) {
                     // console.log("row : ", row[i].CD_ID);
@@ -210,12 +211,13 @@ var connection = conn.connection;
                     // console.log("row22 : ", row2[i]);
                     // sqlResult = row2[i];
                     
-                    console.log("??", row2);
+                    console.log("??",row2.length);
                     
                     if (row2 != "") {
                       console.log("???", row2);
                       res.send(row2);
                     } 
+                
                     // else {
                     //   // 이 부분 에러 처리 필요
                     //   res.send("not found");
@@ -228,7 +230,7 @@ var connection = conn.connection;
           } else {
             console.log("88888 - 코드 검색 포함 안함");
             console.log("88888 - row 길이? ", row.length);
-            connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(SROC_FILE_PATH_NM, DOW_NM, DATA_EXE_TIME, INPUT_VAL, TRT_STEP_NM, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM) against("' + search.search_text + '*" in boolean mode)',function(err,row1) {
+            connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(SROC_FILE_PATH_NM, DOW_NM, DATA_EXE_TIME, INPUT_VAL, TRT_STEP_NM, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM) against("*' + search.search_text + '*" in boolean mode)',function(err,row1) {
               if(err) throw err;
 
               console.log("??", row1);
