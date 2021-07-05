@@ -163,17 +163,19 @@
             </li>
             <li class="height_fit_content" id="mannual_file">
                 <div class="sm_title" style="margin-bottom:5px">매뉴얼파일</div>
-                <v-btn class="addfilebtn" id="addFileBtn">
+                <v-btn class="addfilebtn">
                     <img src="../../assets/img/paperclip.png" class=""/>
-                </v-btn>    
+                </v-btn>   
+                 
                 
                 <!-- 매뉴얼파일 리스트 -->
+                <hr class="file_hr"/>
                 <div class="filebox1 file_list">
-                    <span class="fileType" id="fileType">파일형식</span>
-                    <span class="fileContent" id="fileContent">파일 내용</span>
+                    <span class="fileType" id="fileType"></span>
+                    <span class="fileContent" id="fileContent"></span>
                     <input type="file" id="realFile" name="mannual" @change="changeVal($event)" hidden/>
-                    <span class="deletebtn" id="deletebtn">X</span>
-                    <hr class="file_hr"/>
+                    <span class="deletebtn" id="deletebtn" @click="cancelVal($event)"></span>
+                    <hr class="file_hr" id="file_hr" style="margin-top:8px; margin-bottom:35px; display:none;"/>
                 </div>
             </li>
             <li class="height_fit_content">
@@ -182,9 +184,13 @@
                     <img src="../../assets/img/paperclip.png" class=""/>
                 </v-btn>
                 <!-- 자동화파일 리스트 -->
-                <div class="filebox2">
-                    <input class="typing file_list" disabled/>
-                    <hr class="file_hr"/>
+                <hr class="file_hr"/>
+                <div class="filebox2 file_list">
+                    <span class="fileType" id="fileType"></span>
+                    <span class="fileContent" id="fileContent"></span>
+                    <input type="file" id="realFile" name="moafile" @change="changeVal($event)" hidden/>
+                    <span class="deletebtn" id="deletebtn" @click="cancelVal($event)"></span>
+                    <hr class="file_hr" id="file_hr" style="margin-top:8px; margin-bottom:35px; display:none;"/>
                 </div>
             </li>
             <li class="height_fit_content" style="margin-top:15px">
@@ -319,11 +325,8 @@ methods:{
             )
     },
 
-       setCode : async function(iter, allCode, callback){
-        console.log("data시작", iter);
-
-        if(iter > 5) return allCode;
-
+    setCode : async function(iter, allCode, callback){
+        if(iter > 5) return;
         const cd = ['CDC','SYD','LDC','CEC','RRC','TSC'];
         const code = cd[iter];
         await this.$http.post(`/api/mlist/select/${code}`)
@@ -333,7 +336,6 @@ methods:{
             }
         )
         
-        
     },
 
     callback : function(iter, res, allCode){
@@ -342,14 +344,7 @@ methods:{
             groupCode.push({'name':val.CD_NM, 'cd':val.CD_ID});
         }); 
         allCode.push(groupCode); 
-
-        console.log("data끝",iter, groupCode);
-
-
         this.setCode(iter+1, allCode, this.callback);
-
-        
-        
     },
 
     loadCD: function(){
@@ -367,44 +362,60 @@ methods:{
 
          
         var allCode = [];
-        //주기
         let days = ['월요일','화요일','수요일','목요일','금요일','토요일','일요일'];
         for(let i=1; i<31; i++) 
             days.push(i +'일');
         allCode.push(days);
-
         this.setCode(0,allCode, this.callback);
 
         this.select_option = allCode;
     },
-
-    
     //매뉴얼 파일
-    mannualFile :function(){
-        var mannualLI = document.querySelector('#mannual_file');
-        var addBtn = mannualLI.querySelector('#addFileBtn');
-        var file = mannualLI.querySelector('#realFile');
-
-        addBtn.onclick = () =>{
-            file.click();
-        } 
+    addFile :function(){
+        const addBtn = document.getElementsByClassName('addfilebtn');
+        addBtn.forEach(btn => {
+            var parent = btn.parentNode;
+            var file = parent.querySelector('#realFile');
+            btn.onclick = () =>{
+                file.click();
+            } 
+        });   
     },
+    cancelVal : function(e){
+        const parent = e.target.parentNode;
+        const fileType = parent.querySelector('#fileType');
+        const fileContent = parent.querySelector('#fileContent');
+        const delVtn = parent.querySelector('#deletebtn');
+        const hr = parent.querySelector('#file_hr');
 
+        fileType.innerHTML = "";
+        fileContent.innerHTML = "";
+        delVtn.innerHTML = "";
+        hr.style.display="none";
+    },
     changeVal : function(e){
-
         if(window.FileReader){ // modern browser
-            const filename = e.target.value; 
+            const filepath = e.target.value; 
+            const spltArr_type = filepath.split('.');
+            const splthArr_name = filepath.split('\\');
+            let filetype = spltArr_type[spltArr_type.length-1];
+            let filename = splthArr_name[splthArr_name.length-1];
             console.log(filename);
 
             const parent = e.target.parentNode;
+            
+            const fileType = parent.querySelector('#fileType');
             const fileContent = parent.querySelector('#fileContent');
+            const delVtn = parent.querySelector('#deletebtn');
+            const hr = parent.querySelector('#file_hr');
 
-            fileContent.value = filename;
-            console.log(parent);
+            fileType.innerHTML = filetype;
+            fileContent.innerHTML = filename;
+            delVtn.innerHTML = "X";
+            hr.style.display="block";
             
          } 
-
-    }
+    }     
         
         
 
@@ -416,8 +427,7 @@ created() {
     this.loadCD();
 },
 mounted(){
-    this.mannualFile();  
-    
+    this.addFile();
 }
 
 
@@ -575,10 +585,9 @@ mounted(){
     color: #3b3b3b;
 }
 .posting .file_hr{
-    
-    opacity: 0.2;
+    opacity: 0.1;
     border: solid 0.5px #707070;
-    margin-top:5px;
+    margin:5px 0px;
 }
 
 .height_fit_content{
@@ -665,10 +674,11 @@ mounted(){
     /* 파일 */
     .posting .fileType,
     .posting .fileContent,
-    .posting.deletebtn{
+    .posting .deletebtn{
         display: inline-block;
         text-align: left;
         padding:0px 10px;
+        cursor:pointer;
     }
 
     .posting .fileType{
@@ -677,9 +687,9 @@ mounted(){
     .posting .fileContent{
         width:80%;
     }
-    .posting.deletebtn{
+    .posting .deletebtn{
         width:5%;
-        
+        cursor:pointer;  
     }
 
 </style>
