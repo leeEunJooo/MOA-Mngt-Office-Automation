@@ -190,7 +190,7 @@
             <li class="height_fit_content" style="margin-top:15px">
                 <div class="sm_title" style="margin: 5px 0px">상세설명</div>
                 <div class="textarea">
-                    <textarea v-model="detailInfo.ATTEN_MTR_SBST">
+                    <textarea v-model="detailInfo.DTL_DESC_SBST">
 
                     </textarea>
                 </div>
@@ -222,7 +222,6 @@
 
 <script>
 
-
 export default {
 props : {
     Id : Number,
@@ -252,9 +251,10 @@ data:function(){
             ATTEN_MTR_SBST:"",
             DOW_NM:"",
             TRT_STEP_NM:"",
-            ATC_FILE_MANUAL_YN:"N",
+            ATC_FILE_MANUAL_YN:"",
             ETC_SBST:"",
             ATC_FILE_UPLD_PATH_NM:"",
+            DTL_DESC_SBST:"",
         },
         checkedY:false,
         checkedN:false,
@@ -291,24 +291,19 @@ methods:{
                     console.log(res);
                 }
             )
+
+            console.log("Y",this.checkedY);
+            console.log("N",this.checkedN);
+            if(this.checkedN==true){
+                this.detailInfo.ATC_FILE_MANUAL_YN = "N";
+            }
+            if(this.checkedY == true){
+                this.detailInfo.ATC_FILE_MANUAL_YN = "Y";
+            }
+
             const datetime = document.getElementById('hour').value +":"+ document.getElementById('min').value;
             this.detailInfo.DATA_EXE_TIME = datetime;
             console.log("시간",this.detailInfo.DATA_EXE_TIME);
-            // this.detailInfo.DOW_NM = this.select_option[0];
-            // console.log("요일",this.detailInfo.DOW_NM);
-            // setTimeout(() => {
-            //     //그다음 순서\
-            //     this.$http.post("/api/mlist/addFile", {
-            //         detailInfo: this.detailInfo,
-            //         users:this.users,
-            //     })
-            //     .then(
-            //         (res) => {
-            //             console.log(res);
-
-            //         }
-            //     )
-            // },500)
 
             //그다음 순서\
             this.$http.post("/api/mlist/addFile", {
@@ -322,10 +317,39 @@ methods:{
                     window.close();
                 }
             )
+    },
 
-            //목록조회
+       setCode : async function(iter, allCode, callback){
+        console.log("data시작", iter);
 
-            //이력등록
+        if(iter > 5) return allCode;
+
+        const cd = ['CDC','SYD','LDC','CEC','RRC','TSC'];
+        const code = cd[iter];
+        await this.$http.post(`/api/mlist/select/${code}`)
+        .then(
+            (res) => {
+                callback(iter, res,allCode);
+            }
+        )
+        
+        
+    },
+
+    callback : function(iter, res, allCode){
+        var groupCode = [];
+        res.data.forEach(val => {
+            groupCode.push({'name':val.CD_NM, 'cd':val.CD_ID});
+        }); 
+        allCode.push(groupCode); 
+
+        console.log("data끝",iter, groupCode);
+
+
+        this.setCode(iter+1, allCode, this.callback);
+
+        
+        
     },
 
     loadCD: function(){
@@ -341,31 +365,19 @@ methods:{
                 }
             )
 
-        // 코드성테이블에서 CD_ID와 CD_NM조회
+         
         var allCode = [];
-        const cd = ['CDC','SYD','LDC','CEC','RRC','TSC'];
-        for(let i=0;i<cd.length; i++){
-            const code = cd[i];
-            this.$http.post(`/api/mlist/select/${code}`)
-            .then(
-                (res) => {
-                    var groupCode = [];
-                    res.data.forEach(val => {
-                        groupCode.push({'name':val.CD_NM, 'cd':val.CD_ID});
-                    }); 
-                    allCode.push(groupCode);
-                }
-            )
-        }
-    
         //주기
         let days = ['월요일','화요일','수요일','목요일','금요일','토요일','일요일'];
         for(let i=1; i<31; i++) 
             days.push(i +'일');
         allCode.push(days);
 
+        this.setCode(0,allCode, this.callback);
+
         this.select_option = allCode;
     },
+
     
     //매뉴얼 파일
     mannualFile :function(){
@@ -405,6 +417,7 @@ created() {
 },
 mounted(){
     this.mannualFile();  
+    
 }
 
 

@@ -17,16 +17,16 @@ var connection = conn.connection;
     });
   });
 
-
+  
   //CD_ID, CD_NM조회
-  router.post('/select/:group_id',function(req,res){
+  router.post('/select/:group_id', function(req,res){
     const group_id = req.params.group_id;
-    
-    connection.query('SELECT CD_ID, CD_NM FROM TBL_MOA_CD_BAS WHERE ITG_CD_GROUP_ID="'+group_id+'"', function(err,rows){
-      if(err) throw err;
-      // console.log(rows);
-      res.send(rows);
-    })
+    console.log("group_id", group_id);
+      connection.query('SELECT CD_ID, CD_NM FROM TBL_MOA_CD_BAS WHERE ITG_CD_GROUP_ID="'+group_id+'"', function(err,rows){
+        if(err) throw err;
+        // console.log(rows);
+        res.send(rows);
+      })
   });
 
 
@@ -67,6 +67,7 @@ var connection = conn.connection;
       'TRT_STEP_NM':req.body.detailInfo.TRT_STEP_NM,
       'ETC_SBST':req.body.detailInfo.ETC_SBST,
       'ATC_FILE_UPLD_PATH_NM':req.body.detailInfo.ATC_FILE_UPLD_PATH_NM,
+      'DTL_DESC_SBST':req.body.detailInfo.DTL_DESC_SBST,
       'FNS_DATE':"9999-12-31",
 
     };
@@ -74,7 +75,7 @@ var connection = conn.connection;
     console.log(detailInfo.CUST_IDFY_SEQ);
     console.log(detailInfo.CYCL_DATE_TYPE_CD);
     //자동화목록등록
-    connection.query('INSERT INTO TBL_MOA_BAS (CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE) VALUES ("' + detailInfo.CUST_IDFY_SEQ + '","'+ detailInfo.SROC_FILE_PATH_NM+'", "' + detailInfo.LANG_CD + '", "' + detailInfo.SYS_DIV_CD + '","' + detailInfo.CYCL_DATE_TYPE_CD + '","' + detailInfo.DOW_NM + '","' + detailInfo.DATA_EXE_TIME +'","' + detailInfo.RPY_RESLT_CD+'","' + detailInfo.TROBL_SVC_TYPE_CD  +'","' + detailInfo.INPUT_VAL +'","' + detailInfo.TRT_STEP_NM +'","' + detailInfo.CONN_EVN_DIV_CD +'","' + detailInfo.ATTEN_MTR_SBST+'","' + detailInfo.ATC_FILE_MANUAL_YN+'","' + detailInfo.ATC_FILE_UPLD_PATH_NM+'","' + detailInfo.OTPUT_SBST +'","' + detailInfo.ETC_SBST+'","' + detailInfo.EXE_SBST +'","' + detailInfo.NTCART_TITLE_NM +'","' + detailInfo.TKCGR_NM+'","' +detailInfo.RUSER_NM+'",sysdate(), sysdate(),"'+detailInfo.FNS_DATE+'")', detailInfo, function (err, row){
+    connection.query('INSERT INTO TBL_MOA_BAS (CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST) VALUES ("' + detailInfo.CUST_IDFY_SEQ + '","'+ detailInfo.SROC_FILE_PATH_NM+'", "' + detailInfo.LANG_CD + '", "' + detailInfo.SYS_DIV_CD + '","' + detailInfo.CYCL_DATE_TYPE_CD + '","' + detailInfo.DOW_NM + '","' + detailInfo.DATA_EXE_TIME +'","' + detailInfo.RPY_RESLT_CD+'","' + detailInfo.TROBL_SVC_TYPE_CD  +'","' + detailInfo.INPUT_VAL +'","' + detailInfo.TRT_STEP_NM +'","' + detailInfo.CONN_EVN_DIV_CD +'","' + detailInfo.ATTEN_MTR_SBST+'","' + detailInfo.ATC_FILE_MANUAL_YN+'","' + detailInfo.ATC_FILE_UPLD_PATH_NM+'","' + detailInfo.OTPUT_SBST +'","' + detailInfo.ETC_SBST+'","' + detailInfo.EXE_SBST +'","' + detailInfo.NTCART_TITLE_NM +'","' + detailInfo.TKCGR_NM+'","' +detailInfo.RUSER_NM+'",sysdate(), sysdate(),"'+detailInfo.FNS_DATE+'","'+detailInfo.DTL_DESC_SBST+'")', detailInfo, function (err, row){
       if(err) throw err;
       console.log(row);
       console.log("insertid ",row[0]);
@@ -84,7 +85,7 @@ var connection = conn.connection;
           if(err) throw err;
           console.log(rows[0].FILE_SEQ);
           //이력테이블 등록
-          connection.query('INSERT INTO TBL_MOA_HST (FILE_SEQ,CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD) VALUES ("'+rows[0].FILE_SEQ+'","' + detailInfo.CUST_IDFY_SEQ + '","'+ detailInfo.SROC_FILE_PATH_NM+'", "' + detailInfo.LANG_CD + '", "' + detailInfo.SYS_DIV_CD + '","' + detailInfo.CYCL_DATE_TYPE_CD + '","' + detailInfo.DOW_NM + '","' + detailInfo.DATA_EXE_TIME +'","' + detailInfo.RPY_RESLT_CD+'","' + detailInfo.TROBL_SVC_TYPE_CD  +'","' + detailInfo.INPUT_VAL +'","' + detailInfo.TRT_STEP_NM +'","' + detailInfo.CONN_EVN_DIV_CD +'","' + detailInfo.ATTEN_MTR_SBST+'","' + detailInfo.ATC_FILE_MANUAL_YN+'","' + detailInfo.ATC_FILE_UPLD_PATH_NM+'","' + detailInfo.OTPUT_SBST +'","' + detailInfo.ETC_SBST+'","' + detailInfo.EXE_SBST +'","' + detailInfo.NTCART_TITLE_NM +'","' + detailInfo.TKCGR_NM+'","' +detailInfo.RUSER_NM+'",sysdate(),"'+detailInfo.FNS_DATE+'","Y","Y","R")',detailInfo,function(err,row2){
+          connection.query('INSERT INTO TBL_MOA_HST (FILE_SEQ,CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST) VALUES ("'+rows[0].FILE_SEQ+'","' + detailInfo.CUST_IDFY_SEQ + '","'+ detailInfo.SROC_FILE_PATH_NM+'", "' + detailInfo.LANG_CD + '", "' + detailInfo.SYS_DIV_CD + '","' + detailInfo.CYCL_DATE_TYPE_CD + '","' + detailInfo.DOW_NM + '","' + detailInfo.DATA_EXE_TIME +'","' + detailInfo.RPY_RESLT_CD+'","' + detailInfo.TROBL_SVC_TYPE_CD  +'","' + detailInfo.INPUT_VAL +'","' + detailInfo.TRT_STEP_NM +'","' + detailInfo.CONN_EVN_DIV_CD +'","' + detailInfo.ATTEN_MTR_SBST+'","' + detailInfo.ATC_FILE_MANUAL_YN+'","' + detailInfo.ATC_FILE_UPLD_PATH_NM+'","' + detailInfo.OTPUT_SBST +'","' + detailInfo.ETC_SBST+'","' + detailInfo.EXE_SBST +'","' + detailInfo.NTCART_TITLE_NM +'","' + detailInfo.TKCGR_NM+'","' +detailInfo.RUSER_NM+'",sysdate(),"'+detailInfo.FNS_DATE+'","Y","Y","R","'+detailInfo.DTL_DESC_SBST+'")',detailInfo,function(err,row2){
             if(err) throw err;
             console.log(row2);
             if(row2!=""){
