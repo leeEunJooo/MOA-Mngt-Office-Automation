@@ -79,8 +79,7 @@ export default {
           {name: "수행시간", code: "CDC"},
           {name: "사용기술", code: "LDC"},
           {name: "자동화 명칭", code: "ETC2"},
-          // {name: "메뉴얼", code: "ETC3"},
-          {name: "전체검색", code: "ETC3"},
+          {name: "전체검색", code: "ETC4"},
         ],
         headers: [
           { text: '자동화파일', value: 'NTCART_TITLE_NM' },
@@ -260,7 +259,7 @@ export default {
   
 }
 .list-btn-row-box .search_box1{
-  width: 120px !important;
+  width: 160px !important;
   height: 45px !important;
 }
 .list-btn-row-box .search_box2{
