@@ -146,7 +146,7 @@ var connection = conn.connection;
           if(rows!=""){
             res.send(rows);
           }else{
-            res.send("not found");
+            res.send("");
           }
         });
       }
@@ -159,7 +159,7 @@ var connection = conn.connection;
           if(rows!=""){
             res.send(rows);
           }else{
-            res.send("not found");
+            res.send("");
           }
         });
       }
@@ -268,31 +268,37 @@ var connection = conn.connection;
         console.log("팀일 경우");
         //팀의 CD_ID를 조회
         connection.query('SELECT CD_ID FROM TBL_MOA_CD_BAS WHERE ITG_CD_GROUP_ID = "' + search.search_select_code + '" and CD_NM like "%' + search.search_text + '%"', function (err, row) {
+          console.log("row 길이 ?.? ", row.length);
           if(err) throw err;
-          if(row!=""){
+          if(row != ""){
             //조회한 CD_ID를 가지고 USER_BAS에서 사용자 일련번호를 조회
             connection.query('SELECT CUST_IDFY_SEQ FROM TBL_MOA_USER_BAS WHERE TEAM_DIV_CD = "'+ row[0].CD_ID+'"',function(err,rows){
-              if(err) throw err;
-              console.log("사용자일련번호 조회");
-              console.log(rows);
-              for(var i=0; i<rows.length; i++){
-                //조회한 사용자 일련번호로 자동화 목록리스트 조회
-                connection.query('SELECT NTCART_TITLE_NM, TKCGR_NM, FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE m.CUST_IDFY_SEQ in('+ rows[i].CUST_IDFY_SEQ+')',function(err,row3){
-                  if(err) throw err;
-                  console.log("자동화목록 조회");
-                  console.log(row3);
-                  if(row3 != ""){
-                    console.log("왔다");
-                    res.send(row3);
-                  }
-                });
-              }             
+              if(rows != "") {
+                console.log("rows 길이 ?.? ", rows.length);
+                if(err) throw err;
+                console.log("사용자일련번호 조회");
+                console.log(rows);
+                for(var i=0; i<rows.length; i++){
+                  //조회한 사용자 일련번호로 자동화 목록리스트 조회
+                  connection.query('SELECT NTCART_TITLE_NM, TKCGR_NM, FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE m.CUST_IDFY_SEQ in('+ rows[i].CUST_IDFY_SEQ+')',function(err,row3){
+                    if(err) throw err;
+                    console.log("자동화목록 조회");
+                    console.log(row3);
+                    if(row3 != ""){
+                      console.log("왔다");
+                      res.send(row3);
+                    }
+                  });
+                }
+              } else {
+                res.send("");
+              }   
             });
           }else{
             res.send("");
           }
         });
-      }else{
+      } else {
         //그게 아닌 다른 코드 테이블포함된 경우
         //사용기술(LDC)
         if(search.search_select_code == 'LDC'){
