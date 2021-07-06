@@ -17,6 +17,7 @@ EMP_POS_DIV_CD VARCHAR(3) NOT NULL
 
 select * from TBL_MOA_USER_BAS;
 update tbl_moa_user_bas set upld_cascnt =upld_cascnt+1 where cust_idfy_seq = 3;
+delete from tbl_moa_user_bas where cust_idfy_seq = 5;
 
 -- 사용자 테이블 데이터 INSERT
 INSERT INTO TBL_MOA_USER_BAS(CUST_IDFY_SEQ, USER_ID, USER_PWD, USER_TEL_NO, USER_NM, UPLD_CASCNT, TEAM_DIV_CD, EMP_POS_DIV_CD) 
@@ -74,6 +75,8 @@ sysdate(), sysdate(), '9999-12-31','K-RDS, K-NOTE, MVNO-RDS, M-RDS 시스템 조
 
 select * from tbl_moa_bas;
 
+delete from tbl_moa_bas where cust_idfy_seq=5;
+
 SELECT * FROM TBL_MOA_BAS WHERE FILE_SEQ= 2 AND column_name like "%_cd";
 
 SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,'0000-00-00 00:00:00') as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where m.cust_idfy_seq = 3;
@@ -117,6 +120,7 @@ DTL_DESC_SBST VARCHAR(1000),
 FOREIGN KEY(FILE_SEQ) REFERENCES TBL_MOA_BAS(FILE_SEQ),
 FOREIGN KEY(CUST_IDFY_SEQ) REFERENCES TBL_MOA_BAS(CUST_IDFY_SEQ)
 );
+delete from tbl_moa_hst where cust_idfy_seq = 5;
 
 -- 자동화 세부정보 이력 테이블 데이터 INSERT
 INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 

@@ -276,20 +276,24 @@ var connection = conn.connection;
               if(rows != "") {
                 console.log("rows 길이 ?.? ", rows.length);
                 if(err) throw err;
+                // const list =[];
                 console.log("사용자일련번호 조회");
                 console.log(rows);
-                for(var i=0; i<rows.length; i++){
+                const value = [];
+                for(let i=0; i<rows.length; i++){
+                  value.push(rows[i].CUST_IDFY_SEQ);
+                }
+                console.log(value);
                   //조회한 사용자 일련번호로 자동화 목록리스트 조회
-                  connection.query('SELECT NTCART_TITLE_NM, TKCGR_NM, FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE m.CUST_IDFY_SEQ in('+ rows[i].CUST_IDFY_SEQ+')',function(err,row3){
+                  connection.query('SELECT NTCART_TITLE_NM, TKCGR_NM, FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE m.CUST_IDFY_SEQ in ('+ value+')',function(err,row3){
                     if(err) throw err;
                     console.log("자동화목록 조회");
                     console.log(row3);
                     if(row3 != ""){
                       console.log("왔다");
                       res.send(row3);
-                    }
+                    } 
                   });
-                }
               } else {
                 res.send("");
               }   
@@ -306,7 +310,14 @@ var connection = conn.connection;
             if (err) throw err;
             console.log(row);
             if(row!=""){
-              connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE LANG_CD = "'+ row[0].CD_ID+'"', function (err, rows) {
+              let value = '';
+              for(let i=0; i<row.length; i++){
+                value+=("'"+row[i].CD_ID + "'");
+                if(i == row.length-1) continue;
+                value+=",";
+              }
+              console.log(value);
+              connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE LANG_CD in ('+value+')', function (err, rows) {
                 if (err) throw err;
                 console.log(rows);
                 res.send(rows);
@@ -326,11 +337,18 @@ var connection = conn.connection;
             // console.log(row[0].CD_ID);
             // res.send(row);
             if(row!=""){
-              connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE SYS_DIV_CD = "'+ row[0].CD_ID+'"', function (err, rows) {
-                if (err) res.send("");
-                console.log(rows);
-                res.send(rows);
-              });
+              let value = '';
+              for(let i=0; i<row.length; i++){
+                value+=("'"+row[i].CD_ID + "'");
+                if(i == row.length-1) continue;
+                value+=",";
+              }
+              console.log(value);
+                connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE SYS_DIV_CD in ('+value+')', function (err, rows) {
+                  if (err) res.send("");
+                  console.log(rows);
+                  res.send(rows);
+                });
             }else{
               res.send("");
             }
@@ -343,7 +361,14 @@ var connection = conn.connection;
             if (err) throw err;
             console.log(row);
             if(row!=""){
-              connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE CYCL_DATE_TYPE_CD = "'+ row[0].CD_ID+'"', function (err, rows) {
+              let value = '';
+              for(let i=0; i<row.length; i++){
+                value+=("'"+row[i].CD_ID + "'");
+                if(i == row.length-1) continue;
+                value+=",";
+              }
+              console.log(value);
+              connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE CYCL_DATE_TYPE_CD in ('+value+')', function (err, rows) {
                 if (err) throw err;
                 console.log(rows);
                 res.send(rows);
@@ -357,6 +382,8 @@ var connection = conn.connection;
       };
     }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //검색(팀)
 
     // 공통코드가서 맞는거 가지고 오기
 
