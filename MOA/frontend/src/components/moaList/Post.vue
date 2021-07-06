@@ -237,6 +237,7 @@ props : {
 
 data:function(){
     return{
+        name:'sss',
         file_seq:"",
         users: "",
         detailInfo:{
@@ -299,31 +300,35 @@ methods:{
                 }
             )
 
-            // console.log("Y",this.checkedY);
-            // console.log("N",this.checkedN);
-            // if(this.checkedN==true){
-            //     this.detailInfo.ATC_FILE_MANUAL_YN = "N";
-            // }
-            // if(this.checkedY == true){
-            //     this.detailInfo.ATC_FILE_MANUAL_YN = "Y";
-            // }
-
             const datetime = document.getElementById('hour').value +":"+ document.getElementById('min').value;
             this.detailInfo.DATA_EXE_TIME = datetime;
             console.log("시간",this.detailInfo.DATA_EXE_TIME);
+
+           //파일 업로드
+           const fd = new FormData()
+
+           fd.append('name',this.name)
+           fd.append('realFile',document.getElementById('realFile').files[0])
+           this.$http.post('/api/upload/upload_page',fd)
+           .then((res)=>{
+               console.log(res.data);
+           })
+           .catch(e=>{
+                if (!e.response) this.$store.commit('pop', { msg: e.message, color: 'warning' })
+           })
             
-            //그다음 순서\
-            this.$http.post("/api/mlist/addFile", {
-                detailInfo: this.detailInfo,
-                users:this.users,
-            })
-            .then(
-                (res) => {
-                    console.log(res);
-                    alert(res.data.message);
-                    window.close();
-                }
-            )
+            // //그다음 순서\
+            // this.$http.post("/api/mlist/addFile", {
+            //     detailInfo: this.detailInfo,
+            //     users:this.users,
+            // })
+            // .then(
+            //     (res) => {
+            //         console.log(res);
+            //         alert(res.data.message);
+            //         window.close();
+            //     }
+            // )
     },
 
     setCode : async function(iter, allCode, callback){

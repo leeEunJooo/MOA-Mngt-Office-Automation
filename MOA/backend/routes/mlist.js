@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const bcrypt = require('bcryptjs');
 
+
 const conn = require('./dbConnection.js');
 
 // Connection 객체 생성
@@ -28,9 +29,6 @@ var connection = conn.connection;
         res.send(rows);
       })
   });
-
-
-
 
   //코드성 조회(CD_ID조회)
   router.post('/cdidselect/:cd_nm', function(req,res){
@@ -110,6 +108,7 @@ var connection = conn.connection;
     });
 
   });
+
 
 
   //목록 수정
