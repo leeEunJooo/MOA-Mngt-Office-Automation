@@ -154,12 +154,13 @@
             </li>
             <li>
                 <div class="sm_title">매뉴얼여부</div>
-                <div>
-                    <input type="checkbox" class="checkbox" name="Y" v-model="checkedY">
-                    <label>Y</label>
-                    <input type="checkbox" class="checkbox" name="N" v-model="checkedN">
-                    <label>N</label>
-                </div>
+                <!-- <div> -->
+                    <input type="radio" id="y" value="Y" v-model="detailInfo.ATC_FILE_MANUAL_YN">
+                    <label for="y">Y</label>
+                    <input type="radio" id="n" value="N" v-model="detailInfo.ATC_FILE_MANUAL_YN">
+                    <label for="n">N</label>
+                    
+                <!-- </div> -->
             </li>
             <li class="height_fit_content" id="mannual_file">
                 <div class="sm_title" style="margin-bottom:5px">매뉴얼파일</div>
@@ -262,8 +263,8 @@ data:function(){
             ATC_FILE_UPLD_PATH_NM:"",
             DTL_DESC_SBST:"",
         },
-        checkedY:false,
-        checkedN:false,
+        // checkedY:false,
+        // checkedYN:'',
         
         // Select 박스 Option (name, code)
         select_option:[
@@ -298,19 +299,19 @@ methods:{
                 }
             )
 
-            console.log("Y",this.checkedY);
-            console.log("N",this.checkedN);
-            if(this.checkedN==true){
-                this.detailInfo.ATC_FILE_MANUAL_YN = "N";
-            }
-            if(this.checkedY == true){
-                this.detailInfo.ATC_FILE_MANUAL_YN = "Y";
-            }
+            // console.log("Y",this.checkedY);
+            // console.log("N",this.checkedN);
+            // if(this.checkedN==true){
+            //     this.detailInfo.ATC_FILE_MANUAL_YN = "N";
+            // }
+            // if(this.checkedY == true){
+            //     this.detailInfo.ATC_FILE_MANUAL_YN = "Y";
+            // }
 
             const datetime = document.getElementById('hour').value +":"+ document.getElementById('min').value;
             this.detailInfo.DATA_EXE_TIME = datetime;
             console.log("시간",this.detailInfo.DATA_EXE_TIME);
-
+            
             //그다음 순서\
             this.$http.post("/api/mlist/addFile", {
                 detailInfo: this.detailInfo,

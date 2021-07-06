@@ -124,7 +124,7 @@
         </div>
         
         <div class="post_btn">
-            <v-btn class="close">취소</v-btn>
+            <v-btn v-on:click="cancel" class="close">취소</v-btn>
         </div>
     </div>
 </template>
@@ -182,6 +182,9 @@ export default {
                     }
  
             });
+        },
+        cancel : function(){
+            window.close();
         }
     },
     created() {

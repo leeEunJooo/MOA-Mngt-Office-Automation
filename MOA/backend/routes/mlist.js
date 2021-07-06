@@ -111,13 +111,6 @@ var connection = conn.connection;
 
   });
 
-  //특정목록 조회
-
-
-
-  //이력 등록
-
-
 
   //목록 수정
 
