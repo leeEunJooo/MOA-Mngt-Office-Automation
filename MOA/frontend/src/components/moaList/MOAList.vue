@@ -81,10 +81,10 @@ export default {
           {name: "팀", code: "TDC"},
           {name: "담당자", code: "ETC1"},
           {name: "대상시스템", code: "SYD"},
-          {name: "수행시간", code: "CDC"},
+          {name: "수행주기", code: "CDC"},
           {name: "사용기술", code: "LDC"},
           {name: "자동화 명칭", code: "ETC2"},
-          {name: "전체검색", code: "ETC4"},
+          {name: "전체검색", code: "ETC3"},
         ],
         headers: [
           { text: '자동화파일', value: 'NTCART_TITLE_NM' },
@@ -186,10 +186,11 @@ export default {
                 this.moa_list=[];
               } else {
                 console.log("코드성 제외");
+                console.log(response);
                 console.log("response.data : ", response.data);
                 console.log("response.data 길이 : ", response.data.length);
                 this.moa_list = response.data;
-                console.log("moa_list : ", this.moa_list);
+                console.log("moa_list : ", this.moa_list.length);
 
                 for(let i = 0; i < this.moa_list.length; i++) {
                 this.moa_list[i].FIRST_REG_DATE = dayjs(this.moa_list[i].FIRST_REG_DATE).format('YYYY-MM-DD');
