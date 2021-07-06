@@ -401,7 +401,6 @@ methods:{
             const splthArr_name = filepath.split('\\');
             let filetype = spltArr_type[spltArr_type.length-1];
             let filename = splthArr_name[splthArr_name.length-1];
-            console.log(filename);
 
             const parent = e.target.parentNode;
             

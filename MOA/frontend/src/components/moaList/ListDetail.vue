@@ -4,7 +4,7 @@
             <div class="ic_circle">
                 <img src="../../assets/img/folder.png" class="folder_ic"/>
             </div>
-            <input v-model="detailInfo.NTCART_TITLE_NM" class="title"/>
+            <input v-model="detailInfo.NTCART_TITLE_NM" class="title" disabled/>
         </div>
         <div class="post_contents">
             <ul>
@@ -81,19 +81,24 @@
                         <input v-model="detailInfo.ATC_FILE_MANUAL_YN" disabled>
                     </div>
                 </li>
-                <li class="height_fit_content">
+                <li class="height_fit_content" style="margin-bottom:28px">
                     <div class="sm_title" style="margin-bottom:5px">매뉴얼파일</div>
                     <!-- 매뉴얼파일 리스트 -->
-                    <div class="file_list">
-                        <input v-model="detailInfo.ATC_FILE_UPLD_PATH_NM" disabled>
+                    <hr class="file_hr"/>
+                    <div class="file_list" id="mannual_file_list">
+                        <span class="fileType" id="fileType"></span>
+                        <sapn class="fileContent" id="fileContent"></sapn>
+                        <!-- <input v-model="detailInfo.ATC_FILE_UPLD_PATH_NM" disabled> -->
                         <hr class="file_hr"/>
                     </div>
                 </li>
-                <li class="height_fit_content">
+                <li class="height_fit_content" style="margin-bottom:28px">
                     <div class="sm_title" style="margin: 5px 0px">자동화파일</div>
                     <!-- 자동화파일 리스트 -->
-                    <div class="file_list">
-                        <input v-model="detailInfo.SROC_FILE_PATH_NM" disabled>
+                    <hr class="file_hr"/>
+                    <div class="file_list" id="auto_file_list" style="display:none">
+                        <span class="fileType" id="fileType"></span>
+                        <sapn class="fileContent" id="fileContent"></sapn>
                         <hr class="file_hr"/>
                     </div>
                 </li>
@@ -136,7 +141,6 @@ export default {
     props : {
         Id : Number,
         detailInfo : {},
-        
     },
 
     data:function(){
@@ -154,36 +158,69 @@ export default {
         
     },
     methods:{
-            getInfo : function(){
+            getInfo : async function(){
                 var id = this.$route.params.id
-                this.$http.post(`/api/mlist/listDetail/${id}`)
+                await this.$http.post(`/api/mlist/listDetail/${id}`)
                 .then(
                 (res)=>{
-                    this.detailInfo = res.data[0]
-                    console.log("detail",this.detailInfo);
-
-                    console.log(Object.keys(this.detailInfo).length);
-                    console.log(Object.keys(this.detailInfo)[0]);
-
+                    this.detailInfo = res.data[0];
+                    //ATC_FILE_UPLD_PATH_NM SROC_FILE_PATH_NM
+                    //파일 존재 여부 체크
+                    
                     //코드성 변경
                     for(let i=0; i<Object.keys(this.detailInfo).length; i++){
                         if(Object.keys(this.detailInfo)[i].includes("_CD")){
-                            console.log(Object.values(this.detailInfo)[i]);
                             this.cd_nm = Object.values(this.detailInfo)[i];
                             this.$http.post(`/api/mlist/codeselect/${Object.values(this.detailInfo)[i]}`)
                             .then(
                                 (response)=>{
-                                    console.log("?????",response.data[0].CD_NM);
                                     this.detailInfo[Object.keys(this.detailInfo)[i]] = response.data[0].CD_NM;
-                                    console.log("this.detailInfo",Object.values(this.detailInfo)[i]);
                                 }
                             )   
                         }
                     }
  
             });
+
+            const mannual_f = this.detailInfo.ATC_FILE_MANUAL_YN;
+            if(mannual_f=="N"){
+                document.querySelector('#mannual_file_list').parentNode.style.display="none";
+            }
+            else{
+                const moa_file_path = this.detailInfo.ATC_FILE_UPLD_PATH_NM;
+                const spltArr_type = moa_file_path.split('.');
+                const splthArr_name = moa_file_path.split('\\');
+
+                let filetype = spltArr_type[spltArr_type.length-1];
+                let filename = splthArr_name[splthArr_name.length-1];
+
+                const file_div = document.querySelector('#mannual_file_list');
+                const fileType = file_div.querySelector('#fileType');
+                const fileContent = file_div.querySelector('#fileContent');
+                
+                fileType.innerHTML = filetype;
+                fileContent.innerHTML = filename;
+                file_div.style.display="block";
+            }
+            const moa_file_path = this.detailInfo.SROC_FILE_PATH_NM;
+            if(moa_file_path!=''){
+                const spltArr_type = moa_file_path.split('.');
+                const splthArr_name = moa_file_path.split('\\');
+
+                let filetype = spltArr_type[spltArr_type.length-1];
+                let filename = splthArr_name[splthArr_name.length-1];
+
+                const file_div = document.querySelector('#auto_file_list');
+                const fileType = file_div.querySelector('#fileType');
+                const fileContent = file_div.querySelector('#fileContent');
+                
+                fileType.innerHTML = filetype;
+                fileContent.innerHTML = filename;
+                file_div.style.display="block";
+            }
         },
-        cancel : function(){
+
+        cancel:function(){
             window.close();
         }
     },
@@ -191,7 +228,13 @@ export default {
         this.getInfo();
     },
     mounted(){
-        console.log(this.detailInfo);
+        // const mannual_f = this.detailInfo.ATC_FILE_UPLD_PATH_NM;
+        // const moa_f = this.detailInfo.ATC_FILE_UPLD_PATH_NM;
+        
+        // if(mannual_f!='') document.querySelector('#mannual_file_list').style.display="block";
+        // if(moa_f!='') document.querySelector('#auto_file_list').style.display="block";
+
+        // console.log(this.detailInfo);
     }
 
     
@@ -312,6 +355,22 @@ export default {
         box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
         border: solid 3px #3b2fcb;
         background: white;
+    }
+
+    /* 파일 */
+    .list_detail .fileType,
+    .list_detail .fileContent,
+    .list_detail .deletebtn{
+        display: inline-block;
+        text-align: left;
+        padding:0px 10px;
+    }
+
+    .list_detail .fileType{
+        width:15%;
+    }
+    .list_detail .fileContent{
+        width:80%;
     }
     
 </style>
