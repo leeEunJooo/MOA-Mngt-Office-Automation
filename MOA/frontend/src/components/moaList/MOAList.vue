@@ -52,6 +52,11 @@
             class="data_table"
             @click:row="handleClick"
         >      
+        <template v-slot:item.exe_btn="{item}">
+            <div class="activate_btn" @click="activation(item)">
+              <v-img src="../../assets/img/arrow_ic.png" class="arrow_ic"></v-img>
+            </div>
+        </template>
         </v-data-table>
   </div>
 </template>
@@ -86,11 +91,10 @@ export default {
           { text: '작성자', value: 'TKCGR_NM' },
           { text: '업로드일', value: 'FIRST_REG_DATE'},
           { text: '최근수행시간', value: 'EXE_DATE' },
-          { text: '', value: 'exe_btn' }
+          { text: '실행', value: 'exe_btn' }
         ],
         search_select: '',
         search_text: '',
-        exe_btn:'s',
       };
     },
 
@@ -115,16 +119,13 @@ export default {
     methods: {
       
       handleClick: function(items) {
+        console.log(items);
         let routeData = this.$router.resolve({
           name: 'listdetail',
           params: {id: items.FILE_SEQ}
          });
-
-          
-        window.open(routeData.href, "_blank","width=680, height=850, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
-          
-          // 모달창 만들기
-          //거기로 데이터 넘겨주기
+         
+        window.open(routeData.href, "_blank","width=680, height=850, toolbar=no, menubar=no, scrollbars=no, resizable=no");
       },
       
       search: function(){
@@ -204,12 +205,16 @@ export default {
         )
       },
 
-      addfile: function(){
-        let routeData = this.$router.resolve({
-                                              name: 'posting',
-                                            });
-        window.open(routeData.href, "_blank","width=700, height=850, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
-
+    addfile: function(){
+      let routeData = this.$router.resolve({
+                                            name: 'posting',
+                                          });
+      window.open(routeData.href, "_blank","width=700, height=850, toolbar=no, menubar=no, scrollbars=no, resizable=yes");
+    },
+    activation : function(item){
+      //item.EXE_DATE update
+      event.stopPropagation();
+      console.log(item.EXE_DATE);
     }
       
     },
@@ -299,4 +304,18 @@ export default {
 }
 
 
+/* 테이블 */
+.activate_btn{
+  width: 35px;
+  height: 35px;
+  border-radius: 30px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  background-color: #988df4;
+  padding:5px 0px 0px 4px;
+  cursor: pointer;
+}
+.activate_btn .arrow_ic{
+  width: 90%;
+  vertical-align: middle;
+}
 </style>
