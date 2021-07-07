@@ -155,9 +155,9 @@
             <li>
                 <div class="sm_title">매뉴얼여부</div>
                 <div>
-                    <input type="checkbox" class="checkbox" name="Y" v-model="checkedY">
+                    <input type="checkbox" class="checkbox" name="Y" v-model="checkedY" @click="check($event)">
                     <label>Y</label>
-                    <input type="checkbox" class="checkbox" name="N" v-model="checkedN">
+                    <input type="checkbox" class="checkbox" name="N" v-model="checkedN" @click="check($event)">
                     <label>N</label>
                 </div>
             </li>
@@ -414,6 +414,11 @@ methods:{
             hr.style.display="block";
             
          } 
+    },
+    check :function(event){
+        const parent = event.target.parentNode;
+        console.log(this.checkedY);
+        if(this.checkedY == "Y") parent.querySelector("input[name='N']").check = false;
     }     
         
         
