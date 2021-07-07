@@ -11,7 +11,7 @@ var connection = conn.connection;
   //목록 ALL 조회
   router.get('/selectList', function (req, res) {
     console.log("메인");
-    connection.query('SELECT m.FILE_SEQ, m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq ', function (err, rows) {
+    connection.query('SELECT m.FILE_SEQ, m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE e.LAST_HST_YN="Y" ORDER BY m.file_seq desc', function (err, rows) {
       if (err) throw err;
       console.log("~?", rows);
       res.send(rows);
@@ -50,7 +50,11 @@ var connection = conn.connection;
       'EXE_EMP_NM' :req.body.USER.USER_NM,
     }
     console.log(moa_list);
-    connection.query('UPDATE TBL_MOA_EXECUTION_TXN SET EXE_DATE = sysdate(), EXE_EMP_NM = "'+ moa_list.EXE_EMP_NM+'", CUST_IDFY_SEQ = "'+ moa_list.CUST_IDFY_SEQ +'" WHERE FILE_SEQ = "'+ moa_list.FILE_SEQ+'"',moa_list,function(err,row){
+    connection.query('UPDATE TBL_MOA_EXECUTION_TXN SET LAST_HST_YN = "" WHERE FILE_SEQ = "'+ moa_list.FILE_SEQ+'"',moa_list,function(err,row){
+      if(err) throw err;
+      console.log(row);
+    });
+    connection.query('INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST, LAST_HST_YN) VALUES ("'+moa_list.FILE_SEQ+'","'+ moa_list.CUST_IDFY_SEQ+'","'+moa_list.EXE_EMP_NM+'",sysdate(),"N","","Y")',moa_list,function(err,row){
       if(err) throw err;
       console.log(row);
     });
@@ -117,9 +121,10 @@ var connection = conn.connection;
             })
           }
           });
-          connection.query('INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST) VALUES ("'+rows[0].FILE_SEQ+'","'+ detailInfo.CUST_IDFY_SEQ+'","'+detailInfo.EMP_NM+'","'+detailInfo.EXE_DATE+'","N","")',detailInfo,function(err,result){
+
+          connection.query('INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST, LAST_HST_YN) VALUES ("'+rows[0].FILE_SEQ+'","'+ detailInfo.CUST_IDFY_SEQ+'","'+detailInfo.EMP_NM+'","'+detailInfo.EXE_DATE+'","N","","Y")',detailInfo,function(err,row){
             if(err) throw err;
-            console.log(result);
+            console.log(row);
           });
         });
       }else{
