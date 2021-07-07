@@ -134,11 +134,6 @@ var connection = conn.connection;
         })
       }
     });
-
-    
-
-
-
   });
 
 
