@@ -129,7 +129,7 @@
         </div>
         
         <div class="post_btn">
-            <v-btn class="close">취소</v-btn>
+            <v-btn v-on:click="cancel" class="close">취소</v-btn>
         </div>
     </div>
 </template>
@@ -181,6 +181,7 @@ export default {
                     }
  
             });
+
             const mannual_f = this.detailInfo.ATC_FILE_MANUAL_YN;
             if(mannual_f=="N"){
                 document.querySelector('#mannual_file_list').parentNode.style.display="none";
@@ -217,6 +218,10 @@ export default {
                 fileContent.innerHTML = filename;
                 file_div.style.display="block";
             }
+        },
+
+        cancel:function(){
+            window.close();
         }
     },
     created() {

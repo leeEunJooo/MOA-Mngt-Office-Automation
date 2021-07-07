@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const bcrypt = require('bcryptjs');
 
+
 const conn = require('./dbConnection.js');
 
 // Connection 객체 생성
@@ -29,9 +30,6 @@ var connection = conn.connection;
       })
   });
 
-
-
-
   //코드성 조회(CD_ID조회)
   router.post('/cdidselect/:cd_nm', function(req,res){
     const cd_nm = req.params.cd_nm;
@@ -41,6 +39,23 @@ var connection = conn.connection;
       res.send(row2);
     });
   });
+
+
+//최근수행시간 업데이트
+  router.post('/update_exe_date',function(req,res){
+    console.log("최근수행시간 업데이트");
+    const moa_list = {
+      'CUST_IDFY_SEQ':req.body.USER.CUST_IDFY_SEQ,
+      'FILE_SEQ':req.body.FILE_SEQ,
+      'EXE_EMP_NM' :req.body.USER.USER_NM,
+    }
+    console.log(moa_list);
+    connection.query('UPDATE TBL_MOA_EXECUTION_TXN SET EXE_DATE = sysdate(), EXE_EMP_NM = "'+ moa_list.EXE_EMP_NM+'", CUST_IDFY_SEQ = "'+ moa_list.CUST_IDFY_SEQ +'" WHERE FILE_SEQ = "'+ moa_list.FILE_SEQ+'"',moa_list,function(err,row){
+      if(err) throw err;
+      console.log(row);
+    });
+  })
+
 
   //목록 등록
   router.post('/addFile',  function(req, res){
@@ -69,6 +84,8 @@ var connection = conn.connection;
       'ATC_FILE_UPLD_PATH_NM':req.body.detailInfo.ATC_FILE_UPLD_PATH_NM,
       'DTL_DESC_SBST':req.body.detailInfo.DTL_DESC_SBST,
       'FNS_DATE':"9999-12-31",
+      'EMP_NM' : req.body.users.USER_NM,
+      'EXE_DATE':'0000-00-00 00:00:00',
 
     };
     console.log('cust_idfy_seq', detailInfo);
@@ -100,6 +117,10 @@ var connection = conn.connection;
             })
           }
           });
+          connection.query('INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST) VALUES ("'+rows[0].FILE_SEQ+'","'+ detailInfo.CUST_IDFY_SEQ+'","'+detailInfo.EMP_NM+'","'+detailInfo.EXE_DATE+'","N","")',detailInfo,function(err,result){
+            if(err) throw err;
+            console.log(result);
+          });
         });
       }else{
         res.json({
@@ -109,19 +130,17 @@ var connection = conn.connection;
       }
     });
 
+    
+
+
+
   });
-
-  //특정목록 조회
-
-
-
-  //이력 등록
 
 
 
   //목록 수정
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //목록 검색
   router.post('/search', function (req, res) {
     console.log("목록 검색");
@@ -271,8 +290,14 @@ var connection = conn.connection;
           console.log("row 길이 ?.? ", row.length);
           if (err) res.send("");
           if(row != ""){
+            let val = '';
+            for(let i=0; i<row.length; i++){
+              val+=("'"+row[i].CD_ID + "'");
+              if(i == row.length-1) continue;
+              val+=",";
+            }
             //조회한 CD_ID를 가지고 USER_BAS에서 사용자 일련번호를 조회
-            connection.query('SELECT CUST_IDFY_SEQ FROM TBL_MOA_USER_BAS WHERE TEAM_DIV_CD = "'+ row[0].CD_ID+'"',function(err,rows){
+            connection.query('SELECT CUST_IDFY_SEQ FROM TBL_MOA_USER_BAS WHERE TEAM_DIV_CD in ('+val+')',function(err,rows){
               if(rows != "") {
                 console.log("rows 길이 ?.? ", rows.length);
                 if (err) res.send("");
