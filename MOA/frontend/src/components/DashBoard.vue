@@ -1,17 +1,54 @@
 <template>
+
   <div class="dashboard">
       <div class="dashboard-content">
         <!--제목-->
         <div class="title-section">DashBoard</div>
-        <!--그래프-->
-        <div class="chart-section"></div>
+        <br><br><br>
+        <div class = "sub-section"> 자산현황</div>
+        <hr class="line1">
+        <br>
+        
+        <!--윗쪽 그래프 2개-->
+          <div class="chart-section1">
+            <v-row>
+              <canvas id="planet-chart" style="width:400px;height:300px"></canvas>
+              <canvas id="planet-chart2" style="width:400px;height:300px"></canvas>
+            </v-row>
+          </div>
+
+          <br>
+          <hr class="line2">
+          <br>
+
+        <!--아래쪽 그래프 2개-->
+        <div class="chart-section2">
+          <v-row>
+            <canvas id="planet-chart3" style="width:400px;height:300px"></canvas>
+            <canvas id="planet-chart4" style="width:400px;height:300px"></canvas>
+          </v-row>
+        </div>
+        
       </div>
   </div>
+
 </template>
 
 <script>
-export default {
+import planetChartData from '../chart-data.js'
+import Chart from 'chart.js'
 
+export default {
+  name: 'PlanetChart',
+  data(){
+      return{
+          planetChartData: planetChartData
+      }
+  },
+  mounted() {
+    const ctx = document.getElementById('planet-chart');
+    new Chart(ctx, this.planetChartData);
+  }
 }
 </script>
 
@@ -31,6 +68,21 @@ export default {
     letter-spacing: 0.04px;
     text-align: left;
     color: #575757;
+  }
+  .dashboard .sub-section{
+    font-family: GmarketSansBold !important;
+    font-weight: bold !important;
+    color: black !important;
+  }
+
+  .dashboard .line1{
+    background-color: #5244f5 !important;
+    height: 3px;
+  }
+
+  .dashboard .line2{
+    background-color: #5244f5 !important;
+    height: 0.5px;
   }
 
 </style>

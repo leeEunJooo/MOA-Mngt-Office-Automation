@@ -154,13 +154,10 @@
             </li>
             <li>
                 <div class="sm_title">매뉴얼여부</div>
-                <!-- <div> -->
                     <input type="radio" id="y" value="Y" v-model="detailInfo.ATC_FILE_MANUAL_YN">
                     <label for="y">Y</label>
                     <input type="radio" id="n" value="N" v-model="detailInfo.ATC_FILE_MANUAL_YN">
                     <label for="n">N</label>
-                    
-                <!-- </div> -->
             </li>
             <li class="height_fit_content" id="mannual_file">
                 <div class="sm_title" style="margin-bottom:5px">매뉴얼파일</div>
@@ -420,6 +417,11 @@ methods:{
             hr.style.display="block";
             
          } 
+    },
+    check :function(event){
+        const parent = event.target.parentNode;
+        console.log(this.checkedY);
+        if(this.checkedY == "Y") parent.querySelector("input[name='N']").check = false;
     }     
         
         
