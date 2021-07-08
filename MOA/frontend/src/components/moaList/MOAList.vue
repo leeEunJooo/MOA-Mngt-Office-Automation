@@ -52,11 +52,11 @@
             class="data_table"
             @click:row="handleClick"
         >      
-        <template v-slot:item.exe_btn="{item}">
+        <!-- <template v-slot:item.exe_btn="{item}">
             <div class="activate_btn" @click="activation(item)">
               <v-img src="../../assets/img/arrow_ic.png" class="arrow_ic"></v-img>
             </div>
-        </template>
+        </template> -->
         </v-data-table>
   </div>
 </template>

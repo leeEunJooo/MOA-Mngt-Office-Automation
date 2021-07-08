@@ -213,22 +213,38 @@ var connection = conn.connection;
               } else {
                 console.log("55555 - 코드외 존재 안함 & 코드성만 존재");
                 console.log("55555 - row 길이? ", row.length);
-              
-                for (var i = 0; i < row.length; i++) {
-                  connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, CONN_EVN_DIV_CD) against("' + row[i].CD_ID + '*" in boolean mode)',function(err,row2) {
-                    if (err) res.send("");
-                    
-                    console.log("??", row2);
-
-                    if (row2 != "") {
-                      console.log("row2 길이? ", row2.length);
-                      console.log("???", row2);
-                      res.send(row2);
-                    } else {
-                      console.log("row2 길이? ", row2.length); 
-                    }
-                  });
+                
+                let value = '';
+                for(let i = 0; i < row.length; i++){
+                  value+=("'" + row[i].CD_ID + "'");
+                  if(i == row.length-1) continue;
+                  value += ",";
                 }
+                console.log("value : ", value);
+                
+                connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE LANG_CD in (' + value + ')', function (err, row2) {
+                  if (err) res.send("");
+
+                  console.log(row2);
+
+                  res.send(row2);
+                });
+
+                // for (var i = 0; i < row.length; i++) {
+                //   connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, CONN_EVN_DIV_CD) against("' + row[i].CD_ID + '*" in boolean mode)',function(err,row2) {
+                //     if (err) res.send("");
+                    
+                //     console.log("??", row2);
+
+                //     if (row2 != "") {
+                //       console.log("row2 길이? ", row2.length);
+                //       console.log("???", row2);
+                //       res.send(row2);
+                //     } else {
+                //       console.log("row2 길이? ", row2.length); 
+                //     }
+                //   });
+                // }
               }
             });
           } else {
@@ -262,6 +278,7 @@ var connection = conn.connection;
         //팀의 CD_ID를 조회
         connection.query('SELECT CD_ID FROM TBL_MOA_CD_BAS WHERE ITG_CD_GROUP_ID = "' + search.search_select_code + '" and CD_NM like "%' + search.search_text + '%"', function (err, row) {
           console.log("row 길이 ?.? ", row.length);
+          console.log("row : ", row);
           if (err) res.send("");
           if(row != ""){
             //조회한 CD_ID를 가지고 USER_BAS에서 사용자 일련번호를 조회
