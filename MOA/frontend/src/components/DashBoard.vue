@@ -12,20 +12,25 @@
         <!--윗쪽 그래프 2개-->
           <div class="chart-section1">
             <v-row>
-              <div class="chart1-title"> [ 담당별 자동화 건수 ]</div>
-              <div class="chart2-title"> [ 팀별 자동화 건수 ]</div>
-            </v-row>
-
-            <v-row>
+              
               <!--담당별 자동화 건수 그래프-->
-              <div class = "bar-chart1">
-                <canvas id="bar-chart1" width="500" height="300"></canvas>
-              </div>
+              <v-col>
+                <div class="chart1-title"> [ 담당별 자동화 건수 ]</div>
+                
+                <div class = "bar-chart1">
+                  <canvas id="bar-chart1"></canvas>
+                </div>
+              </v-col>
 
               <!--팀별 자동화 건수 그래프-->
-              <div class = "bar-chart2">
-                <canvas id="bar-chart2" width="500" height="300"></canvas>
-              </div>
+              <v-col>
+                <div class="chart2-title"> [ 팀별 자동화 건수 ]</div>
+
+                <div class = "bar-chart2">
+                  <canvas id="bar-chart2" width="450" height="300"></canvas>
+                </div>
+              </v-col>
+
             </v-row>
           </div>
 
@@ -44,12 +49,12 @@
           <v-row>
             <!--대상 시스템 팀별 현황-->
             <div class = "bar-chart3">
-                <canvas id="bar-chart3" width="500" height="300"></canvas>
+                <canvas id="bar-chart3" width="450" height="300"></canvas>
             </div>
 
             <!--기술별 자동화 건수-->
             <div class = "bar-chart4">
-                <canvas id="bar-chart4" width="500" height="300"></canvas>
+                <canvas id="bar-chart4" width="450" height="300"></canvas>
             </div>
           </v-row>
         </div>
@@ -139,32 +144,32 @@ export default {
     font-size: 13px;
     font-family: GmarketSansBold !important;
     font-weight: bold !important;
-    padding:28px 0px 0px 45px !important;
+    padding:20px 0px 0px 70px !important;
   }
 
   .dashboard .chart2-title{
     font-size: 13px;
     font-family: GmarketSansBold !important;
     font-weight: bold !important;
-    padding:28px 0px 0px 430px !important;
+    padding:20px 0px 0px 450px !important;
   }
 
   .dashboard .chart3-title{
     font-size: 13px;
     font-family: GmarketSansBold !important;
     font-weight: bold !important;
-    padding:4px 0px 0px 45px !important;
+    padding:4px 0px 0px 70px !important;
   }
 
   .dashboard .chart4-title{
     font-size: 13px;
     font-family: GmarketSansBold !important;
     font-weight: bold !important;
-    padding:4px 0px 0px 420px !important;
+    padding:4px 0px 0px 450px !important;
   }
 
    .dashboard .bar-chart1{
-    padding:10px 60px 0px 30px !important;
+    padding:10px 120px 0px 70px !important;
   } 
 
   .dashboard .bar-chart2{
@@ -172,7 +177,7 @@ export default {
   } 
 
   .dashboard .bar-chart3{
-    padding:30px 60px 0px 30px !important;
+    padding:30px 120px 0px 70px !important;
   } 
 
   .dashboard .bar-chart4{
