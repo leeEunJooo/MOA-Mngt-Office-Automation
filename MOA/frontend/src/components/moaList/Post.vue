@@ -153,6 +153,13 @@
                   ></v-select>
             </li>
             <li>
+                <div class="sm_title">업무목적</div>
+                    <input type="radio" id="customer" value="고객업무대상" v-model="detailInfo.WRKJOB_PRPS_NM">
+                    <label for="customer">고객업무대상</label>
+                    <input type="radio" id="staff" value="스탭업무대상" v-model="detailInfo.WRKJOB_PRPS_NM">
+                    <label for="staff">스탭업무대상</label>
+            </li>
+            <li>
                 <div class="sm_title">매뉴얼여부</div>
                     <input type="radio" id="y" value="Y" v-model="detailInfo.ATC_FILE_MANUAL_YN">
                     <label for="y">Y</label>
@@ -260,6 +267,7 @@ data:function(){
             ETC_SBST:"",
             ATC_FILE_UPLD_PATH_NM:"",
             DTL_DESC_SBST:"",
+            WRKJOB_PRPS_NM:"",
         },
         
         // Select 박스 Option (name, code)
