@@ -286,18 +286,23 @@ methods:{
         console.log("detailinfo는???",this.detailInfo);
 
             //등록하면 유저에 UPLD_CASCNT값 증가(ok)
-            // this.$http.post("/api/musers/uploadUpdate",{
-            //     users:this.users
-            // })
-            // .then(
-            //     (res)=>{
-            //         console.log(res);
-            //     }
-            // )
+            this.$http.post("/api/musers/uploadUpdate",{
+                users:this.users
+            })
+            .then(
+                (res)=>{
+                    console.log(res);
+                }
+            )
+            let hour = document.getElementById('hour').value;
+            let min = document.getElementById('min').value;
 
-            const datetime = document.getElementById('hour').value +":"+ document.getElementById('min').value;
+            min = min ==""? 0 :min;
+            hour = hour < 10? "0"+hour : hour;
+            min = min < 10? "0"+min : min;
+
+            const datetime = hour +":"+ min;
             this.detailInfo.DATA_EXE_TIME = datetime;
-            console.log("시간",this.detailInfo.DATA_EXE_TIME);
 
         //파일 업로드
         const formData = new FormData( );

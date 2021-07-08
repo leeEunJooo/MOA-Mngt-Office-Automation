@@ -12,20 +12,25 @@
         <!--윗쪽 그래프 2개-->
           <div class="chart-section1">
             <v-row>
-              <div class="chart1-title"> [ 담당별 자동화 건수 ]</div>
-              <div class="chart2-title"> [ 팀별 자동화 건수 ]</div>
-            </v-row>
-
-            <v-row>
+              
               <!--담당별 자동화 건수 그래프-->
-              <div class = "bar-chart1">
-                <canvas id="bar-chart1" width="500" height="300"></canvas>
-              </div>
+              <v-col>
+                <div class="chart1-title"> [ 담당별 자동화 건수 ]</div>
+                
+                <div class = "bar-chart1">
+                  <canvas id="bar-chart1"></canvas>
+                </div>
+              </v-col>
 
               <!--팀별 자동화 건수 그래프-->
-              <div class = "bar-chart2">
-                <canvas id="bar-chart2" width="500" height="300"></canvas>
-              </div>
+              <v-col>
+                <div class="chart2-title"> [ 팀별 자동화 건수 ]</div>
+
+                <div class = "bar-chart2">
+                  <canvas id="bar-chart2"></canvas>
+                </div>
+              </v-col>
+
             </v-row>
           </div>
 
@@ -35,24 +40,29 @@
           <br>
 
         <!--아래쪽 그래프 2개-->
-        <div class="chart-section2">
-          <v-row>
-            <div class="chart3-title"> [ 대상 시스템 팀별 현황 ]</div>
-            <div class="chart4-title"> [ 기술별 자동화 건수 ]</div>
-          </v-row>
+          <div class="chart-section2">
+            <v-row>
+              
+              <!--업무 목적별 팀별 현황 그래프-->
+              <v-col>
+                <div class="chart3-title"> [ 업무 목적별 팀별 현황 ]</div>
+                
+                <div class = "bar-chart3">
+                  <canvas id="bar-chart3"></canvas>
+                </div>
+              </v-col>
 
-          <v-row>
-            <!--대상 시스템 팀별 현황-->
-            <div class = "bar-chart3">
-                <canvas id="bar-chart3" width="500" height="300"></canvas>
-            </div>
+              <!--기술별 자동화 건수 그래프-->
+              <v-col>
+                <div class="chart4-title"> [ 기술별 자동화 건수 ]</div>
 
-            <!--기술별 자동화 건수-->
-            <div class = "bar-chart4">
-                <canvas id="bar-chart4" width="500" height="300"></canvas>
-            </div>
-          </v-row>
-        </div>
+                <div class = "bar-chart4">
+                  <canvas id="bar-chart4"></canvas>
+                </div>
+              </v-col>
+
+            </v-row>
+          </div>
 
         <br><br><br><br>
         
@@ -79,7 +89,7 @@ export default {
       }
   },
   mounted() {
-
+    // //담당별 자동화 건수
     this.$http.post("/api/musers/div_cnt")
     .then(
       (res)=>{
@@ -87,13 +97,80 @@ export default {
         console.log(res.data.length);
         console.log(res.data[0].upld_cascnt);
         console.log(this.barChartData1.data.labels);
-        // for(let i=0; i<res.data.length; i++){
-        //   if()
-        // }
-        // this.barChartData1.labels=res.data.cd_nm;
-        // console.log(this.barChartData1.labels);
-      }
-    )
+        console.log("?????",this.barChartData1.data.datasets[0].data);
+        for(var i=0; i<this.barChartData1.data.labels.length; i++){
+          let flag = 0;
+          for(var j=0; j<res.data.length; j++){
+            if(this.barChartData1.data.labels[i] == res.data[j].cd_nm){
+              console.log("res.data[j].cd_nm",res.data[j].cd_nm);
+              console.log("this.barChartData1.data.labels[i]",this.barChartData1.data.labels[i]);
+              this.barChartData1.data.datasets[0].data.push(res.data[j].upld_cascnt);
+              flag =1;
+              break;
+            }
+          }
+          if(flag == 0){
+            this.barChartData1.data.datasets[0].data.push(0);
+          }
+        }
+      });
+
+
+    
+
+      //팀별 자동화 건수
+          this.$http.post("/api/musers/team_cnt")
+          .then(
+            (res)=>{
+              console.log(res);
+              console.log(res.data.length);
+              console.log(res.data[0].upld_cascnt);
+              console.log(this.barChartData2.data.labels);
+              console.log("?????",this.barChartData2.data.datasets[0].data);
+      
+              for(var i=0; i<this.barChartData2.data.labels.length; i++){
+                let flag = 0;
+                for(var j=0; j<res.data.length; j++){
+                  if(this.barChartData2.data.labels[i] == res.data[j].cd_nm){
+                    console.log("res.data[j].cd_nm",res.data[j].cd_nm);
+                    console.log("this.barChartData2.data.labels[i]",this.barChartData2.data.labels[i]);
+                    this.barChartData2.data.datasets[0].data.push(res.data[j].upld_cascnt);
+                    flag =1;
+                    break;
+                  }
+                }
+                if(flag == 0){
+                  this.barChartData2.data.datasets[0].data.push(0);
+                }
+              }
+            });
+
+    // //기술별 자동화 건수
+    this.$http.post("/api/musers/lang_cnt")
+    .then(
+      (res)=>{
+        console.log(res);
+        console.log(res.data.length);
+        console.log(res.data[0].upld_cascnt);
+        console.log(this.barChartData4.data.labels);
+        console.log("?????",this.barChartData4.data.datasets[0].data);
+        for(var i=0; i<this.barChartData4.data.labels.length; i++){
+          let flag = 0;
+          for(var j=0; j<res.data.length; j++){
+            if(this.barChartData4.data.labels[i] == res.data[j].cd_nm){
+              console.log("res.data[j].cd_nm",res.data[j].cd_nm);
+              console.log("this.barChartData4.data.labels[i]",this.barChartData4.data.labels[i]);
+              this.barChartData4.data.datasets[0].data.push(res.data[j].upld_cascnt);
+              flag =1;
+              break;
+            }
+          }
+          if(flag == 0){
+            this.barChartData4.data.datasets[0].data.push(0);
+          }
+        }
+      });
+
 
     const ctx1 = document.getElementById('bar-chart1');
     new Chart(ctx1, this.barChartData1);
@@ -134,7 +211,7 @@ export default {
     font-family: GmarketSansBold !important;
     font-weight: bold !important;
     color: black !important;
-    padding:0px 0px 3px 0px !important;
+    padding:0px 0px 3px 10px !important;
   }
 
   .dashboard .space{
@@ -148,7 +225,7 @@ export default {
 
   .dashboard .line2{
     background-color: #5244f5 !important;
-    height: 2.3px;
+    height: 2.5px;
     width: 97%;
     margin: auto;
   }
@@ -157,44 +234,56 @@ export default {
     font-size: 13px;
     font-family: GmarketSansBold !important;
     font-weight: bold !important;
-    padding:28px 0px 0px 45px !important;
+    padding:20px 0px 0px 70px !important;
   }
 
   .dashboard .chart2-title{
     font-size: 13px;
     font-family: GmarketSansBold !important;
     font-weight: bold !important;
-    padding:28px 0px 0px 430px !important;
+    padding:20px 0px 0px 29px !important;
   }
 
   .dashboard .chart3-title{
     font-size: 13px;
     font-family: GmarketSansBold !important;
     font-weight: bold !important;
-    padding:4px 0px 0px 45px !important;
+    padding:4px 0px 0px 70px !important;
   }
 
   .dashboard .chart4-title{
     font-size: 13px;
     font-family: GmarketSansBold !important;
     font-weight: bold !important;
-    padding:4px 0px 0px 420px !important;
+    padding:4px 0px 0px 35px !important;
   }
 
    .dashboard .bar-chart1{
-    padding:10px 60px 0px 30px !important;
+    padding:20px 0px 0px 60px !important;
+    width: 80%;
+    height: 90%; 
   } 
 
   .dashboard .bar-chart2{
-    padding:10px 0px 0px 0px !important;
+    padding:10px 0px 0px 20px !important;
+    width: 80%;
+    height: 90%; 
   } 
 
   .dashboard .bar-chart3{
-    padding:30px 60px 0px 30px !important;
+    padding:30px 0px 0px 70px !important;
+    width: 81%;
+    height: 95%; 
   } 
 
   .dashboard .bar-chart4{
-    padding:30px 0px 0px 0px !important;
+    padding:30px 0px 0px 20px !important;
+    width: 81%;
+    height: 95%; 
   } 
+
+  .dashboard-content{
+    margin : auto;
+  }
 
 </style>
