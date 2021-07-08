@@ -129,7 +129,7 @@
         </div>
         
         <div class="post_btn">
-            <v-btn v-on:click="cancel" class="close">취소</v-btn>
+            <v-btn v-on:click="cancel" class="close">닫기</v-btn>
         </div>
     </div>
 </template>

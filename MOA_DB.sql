@@ -2,7 +2,12 @@ CREATE DATABASE MOA_DB;
 
 USE MOA_DB;
 
+drop table tbl_moa_cd_bas;
+drop table tbl_moa_execution_txn;
+drop table tbl_moa_hst;
+drop table tbl_moa_bas;
 drop table tbl_moa_user_bas;
+
 -- 사용자 테이블 생성
 CREATE TABLE TBL_MOA_USER_BAS(
 CUST_IDFY_SEQ int NOT NULL auto_increment PRIMARY KEY,
@@ -15,16 +20,15 @@ TEAM_DIV_CD VARCHAR(3) NOT NULL,
 EMP_POS_DIV_CD VARCHAR(3) NOT NULL
 );
 
-select * from TBL_MOA_USER_BAS;
-update tbl_moa_user_bas set upld_cascnt =upld_cascnt+1 where cust_idfy_seq = 3;
-delete from tbl_moa_user_bas where cust_idfy_seq = 5;
-
 -- 사용자 테이블 데이터 INSERT
-INSERT INTO TBL_MOA_USER_BAS(CUST_IDFY_SEQ, USER_ID, USER_PWD, USER_TEL_NO, USER_NM, UPLD_CASCNT, TEAM_DIV_CD, EMP_POS_DIV_CD) 
-VALUES (1, 'test01', 'test01', '01000010001', 'test01', 0, 'T01', 'D01');
+-- INSERT INTO TBL_MOA_USER_BAS(CUST_IDFY_SEQ, USER_ID, USER_PWD, USER_TEL_NO, USER_NM, UPLD_CASCNT, TEAM_DIV_CD, EMP_POS_DIV_CD) 
+-- VALUES (1, 'test01', 'test01', '01000010001', 'test01', 0, 'T01', 'D01');
 
+select * from tbl_moa_bas;
 
-drop table tbl_moa_bas;
+select e.cd_nm, sum(upld_cascnt) from tbl_moa_user_bas as m, TBL_MOA_CD_BAS as e where m.team_div_cd = e.CD_ID group by team_div_cd;
+select e.cd_nm, sum(upld_cascnt) from tbl_moa_user_bas as m, TBL_MOA_CD_BAS as e where m.EMP_POS_DIV_CD = e.CD_ID group by EMP_POS_DIV_CD;
+select e.cd_nm, count(lang_cd) as count from tbl_moa_bas as m, TBL_MOA_CD_BAS as e where m.lang_cd = e.CD_ID group by lang_cd;
 
 -- 자동화 세부정보 테이블 생성
 CREATE TABLE TBL_MOA_BAS(
@@ -58,34 +62,23 @@ FOREIGN KEY(CUST_IDFY_SEQ) REFERENCES TBL_MOA_USER_BAS(CUST_IDFY_SEQ)
 );
 
 -- 자동화 세부정보 테이블 데이터 INSERT
-INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
-TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
-ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST) 
-VALUES (3, '\\download\\moa.xml', 'L01', 'S01', 'C01', '','10:00', 'R01', 'B01', '', 
-'완료', 'E01', '실환경에서 개통과 기기변경이 실제로 이루어지는 것이기 때문에 그날 퇴근하기전에 개통하기 전과 기기변경되기 전으로 다시 정보들을 원복시켜주어야한다.', 'N', '', 'Y/N', '', '윈도우상 스케줄러를 통해 실행한다.', '조근점검', '윤동섭', '윤동섭', 
-sysdate(), sysdate(), '9999-12-31','DTT플랫폼, MVNO플랫폼 시스템 조근점검 자동수행');
+-- INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+-- TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+-- ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST) 
+-- VALUES (3, '\\download\\moa.xml', 'L01', 'S01', 'C01', '','10:00', 'R01', 'B01', '', 
+-- '완료', 'E01', '실환경에서 개통과 기기변경이 실제로 이루어지는 것이기 때문에 그날 퇴근하기전에 개통하기 전과 기기변경되기 전으로 다시 정보들을 원복시켜주어야한다.', 'N', '', 'Y/N', '', '윈도우상 스케줄러를 통해 실행한다.', '조근점검', '윤동섭', '윤동섭', 
+-- sysdate(), sysdate(), '9999-12-31','DTT플랫폼, MVNO플랫폼 시스템 조근점검 자동수행');
 
-INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
-TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
-ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST) 
-VALUES (1, '\\download\\moa.xml', 'L01', 'S06', 'C01', '','09:00', 'R01', 'B01', '', 
-'완료', 'E01', '정의된 스케줄 외에 실행하면 안됨(사업부서에 SMS 발송됨)', 'N', '', '올레TV탭 실시간 실적 SMS', 'SMS', 'AntBot Manager 서버(AntBot 웹 페이지에 등록해 놓은 스케줄에 따라 자동 수행됨)', '올레TV탭 실적 SMS 자동 발송', '황윤섭', '정헌수', 
-sysdate(), sysdate(), '9999-12-31','K-RDS, K-NOTE, MVNO-RDS, M-RDS 시스템 조근점검 자동수행');
-
-
-select * from tbl_moa_bas;
-
-delete from tbl_moa_bas where cust_idfy_seq=5;
-
-SELECT * FROM TBL_MOA_BAS WHERE FILE_SEQ= 2 AND column_name like "%_cd";
-
-SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,'0000-00-00 00:00:00') as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where m.cust_idfy_seq = 3;
+-- INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+-- TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+-- ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST) 
+-- VALUES (1, '\\download\\moa.xml', 'L01', 'S06', 'C01', '','09:00', 'R01', 'B01', '', 
+-- '완료', 'E01', '정의된 스케줄 외에 실행하면 안됨(사업부서에 SMS 발송됨)', 'N', '', '올레TV탭 실시간 실적 SMS', 'SMS', 'AntBot Manager 서버(AntBot 웹 페이지에 등록해 놓은 스케줄에 따라 자동 수행됨)', '올레TV탭 실적 SMS 자동 발송', '황윤섭', '정헌수', 
+-- sysdate(), sysdate(), '9999-12-31','K-RDS, K-NOTE, MVNO-RDS, M-RDS 시스템 조근점검 자동수행');
 
 alter table tbl_moa_bas add FULLTEXT(SROC_FILE_PATH_NM, DOW_NM, DATA_EXE_TIME, INPUT_VAL, TRT_STEP_NM, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM,DTL_DESC_SBST);
 alter table tbl_moa_bas add FULLTEXT(LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, CONN_EVN_DIV_CD);
 
-
-drop table tbl_moa_hst;
 -- 자동화 세부정보 이력 테이블 생성
 CREATE TABLE TBL_MOA_HST(
 STTUS_CHG_HST_SEQ INT NOT NULL auto_increment PRIMARY KEY,
@@ -120,25 +113,21 @@ DTL_DESC_SBST VARCHAR(1000),
 FOREIGN KEY(FILE_SEQ) REFERENCES TBL_MOA_BAS(FILE_SEQ),
 FOREIGN KEY(CUST_IDFY_SEQ) REFERENCES TBL_MOA_BAS(CUST_IDFY_SEQ)
 );
-delete from tbl_moa_hst where cust_idfy_seq = 5;
 
 -- 자동화 세부정보 이력 테이블 데이터 INSERT
-INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
-DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
-OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST) 
-VALUES (1,3, '\\download\\moa.xml', 'L01', 'S01', 'C01', '','10:00', 'R01', 'B01', '', 
-'완료', 'E01', '실환경에서 개통과 기기변경이 실제로 이루어지는 것이기 때문에 그날 퇴근하기전에 개통하기 전과 기기변경되기 전으로 다시 정보들을 원복시켜주어야한다.', 'N', '', 'Y/N', '', '윈도우상 스케줄러를 통해 실행한다.', '조근점검', '윤동섭', '윤동섭', sysdate(), '9999-12-31', 'Y', 'N', 'R','DTT플랫폼, MVNO플랫폼 시스템 조근점검 자동수행');
+-- INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+-- DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+-- OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST) 
+-- VALUES (1,3, '\\download\\moa.xml', 'L01', 'S01', 'C01', '','10:00', 'R01', 'B01', '', 
+-- '완료', 'E01', '실환경에서 개통과 기기변경이 실제로 이루어지는 것이기 때문에 그날 퇴근하기전에 개통하기 전과 기기변경되기 전으로 다시 정보들을 원복시켜주어야한다.', 'N', '', 'Y/N', '', '윈도우상 스케줄러를 통해 실행한다.', '조근점검', '윤동섭', '윤동섭', sysdate(), '9999-12-31', 'Y', 'N', 'R','DTT플랫폼, MVNO플랫폼 시스템 조근점검 자동수행');
 
-INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
-DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
-OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST) 
-VALUES (2,1, '\\download\\moa.xml', 'L01', 'S06', 'C01', '','09:00', 'R01', 'B01', '', 
-'완료', 'E01', '정의된 스케줄 외에 실행하면 안됨(사업부서에 SMS 발송됨)', 'N', '', '올레TV탭 실시간 실적 SMS', 'SMS', 'AntBot Manager 서버(AntBot 웹 페이지에 등록해 놓은 스케줄에 따라 자동 수행됨)', '올레TV탭 실적 SMS 자동 발송', '황윤섭', '정헌수', 
-sysdate(), '9999-12-31', 'Y', 'N', 'R','K-RDS, K-NOTE, MVNO-RDS, M-RDS 시스템 조근점검 자동수행');
+-- INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+-- DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+-- OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST) 
+-- VALUES (2,1, '\\download\\moa.xml', 'L01', 'S06', 'C01', '','09:00', 'R01', 'B01', '', 
+-- '완료', 'E01', '정의된 스케줄 외에 실행하면 안됨(사업부서에 SMS 발송됨)', 'N', '', '올레TV탭 실시간 실적 SMS', 'SMS', 'AntBot Manager 서버(AntBot 웹 페이지에 등록해 놓은 스케줄에 따라 자동 수행됨)', '올레TV탭 실적 SMS 자동 발송', '황윤섭', '정헌수', 
+-- sysdate(), '9999-12-31', 'Y', 'N', 'R','K-RDS, K-NOTE, MVNO-RDS, M-RDS 시스템 조근점검 자동수행');
 
-select * from TBL_MOA_HST;
-
-drop table tbl_moa_execution_txn;
 -- 실행 테이블 생성
 CREATE TABLE TBL_MOA_EXECUTION_TXN(
 EXE_SEQ INT NOT NULL auto_increment PRIMARY KEY,
@@ -148,20 +137,27 @@ EXE_EMP_NM VARCHAR(30) NOT NULL,
 EXE_DATE datetime NOT NULL,
 ERR_YN VARCHAR(1) NOT NULL,
 ERR_MSG_SBST VARCHAR(1000),
+LAST_HST_YN VARCHAR(1),
 FOREIGN KEY(FILE_SEQ) REFERENCES TBL_MOA_BAS(FILE_SEQ),
 FOREIGN KEY(CUST_IDFY_SEQ) REFERENCES TBL_MOA_BAS(CUST_IDFY_SEQ)
 );
 
-delete from TBL_MOA_EXECUTION_TXN where EXE_SEQ =8;
-
 -- 실행 테이블 데이터 INSERT
-INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST) 
-VALUES (1, 3, '윤동섭', sysdate(), 'N', '');
+-- INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST) 
+-- VALUES (1, 3, '윤동섭', '0000-00-00 00:00:00', 'N', '');
 
-INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST) 
-VALUES (2, 1, '정대균', sysdate(), 'N', '');
-
-select * from tbl_moa_execution_txn;
+-- INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+-- VALUES (1, 3, '정대균', '0000-00-00 00:00:00', 'N', '','Y');
+-- INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+-- VALUES (2, 1, '정대균', '0000-00-00 00:00:00', 'N', '','Y');
+-- INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+-- VALUES (15, 3, '정대균', '0000-00-00 00:00:00', 'N', '','Y');
+-- INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+-- VALUES (17, 2, '정대균', '0000-00-00 00:00:00', 'N', '','Y');
+-- INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+-- VALUES (18,2, '정대균', '0000-00-00 00:00:00', 'N', '','Y');
+-- INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+-- VALUES (19, 5, '정대균', '0000-00-00 00:00:00', 'N', '','Y');
 
 -- 코드공통 테이블 생성
 CREATE TABLE TBL_MOA_CD_BAS(
@@ -172,7 +168,7 @@ CD_NM VARCHAR(60) NOT NULL,
 RFRN_VAL1 VARCHAR(100),
 RFRN_VAL2 VARCHAR(100)
 );
-drop table tbl_moa_cd_bas;
+
 
 -- 코드공통 테이블 데이터 INSERT
 INSERT INTO TBL_MOA_CD_BAS(ITG_CD_GROUP_ID, ITG_CD_GROUP_NM, CD_ID, CD_NM) VALUES ('DDC', '담당코드', 'D01', '1담당');
@@ -242,5 +238,3 @@ INSERT INTO TBL_MOA_CD_BAS(ITG_CD_GROUP_ID, ITG_CD_GROUP_NM, CD_ID, CD_NM) VALUE
 
 INSERT INTO TBL_MOA_CD_BAS(ITG_CD_GROUP_ID, ITG_CD_GROUP_NM, CD_ID, CD_NM) VALUES ('CEC', '접속환경', 'E01', '로컬');
 INSERT INTO TBL_MOA_CD_BAS(ITG_CD_GROUP_ID, ITG_CD_GROUP_NM, CD_ID, CD_NM) VALUES ('CEC', '접속환경', 'E02', '사외망');
-
-select * from TBL_MOA_CD_BAS;

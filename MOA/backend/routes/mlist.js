@@ -3,6 +3,7 @@ var router = express.Router();
 const bcrypt = require('bcryptjs');
 
 const conn = require('./dbConnection.js');
+// var connection = conn.createConnection({multipleStatements: true});
 
 // Connection 객체 생성
 var connection = conn.connection;
@@ -10,7 +11,7 @@ var connection = conn.connection;
   //목록 ALL 조회
   router.get('/selectList', function (req, res) {
     console.log("메인");
-    connection.query('SELECT m.FILE_SEQ, m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq ', function (err, rows) {
+    connection.query('SELECT m.FILE_SEQ, m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE e.LAST_HST_YN="Y" ORDER BY m.file_seq desc', function (err, rows) {
       if (err) throw err;
       console.log("~?", rows);
       res.send(rows);
@@ -29,9 +30,6 @@ var connection = conn.connection;
       })
   });
 
-
-
-
   //코드성 조회(CD_ID조회)
   router.post('/cdidselect/:cd_nm', function(req,res){
     const cd_nm = req.params.cd_nm;
@@ -41,6 +39,27 @@ var connection = conn.connection;
       res.send(row2);
     });
   });
+
+
+//최근수행시간 업데이트
+  router.post('/update_exe_date',function(req,res){
+    console.log("최근수행시간 업데이트");
+    const moa_list = {
+      'CUST_IDFY_SEQ':req.body.USER.CUST_IDFY_SEQ,
+      'FILE_SEQ':req.body.FILE_SEQ,
+      'EXE_EMP_NM' :req.body.USER.USER_NM,
+    }
+    console.log(moa_list);
+    connection.query('UPDATE TBL_MOA_EXECUTION_TXN SET LAST_HST_YN = "" WHERE FILE_SEQ = "'+ moa_list.FILE_SEQ+'"',moa_list,function(err,row){
+      if(err) throw err;
+      console.log(row);
+    });
+    connection.query('INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST, LAST_HST_YN) VALUES ("'+moa_list.FILE_SEQ+'","'+ moa_list.CUST_IDFY_SEQ+'","'+moa_list.EXE_EMP_NM+'",sysdate(),"N","","Y")',moa_list,function(err,row){
+      if(err) throw err;
+      console.log(row);
+    });
+  })
+
 
   //목록 등록
   router.post('/addFile',  function(req, res){
@@ -69,6 +88,8 @@ var connection = conn.connection;
       'ATC_FILE_UPLD_PATH_NM':req.body.detailInfo.ATC_FILE_UPLD_PATH_NM,
       'DTL_DESC_SBST':req.body.detailInfo.DTL_DESC_SBST,
       'FNS_DATE':"9999-12-31",
+      'EMP_NM' : req.body.users.USER_NM,
+      'EXE_DATE':'0000-00-00 00:00:00',
 
     };
     console.log('cust_idfy_seq', detailInfo);
@@ -100,6 +121,11 @@ var connection = conn.connection;
             })
           }
           });
+
+          connection.query('INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST, LAST_HST_YN) VALUES ("'+rows[0].FILE_SEQ+'","'+ detailInfo.CUST_IDFY_SEQ+'","'+detailInfo.EMP_NM+'","'+detailInfo.EXE_DATE+'","N","","Y")',detailInfo,function(err,row){
+            if(err) throw err;
+            console.log(row);
+          });
         });
       }else{
         res.json({
@@ -108,13 +134,13 @@ var connection = conn.connection;
         })
       }
     });
-
   });
+
 
 
   //목록 수정
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //목록 검색
   router.post('/search', function (req, res) {
     console.log("목록 검색");
@@ -184,16 +210,25 @@ var connection = conn.connection;
               if (row1 != "") {
                 console.log("22222 - 코드외 존재");
                 console.log("22222 - row1 길이? ", row1.length);
-                for (var i = 0; i < row.length; i++) {
-                  connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, CONN_EVN_DIV_CD) against("' + row[i].CD_ID + '*" in boolean mode)',function(err,row2) {
+                var query ="";
+                 for(let i=0; i<3; i++){
+                  query += 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, CONN_EVN_DIV_CD) against("' + row[i].CD_ID + '*" in boolean mode) and e.LAST_HST_YN="Y";'
+                }
+                // var query1 = 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, CONN_EVN_DIV_CD) against("' + row[0].CD_ID + '*" in boolean mode) and e.LAST_HST_YN="Y"; ';
+                // var query2 = 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, CONN_EVN_DIV_CD) against("' + row[1].CD_ID + '*" in boolean mode) and e.LAST_HST_YN="Y"; ';
+                // console.log(query);
+                  connection.query(query,function(err,row2,field) {
                     if (err) res.send("");
 
                     console.log("!!", row1);
                     console.log("@@", row2);
+                    // console.log("row2[0]", row2[0]);
+                    // console.log("row2[1]", row2[1]); 
+                    console.log(",,,,,,,,,,,,",row2);
 
                     if (row2 != "") {
                       console.log("33333 - 코드성 존재 & 코드외 존재");
-                      console.log("33333 - row2 길이? ", row2.length);
+                      // console.log("33333 - row2 길이? ", row2.length);
                       console.log("!!!", row1);
                       console.log("@@@", row2);
 
@@ -209,43 +244,24 @@ var connection = conn.connection;
                       res.send(row1);
                     }
                   });
-                }
+                
               } else {
                 console.log("55555 - 코드외 존재 안함 & 코드성만 존재");
                 console.log("55555 - row 길이? ", row.length);
-                
-                let value = '';
-                for(let i = 0; i < row.length; i++){
-                  value+=("'" + row[i].CD_ID + "'");
-                  if(i == row.length-1) continue;
-                  value += ",";
+                var sql = "";
+                for(let i=0; i<row.length; i++){
+                  sql += 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, CONN_EVN_DIV_CD) against("' + row[i].CD_ID + '*" in boolean mode) and e.LAST_HST_YN="Y";'
                 }
-                console.log("value : ", value);
-                
-                connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE LANG_CD in (' + value + ')', function (err, row2) {
-                  if (err) res.send("");
-
-                  console.log(row2);
-
-                  res.send(row2);
-                });
-
-                // for (var i = 0; i < row.length; i++) {
-                //   connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, CONN_EVN_DIV_CD) against("' + row[i].CD_ID + '*" in boolean mode)',function(err,row2) {
-                //     if (err) res.send("");
-                    
-                //     console.log("??", row2);
-
-                //     if (row2 != "") {
-                //       console.log("row2 길이? ", row2.length);
-                //       console.log("???", row2);
-                //       res.send(row2);
-                //     } else {
-                //       console.log("row2 길이? ", row2.length); 
-                //     }
-                //   });
-                // }
-              }
+                  console.log("sql",sql);
+                  connection.query(sql,function(err,row2) {
+                    if (err) res.send("");
+                    console.log("이게 언디파인?",row2);
+                    if (row2 != "") {
+                      res.send(row2);
+                    } 
+                  });
+                }
+              
             });
           } else {
             console.log("88888 - 코드 검색 포함 안함");
@@ -281,8 +297,14 @@ var connection = conn.connection;
           console.log("row : ", row);
           if (err) res.send("");
           if(row != ""){
+            let val = '';
+            for(let i=0; i<row.length; i++){
+              val+=("'"+row[i].CD_ID + "'");
+              if(i == row.length-1) continue;
+              val+=",";
+            }
             //조회한 CD_ID를 가지고 USER_BAS에서 사용자 일련번호를 조회
-            connection.query('SELECT CUST_IDFY_SEQ FROM TBL_MOA_USER_BAS WHERE TEAM_DIV_CD = "'+ row[0].CD_ID+'"',function(err,rows){
+            connection.query('SELECT CUST_IDFY_SEQ FROM TBL_MOA_USER_BAS WHERE TEAM_DIV_CD in ('+val+')',function(err,rows){
               if(rows != "") {
                 console.log("rows 길이 ?.? ", rows.length);
                 if (err) res.send("");
@@ -390,20 +412,8 @@ var connection = conn.connection;
         
       };
     }
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    //검색(팀)
-
-    // 공통코드가서 맞는거 가지고 오기
-
-    // tbl_moa_bas에서 맞는거 뿌려주기
-
-    // connection.query('SELECT * FROM TBL_MOA_BAS', function (err, rows) {
-    //   if (err) throw err;
-    //   console.log(rows);
-    //   res.send(rows);
-    // });
   });
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   //목록 상세 조회
   router.post('/listDetail/:id', function (req, res) {

@@ -95,6 +95,8 @@ export default {
         ],
         search_select: '',
         search_text: '',
+        user:JSON.parse(localStorage.getItem('token')).user.CUST_IDFY_SEQ,
+        file_seq:"",
       };
     },
 
@@ -104,7 +106,7 @@ export default {
         // console.log("asdasd"+response);
         this.moa_list = response.data;
         // console.log(this.moa_list);
-        
+        // console.log(this.moa_list);
         for(let i = 0; i < this.moa_list.length; i++) {
           this.moa_list[i].FIRST_REG_DATE = dayjs(this.moa_list[i].FIRST_REG_DATE).format('YYYY-MM-DD');
           // console.log(this.moa_list[i].EXE_DATE);
@@ -114,6 +116,19 @@ export default {
           // console.log(this.moa_list[i].EXE_DATE);
         }
         });
+
+
+        this.$http
+            .post("/api/musers/userinfo", {
+            user_id: JSON.parse(localStorage.getItem('token')).user.user_id
+            })
+            .then(
+            (response) => {
+            this.login_state = false;
+            console.log(response.data[0].CUST_IDFY_SEQ);
+            this.user = response.data[0];
+                }
+            )
     },
 
     methods: {
@@ -215,7 +230,19 @@ export default {
     activation : function(item){
       //item.EXE_DATE update
       event.stopPropagation();
+      console.log(item);
       console.log(item.EXE_DATE);
+      //수행시간은 sysdate로 수정
+      this.$http.post('/api/mlist/update_exe_date',{
+        FILE_SEQ:item.FILE_SEQ,
+        USER : this.user,
+      })
+      .then(
+        (res) =>{
+          console.log(res);
+        }
+      )
+
     }
       
     },

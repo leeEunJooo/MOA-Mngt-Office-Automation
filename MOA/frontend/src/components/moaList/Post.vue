@@ -154,13 +154,10 @@
             </li>
             <li>
                 <div class="sm_title">매뉴얼여부</div>
-                <!-- <div> -->
                     <input type="radio" id="y" value="Y" v-model="detailInfo.ATC_FILE_MANUAL_YN">
                     <label for="y">Y</label>
                     <input type="radio" id="n" value="N" v-model="detailInfo.ATC_FILE_MANUAL_YN">
                     <label for="n">N</label>
-                    
-                <!-- </div> -->
             </li>
             <li class="height_fit_content" id="mannual_file">
                 <div class="sm_title" style="margin-bottom:5px">매뉴얼파일</div>
@@ -237,11 +234,12 @@ props : {
 
 data:function(){
     return{
+        file_path:[],
         file_seq:"",
         users: "",
         detailInfo:{
             CUST_IDFY_SEQ:"",
-            SROC_FILE_PATH_NM:"\\download\\moa.xml",
+            SROC_FILE_PATH_NM:"",
             NTCART_TITLE_NM:"",
             TKCGR_NM:"",
             RUSER_NM:"",
@@ -263,8 +261,6 @@ data:function(){
             ATC_FILE_UPLD_PATH_NM:"",
             DTL_DESC_SBST:"",
         },
-        // checkedY:false,
-        // checkedYN:'',
         
         // Select 박스 Option (name, code)
         select_option:[
@@ -298,32 +294,48 @@ methods:{
                     console.log(res);
                 }
             )
+            let hour = document.getElementById('hour').value;
+            let min = document.getElementById('min').value;
 
-            // console.log("Y",this.checkedY);
-            // console.log("N",this.checkedN);
-            // if(this.checkedN==true){
-            //     this.detailInfo.ATC_FILE_MANUAL_YN = "N";
-            // }
-            // if(this.checkedY == true){
-            //     this.detailInfo.ATC_FILE_MANUAL_YN = "Y";
-            // }
+            min = min ==""? 0 :min;
+            hour = hour < 10? "0"+hour : hour;
+            min = min < 10? "0"+min : min;
 
-            const datetime = document.getElementById('hour').value +":"+ document.getElementById('min').value;
+            const datetime = hour +":"+ min;
             this.detailInfo.DATA_EXE_TIME = datetime;
-            console.log("시간",this.detailInfo.DATA_EXE_TIME);
-            
-            //그다음 순서\
-            this.$http.post("/api/mlist/addFile", {
-                detailInfo: this.detailInfo,
-                users:this.users,
-            })
+
+        //파일 업로드
+        const formData = new FormData( );
+        console.log(this.file_path);
+        formData.append("filepath", this.file_path);
+        this.$http.post("/api/upload/upload_page",
+            formData,
+            {
+                headers: {
+                "Content-Type": "multipart/form-data",
+                },
+            }
+            )
             .then(
-                (res) => {
-                    console.log(res);
-                    alert(res.data.message);
-                    window.close();
+                (res)=>{
+                    console.log(res.data);
                 }
             )
+        
+
+
+            //그다음 순서\
+            // this.$http.post("/api/mlist/addFile", {
+            //     detailInfo: this.detailInfo,
+            //     users:this.users,
+            // })
+            // .then(
+            //     (res) => {
+            //         console.log(res);
+            //         alert(res.data.message);
+            //         window.close();
+            //     }
+            // )
     },
 
     setCode : async function(iter, allCode, callback){
@@ -397,24 +409,34 @@ methods:{
     changeVal : function(e){
         if(window.FileReader){ // modern browser
             const filepath = e.target.value; 
+           this.detailInfo.SROC_FILE_PATH_NM = e.target.files[0];
+           console.log(this.detailInfo.SROC_FILE_PATH_NM);
             const spltArr_type = filepath.split('.');
             const splthArr_name = filepath.split('\\');
             let filetype = spltArr_type[spltArr_type.length-1];
             let filename = splthArr_name[splthArr_name.length-1];
 
             const parent = e.target.parentNode;
+            console.log(parent);
             
             const fileType = parent.querySelector('#fileType');
             const fileContent = parent.querySelector('#fileContent');
             const delVtn = parent.querySelector('#deletebtn');
             const hr = parent.querySelector('#file_hr');
-
             fileType.innerHTML = filetype;
             fileContent.innerHTML = filename;
+            this.file_path = e.target.files[0];
+            console.log("파일주소??",filepath);
+            console.log("파일주소2??",this.file_path);
             delVtn.innerHTML = "X";
             hr.style.display="block";
             
          } 
+    },
+    check :function(event){
+        const parent = event.target.parentNode;
+        console.log(this.checkedY);
+        if(this.checkedY == "Y") parent.querySelector("input[name='N']").check = false;
     }     
         
         
