@@ -175,4 +175,40 @@ router.post('/uploadUpdate', function(req,res){
 
 
 
+
+/////////////////////////////////통계////////////////////////////////////
+//담당별 자동화 건수
+router.post('/div_cnt', function(req,res){
+  console.log("담당별 자동화 건수");
+  connection.query('select e.cd_nm, sum(upld_cascnt) as upld_cascnt from tbl_moa_user_bas as m, TBL_MOA_CD_BAS as e where m.EMP_POS_DIV_CD = e.CD_ID group by EMP_POS_DIV_CD',function(err,rows){
+    if(err) throw err;
+    console.log(rows);
+    res.send(rows);
+  });
+});
+
+
+//팀별 자동화 건수
+router.post('/team_cnt', function(req,res){
+  console.log("팀별 자동화 건수");
+  connection.query('select e.cd_nm, sum(upld_cascnt) as upld_cascnt from tbl_moa_user_bas as m, TBL_MOA_CD_BAS as e where m.team_div_cd = e.CD_ID group by team_div_cd',function(err,rows){
+    if(err) throw err;
+    console.log(rows);
+    res.send(rows);
+  });
+});
+
+
+//기술별 자동화 건수
+router.post('/lang_cnt', function(req,res){
+  console.log("기술별 자동화 건수");
+  connection.query('select e.cd_nm, count(lang_cd) as count from tbl_moa_bas as m, TBL_MOA_CD_BAS as e where m.lang_cd = e.CD_ID group by lang_cd',function(err,rows){
+    if(err) throw err;
+    console.log(rows);
+    res.send(rows);
+  });
+});
+////////////////////////////통계 끝//////////////////////////////////////////////////
+
+
 module.exports = router;

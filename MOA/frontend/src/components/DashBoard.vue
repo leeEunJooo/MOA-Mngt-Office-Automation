@@ -79,6 +79,22 @@ export default {
       }
   },
   mounted() {
+
+    this.$http.post("/api/musers/div_cnt")
+    .then(
+      (res)=>{
+        console.log(res);
+        console.log(res.data.length);
+        console.log(res.data[0].upld_cascnt);
+        console.log(this.barChartData1.data.labels);
+        // for(let i=0; i<res.data.length; i++){
+        //   if()
+        // }
+        // this.barChartData1.labels=res.data.cd_nm;
+        // console.log(this.barChartData1.labels);
+      }
+    )
+
     const ctx1 = document.getElementById('bar-chart1');
     new Chart(ctx1, this.barChartData1);
 
@@ -90,6 +106,8 @@ export default {
 
     const ctx4 = document.getElementById('bar-chart4');
     new Chart(ctx4, this.barChartData4);
+
+    
   }
 }
 </script>

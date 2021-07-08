@@ -24,6 +24,12 @@ EMP_POS_DIV_CD VARCHAR(3) NOT NULL
 -- INSERT INTO TBL_MOA_USER_BAS(CUST_IDFY_SEQ, USER_ID, USER_PWD, USER_TEL_NO, USER_NM, UPLD_CASCNT, TEAM_DIV_CD, EMP_POS_DIV_CD) 
 -- VALUES (1, 'test01', 'test01', '01000010001', 'test01', 0, 'T01', 'D01');
 
+select * from tbl_moa_bas;
+
+select e.cd_nm, sum(upld_cascnt) from tbl_moa_user_bas as m, TBL_MOA_CD_BAS as e where m.team_div_cd = e.CD_ID group by team_div_cd;
+select e.cd_nm, sum(upld_cascnt) from tbl_moa_user_bas as m, TBL_MOA_CD_BAS as e where m.EMP_POS_DIV_CD = e.CD_ID group by EMP_POS_DIV_CD;
+select e.cd_nm, count(lang_cd) as count from tbl_moa_bas as m, TBL_MOA_CD_BAS as e where m.lang_cd = e.CD_ID group by lang_cd;
+
 -- 자동화 세부정보 테이블 생성
 CREATE TABLE TBL_MOA_BAS(
 FILE_SEQ int NOT NULL auto_increment PRIMARY KEY,

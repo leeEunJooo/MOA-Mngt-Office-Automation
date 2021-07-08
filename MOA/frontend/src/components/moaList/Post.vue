@@ -234,12 +234,12 @@ props : {
 
 data:function(){
     return{
-        name:'sss',
+        file_path:[],
         file_seq:"",
         users: "",
         detailInfo:{
             CUST_IDFY_SEQ:"",
-            SROC_FILE_PATH_NM:"\\download\\moa.xml",
+            SROC_FILE_PATH_NM:"",
             NTCART_TITLE_NM:"",
             TKCGR_NM:"",
             RUSER_NM:"",
@@ -261,8 +261,6 @@ data:function(){
             ATC_FILE_UPLD_PATH_NM:"",
             DTL_DESC_SBST:"",
         },
-        // checkedY:false,
-        // checkedYN:'',
         
         // Select 박스 Option (name, code)
         select_option:[
@@ -288,44 +286,51 @@ methods:{
         console.log("detailinfo는???",this.detailInfo);
 
             //등록하면 유저에 UPLD_CASCNT값 증가(ok)
-            this.$http.post("/api/musers/uploadUpdate",{
-                users:this.users
-            })
-            .then(
-                (res)=>{
-                    console.log(res);
-                }
-            )
+            // this.$http.post("/api/musers/uploadUpdate",{
+            //     users:this.users
+            // })
+            // .then(
+            //     (res)=>{
+            //         console.log(res);
+            //     }
+            // )
 
             const datetime = document.getElementById('hour').value +":"+ document.getElementById('min').value;
             this.detailInfo.DATA_EXE_TIME = datetime;
             console.log("시간",this.detailInfo.DATA_EXE_TIME);
 
-        //    //파일 업로드
-        //    const fd = new FormData()
-
-        //    fd.append('name',this.name)
-        //    fd.append('realFile',document.getElementById('realFile').files[0])
-        //    this.$http.post('/api/upload/upload_page',fd)
-        //    .then((res)=>{
-        //        console.log(res.data);
-        //    })
-        //    .catch(e=>{
-        //         if (!e.response) this.$store.commit('pop', { msg: e.message, color: 'warning' })
-        //    })
-            
-            //그다음 순서\
-            this.$http.post("/api/mlist/addFile", {
-                detailInfo: this.detailInfo,
-                users:this.users,
-            })
+        //파일 업로드
+        const formData = new FormData( );
+        console.log(this.file_path);
+        formData.append("filepath", this.file_path);
+        this.$http.post("/api/upload/upload_page",
+            formData,
+            {
+                headers: {
+                "Content-Type": "multipart/form-data",
+                },
+            }
+            )
             .then(
-                (res) => {
-                    console.log(res);
-                    alert(res.data.message);
-                    window.close();
+                (res)=>{
+                    console.log(res.data);
                 }
             )
+        
+
+
+            //그다음 순서\
+            // this.$http.post("/api/mlist/addFile", {
+            //     detailInfo: this.detailInfo,
+            //     users:this.users,
+            // })
+            // .then(
+            //     (res) => {
+            //         console.log(res);
+            //         alert(res.data.message);
+            //         window.close();
+            //     }
+            // )
     },
 
     setCode : async function(iter, allCode, callback){
@@ -399,20 +404,25 @@ methods:{
     changeVal : function(e){
         if(window.FileReader){ // modern browser
             const filepath = e.target.value; 
+           this.detailInfo.SROC_FILE_PATH_NM = e.target.files[0];
+           console.log(this.detailInfo.SROC_FILE_PATH_NM);
             const spltArr_type = filepath.split('.');
             const splthArr_name = filepath.split('\\');
             let filetype = spltArr_type[spltArr_type.length-1];
             let filename = splthArr_name[splthArr_name.length-1];
 
             const parent = e.target.parentNode;
+            console.log(parent);
             
             const fileType = parent.querySelector('#fileType');
             const fileContent = parent.querySelector('#fileContent');
             const delVtn = parent.querySelector('#deletebtn');
             const hr = parent.querySelector('#file_hr');
-
             fileType.innerHTML = filetype;
             fileContent.innerHTML = filename;
+            this.file_path = e.target.files[0];
+            console.log("파일주소??",filepath);
+            console.log("파일주소2??",this.file_path);
             delVtn.innerHTML = "X";
             hr.style.display="block";
             

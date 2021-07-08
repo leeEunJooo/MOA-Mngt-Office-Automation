@@ -2,11 +2,11 @@
 export const barChartData1 = {
   type: "bar",
     data: {
-      labels: ["", "Blue", "Yellow", "Green", "Purple", "Orange"],
+      labels: ['1담당','2담당','3담당'],
       datasets: [
         {
           label: "담당별 자동화 건수",
-          data: [12, 39, 13, 25, 2, 23],
+          data: [],
           backgroundColor: [
             "rgba(255, 99, 132, 0.2)",
             "rgba(54, 162, 235, 0.2)",
