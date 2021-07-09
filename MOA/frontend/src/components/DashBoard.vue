@@ -134,7 +134,7 @@ export default {
                   if(this.barChartData2.data.labels[i] == res.data[j].cd_nm){
                     console.log("res.data[j].cd_nm",res.data[j].cd_nm);
                     console.log("this.barChartData2.data.labels[i]",this.barChartData2.data.labels[i]);
-                    this.barChartData2.data.datasets[0].data.push(res.data[j].upld_cascnt);
+                    this.barChartData2.data.datasets[0].data.push(parseInt(res.data[j].upld_cascnt));
                     flag =1;
                     break;
                   }

@@ -199,6 +199,14 @@
                 </div>
             </li>
             <li class="height_fit_content" style="margin-top:15px">
+                <div class="sm_title" style="margin: 5px 0px">실행방법</div>
+                <div class="textarea">
+                    <textarea v-model="detailInfo.EXE_SBST">
+
+                    </textarea>
+                </div>
+            </li>
+            <li class="height_fit_content" style="margin-top:15px">
                 <div class="sm_title" style="margin: 5px 0px">상세설명</div>
                 <div class="textarea">
                     <textarea v-model="detailInfo.DTL_DESC_SBST">
