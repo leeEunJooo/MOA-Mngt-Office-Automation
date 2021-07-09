@@ -246,7 +246,7 @@ data:function(){
         users: "",
         detailInfo:{
             CUST_IDFY_SEQ:"",
-            SROC_FILE_PATH_NM:"",
+            SROC_FILE_PATH_NM:"\\download\\moa.xm",
             NTCART_TITLE_NM:"",
             TKCGR_NM:"",
             RUSER_NM:"",
@@ -313,37 +313,37 @@ methods:{
             this.detailInfo.DATA_EXE_TIME = datetime;
 
         //파일 업로드
-        const formData = new FormData( );
-        console.log(this.file_path);
-        formData.append("filepath", this.file_path);
-        this.$http.post("/api/upload/upload_page",
-            formData,
-            {
-                headers: {
-                "Content-Type": "multipart/form-data",
-                },
-            }
-            )
-            .then(
-                (res)=>{
-                    console.log(res.data);
-                }
-            )
+        // const formData = new FormData( );
+        // console.log(this.file_path);
+        // formData.append("filepath", this.file_path);
+        // this.$http.post("/api/upload/upload_page",
+        //     formData,
+        //     {
+        //         headers: {
+        //         "Content-Type": "multipart/form-data",
+        //         },
+        //     }
+        //     )
+        //     .then(
+        //         (res)=>{
+        //             console.log(res.data);
+        //         }
+        //     )
         
 
 
             //그다음 순서\
-            // this.$http.post("/api/mlist/addFile", {
-            //     detailInfo: this.detailInfo,
-            //     users:this.users,
-            // })
-            // .then(
-            //     (res) => {
-            //         console.log(res);
-            //         alert(res.data.message);
-            //         window.close();
-            //     }
-            // )
+            this.$http.post("/api/mlist/addFile", {
+                detailInfo: this.detailInfo,
+                users:this.users,
+            })
+            .then(
+                (res) => {
+                    console.log(res);
+                    alert(res.data.message);
+                    window.close();
+                }
+            )
     },
 
     setCode : async function(iter, allCode, callback){
