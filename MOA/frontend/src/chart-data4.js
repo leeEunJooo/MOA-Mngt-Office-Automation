@@ -2,12 +2,12 @@ export const barChartData4 = {
     type: "doughnut",
       data: {
         labels: [
-          'AntBot',
-          'Python',
-          'JAVA',
-          'JavaScript',
-          'C#',
-          'C++'
+          // 'AntBot',
+          // 'Python',
+          // 'JAVA',
+          // 'JavaScript',
+          // 'C#',
+          // 'C++'
         ],
         datasets: [
           {

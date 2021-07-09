@@ -20,41 +20,15 @@ TEAM_DIV_CD VARCHAR(3) NOT NULL,
 EMP_POS_DIV_CD VARCHAR(3) NOT NULL
 );
 
+update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ=3;
+update tbl_moa_user_bas set UPLD_CASCNT = 2 where CUST_IDFY_SEQ =4; 
+update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ =6; 
+update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ =7; 
 
--- INSERT INTO TBL_MOA_USER_BAS(USER_ID, USER_PWD, USER_TEL_NO, USER_NM, UPLD_CASCNT, TEAM_DIV_CD, EMP_POS_DIV_CD) 
--- VALUES ('test01', 'test01', '01099881122','최민혜', 0, 'T02', 'D01');  
-
--- INSERT INTO TBL_MOA_USER_BAS(USER_ID, USER_PWD, USER_TEL_NO, USER_NM, UPLD_CASCNT, TEAM_DIV_CD, EMP_POS_DIV_CD) 
--- VALUES ('test02', 'test02', '01012345678','신채영', 0, 'T02', 'D01'); 
-
--- INSERT INTO TBL_MOA_USER_BAS(USER_ID, USER_PWD, USER_TEL_NO, USER_NM, UPLD_CASCNT, TEAM_DIV_CD, EMP_POS_DIV_CD) 
--- VALUES ('test03', 'test03', '01090907171','윤동섭', 0, 'T02', 'D01'); 
-
--- INSERT INTO TBL_MOA_USER_BAS(USER_ID, USER_PWD, USER_TEL_NO, USER_NM, UPLD_CASCNT, TEAM_DIV_CD, EMP_POS_DIV_CD) 
--- VALUES ('test04', 'test04', '01022445566','이은주', 0, 'T03', 'D01');   
-
--- INSERT INTO TBL_MOA_USER_BAS(USER_ID, USER_PWD, USER_TEL_NO, USER_NM, UPLD_CASCNT, TEAM_DIV_CD, EMP_POS_DIV_CD) 
--- VALUES ('test05', 'test05', '01099227171','안혜경', 0, 'T03', 'D01'); 
-
--- INSERT INTO TBL_MOA_USER_BAS(USER_ID, USER_PWD, USER_TEL_NO, USER_NM, UPLD_CASCNT, TEAM_DIV_CD, EMP_POS_DIV_CD) 
--- VALUES ('test06', 'test06', '01012123434','정대균', 0, 'T04', 'D01'); 
-
--- INSERT INTO TBL_MOA_USER_BAS(USER_ID, USER_PWD, USER_TEL_NO, USER_NM, UPLD_CASCNT, TEAM_DIV_CD, EMP_POS_DIV_CD) 
--- VALUES ('test07', 'test07', '01079798787','황윤섭', 0, 'T04', 'D01'); 
-
--- INSERT INTO TBL_MOA_USER_BAS(USER_ID, USER_PWD, USER_TEL_NO, USER_NM, UPLD_CASCNT, TEAM_DIV_CD, EMP_POS_DIV_CD) 
--- VALUES ('test08', 'test08', '01034617256','조대흠', 0, 'T06', 'D02'); 
-
--- INSERT INTO TBL_MOA_USER_BAS(USER_ID, USER_PWD, USER_TEL_NO, USER_NM, UPLD_CASCNT, TEAM_DIV_CD, EMP_POS_DIV_CD) 
--- VALUES ('test09', 'test09', '01072817328','이수현', 0, 'T11', 'D03'); 
-
--- INSERT INTO TBL_MOA_USER_BAS(USER_ID, USER_PWD, USER_TEL_NO, USER_NM, UPLD_CASCNT, TEAM_DIV_CD, EMP_POS_DIV_CD) 
--- VALUES ('test10', 'test10', '01096742671','유세정', 0, 'T12', 'D03'); 
-
-select * from tbl_moa_user_bas;
+-- select * from tbl_moa_user_bas;
 -- select * from tbl_moa_bas;
 
-select e.cd_nm, sum(upld_cascnt) as upupld_cascnt from tbl_moa_user_bas as m, TBL_MOA_CD_BAS as e where m.team_div_cd = e.CD_ID group by team_div_cd;
+-- select e.cd_nm, sum(upld_cascnt) as upupld_cascnt from tbl_moa_user_bas as m, TBL_MOA_CD_BAS as e where m.team_div_cd = e.CD_ID group by team_div_cd;
 -- select e.cd_nm, sum(upld_cascnt) as upupld_cascnt from tbl_moa_user_bas as m, TBL_MOA_CD_BAS as e where m.EMP_POS_DIV_CD = e.CD_ID group by EMP_POS_DIV_CD;
 -- select e.cd_nm, count(lang_cd) as count from tbl_moa_bas as m, TBL_MOA_CD_BAS as e where m.lang_cd = e.CD_ID group by lang_cd;
 
