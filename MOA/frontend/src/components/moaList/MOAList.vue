@@ -203,9 +203,34 @@ export default {
                 console.log("코드성 제외");
                 console.log(response);
                 console.log("response.data : ", response.data);
-                console.log("response.data 길이 : ", response.data.length);
+                console.log("response.data 길이~!~! : ", response.data.length);
+                console.log("response.data row1[0]~!~! : ", response.data.row1);
+                // console.log("response.data row1[0]~!~! : ", response.data.row1[0]);
+                // console.log("response.data row1[1]~!~! : ", response.data.row1[1]);
                 this.moa_list = response.data;
-                console.log("moa_list : ", this.moa_list.length);
+                console.log("moa_list : ", this.moa_list2.length);
+
+                if (response.data.length > 1) {
+                  console.log("response.data row1[0]~!~! : ", response.data[0]);
+                  console.log("response.data row1[1]~!~! : ", response.data[1]);
+
+                  this.moa_list = [];
+                  this.moa_list.push(response.data[0]);
+                  this.moa_list2 = response.data;
+
+                  // for(let i = 0; i < response.data.length; i++) {
+                  //   // this.moa_list.push(response.data.row1[i]);
+                  //   this.moa_list2.push(response.data[i]);
+                  // }
+
+                  console.log("moa_list21~!~! : ", this.moa_list2);
+
+                  for (let i = 1; i < this.moa_list2.length; i++) {
+                      if ((this.moa_list2[i].NTCART_TITLE_NM != this.moa_list[i - 1].NTCART_TITLE_NM) && (this.moa_list2[i].TKCGR_NM != this.moa_list[i - 1].TKCGR_NM)) {
+                        this.moa_list.push(this.moa_list2[i]);
+                      }
+                  }
+                }
 
                 for(let i = 0; i < this.moa_list.length; i++) {
                 this.moa_list[i].FIRST_REG_DATE = dayjs(this.moa_list[i].FIRST_REG_DATE).format('YYYY-MM-DD');
