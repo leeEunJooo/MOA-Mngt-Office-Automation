@@ -44,12 +44,6 @@
                     </div>
                 </li>
                 <li>
-                    <div class="sm_title">실행방법</div>
-                    <div>
-                        <input v-model="detailInfo.EXE_SBST" disabled>
-                    </div>
-                </li>
-                <li>
                     <div class="sm_title">실행환경</div>
                     <input v-model="detailInfo.TROBL_SVC_TYPE_CD" disabled>
                 </li>
@@ -76,6 +70,12 @@
                     <input v-model="detailInfo.TROBL_SVC_TYPE_CD" disabled>
                 </li>
                 <li>
+                    <div class="sm_title">업무목적</div>
+                    <div>
+                        <input v-model="detailInfo.WRKJOB_PRPS_NM" disabled>
+                    </div>
+                </li>
+                <li>
                     <div class="sm_title">매뉴얼여부</div>
                     <div>
                         <input v-model="detailInfo.ATC_FILE_MANUAL_YN" disabled>
@@ -100,6 +100,14 @@
                         <span class="fileType" id="fileType"></span>
                         <sapn class="fileContent" id="fileContent"></sapn>
                         <hr class="file_hr"/>
+                    </div>
+                </li>
+                <li class="height_fit_content" style="margin-top:15px">
+                    <div class="sm_title" style="margin: 5px 0px">실행방법</div>
+                    <div class="textarea">
+                        <textarea v-model="detailInfo.EXE_SBST" disabled>
+    
+                        </textarea>
                     </div>
                 </li>
                 <li class="height_fit_content" style="margin-top:15px">
@@ -166,7 +174,7 @@ export default {
                     this.detailInfo = res.data[0];
                     //ATC_FILE_UPLD_PATH_NM SROC_FILE_PATH_NM
                     //파일 존재 여부 체크
-                    
+                    console.log(this.detailInfo);
                     //코드성 변경
                     for(let i=0; i<Object.keys(this.detailInfo).length; i++){
                         if(Object.keys(this.detailInfo)[i].includes("_CD")){

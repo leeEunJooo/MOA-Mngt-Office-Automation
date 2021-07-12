@@ -570,10 +570,8 @@ var connection = conn.connection;
 //코드성조회(cd_nm 조회)
   router.post('/codeselect/:cd_nm', function(req,res){
     const cd_nm = req.params.cd_nm;
-    // console.log("??????????",cd_nm);
     connection.query('SELECT CD_NM FROM TBL_MOA_CD_BAS WHERE CD_ID = "'+ cd_nm+'"',function(err,row2){
       if(err) throw err;
-      // console.log(row2[0].CD_NM);
       res.send(row2);
     });
   });
