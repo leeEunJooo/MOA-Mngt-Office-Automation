@@ -66,8 +66,7 @@ export default {
                 console.log(res);
             if (res.data.success == true) {
                 alert(res.data.message);
-                this.$store.commit('loginToken', {token:JSON.parse(localStorage.getItem('token')).user.user_ids, user_nm:this.user_nm})
-                console.log(this.$store.state.user_nm);
+                this.$store.commit('loginToken', {token:JSON.stringify(res.data.token), user_nm:this.user.user_id});
                 this.$router.push("/"); 
             }
             if (res.data.success == false) {

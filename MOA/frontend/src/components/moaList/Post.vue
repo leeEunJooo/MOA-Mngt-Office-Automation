@@ -393,13 +393,12 @@ methods:{
     loadCD: function(){
         this.$http
             .post("/api/musers/userinfo", {
-            user_id: JSON.parse(localStorage.getItem('token')).user.user_id
+                user_id: JSON.parse(localStorage.getItem('token')).user.user_id
             })
             .then(
             (response) => {
-            this.login_state = false;
-            console.log(response.data[0].USER_NM);
-            this.users = response.data[0];
+                this.login_state = false;
+                this.users = response.data[0];
                 }
             )
 
