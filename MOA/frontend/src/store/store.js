@@ -2,17 +2,20 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
 import router from '../router';
+import createPersistedState from 'vuex-persistedstate';
 // import moalist from './components/MOAList.vue';
 
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
-
-
+    plugins: [
+        createPersistedState()
+    ],
     state:{
         host: 'http://127.0.0.1:3000',
         token: '',
         role: '',
+        username:'',
         isLogin: false,
         isLoginError: false
     },
@@ -21,7 +24,8 @@ export const store = new Vuex.Store({
         loginToken:function(state,payload){
             state.isLogin = true
             state.isLoginError = false
-            state.token = payload
+            state.token = payload.token
+            state.username = payload.user_nm
         },
 
         logout: function(state){
@@ -29,10 +33,6 @@ export const store = new Vuex.Store({
             state.isLoginError = false
             state.token = '';
             alert('로그아웃 되었습니다.');
-            // if(state.token){
-            //     state.token = '';
-            //     alert('로그아웃되었습니다.');
-            // }
         },
         loginCheck:function(state){
             axios.get(`${state.host}/auth/check`,{
