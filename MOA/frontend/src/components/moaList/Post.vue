@@ -187,7 +187,7 @@
                 <div class="filebox2 file_list">
                     <span class="fileType" id="fileType"></span>
                     <span class="fileContent" id="fileContent"></span>
-                    <input type="file" id="realFile" name="moafile" @change="changeVal($event)" hidden/>
+                    <input type="file" id="realFile" name='moafile' @change="changeVal($event)" hidden/>
                     <span class="deletebtn" id="deletebtn" @click="cancelVal($event)"></span>
                     <hr class="file_hr" id="file_hr" style="margin-top:8px; margin-bottom:35px; display:none;"/>
                 </div>
@@ -318,14 +318,14 @@ methods:{
         }
 
             //등록하면 유저에 UPLD_CASCNT값 증가(ok)
-            this.$http.post("/api/musers/uploadUpdate",{
-                users:this.users
-            })
-            .then(
-                (res)=>{
-                    console.log(res);
-                }
-            )
+            // this.$http.post("/api/musers/uploadUpdate",{
+            //     users:this.users
+            // })
+            // .then(
+            //     (res)=>{
+            //         console.log(res);
+            //     }
+            // )
             let hour = document.getElementById('hour').value;
             let min = document.getElementById('min').value;
 
@@ -337,37 +337,35 @@ methods:{
             this.detailInfo.DATA_EXE_TIME = datetime;
 
         //파일 업로드
-        // const formData = new FormData( );
-        // console.log(this.file_path);
-        // formData.append("filepath", this.file_path);
-        // this.$http.post("/api/upload/upload_page",
-        //     formData,
-        //     {
-        //         headers: {
-        //         "Content-Type": "multipart/form-data",
-        //         },
-        //     }
-        //     )
-        //     .then(
-        //         (res)=>{
-        //             console.log(res.data);
-        //         }
-        //     )
+        var formData = new FormData();
+
+        console.log("file_path", this.file_path);
+        formData.append('filepath',this.detailInfo.SROC_FILE_PATH_NM);
+        for(let key of formData.entries()) {
+            console.log(key[0]+ ', '+ key[1]);
+        }
+        
+        this.$http.post("/api/upload/upload",formData,{headers:{'Content-Type': 'multipart/form-data'}})
+            .then(
+                (res)=>{
+                    console.log(res.data);
+                }
+            )
         
 
 
             //그다음 순서\
-            this.$http.post("/api/mlist/addFile", {
-                detailInfo: this.detailInfo,
-                users:this.users,
-            })
-            .then(
-                (res) => {
-                    console.log(res);
-                    alert(res.data.message);
-                    window.close();
-                }
-            )
+            // this.$http.post("/api/mlist/addFile", {
+            //     detailInfo: this.detailInfo,
+            //     users:this.users,
+            // })
+            // .then(
+            //     (res) => {
+            //         console.log(res);
+            //         alert(res.data.message);
+            //         window.close();
+            //     }
+            // )
     },
 
     setCode : async function(iter, allCode, callback){
@@ -441,8 +439,11 @@ methods:{
     changeVal : function(e){
         if(window.FileReader){ // modern browser
             const filepath = e.target.value; 
-           this.detailInfo.SROC_FILE_PATH_NM = e.target.files[0];
-           console.log(this.detailInfo.SROC_FILE_PATH_NM);
+            console.log(e.target.files);
+            console.log(e.target.files[0]);
+            this.file_path = e.target.files[0];
+            this.detailInfo.SROC_FILE_PATH_NM = e.target.files[0];
+            console.log(this.detailInfo.SROC_FILE_PATH_NM);
             const spltArr_type = filepath.split('.');
             const splthArr_name = filepath.split('\\');
             let filetype = spltArr_type[spltArr_type.length-1];
@@ -457,9 +458,7 @@ methods:{
             const hr = parent.querySelector('#file_hr');
             fileType.innerHTML = filetype;
             fileContent.innerHTML = filename;
-            this.file_path = e.target.files[0];
-            console.log("파일주소??",filepath);
-            console.log("파일주소2??",this.file_path);
+       
             delVtn.innerHTML = "X";
             hr.style.display="block";
             
