@@ -1,13 +1,13 @@
 <template>
   <div>
       <div id="notLoggedIn" class="notloggedIn" style = "padding-top: 20px">
-          <div v-if="login_state">
+          <div v-if="!this.$store.state.isLogin">
             <button @click="loginchk">
               로그인/회원가입
             </button>
           </div>
           <div v-else >
-            {{users.USER_NM}}님 안녕하세요.<br>
+            {{$store.state.username}}님 안녕하세요.<br>
             <button @click="logout">
               로그아웃
             </button>
@@ -27,37 +27,19 @@
 // import { mapState } from "vuex"
 
 export default {
-    el:'#notLoggedIn',
     data: function() {
      return {
+       usernm:this.$store.state.username,
       users: "",
-      login_state:true,
       localStorage:[],
        }
      },
-      mounted() {
-      this.$http
-        .post("/api/musers/userinfo", {
-          user_id: JSON.parse(localStorage.getItem('token')).user.user_id
-          })
-        .then(
-          (response) => {
-          console.log("??????")
-          this.login_state = false;
-           console.log(response.data[0]);
-           this.users = response.data[0];
-        },
-        () => {
-          alert("로그인후 이용해주세요.");
-          this.$router.push("/login");
-        }
-        );
+      created(){
       },
       methods: {
         logout(){
-          this.login_state=true;
-          localStorage.clear();
-          // this.$store.dispath("logout")
+          this.$store.commit('logout')  
+          // localStorage.clear(); 
           this.$router.push("/login");
         },
         loginchk(){

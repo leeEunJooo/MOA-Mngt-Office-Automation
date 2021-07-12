@@ -3,7 +3,7 @@
       <div class="header">
         <img src="../../assets/img/signup_ic.png" class="signup-number">
         <span>회원 가입</span>
-        {{this.default_team}}
+        <!-- {{this.default_team}} -->
       </div>
       <div class="content" >
           
@@ -66,7 +66,8 @@ export default {
                 console.log(res);
             if (res.data.success == true) {
                 alert(res.data.message);
-                this.$router.push("/");
+                this.$store.commit('loginToken', {token:JSON.stringify(res.data.token), user_nm:this.user.user_id});
+                this.$router.push("/"); 
             }
             if (res.data.success == false) {
                 alert(res.data.message);
@@ -76,30 +77,6 @@ export default {
             alert("error");
             });
         },
-
-        //phone number input 
-        inputPhoneNumber: function(obj) {
-            var number = obj.value.replace(/[^0-9]/g, "");
-            var phone = ""; 
-            if(number.length < 4) { return number; }
-            else if(number.length < 7) {
-                phone += number.substr(0, 3);
-                phone += "-"; phone += number.substr(3); 
-            }
-            else if(number.length < 11) {
-                phone += number.substr(0, 3); 
-                phone += "-"; phone += number.substr(3, 3);
-                phone += "-"; phone += number.substr(6);
-            } else {
-                phone += number.substr(0, 3);
-                phone += "-";
-                phone += number.substr(3, 4);
-                phone += "-";
-                phone += number.substr(7);
-            } 
-            obj.value = phone; 
-            }
-        
     },
     
     data:() => ({
