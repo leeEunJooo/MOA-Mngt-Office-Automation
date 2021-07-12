@@ -89,6 +89,7 @@ export default {
       }
   },
   mounted() {
+
     // //담당별 자동화 건수
     this.$http.post("/api/musers/div_cnt")
     .then(
@@ -118,34 +119,61 @@ export default {
 
     
 
-      //팀별 자동화 건수
-          this.$http.post("/api/musers/team_cnt")
-          .then(
-            (res)=>{
-              console.log(res);
-              console.log(res.data.length);
-              console.log(res.data[0].upld_cascnt);
-              console.log(this.barChartData2.data.labels);
-              console.log("?????",this.barChartData2.data.datasets[0].data);
-      
-              for(var i=0; i<this.barChartData2.data.labels.length; i++){
-                let flag = 0;
-                for(var j=0; j<res.data.length; j++){
-                  if(this.barChartData2.data.labels[i] == res.data[j].cd_nm){
-                    console.log("res.data[j].cd_nm",res.data[j].cd_nm);
-                    console.log("this.barChartData2.data.labels[i]",this.barChartData2.data.labels[i]);
-                    this.barChartData2.data.datasets[0].data.push(res.data[j].upld_cascnt);
-                    flag =1;
-                    break;
-                  }
-                }
-                if(flag == 0){
-                  this.barChartData2.data.datasets[0].data.push(0);
-                }
+    //팀별 자동화 건수
+    this.$http.post("/api/musers/team_cnt")
+      .then(
+        (res)=>{
+          console.log(res);
+          console.log(res.data.length);
+          console.log(res.data[0].upld_cascnt);
+          console.log(this.barChartData2.data.labels);
+          console.log("?????",this.barChartData2.data.datasets[0].data);
+          for(var i=0; i<this.barChartData2.data.labels.length; i++){
+            let flag = 0;
+            for(var j=0; j<res.data.length; j++){
+              if(this.barChartData2.data.labels[i] == res.data[j].cd_nm){
+                console.log("res.data[j].cd_nm",res.data[j].cd_nm);
+                console.log("this.barChartData2.data.labels[i]",this.barChartData2.data.labels[i]);
+                this.barChartData2.data.datasets[0].data.push(res.data[j].upld_cascnt);
+                flag =1;
+                break;
               }
-            });
+            }
+            if(flag == 0){
+              this.barChartData2.data.datasets[0].data.push(0);
+            }
+          }
+        });
 
-    // //기술별 자동화 건수
+
+    //업무 목적별 팀별 현황
+    this.$http.post("/api/musers/team_cnt")
+      .then(
+        (res)=>{
+          console.log(res);
+          console.log(res.data.length);
+          console.log(res.data[0].upld_cascnt);
+          console.log(this.barChartData2.data.labels);
+          console.log("?????",this.barChartData2.data.datasets[0].data);
+          for(var i=0; i<this.barChartData2.data.labels.length; i++){
+            let flag = 0;
+            for(var j=0; j<res.data.length; j++){
+              if(this.barChartData2.data.labels[i] == res.data[j].cd_nm){
+                console.log("res.data[j].cd_nm",res.data[j].cd_nm);
+                console.log("this.barChartData2.data.labels[i]",this.barChartData2.data.labels[i]);
+                this.barChartData2.data.datasets[0].data.push(res.data[j].upld_cascnt);
+                flag =1;
+                break;
+              }
+            }
+            if(flag == 0){
+              this.barChartData2.data.datasets[0].data.push(0);
+            }
+          }
+        });
+
+
+    //기술별 자동화 건수
     this.$http.post("/api/musers/lang_cnt")
     .then(
       (res)=>{
@@ -155,7 +183,7 @@ export default {
           this.barChartData4.data.labels.push(res.data[j].cd_nm);
           this.barChartData4.data.datasets[0].data.push(res.data[j].upld_cascnt);
         }
-      });
+    });
 
 
     const ctx1 = document.getElementById('bar-chart1');

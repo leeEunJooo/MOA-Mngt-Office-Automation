@@ -198,6 +198,12 @@ router.post('/team_cnt', function(req,res){
   });
 });
 
+//업무 목적별 팀별 현황
+router.post('/work_prps',function(req,res){
+  console.log("업무 목적별 팀별 현황");
+  // connection.query('')
+});
+
 
 //기술별 자동화 건수
 router.post('/lang_cnt', function(req,res){
