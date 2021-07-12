@@ -278,7 +278,8 @@ export default {
         USER : this.user,
       })
       .then(
-        () =>{
+        (res) =>{
+          console.log(res);
         }
       )
       

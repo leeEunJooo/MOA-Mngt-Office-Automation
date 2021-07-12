@@ -26,18 +26,13 @@ update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ =6;
 update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ =7; 
 
 -- select * from tbl_moa_user_bas;
-select * from tbl_moa_bas;
+-- select * from tbl_moa_bas;
 
 -- select e.cd_nm, sum(upld_cascnt) as upupld_cascnt from tbl_moa_user_bas as m, TBL_MOA_CD_BAS as e where m.team_div_cd = e.CD_ID group by team_div_cd;
 -- select e.cd_nm, sum(upld_cascnt) as upupld_cascnt from tbl_moa_user_bas as m, TBL_MOA_CD_BAS as e where m.EMP_POS_DIV_CD = e.CD_ID group by EMP_POS_DIV_CD;
 -- select e.cd_nm, count(lang_cd) as count from tbl_moa_bas as m, TBL_MOA_CD_BAS as e where m.lang_cd = e.CD_ID group by lang_cd;
-select a.cd_nm , m.cust_idfy_seq, m.WRKJOB_PRPS_NM from tbl_moa_bas as m, tbl_moa_cd_bas as a where a.CD_ID in (select e.team_div_cd from tbl_moa_bas as m, tbl_moa_user_bas as e where m.CUST_IDFY_SEQ = e.CUST_IDFY_SEQ) group by m.WRKJOB_PRPS_NM;
+-- select c.CD_NM, WRKJOB_PRPS_NM, count(WRKJOB_PRPS_NM) as cnt from tbl_moa_bas as b left join tbl_moa_user_bas as u on b.cust_idfy_seq = u.cust_idfy_seq, tbl_moa_cd_bas as c where c.CD_ID = u.team_div_cd group by c.CD_ID, WRKJOB_PRPS_NM;
 
-select c.CD_NM, WRKJOB_PRPS_NM, count(WRKJOB_PRPS_NM) as cnt from tbl_moa_bas as b left join tbl_moa_user_bas as u on b.cust_idfy_seq = u.cust_idfy_seq, tbl_moa_cd_bas as c where c.CD_ID = u.team_div_cd group by c.CD_ID, WRKJOB_PRPS_NM;
-
-select e.team_div_cd from tbl_moa_bas as m, tbl_moa_user_bas as e where m.CUST_IDFY_SEQ = e.CUST_IDFY_SEQ;
-
-select e.cd_nm from tbl_moa_user_bas as m, TBL_MOA_CD_BAS as e where m.team_div_cd = e.CD_ID group by team_div_cd;
 
 -- 자동화 세부정보 테이블 생성
 CREATE TABLE TBL_MOA_BAS(
@@ -194,7 +189,7 @@ ERR_YN VARCHAR(1) NOT NULL,
 ERR_MSG_SBST VARCHAR(1000),
 LAST_HST_YN VARCHAR(1),
 FOREIGN KEY(FILE_SEQ) REFERENCES TBL_MOA_BAS(FILE_SEQ),
-FOREIGN KEY(CUST_IDFY_SEQ) REFERENCES TBL_MOA_BAS(CUST_IDFY_SEQ)
+FOREIGN KEY(CUST_IDFY_SEQ) REFERENCES TBL_MOA_USER_BAS(CUST_IDFY_SEQ)
 );
 
 INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
@@ -211,6 +206,9 @@ VALUES (4, 7, '황윤섭', '0000-00-00 00:00:00', 'N', '','Y');
 
 INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
 VALUES (5, 6, '정대균', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (1, 4, '최민혜', sysdate(), 'N', '','Y');
 
 -- 코드공통 테이블 생성
 CREATE TABLE TBL_MOA_CD_BAS(
