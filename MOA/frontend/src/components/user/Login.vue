@@ -82,7 +82,8 @@
               //로그인 성공
               localStorage.setItem('token', JSON.stringify(res.data.token));
               localStorage.setItem('loginUser', JSON.stringify(res.data));
-              this.$store.commit('loginToken', {token:JSON.stringify(res.data.token), user_nm:res.data.token.user.user_id});
+              console.log("로그인시", res.data.token.user);
+              this.$store.commit('loginToken', {token:JSON.stringify(res.data.token), user_nm:res.data.token.user.user_nm});
               alert(res.data.message);
               
               this.$router.push("/moalist");

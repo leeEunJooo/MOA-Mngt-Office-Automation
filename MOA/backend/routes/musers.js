@@ -60,7 +60,7 @@ router.post('/login', function (req, res) {
     'user_pwd': req.body.user.user_pwd
   };
 
-  connection.query('SELECT user_id, user_pwd FROM TBL_MOA_USER_BAS WHERE user_id = "' + user.user_id + '"', function (err, row) {
+  connection.query('SELECT user_id, user_pwd, user_nm FROM TBL_MOA_USER_BAS WHERE user_id = "' + user.user_id + '"', function (err, row) {
     if (err) {
       console.log(err);
     }else{
