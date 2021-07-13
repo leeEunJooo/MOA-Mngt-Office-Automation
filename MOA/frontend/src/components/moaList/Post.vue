@@ -702,7 +702,9 @@ mounted(){
     .posting .v-text-field.v-text-field--solo:not(.v-text-field--solo-flat) > .v-input__control > .v-input__slot {
         box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.16) !important;
     }
-
+    .posting .typing{
+        margin-top:5px !important;
+    }
     /* 작동시기 */
     .posting .cycle .v-input__slot{
         width: 150px !important;
@@ -723,6 +725,7 @@ mounted(){
     .posting .v-input__control{
         height: 42px !important;
         margin-top: 4px;
+        
     }
 
     /* 파일 */
