@@ -64,14 +64,17 @@ export default {
             })
             .then((res) => {
                 console.log(res);
-            if (res.data.success == true) {
-                alert(res.data.message);
-                this.$store.commit('loginToken', {token:JSON.stringify(res.data.token), user_nm:this.user.user_id});
-                this.$router.push("/"); 
-            }
-            if (res.data.success == false) {
-                alert(res.data.message);
-            }
+                if (res.data.success == true) {
+                    alert(res.data.message);
+                    localStorage.setItem('token', JSON.stringify(res.data.token));
+                    localStorage.setItem('loginUser', JSON.stringify(res.data));
+                    console.log(res.data);
+                    this.$store.commit('loginToken', {token:JSON.stringify(res.data.token), user_nm:this.user.user_nm});
+                    this.$router.push("/moalist"); 
+                }
+                if (res.data.success == false) {
+                    alert(res.data.message);
+                }
             })
             .catch(function () {
             alert("error");

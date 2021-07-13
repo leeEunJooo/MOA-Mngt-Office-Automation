@@ -27,6 +27,7 @@
 // import { mapState } from "vuex"
 
 export default {
+  
     data: function() {
      return {
        usernm:this.$store.state.username,
@@ -40,7 +41,7 @@ export default {
       methods: {
         logout(){
           this.$store.commit('logout')  
-          // localStorage.clear(); 
+          localStorage.clear(); 
           this.$router.push("/login");
         },
         loginchk(){

@@ -112,6 +112,7 @@ var connection = conn.connection;
             console.log(row2);
             if(row2!=""){
             res.json({
+              data:rows[0].FILE_SEQ,
               success: true,
               message: '등록이 완료되었습니다.',
             })

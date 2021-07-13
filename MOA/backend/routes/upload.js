@@ -20,12 +20,24 @@ var connection = conn.connection;
 
   
   //파일 업로드
-  router.post('/upload',uploader.single('filepath'),(req, res, next) => {
-   
+  router.post('/upload',uploader.single('filepath'), (req, res, next) => {
+    
     console.log('파일 업로드');
-    // console.log(File);
-    console.log(req.file);
-    res.send('성공');
+    var filepath = '\\\\uploads\\\\'+ req.file.filename;
+  
+    console.log(filepath);
+    console.log(req.body);
+
+    const File={
+      'FILE_SEQ':req.body.file_seq,
+    }
+    
+    connection.query('UPDATE TBL_MOA_BAS SET SROC_FILE_PATH_NM = "'+filepath +'" WHERE FILE_SEQ = "'+ File.FILE_SEQ+'"',File,function(err,row){
+      if(err) throw err;
+      console.log(row);
+      res.send(row);
+    })
+   
   });
 
 

@@ -28,6 +28,7 @@ update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ =7;
 -- select * from tbl_moa_user_bas;
 -- select * from tbl_moa_bas;
 
+
 -- select e.cd_nm, sum(upld_cascnt) as upupld_cascnt from tbl_moa_user_bas as m, TBL_MOA_CD_BAS as e where m.team_div_cd = e.CD_ID group by team_div_cd;
 -- select e.cd_nm, sum(upld_cascnt) as upupld_cascnt from tbl_moa_user_bas as m, TBL_MOA_CD_BAS as e where m.EMP_POS_DIV_CD = e.CD_ID group by EMP_POS_DIV_CD;
 -- select e.cd_nm, count(lang_cd) as count from tbl_moa_bas as m, TBL_MOA_CD_BAS as e where m.lang_cd = e.CD_ID group by lang_cd;
@@ -141,6 +142,7 @@ FOREIGN KEY(CUST_IDFY_SEQ) REFERENCES TBL_MOA_BAS(CUST_IDFY_SEQ)
 
 -- SELECT * FROM TBL_MOA_HST;
 
+
 -- SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, CONN_EVN_DIV_CD) against("L01*" in boolean mode) and e.LAST_HST_YN="Y";
 -- SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, CONN_EVN_DIV_CD) against("L03*" in boolean mode) and e.LAST_HST_YN="Y";
 -- SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, CONN_EVN_DIV_CD) against("L04*" in boolean mode) and e.LAST_HST_YN="Y";
@@ -178,6 +180,7 @@ VALUES (5,6, '\\download\\moa.xml', 'L01', 'S08', 'C01', '','06:00', 'R03', 'B01
 
 
 -- select * from TBL_MOA_EXECUTION_TXN;
+
 -- 실행 테이블 생성
 CREATE TABLE TBL_MOA_EXECUTION_TXN(
 EXE_SEQ INT NOT NULL auto_increment PRIMARY KEY,

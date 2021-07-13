@@ -248,7 +248,7 @@ data:function(){
         users: "",
         detailInfo:{
             CUST_IDFY_SEQ:"",
-            SROC_FILE_PATH_NM:"\\download\\moa.xm",
+            SROC_FILE_PATH_NM:"",
             NTCART_TITLE_NM:"",
             TKCGR_NM:"",
             RUSER_NM:"",
@@ -317,55 +317,57 @@ methods:{
             return;
         }
 
-            //등록하면 유저에 UPLD_CASCNT값 증가(ok)
-            // this.$http.post("/api/musers/uploadUpdate",{
-            //     users:this.users
-            // })
-            // .then(
-            //     (res)=>{
-            //         console.log(res);
-            //     }
-            // )
-            let hour = document.getElementById('hour').value;
-            let min = document.getElementById('min').value;
+        //등록하면 유저에 UPLD_CASCNT값 증가(ok)
+        this.$http.post("/api/musers/uploadUpdate",{
+            users:this.users
+        })
+        .then(
+            (res)=>{
+                console.log(res);
+            }
+        )
+        let hour = document.getElementById('hour').value;
+        let min = document.getElementById('min').value;
 
-            min = min ==""? 0 :min;
-            hour = hour < 10? "0"+hour : hour;
-            min = min < 10? "0"+min : min;
+        min = min ==""? 0 :min;
+        hour = hour < 10? "0"+hour : hour;
+        min = min < 10? "0"+min : min;
 
-            const datetime = hour +":"+ min;
-            this.detailInfo.DATA_EXE_TIME = datetime;
+        const datetime = hour +":"+ min;
+        this.detailInfo.DATA_EXE_TIME = datetime;
 
-        //파일 업로드
         var formData = new FormData();
+        //그다음 순서
+        this.$http.post("/api/mlist/addFile",{
+            detailInfo: this.detailInfo,
+            users:this.users,
+        })
+        .then(
+            (res) => {
+                console.log(res);
+                console.log(res.data.data);
+                console.log(res.data);
+                this.file_seq = res.data.data;
+                console.log("this.file_seq", this.file_seq);
+                //파일 업로드
+                formData.append('filepath', this.file_path);
+                formData.append('file_seq', this.file_seq);
 
-        console.log("file_path", this.file_path);
-        formData.append('filepath',this.detailInfo.SROC_FILE_PATH_NM);
-        for(let key of formData.entries()) {
-            console.log(key[0]+ ', '+ key[1]);
-        }
-        
-        this.$http.post("/api/upload/upload",formData,{headers:{'Content-Type': 'multipart/form-data'}})
-            .then(
-                (res)=>{
-                    console.log(res.data);
-                }
-            )
-        
+                this.$http.post("/api/upload/upload",formData,{
+                    headers:{'Content-Type': 'multipart/form-data'},
+                    })
+                    .then(
+                        (response)=>{
+                            console.log(response.data);
+                        }
+                    )
 
-
-            //그다음 순서\
-            // this.$http.post("/api/mlist/addFile", {
-            //     detailInfo: this.detailInfo,
-            //     users:this.users,
-            // })
-            // .then(
-            //     (res) => {
-            //         console.log(res);
-            //         alert(res.data.message);
-            //         window.close();
-            //     }
-            // )
+                setTimeout(function(){
+                    alert(res.data.message);
+                    window.close();
+                },3000);
+            }
+        )
     },
 
     setCode : async function(iter, allCode, callback){
@@ -397,7 +399,6 @@ methods:{
             })
             .then(
             (response) => {
-                this.login_state = false;
                 this.users = response.data[0];
                 }
             )
@@ -477,6 +478,7 @@ methods:{
 created() {
     // Select박스 Option 호출
     this.loadCD();
+    console.log(JSON.parse(localStorage.getItem('token')).user);
 },
 mounted(){
     this.addFile();
