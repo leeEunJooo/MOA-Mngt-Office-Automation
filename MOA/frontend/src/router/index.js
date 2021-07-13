@@ -58,12 +58,14 @@ const routes = [
     name: 'listdetail',
     components: {
       default:  ListDetail
-    }
+    },
+    meta : {authRequired : true}
   },
   {
     path: '/post',
     name : 'posting',
-    component : Post
+    component : Post,
+    meta : {authRequired : true}
   },
   {
         path: "/404",
@@ -106,10 +108,10 @@ router.beforeEach((to, from, next) => {
     console.log('NoauthRequired');
     if (loggedIn) {
         console.log('Butloggedin');
-        if(to.path == '/' || to.path == '/login' || to.path == '/signup'){
+        // if(to.path == '/' || to.path == '/login' || to.path == '/signup'){
            next({path:'/moalist'});
            return;
-        }
+        // }
       }
     next();
     }
