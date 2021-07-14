@@ -7,11 +7,12 @@
                 </div>
                 <input v-model="detailInfo.NTCART_TITLE_NM" class="title" disabled/>
             </div>
-            
+            <SourceView></SourceView>
 <!--        <div>
                 <Content :ContentDetail="ContentData"/>
             </div> 
 -->
+
         <div class="post_contents">
             <ul>
                 <li>
@@ -163,13 +164,19 @@
 
 <script>
 
+
+
 // import ContentDetail from '../moaList/ContentDatail.vue'
+import SourceView from './SourceView.vue'
 
 export default {
     props : {
         Id : Number,
         detailInfo : {},
         //ContentDetail
+    },
+    components:{
+       SourceView 
     },
 
     data:function(){
