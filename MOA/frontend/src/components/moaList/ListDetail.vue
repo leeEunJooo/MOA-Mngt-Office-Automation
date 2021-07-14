@@ -93,7 +93,7 @@
                     </div>
                 </li>
                 <li class="height_fit_content" style="margin-bottom:28px">
-                    <div class="sm_title" style="margin: 5px 0px">자동화파일<v-btn v-on:click="file">버튼</v-btn></div>
+                    <div class="sm_title" style="margin: 5px 0px">자동화파일</div>
                     <!-- 자동화파일 리스트 -->
                     <hr class="file_hr"/>
                     <div class="file_list" id="auto_file_list" style="display:none">
@@ -102,7 +102,7 @@
                         <span class="sourcebtn" id="sourcebtn" @click="sourcebtn($event)">
                             <v-img src="../../assets/img/code_ic.png" class="arrow_ic"></v-img>
                         </span>
-                        <span class="downloadsbtn" id="downloadsbtn" @click="downloadsbtn($event)">
+                        <span class="downloadsbtn" id="downloadsbtn" @click="downloadsbtn()">
                             <v-img src="../../assets/img/downloads_ic.png" class="arrow_ic"></v-img>
                         </span>
                         <hr class="file_hr"/>
@@ -239,15 +239,19 @@ export default {
  
         },
 
-        file:function(){
+        downloadsbtn:function(){
             console.log("???");
             console.log(this.file_nm);
-            this.$http.get(`/api/download/${this.file_nm}`)
-            .then(
-                (response)=>{
-                    console.log(response);
-                }
-            )
+            try{
+                let element = document.createElement('a');
+                element.setAttribute('href',`/api/download/${this.file_nm}`);
+                element.click();
+            } catch(err){
+                alert('해당파일이 없습니다.');
+            }
+
+            
+
         },
 
         cancel:function(){
