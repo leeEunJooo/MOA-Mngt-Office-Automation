@@ -1,10 +1,9 @@
 <template>
-  <div class="moalist">
 
-
+    <div class="moalist">
+      
       <div class ="title-section"> MOA List </div>
-
-
+      
       <div class="list-btn-row-box">
             <v-select
                 v-model="search_select"
@@ -38,12 +37,39 @@
                 Add File
             </v-btn> 
       </div>
+      <v-alert
+          prominent
+          class="exe_alert"
+          type="error"
+          :value="alert"
+          transition="slide-y-transition"
+          @click="dismissible_close"
+        >
+          <div id="close_btn">
+            <v-btn  
+            fab x-small 
+            color="white"
+            outlined
+            @click="show_alert_and_fade">
+              <v-icon
+              color="white"
+              >mdi-close</v-icon>
+            </v-btn>
+          </div>
+        현재 지원되지 않는 기능입니다.
+        </v-alert> 
+      
 
       <!-- 
         v-data-table에서는 3가지 prop를 사용
         :headers = 필드명을 지정하는 prop로 text,align,sortable, value로 구분. value의 경우는 향후 data를 적용시 데이터 내 DTO와 일치시키면 된다.
         :items = API로 받아온 결과 list가 저장되는 장소
         :items-per-page = 한 page에서 보여줄 list의 개 수. -->
+
+ <!-- alter -->
+
+    
+        
 
         <v-data-table
             :headers="headers"
@@ -52,12 +78,19 @@
             class="data_table"
             @click:row="handleClick"
         >      
-        <!-- <template v-slot:item.exe_btn="{item}">
-            <div class="activate_btn" @click="activation(item)">
+        
+        <template v-slot:item.exe_btn="{item}">
+            <div 
+            class="activate_btn"
+            @click="activation(item)"
+            v-bind:class="{ active: alert }"
+            >
               <v-img src="../../assets/img/arrow_ic.png" class="arrow_ic"></v-img>
             </div>
         </template> -->
         </v-data-table>
+
+       
   </div>
 </template>
 
@@ -72,6 +105,7 @@ export default {
 
     data: function(){
       return { 
+        
         // FIRST_REG_DATE.getFullYear() + "-" + (FIRST_REG_DATE.getMonth() + 1) + "-" + FIRST_REG_DATE.getDate()}
         moa_list:[],
         moa_list2:[], 
@@ -97,23 +131,23 @@ export default {
         search_text: '',
         user:JSON.parse(localStorage.getItem('token')).user.CUST_IDFY_SEQ,
         file_seq:"",
+        alert: false,
+        countDown: {
+          timer: "3",
+          show: false
+        },
       };
     },
 
     created() {
       this.$http.get("/api/mlist/selectList")
       .then((response) => {
-        // console.log("asdasd"+response);
         this.moa_list = response.data;
-        // console.log(this.moa_list);
-        // console.log(this.moa_list);
         for(let i = 0; i < this.moa_list.length; i++) {
           this.moa_list[i].FIRST_REG_DATE = dayjs(this.moa_list[i].FIRST_REG_DATE).format('YYYY-MM-DD');
-          // console.log(this.moa_list[i].EXE_DATE);
           if(this.moa_list[i].EXE_DATE != '0000-00-00 00:00:00'){
             this.moa_list[i].EXE_DATE = dayjs(this.moa_list[i].EXE_DATE).format('YYYY-MM-DD HH:mm:ss');
           }
-          // console.log(this.moa_list[i].EXE_DATE);
         }
         });
 
@@ -125,7 +159,6 @@ export default {
             .then(
             (response) => {
             this.login_state = false;
-            console.log(response.data[0].CUST_IDFY_SEQ);
             this.user = response.data[0];
                 }
             )
@@ -134,7 +167,6 @@ export default {
     methods: {
       
       handleClick: function(items) {
-        console.log(items);
         let routeData = this.$router.resolve({
           name: 'listdetail',
           params: {id: items.FILE_SEQ}
@@ -157,10 +189,7 @@ export default {
         })
         .then(
           (response)=>{
-            console.log("#################", response);
-            
-            console.log("response.data", response.data);
-            console.log("response.data", response.data.length);
+
 
             if (Object.keys(response.data).includes('row1') && Object.keys(response.data).includes('row2')) {
               if (response.data.row1.length == 0 && response.data.row2.length == 0) {
@@ -336,11 +365,9 @@ export default {
 
                 for(let i = 0; i < this.moa_list.length; i++) {
                 this.moa_list[i].FIRST_REG_DATE = dayjs(this.moa_list[i].FIRST_REG_DATE).format('YYYY-MM-DD');
-                // console.log(this.moa_list[i].EXE_DATE);
                   if(this.moa_list[i].EXE_DATE != '0000-00-00 00:00:00'){
                     this.moa_list[i].EXE_DATE = dayjs(this.moa_list[i].EXE_DATE).format('YYYY-MM-DD HH:mm:ss');
                   }
-                // console.log(this.moa_list[i].EXE_DATE);
                 }
               }
             }
@@ -357,8 +384,7 @@ export default {
     activation : function(item){
       //item.EXE_DATE update
       event.stopPropagation();
-      console.log(item);
-      console.log(item.EXE_DATE);
+      this.show_alert_and_fade();
       //수행시간은 sysdate로 수정
       this.$http.post('/api/mlist/update_exe_date',{
         FILE_SEQ:item.FILE_SEQ,
@@ -369,13 +395,18 @@ export default {
           console.log(res);
         }
       )
-
-    }
       
     },
-
-    
-    
+    dismissible_close () {
+      event.stopPropagation();
+      this.alert = false;
+    },
+    show_alert_and_fade: function(){
+      this.alert = true; 
+      console.log(this.alert);
+    }
+    },
+      
   }
 </script>
 
@@ -472,5 +503,19 @@ export default {
 .activate_btn .arrow_ic{
   width: 90%;
   vertical-align: middle;
+}
+#close_btn{
+  position: absolute;
+  right: 6px;
+  top: 12px;
+}
+.moalist .exe_alert{
+  position:absolute !important;
+  left:50%; 
+  top:0;
+  transform:translateX(-50%);
+  z-index: 1000;
+  width:500px !important;
+  height: 80px;
 }
 </style>

@@ -44,12 +44,6 @@
                     </div>
                 </li>
                 <li>
-                    <div class="sm_title">실행방법</div>
-                    <div>
-                        <input v-model="detailInfo.EXE_SBST" disabled>
-                    </div>
-                </li>
-                <li>
                     <div class="sm_title">실행환경</div>
                     <input v-model="detailInfo.TROBL_SVC_TYPE_CD" disabled>
                 </li>
@@ -76,6 +70,12 @@
                     <input v-model="detailInfo.TROBL_SVC_TYPE_CD" disabled>
                 </li>
                 <li>
+                    <div class="sm_title">업무목적</div>
+                    <div>
+                        <input v-model="detailInfo.WRKJOB_PRPS_NM" disabled>
+                    </div>
+                </li>
+                <li>
                     <div class="sm_title">매뉴얼여부</div>
                     <div>
                         <input v-model="detailInfo.ATC_FILE_MANUAL_YN" disabled>
@@ -99,7 +99,21 @@
                     <div class="file_list" id="auto_file_list" style="display:none">
                         <span class="fileType" id="fileType"></span>
                         <sapn class="fileContent" id="fileContent"></sapn>
+                        <span class="sourcebtn" id="sourcebtn" @click="sourcebtn($event)">
+                            <v-img src="../../assets/img/code_ic.png" class="arrow_ic"></v-img>
+                        </span>
+                        <span class="downloadsbtn" id="downloadsbtn" @click="downloadsbtn()">
+                            <v-img src="../../assets/img/downloads_ic.png" class="arrow_ic"></v-img>
+                        </span>
                         <hr class="file_hr"/>
+                    </div>
+                </li>
+                <li class="height_fit_content" style="margin-top:15px">
+                    <div class="sm_title" style="margin: 5px 0px">실행방법</div>
+                    <div class="textarea">
+                        <textarea v-model="detailInfo.EXE_SBST" disabled>
+    
+                        </textarea>
                     </div>
                 </li>
                 <li class="height_fit_content" style="margin-top:15px">
@@ -154,6 +168,7 @@ export default {
                 {name: "6팀",idx: "T06", idx2:"D02"}
             ],
             cd_nm:"",
+            file_nm:"",
         }
         
     },
@@ -166,7 +181,7 @@ export default {
                     this.detailInfo = res.data[0];
                     //ATC_FILE_UPLD_PATH_NM SROC_FILE_PATH_NM
                     //파일 존재 여부 체크
-                    
+                    console.log(this.detailInfo);
                     //코드성 변경
                     for(let i=0; i<Object.keys(this.detailInfo).length; i++){
                         if(Object.keys(this.detailInfo)[i].includes("_CD")){
@@ -193,7 +208,7 @@ export default {
 
                 let filetype = spltArr_type[spltArr_type.length-1];
                 let filename = splthArr_name[splthArr_name.length-1];
-
+               
                 const file_div = document.querySelector('#mannual_file_list');
                 const fileType = file_div.querySelector('#fileType');
                 const fileContent = file_div.querySelector('#fileContent');
@@ -201,6 +216,8 @@ export default {
                 fileType.innerHTML = filetype;
                 fileContent.innerHTML = filename;
                 file_div.style.display="block";
+
+                
             }
             const moa_file_path = this.detailInfo.SROC_FILE_PATH_NM;
             if(moa_file_path!=''){
@@ -217,7 +234,24 @@ export default {
                 fileType.innerHTML = filetype;
                 fileContent.innerHTML = filename;
                 file_div.style.display="block";
+                this.file_nm = filename;
             }
+ 
+        },
+
+        downloadsbtn:function(){
+            console.log("???");
+            console.log(this.file_nm);
+            try{
+                let element = document.createElement('a');
+                element.setAttribute('href',`/api/download/${this.file_nm}`);
+                element.click();
+            } catch(err){
+                alert('해당파일이 없습니다.');
+            }
+
+            
+
         },
 
         cancel:function(){
@@ -228,13 +262,6 @@ export default {
         this.getInfo();
     },
     mounted(){
-        // const mannual_f = this.detailInfo.ATC_FILE_UPLD_PATH_NM;
-        // const moa_f = this.detailInfo.ATC_FILE_UPLD_PATH_NM;
-        
-        // if(mannual_f!='') document.querySelector('#mannual_file_list').style.display="block";
-        // if(moa_f!='') document.querySelector('#auto_file_list').style.display="block";
-
-        // console.log(this.detailInfo);
     }
 
     
@@ -370,7 +397,20 @@ export default {
         width:15%;
     }
     .list_detail .fileContent{
-        width:80%;
+        width:75%;
+    }
+    .list_detail .sourcebtn{
+        display: inline-block;
+        float: right;
+        margin: 0px 10px;
+        width: 21px;
+        cursor:pointer;
+    }
+    .list_detail .downloadsbtn{
+        display: inline-block;
+        float: right;
+        width: 21px;
+        cursor:pointer;
     }
     
 </style>

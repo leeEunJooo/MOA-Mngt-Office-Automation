@@ -112,6 +112,7 @@ var connection = conn.connection;
             console.log(row2);
             if(row2!=""){
             res.json({
+              data:rows[0].FILE_SEQ,
               success: true,
               message: '등록이 완료되었습니다.',
             })
@@ -908,10 +909,8 @@ var connection = conn.connection;
 //코드성조회(cd_nm 조회)
   router.post('/codeselect/:cd_nm', function(req,res){
     const cd_nm = req.params.cd_nm;
-    // console.log("??????????",cd_nm);
     connection.query('SELECT CD_NM FROM TBL_MOA_CD_BAS WHERE CD_ID = "'+ cd_nm+'"',function(err,row2){
       if(err) throw err;
-      // console.log(row2[0].CD_NM);
       res.send(row2);
     });
   });

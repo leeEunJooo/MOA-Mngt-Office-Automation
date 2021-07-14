@@ -26,8 +26,8 @@
             <!--로그인 상태 유지-->
             <div class="login_save_box">
                 <v-checkbox
-                  v-model="login_state"
-                  :label="`로그인 상태 유지 ${login_state.toString()}`"
+                  v-model="login_st"
+                  :label="`로그인 상태 유지 ${login_st.toString()}`"
                   color="indigo"
                 ></v-checkbox>
             </div>
@@ -67,7 +67,7 @@
         user_id: "",
         password: "",
       },
-      login_state: true,
+      login_st:false,
     }
     },
 
@@ -78,17 +78,14 @@
         })
         .then(
           (res) => {
+            console.log(res);
             if(res.data.success == true){
               //로그인 성공
               localStorage.setItem('token', JSON.stringify(res.data.token));
-              // localStorage.setItem('isLogin', true);
               localStorage.setItem('loginUser', JSON.stringify(res.data));
-              // localStorage.setItem("loginUsername", res.data.user_name);
-              console.log(res);
-              console.log(res.data.token);
-              console.log(JSON.parse(localStorage.getItem('token')).user.user_id);
+              this.$store.commit('loginToken', {token:JSON.stringify(res.data.token), user_nm:res.data.token.user.user_nm});
               alert(res.data.message);
-              this.login_state = false;
+              
               this.$router.push("/moalist");
             }
             if (res.data.success == false) {

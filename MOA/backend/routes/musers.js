@@ -39,9 +39,13 @@ router.post('/signUp', function (req, res) {
       connection.query('INSERT INTO TBL_MOA_USER_BAS (user_id, user_pwd, user_tel_no, user_nm, upld_cascnt, team_div_cd, emp_pos_div_cd ) VALUES ("' + user.user_id + '","' + encryptedPassword + '", "' + user.user_tel_no + '", "' + user.user_nm + '","' + 0 + '","' + user.team_div_cd + '","' + user.emp_pos_div_cd + '")', user, function (err, row2) {
         if (err) throw err;
       });
+      req.session.user.user_id=user.user_id;
+      req.session.user.user_nm=user.user_nm;
+      req.session.save();
       res.json({
         success: true,
-        message: '회원가입이 완료되었습니다.'
+        message: '회원가입이 완료되었습니다.',
+        token: req.session,
       })
     }
     else {
@@ -59,8 +63,7 @@ router.post('/login', function (req, res) {
     'user_id': req.body.user.user_id,
     'user_pwd': req.body.user.user_pwd
   };
-
-  connection.query('SELECT user_id, user_pwd FROM TBL_MOA_USER_BAS WHERE user_id = "' + user.user_id + '"', function (err, row) {
+  connection.query('SELECT user_id, user_pwd, user_nm FROM TBL_MOA_USER_BAS WHERE user_id = "' + user.user_id + '"', function (err, row) {
     if (err) {
       console.log(err);
     }else{
@@ -198,6 +201,16 @@ router.post('/team_cnt', function(req,res){
   });
 });
 
+//업무 목적별 팀별 현황
+router.post('/work_prps',function(req,res){
+  console.log("업무 목적별 팀별 현황");
+  connection.query('select c.cd_nm, WRKJOB_PRPS_NM, count(WRKJOB_PRPS_NM) as cnt from tbl_moa_bas as b left join tbl_moa_user_bas as u on b.cust_idfy_seq = u.cust_idfy_seq, tbl_moa_cd_bas as c where c.CD_ID = u.team_div_cd group by c.CD_ID, WRKJOB_PRPS_NM', function(err, rows){
+    if(err) throw err;
+    console.log(rows);
+    res.send(rows);
+  }); 
+});
+
 
 //기술별 자동화 건수
 router.post('/lang_cnt', function(req,res){
@@ -208,6 +221,8 @@ router.post('/lang_cnt', function(req,res){
     res.send(rows);
   });
 });
+
+
 ////////////////////////////통계 끝//////////////////////////////////////////////////
 
 

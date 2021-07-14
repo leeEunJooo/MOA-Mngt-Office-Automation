@@ -3,7 +3,7 @@
       <div class="header">
         <img src="../../assets/img/signup_ic.png" class="signup-number">
         <span>회원 가입</span>
-        {{this.default_team}}
+        <!-- {{this.default_team}} -->
       </div>
       <div class="content" >
           
@@ -64,42 +64,22 @@ export default {
             })
             .then((res) => {
                 console.log(res);
-            if (res.data.success == true) {
-                alert(res.data.message);
-                this.$router.push("/");
-            }
-            if (res.data.success == false) {
-                alert(res.data.message);
-            }
+                if (res.data.success == true) {
+                    alert(res.data.message);
+                    localStorage.setItem('token', JSON.stringify(res.data.token));
+                    localStorage.setItem('loginUser', JSON.stringify(res.data));
+                    console.log(res.data);
+                    this.$store.commit('loginToken', {token:JSON.stringify(res.data.token), user_nm:this.user.user_nm});
+                    this.$router.push("/moalist"); 
+                }
+                if (res.data.success == false) {
+                    alert(res.data.message);
+                }
             })
             .catch(function () {
             alert("error");
             });
         },
-
-        //phone number input 
-        inputPhoneNumber: function(obj) {
-            var number = obj.value.replace(/[^0-9]/g, "");
-            var phone = ""; 
-            if(number.length < 4) { return number; }
-            else if(number.length < 7) {
-                phone += number.substr(0, 3);
-                phone += "-"; phone += number.substr(3); 
-            }
-            else if(number.length < 11) {
-                phone += number.substr(0, 3); 
-                phone += "-"; phone += number.substr(3, 3);
-                phone += "-"; phone += number.substr(6);
-            } else {
-                phone += number.substr(0, 3);
-                phone += "-";
-                phone += number.substr(3, 4);
-                phone += "-";
-                phone += number.substr(7);
-            } 
-            obj.value = phone; 
-            }
-        
     },
     
     data:() => ({

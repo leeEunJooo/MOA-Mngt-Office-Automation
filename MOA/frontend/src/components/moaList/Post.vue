@@ -10,7 +10,7 @@
     <div class="post_contents">
         <ul>
             <li>
-                <div class="sm_title">담당자</div>
+                <div class="sm_title"><span class="necessary">* </span>담당자</div>
                 <div>
                     <input v-model="users.USER_NM" class="typing" disabled/>
                 </div>
@@ -34,7 +34,7 @@
                   ></v-select> -->
                 </li>
             <li>
-                <div class="sm_title">작동시기</div>
+                <div class="sm_title"><span class="necessary">* </span>작동시기</div>
                 <div class="cycle">
                         <!-- <input class="typing sm_typing" v-model="detailInfo.CYCL_DATE_TYPE_CD"/>
                         <input class="typing sm_typing" v-model="detailInfo.DATA_EXE_TIME"/> -->
@@ -64,7 +64,7 @@
                 </div>
             </li>
             <li>
-                <div class="sm_title">대상시스템</div>
+                <div class="sm_title"><span class="necessary">* </span>대상시스템</div>
                 <div>
                     <!-- <input class="typing" v-model="detailInfo.SYS_DIV_CD"/> -->
                     <v-select
@@ -79,7 +79,7 @@
                 </div>
             </li>
             <li>
-                <div class="sm_title">사용기술</div>
+                <div class="sm_title"><span class="necessary">* </span>사용기술</div>
                 <div>
                     <!-- <input class="typing" v-model="detailInfo.LANG_CD"/> -->
                     <v-select
@@ -94,13 +94,7 @@
                 </div>
             </li>
             <li>
-                <div class="sm_title">실행방법</div>
-                <div>
-                    <input class="typing" v-model="detailInfo.EXE_SBST"/>
-                </div>
-            </li>
-            <li>
-                <div class="sm_title">실행환경</div>
+                <div class="sm_title"><span class="necessary">* </span>실행환경</div>
                 <!-- <input class="typing" v-model="detailInfo.CONN_EVN_DIV_CD"> -->
                 <v-select
                     v-model="detailInfo.CONN_EVN_DIV_CD"
@@ -125,7 +119,7 @@
                 </div>
             </li>
             <li>
-                <div class="sm_title">실행후결과</div>
+                <div class="sm_title"><span class="necessary">* </span>실행후결과</div>
                 <div>
                     <!-- <input class="typing" v-model="detailInfo.RPY_RESLT_CD"/> -->
                     <v-select
@@ -140,7 +134,7 @@
                 </div>
             </li>
             <li>
-                <div class="sm_title">Workaround</div>
+                <div class="sm_title"><span class="necessary">*</span> Workaround</div>
                 <!-- <input class="typing" v-model="detailInfo.TROBL_SVC_TYPE_CD"/> -->
                 <v-select
                     v-model="detailInfo.TROBL_SVC_TYPE_CD"
@@ -153,15 +147,15 @@
                   ></v-select>
             </li>
             <li>
-                <div class="sm_title">업무목적</div>
-                    <input type="radio" id="customer" value="고객업무대상" v-model="detailInfo.WRKJOB_PRPS_NM">
+                <div class="sm_title"><span class="necessary">* </span>업무목적</div>
+                    <input type="radio" id="customer" value="고객업무대상" v-model="detailInfo.WRKJOB_PRPS_NM" checked>
                     <label for="customer">고객업무대상</label>
                     <input type="radio" id="staff" value="스탭업무대상" v-model="detailInfo.WRKJOB_PRPS_NM">
                     <label for="staff">스탭업무대상</label>
             </li>
             <li>
-                <div class="sm_title">매뉴얼여부</div>
-                    <input type="radio" id="y" value="Y" v-model="detailInfo.ATC_FILE_MANUAL_YN">
+                <div class="sm_title"><span class="necessary">* </span>매뉴얼여부</div>
+                    <input type="radio" id="y" value="Y" v-model="detailInfo.ATC_FILE_MANUAL_YN" checked>
                     <label for="y">Y</label>
                     <input type="radio" id="n" value="N" v-model="detailInfo.ATC_FILE_MANUAL_YN">
                     <label for="n">N</label>
@@ -184,7 +178,7 @@
                 </div>
             </li>
             <li class="height_fit_content">
-                <div class="sm_title" style="margin: 5px 0px">자동화파일</div>
+                <div class="sm_title" style="margin: 5px 0px"><span class="necessary">* </span>자동화파일</div>
                 <v-btn class="addfilebtn">
                     <img src="../../assets/img/paperclip.png" class=""/>
                 </v-btn>
@@ -193,9 +187,17 @@
                 <div class="filebox2 file_list">
                     <span class="fileType" id="fileType"></span>
                     <span class="fileContent" id="fileContent"></span>
-                    <input type="file" id="realFile" name="moafile" @change="changeVal($event)" hidden/>
+                    <input type="file" id="realFile" name='moafile' @change="changeVal($event)" hidden/>
                     <span class="deletebtn" id="deletebtn" @click="cancelVal($event)"></span>
                     <hr class="file_hr" id="file_hr" style="margin-top:8px; margin-bottom:35px; display:none;"/>
+                </div>
+            </li>
+            <li class="height_fit_content" style="margin-top:15px">
+                <div class="sm_title" style="marg   in: 5px 0px">실행방법</div>
+                <div class="textarea">
+                    <textarea v-model="detailInfo.EXE_SBST">
+
+                    </textarea>
                 </div>
             </li>
             <li class="height_fit_content" style="margin-top:15px">
@@ -246,7 +248,7 @@ data:function(){
         users: "",
         detailInfo:{
             CUST_IDFY_SEQ:"",
-            SROC_FILE_PATH_NM:"\\download\\moa.xm",
+            SROC_FILE_PATH_NM:"",
             NTCART_TITLE_NM:"",
             TKCGR_NM:"",
             RUSER_NM:"",
@@ -263,11 +265,11 @@ data:function(){
             ATTEN_MTR_SBST:"",
             DOW_NM:"",
             TRT_STEP_NM:"",
-            ATC_FILE_MANUAL_YN:"",
+            ATC_FILE_MANUAL_YN:"Y",
             ETC_SBST:"",
             ATC_FILE_UPLD_PATH_NM:"",
             DTL_DESC_SBST:"",
-            WRKJOB_PRPS_NM:"",
+            WRKJOB_PRPS_NM:"고객업무대상",
         },
         
         // Select 박스 Option (name, code)
@@ -287,63 +289,85 @@ methods:{
     close_browser: function(){
         window.close();
     },
+    checkContent : function(){
+        console.log(this.detailInfo);
+        //작동시기
+        var checkArr = [
+            this.users.USER_NM,
+            this.detailInfo.NTCART_TITLE_NM,
+            this.detailInfo.CYCL_DATE_TYPE_CD,
+            this.detailInfo.DOW_NM,
+            this.detailInfo.SYS_DIV_CD,
+            this.detailInfo.LANG_CD,
+            this.detailInfo.CONN_EVN_DIV_CD,
+            this.detailInfo.RPY_RESLT_CD,
+            this.detailInfo.TROBL_SVC_TYPE_CD,
+            this.detailInfo.RPY_RESLT_CD,
+            ]
+            checkArr.forEach(val => {
+            if(val == ""){
+                return false;
+            }
+        });
+        return true;
+    },
     save: function(){
-        // var checkY = document.querySelector('input[name="Y"]');
-        // console.log(checkY);
-        // check
-        console.log("detailinfo는???",this.detailInfo);
+        if(!this.checkContent()){
+            alert('필수 내용을 입력하지 않으셨습니다.');
+            return;
+        }
 
-            //등록하면 유저에 UPLD_CASCNT값 증가(ok)
-            this.$http.post("/api/musers/uploadUpdate",{
-                users:this.users
-            })
-            .then(
-                (res)=>{
-                    console.log(res);
-                }
-            )
-            let hour = document.getElementById('hour').value;
-            let min = document.getElementById('min').value;
+        //등록하면 유저에 UPLD_CASCNT값 증가(ok)
+        this.$http.post("/api/musers/uploadUpdate",{
+            users:this.users
+        })
+        .then(
+            (res)=>{
+                console.log(res);
+            }
+        )
+        let hour = document.getElementById('hour').value;
+        let min = document.getElementById('min').value;
 
-            min = min ==""? 0 :min;
-            hour = hour < 10? "0"+hour : hour;
-            min = min < 10? "0"+min : min;
+        min = min ==""? 0 :min;
+        hour = hour < 10? "0"+hour : hour;
+        min = min < 10? "0"+min : min;
 
-            const datetime = hour +":"+ min;
-            this.detailInfo.DATA_EXE_TIME = datetime;
+        const datetime = hour +":"+ min;
+        this.detailInfo.DATA_EXE_TIME = datetime;
 
-        //파일 업로드
-        // const formData = new FormData( );
-        // console.log(this.file_path);
-        // formData.append("filepath", this.file_path);
-        // this.$http.post("/api/upload/upload_page",
-        //     formData,
-        //     {
-        //         headers: {
-        //         "Content-Type": "multipart/form-data",
-        //         },
-        //     }
-        //     )
-        //     .then(
-        //         (res)=>{
-        //             console.log(res.data);
-        //         }
-        //     )
-        
+        var formData = new FormData();
+        //그다음 순서
+        this.$http.post("/api/mlist/addFile",{
+            detailInfo: this.detailInfo,
+            users:this.users,
+        })
+        .then(
+            (res) => {
+                console.log(res);
+                console.log(res.data.data);
+                console.log(res.data);
+                this.file_seq = res.data.data;
+                console.log("this.file_seq", this.file_seq);
+                //파일 업로드
+                formData.append('filepath', this.file_path);
+                formData.append('file_seq', this.file_seq);
 
+                this.$http.post("/api/upload/upload",formData,{
+                    headers:{'Content-Type': 'multipart/form-data'},
+                    })
+                    .then(
+                        (response)=>{
+                            console.log(response.data);
+                        }
+                    )
 
-            //그다음 순서\
-            this.$http.post("/api/mlist/addFile", {
-                detailInfo: this.detailInfo,
-                users:this.users,
-            })
-            .then(
-                (res) => {
-                    console.log(res);
+                setTimeout(function(){
                     alert(res.data.message);
                     window.close();
-                }
-            )
+                },1000);
+            }
+        )
     },
 
     setCode : async function(iter, allCode, callback){
@@ -371,13 +395,11 @@ methods:{
     loadCD: function(){
         this.$http
             .post("/api/musers/userinfo", {
-            user_id: JSON.parse(localStorage.getItem('token')).user.user_id
+                user_id: JSON.parse(localStorage.getItem('token')).user.user_id
             })
             .then(
             (response) => {
-            this.login_state = false;
-            console.log(response.data[0].USER_NM);
-            this.users = response.data[0];
+                this.users = response.data[0];
                 }
             )
 
@@ -417,8 +439,11 @@ methods:{
     changeVal : function(e){
         if(window.FileReader){ // modern browser
             const filepath = e.target.value; 
-           this.detailInfo.SROC_FILE_PATH_NM = e.target.files[0];
-           console.log(this.detailInfo.SROC_FILE_PATH_NM);
+            console.log(e.target.files);
+            console.log(e.target.files[0]);
+            this.file_path = e.target.files[0];
+            this.detailInfo.SROC_FILE_PATH_NM = e.target.files[0];
+            console.log(this.detailInfo.SROC_FILE_PATH_NM);
             const spltArr_type = filepath.split('.');
             const splthArr_name = filepath.split('\\');
             let filetype = spltArr_type[spltArr_type.length-1];
@@ -433,9 +458,7 @@ methods:{
             const hr = parent.querySelector('#file_hr');
             fileType.innerHTML = filetype;
             fileContent.innerHTML = filename;
-            this.file_path = e.target.files[0];
-            console.log("파일주소??",filepath);
-            console.log("파일주소2??",this.file_path);
+       
             delVtn.innerHTML = "X";
             hr.style.display="block";
             
@@ -455,6 +478,7 @@ methods:{
 created() {
     // Select박스 Option 호출
     this.loadCD();
+    console.log(JSON.parse(localStorage.getItem('token')).user);
 },
 mounted(){
     this.addFile();
@@ -678,7 +702,9 @@ mounted(){
     .posting .v-text-field.v-text-field--solo:not(.v-text-field--solo-flat) > .v-input__control > .v-input__slot {
         box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.16) !important;
     }
-
+    .posting .typing{
+        margin-top:5px !important;
+    }
     /* 작동시기 */
     .posting .cycle .v-input__slot{
         width: 150px !important;
@@ -699,6 +725,7 @@ mounted(){
     .posting .v-input__control{
         height: 42px !important;
         margin-top: 4px;
+        
     }
 
     /* 파일 */
@@ -720,6 +747,10 @@ mounted(){
     .posting .deletebtn{
         width:5%;
         cursor:pointer;  
+    }
+    /* 중요표시 */
+    .posting .necessary{
+        color:red;
     }
 
 </style>
