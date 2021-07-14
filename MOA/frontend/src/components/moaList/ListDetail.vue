@@ -93,7 +93,7 @@
                     </div>
                 </li>
                 <li class="height_fit_content" style="margin-bottom:28px">
-                    <div class="sm_title" style="margin: 5px 0px">자동화파일</div>
+                    <div class="sm_title" style="margin: 5px 0px">자동화파일<v-btn v-on:click="file">버튼</v-btn></div>
                     <!-- 자동화파일 리스트 -->
                     <hr class="file_hr"/>
                     <div class="file_list" id="auto_file_list" style="display:none">
@@ -162,6 +162,7 @@ export default {
                 {name: "6팀",idx: "T06", idx2:"D02"}
             ],
             cd_nm:"",
+            file_nm:"",
         }
         
     },
@@ -201,7 +202,7 @@ export default {
 
                 let filetype = spltArr_type[spltArr_type.length-1];
                 let filename = splthArr_name[splthArr_name.length-1];
-
+               
                 const file_div = document.querySelector('#mannual_file_list');
                 const fileType = file_div.querySelector('#fileType');
                 const fileContent = file_div.querySelector('#fileContent');
@@ -209,6 +210,8 @@ export default {
                 fileType.innerHTML = filetype;
                 fileContent.innerHTML = filename;
                 file_div.style.display="block";
+
+                
             }
             const moa_file_path = this.detailInfo.SROC_FILE_PATH_NM;
             if(moa_file_path!=''){
@@ -225,7 +228,20 @@ export default {
                 fileType.innerHTML = filetype;
                 fileContent.innerHTML = filename;
                 file_div.style.display="block";
+                this.file_nm = filename;
             }
+ 
+        },
+
+        file:function(){
+            console.log("???");
+            console.log(this.file_nm);
+            this.$http.get(`/api/download/${this.file_nm}`)
+            .then(
+                (response)=>{
+                    console.log(response);
+                }
+            )
         },
 
         cancel:function(){
