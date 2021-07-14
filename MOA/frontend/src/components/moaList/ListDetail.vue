@@ -99,6 +99,12 @@
                     <div class="file_list" id="auto_file_list" style="display:none">
                         <span class="fileType" id="fileType"></span>
                         <sapn class="fileContent" id="fileContent"></sapn>
+                        <span class="sourcebtn" id="sourcebtn" @click="sourcebtn($event)">
+                            <v-img src="../../assets/img/code_ic.png" class="arrow_ic"></v-img>
+                        </span>
+                        <span class="downloadsbtn" id="downloadsbtn" @click="downloadsbtn($event)">
+                            <v-img src="../../assets/img/downloads_ic.png" class="arrow_ic"></v-img>
+                        </span>
                         <hr class="file_hr"/>
                     </div>
                 </li>
@@ -236,13 +242,6 @@ export default {
         this.getInfo();
     },
     mounted(){
-        // const mannual_f = this.detailInfo.ATC_FILE_UPLD_PATH_NM;
-        // const moa_f = this.detailInfo.ATC_FILE_UPLD_PATH_NM;
-        
-        // if(mannual_f!='') document.querySelector('#mannual_file_list').style.display="block";
-        // if(moa_f!='') document.querySelector('#auto_file_list').style.display="block";
-
-        // console.log(this.detailInfo);
     }
 
     
@@ -378,7 +377,20 @@ export default {
         width:15%;
     }
     .list_detail .fileContent{
-        width:80%;
+        width:75%;
+    }
+    .list_detail .sourcebtn{
+        display: inline-block;
+        float: right;
+        margin: 0px 10px;
+        width: 21px;
+        cursor:pointer;
+    }
+    .list_detail .downloadsbtn{
+        display: inline-block;
+        float: right;
+        width: 21px;
+        cursor:pointer;
     }
     
 </style>
