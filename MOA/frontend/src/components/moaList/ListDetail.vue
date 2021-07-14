@@ -1,11 +1,17 @@
 <template>
-    <div class="list_detail">
-        <div class="post_title">
-            <div class="ic_circle">
-                <img src="../../assets/img/folder.png" class="folder_ic"/>
+    <div>
+        <div class="list_detail">
+            <div class="post_title">
+                <div class="ic_circle">
+                    <img src="../../assets/img/folder.png" class="folder_ic"/>
+                </div>
+                <input v-model="detailInfo.NTCART_TITLE_NM" class="title" disabled/>
             </div>
-            <input v-model="detailInfo.NTCART_TITLE_NM" class="title" disabled/>
-        </div>
+            
+<!--        <div>
+                <Content :ContentDetail="ContentData"/>
+            </div> 
+-->
         <div class="post_contents">
             <ul>
                 <li>
@@ -150,16 +156,20 @@
         <div class="post_btn">
             <v-btn v-on:click="cancel" class="close">닫기</v-btn>
         </div>
+
+        </div>
     </div>
 </template>
 
 <script>
 
+// import ContentDetail from '../moaList/ContentDatail.vue'
 
 export default {
     props : {
         Id : Number,
         detailInfo : {},
+        //ContentDetail
     },
 
     data:function(){
