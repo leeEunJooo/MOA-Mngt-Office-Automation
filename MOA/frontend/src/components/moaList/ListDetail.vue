@@ -88,6 +88,11 @@
                     <div class="file_list" id="mannual_file_list">
                         <span class="fileType" id="fileType"></span>
                         <sapn class="fileContent" id="fileContent"></sapn>
+                        <div v-if = "detailInfo.ATC_FILE_UPLD_PATH_NM">
+                            <span class="downloadsbtn" id="downloadsbtn" @click="menudownloadsbtn()">
+                            <v-img src="../../assets/img/downloads_ic.png" class="arrow_ic"></v-img>
+                        </span>
+                        </div>
                         <!-- <input v-model="detailInfo.ATC_FILE_UPLD_PATH_NM" disabled> -->
                         <hr class="file_hr"/>
                     </div>
@@ -169,6 +174,7 @@ export default {
             ],
             cd_nm:"",
             file_nm:"",
+            menu_nm:"",
         }
         
     },
@@ -216,7 +222,7 @@ export default {
                 fileType.innerHTML = filetype;
                 fileContent.innerHTML = filename;
                 file_div.style.display="block";
-
+                this.menu_nm = filename;
                 
             }
             const moa_file_path = this.detailInfo.SROC_FILE_PATH_NM;
@@ -245,6 +251,18 @@ export default {
             try{
                 let element = document.createElement('a');
                 element.setAttribute('href',`/api/download/${this.file_nm}`);
+                element.click();
+            } catch(err){
+                alert('해당파일이 없습니다.');
+            }
+        },
+
+        menudownloadsbtn:function(){
+            console.log("???");
+            console.log(this.menu_nm);
+            try{
+                let element = document.createElement('a');
+                element.setAttribute('href',`/api/download/menu/${this.menu_nm}`);
                 element.click();
             } catch(err){
                 alert('해당파일이 없습니다.');
