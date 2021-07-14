@@ -249,9 +249,6 @@ export default {
             } catch(err){
                 alert('해당파일이 없습니다.');
             }
-
-            
-
         },
 
         cancel:function(){

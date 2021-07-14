@@ -25,10 +25,14 @@ update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ=3;
 update tbl_moa_user_bas set UPLD_CASCNT = 2 where CUST_IDFY_SEQ =4; 
 update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ =6; 
 update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ =7; 
-select * from tbl_moa_user_bas;
+-- select * from tbl_moa_user_bas;
 -- select * from tbl_moa_bas;
 
-
+-- 외래키 참조해제
+-- set foreign_key_checks=0;
+-- delete from tbl_moa_bas where file_seq = 10;
+-- 외래키 참조 설정
+-- set foreign_key_checks=1;
 
 -- select e.cd_nm, sum(upld_cascnt) as upupld_cascnt from tbl_moa_user_bas as m, TBL_MOA_CD_BAS as e where m.team_div_cd = e.CD_ID group by team_div_cd;
 -- select e.cd_nm, sum(upld_cascnt) as upupld_cascnt from tbl_moa_user_bas as m, TBL_MOA_CD_BAS as e where m.EMP_POS_DIV_CD = e.CD_ID group by EMP_POS_DIV_CD;
@@ -142,6 +146,7 @@ FOREIGN KEY(CUST_IDFY_SEQ) REFERENCES TBL_MOA_BAS(CUST_IDFY_SEQ)
 );
 
 -- SELECT * FROM TBL_MOA_HST;
+-- delete from TBL_MOA_HST where file_seq = 10;
 
 
 
@@ -181,6 +186,7 @@ VALUES (5,6, '\\download\\moa.xml', 'L01', 'S08', 'C01', '','06:00', 'R03', 'B01
 '완료', 'E01', '9시 이전 수행시 전사 발송, 9시 이후 수행시 내부 테스트 발송', 'N', '', '점검결과 메일+SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', 'MVNO-RDS 시스템 상세점검', '정대균', '정대균', '2021-06-15', '9999-12-31', 'Y', 'N', 'R','MVNO-RDS 시스템 영역의 Portal, UI,배치, PWC, FDH연동 등 상세 점검','스탭업무대상');
 
 -- select * from TBL_MOA_EXECUTION_TXN;
+-- delete from TBL_MOA_EXECUTION_TXN where file_seq = 10;
 
 
 -- 실행 테이블 생성

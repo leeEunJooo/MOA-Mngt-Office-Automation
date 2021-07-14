@@ -172,7 +172,7 @@
                 <div class="filebox1 file_list">
                     <span class="fileType" id="fileType"></span>
                     <span class="fileContent" id="fileContent"></span>
-                    <input type="file" id="realFile" name="mannual" @change="changeVal($event)" hidden/>
+                    <input type="file" id="realFile" name="mannual" @change="menu_changeVal($event)" hidden/>
                     <span class="deletebtn" id="deletebtn" @click="cancelVal($event)"></span>
                     <hr class="file_hr" id="file_hr" style="margin-top:8px; margin-bottom:35px; display:none;"/>
                 </div>
@@ -318,14 +318,14 @@ methods:{
         }
 
         //등록하면 유저에 UPLD_CASCNT값 증가(ok)
-        this.$http.post("/api/musers/uploadUpdate",{
-            users:this.users
-        })
-        .then(
-            (res)=>{
-                console.log(res);
-            }
-        )
+        // this.$http.post("/api/musers/uploadUpdate",{
+        //     users:this.users
+        // })
+        // .then(
+        //     (res)=>{
+        //         console.log(res);
+        //     }
+        // )
         let hour = document.getElementById('hour').value;
         let min = document.getElementById('min').value;
 
@@ -337,6 +337,7 @@ methods:{
         this.detailInfo.DATA_EXE_TIME = datetime;
 
         var formData = new FormData();
+        var fd = new FormData();
         //그다음 순서
         this.$http.post("/api/mlist/addFile",{
             detailInfo: this.detailInfo,
@@ -361,6 +362,19 @@ methods:{
                             console.log(response.data);
                         }
                     )
+                
+                if(this.detailInfo.ATC_FILE_UPLD_PATH_NM !=""){
+                    fd.append('filepath', this.detailInfo.ATC_FILE_UPLD_PATH_NM);
+                    fd.append('file_seq', this.file_seq);
+                    this.$http.post("/api/upload/menu_upload",fd,{
+                    headers:{'Content-Type': 'multipart/form-data'},
+                    })
+                    .then(
+                        (response)=>{
+                            console.log(response.data);
+                        }
+                    )
+                }
 
                 setTimeout(function(){
                     alert(res.data.message);
@@ -368,6 +382,19 @@ methods:{
                 },1000);
             }
         )
+        // console.log("메뉴얼 파일",this.detailInfo.ATC_FILE_UPLD_PATH_NM);
+        //  if(this.detailInfo.ATC_FILE_UPLD_PATH_NM !=""){
+        //             fd.append('filepath', this.detailInfo.ATC_FILE_UPLD_PATH_NM);
+        //             fd.append('file_seq', this.file_seq);
+        //             this.$http.post("/api/upload/menu_upload",fd,{
+        //             headers:{'Content-Type': 'multipart/form-data'},
+        //             })
+        //             .then(
+        //                 (response)=>{
+        //                     console.log(response.data);
+        //                 }
+        //             )
+        //         }
     },
 
     setCode : async function(iter, allCode, callback){
@@ -444,6 +471,34 @@ methods:{
             this.file_path = e.target.files[0];
             this.detailInfo.SROC_FILE_PATH_NM = e.target.files[0];
             console.log(this.detailInfo.SROC_FILE_PATH_NM);
+            const spltArr_type = filepath.split('.');
+            const splthArr_name = filepath.split('\\');
+            let filetype = spltArr_type[spltArr_type.length-1];
+            let filename = splthArr_name[splthArr_name.length-1];
+
+            const parent = e.target.parentNode;
+            console.log(parent);
+            
+            const fileType = parent.querySelector('#fileType');
+            const fileContent = parent.querySelector('#fileContent');
+            const delVtn = parent.querySelector('#deletebtn');
+            const hr = parent.querySelector('#file_hr');
+            fileType.innerHTML = filetype;
+            fileContent.innerHTML = filename;
+       
+            delVtn.innerHTML = "X";
+            hr.style.display="block";
+            
+         } 
+    },
+    menu_changeVal : function(e){
+        if(window.FileReader){ // modern browser
+            const filepath = e.target.value; 
+            console.log(e.target.files);
+            console.log(e.target.files[0]);
+            // this.file_path = e.target.files[0];
+            this.detailInfo.ATC_FILE_UPLD_PATH_NM = e.target.files[0];
+            console.log(this.detailInfo.ATC_FILE_UPLD_PATH_NM);
             const spltArr_type = filepath.split('.');
             const splthArr_name = filepath.split('\\');
             let filetype = spltArr_type[spltArr_type.length-1];

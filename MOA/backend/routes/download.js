@@ -10,6 +10,7 @@ var mime = require('mime');
 
 var getDownloadFilename = require('./library/getDownloadFilename').getDownloadFilename;
 
+//자동화업무 파일 다운로드
 router.get('/:file_name', function(req, res, next) {
   var upload_folder = path.join(__dirname,"../uploads/");
   var file = upload_folder + req.params.file_name; // ex) /upload/files/sample.txt
@@ -40,10 +41,7 @@ router.get('/:file_name', function(req, res, next) {
   }
 });
 
-router.get('/', function(req,res){
-    alter('???');
-
-})
+//메뉴얼파일 다운로드
 
 
 module.exports = router;
