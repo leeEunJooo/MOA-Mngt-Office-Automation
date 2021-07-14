@@ -174,6 +174,8 @@ export default {
          
         window.open(routeData.href, "_blank","width=680, height=850, toolbar=no, menubar=no, scrollbars=no, resizable=no");
       },
+
+
       
       search: function(){
         this.moa_list = [];

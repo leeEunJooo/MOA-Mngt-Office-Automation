@@ -16,13 +16,13 @@
                 </div>
             </li>
             <li>
-                <div class="sm_title">사용자</div>
+                <div class="sm_title"><span class="necessary">* </span>사용자</div>
                 <div>
                     <input class="typing" v-model="detailInfo.RUSER_NM"/>
                 </div>
             </li>
             <li>
-                <div class="sm_title">진행단계</div>
+                <div class="sm_title"><span class="necessary">* </span>진행단계</div>
                 <input class="typing" v-model="detailInfo.TRT_STEP_NM"/>
                 <!-- <v-select
                     :items="select_stage"
@@ -160,7 +160,8 @@
                     <input type="radio" id="n" value="N" v-model="detailInfo.ATC_FILE_MANUAL_YN">
                     <label for="n">N</label>
             </li>
-            <li class="height_fit_content" id="mannual_file">
+            <div v-show="detailInfo.ATC_FILE_MANUAL_YN === 'Y'">
+            <li class="height_fit_content" id="mannual_file" >
                 <div class="sm_title" style="margin-bottom:5px">매뉴얼파일</div>
                 <v-btn class="addfilebtn">
                     <img src="../../assets/img/paperclip.png" class=""/>
@@ -177,6 +178,7 @@
                     <hr class="file_hr" id="file_hr" style="margin-top:8px; margin-bottom:35px; display:none;"/>
                 </div>
             </li>
+            </div>
             <li class="height_fit_content">
                 <div class="sm_title" style="margin: 5px 0px"><span class="necessary">* </span>자동화파일</div>
                 <v-btn class="addfilebtn">
@@ -193,7 +195,7 @@
                 </div>
             </li>
             <li class="height_fit_content" style="margin-top:15px">
-                <div class="sm_title" style="marg   in: 5px 0px">실행방법</div>
+                <div class="sm_title" style="margin: 5px 0px"><span class="necessary">* </span>실행방법</div>
                 <div class="textarea">
                     <textarea v-model="detailInfo.EXE_SBST">
 
@@ -246,6 +248,7 @@ data:function(){
         file_path:[],
         file_seq:"",
         users: "",
+        isMenu:"",
         detailInfo:{
             CUST_IDFY_SEQ:"",
             SROC_FILE_PATH_NM:"",
@@ -296,13 +299,18 @@ methods:{
             this.users.USER_NM,
             this.detailInfo.NTCART_TITLE_NM,
             this.detailInfo.CYCL_DATE_TYPE_CD,
-            this.detailInfo.DOW_NM,
+            this.detailInfo.EXE_SBST,
             this.detailInfo.SYS_DIV_CD,
             this.detailInfo.LANG_CD,
             this.detailInfo.CONN_EVN_DIV_CD,
             this.detailInfo.RPY_RESLT_CD,
             this.detailInfo.TROBL_SVC_TYPE_CD,
-            this.detailInfo.RPY_RESLT_CD,
+            this.detailInfo.RUSER_NM,
+            this.detailInfo.TRT_STEP_NM,
+            this.detailInfo.DATA_EXE_TIME,
+            this.detailInfo.WRKJOB_PRPS_NM,
+            this.detailInfo.ATC_FILE_MANUAL_Y,
+            this.detailInfo.SROC_FILE_PATH_NM,
             ]
             checkArr.forEach(val => {
             if(val == ""){

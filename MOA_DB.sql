@@ -26,7 +26,7 @@ update tbl_moa_user_bas set UPLD_CASCNT = 2 where CUST_IDFY_SEQ =4;
 update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ =6; 
 update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ =7; 
 -- select * from tbl_moa_user_bas;
- select * from tbl_moa_bas;
+-- select * from tbl_moa_bas;
 
 -- 외래키 참조해제
 -- set foreign_key_checks=0;
@@ -300,3 +300,4 @@ INSERT INTO TBL_MOA_CD_BAS(ITG_CD_GROUP_ID, ITG_CD_GROUP_NM, CD_ID, CD_NM) VALUE
 
 INSERT INTO TBL_MOA_CD_BAS(ITG_CD_GROUP_ID, ITG_CD_GROUP_NM, CD_ID, CD_NM) VALUES ('CEC', '접속환경', 'E01', '로컬');
 INSERT INTO TBL_MOA_CD_BAS(ITG_CD_GROUP_ID, ITG_CD_GROUP_NM, CD_ID, CD_NM) VALUES ('CEC', '접속환경', 'E02', '사외망');
+-- select * from TBL_MOA_CD_BAS;
