@@ -13,6 +13,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/musers');
 var listRouter = require('./routes/mlist');
 var uploadRouter = require('./routes/upload');
+var downloadRouter = require('./routes/download');
 
 var app = express();
 
@@ -42,7 +43,8 @@ app.use('/', indexRouter);
 // app.use('/users', usersRouter);
 app.use('/api/musers', usersRouter);
 app.use('/api/mlist', listRouter);
-app.use('/api/upload', uploadRouter)
+app.use('/api/upload', uploadRouter);
+app.use('/api/download', downloadRouter);
 
 
 // catch 404 and forward to error handler

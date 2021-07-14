@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
+//npm install multer --save 설치해야함.
 var multer = require('multer');
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {

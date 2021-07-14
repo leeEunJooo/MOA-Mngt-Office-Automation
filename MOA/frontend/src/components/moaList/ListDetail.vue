@@ -108,7 +108,7 @@
                         <span class="sourcebtn" id="sourcebtn" @click="sourcebtn($event)">
                             <v-img src="../../assets/img/code_ic.png" class="arrow_ic"></v-img>
                         </span>
-                        <span class="downloadsbtn" id="downloadsbtn" @click="downloadsbtn($event)">
+                        <span class="downloadsbtn" id="downloadsbtn" @click="downloadsbtn()">
                             <v-img src="../../assets/img/downloads_ic.png" class="arrow_ic"></v-img>
                         </span>
                         <hr class="file_hr"/>
@@ -178,6 +178,7 @@ export default {
                 {name: "6팀",idx: "T06", idx2:"D02"}
             ],
             cd_nm:"",
+            file_nm:"",
         }
         
     },
@@ -217,7 +218,7 @@ export default {
 
                 let filetype = spltArr_type[spltArr_type.length-1];
                 let filename = splthArr_name[splthArr_name.length-1];
-
+               
                 const file_div = document.querySelector('#mannual_file_list');
                 const fileType = file_div.querySelector('#fileType');
                 const fileContent = file_div.querySelector('#fileContent');
@@ -225,6 +226,8 @@ export default {
                 fileType.innerHTML = filetype;
                 fileContent.innerHTML = filename;
                 file_div.style.display="block";
+
+                
             }
             const moa_file_path = this.detailInfo.SROC_FILE_PATH_NM;
             if(moa_file_path!=''){
@@ -241,7 +244,24 @@ export default {
                 fileType.innerHTML = filetype;
                 fileContent.innerHTML = filename;
                 file_div.style.display="block";
+                this.file_nm = filename;
             }
+ 
+        },
+
+        downloadsbtn:function(){
+            console.log("???");
+            console.log(this.file_nm);
+            try{
+                let element = document.createElement('a');
+                element.setAttribute('href',`/api/download/${this.file_nm}`);
+                element.click();
+            } catch(err){
+                alert('해당파일이 없습니다.');
+            }
+
+            
+
         },
 
         cancel:function(){

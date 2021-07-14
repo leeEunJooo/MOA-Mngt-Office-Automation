@@ -365,7 +365,7 @@ methods:{
                 setTimeout(function(){
                     alert(res.data.message);
                     window.close();
-                },3000);
+                },1000);
             }
         )
     },
