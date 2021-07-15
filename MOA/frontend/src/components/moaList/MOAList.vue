@@ -54,7 +54,6 @@
             @click="show_alert_and_fade">
               <v-icon
               color="white"
-              v-on:click="close"
               >mdi-close</v-icon>
             </v-btn>
           </div>
@@ -328,6 +327,8 @@ export default {
       .then(
         (res) =>{
           console.log(res);
+          item.EXE_DATE =dayjs(res.data[0].EXE_DATE).format('YYYY-MM-DD HH:mm:ss');
+           
         }
       )
       
@@ -340,9 +341,6 @@ export default {
       this.alert = true; 
       console.log(this.alert);
     },
-    close:function(){
-        this.$router.go();
-    }
     },
       
   }

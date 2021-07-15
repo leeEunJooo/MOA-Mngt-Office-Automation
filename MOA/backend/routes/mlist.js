@@ -58,6 +58,12 @@ var connection = conn.connection;
       if(err) throw err;
       console.log(row);
     });
+
+    connection.query('SELECT EXE_DATE FROM TBL_MOA_EXECUTION_TXN WHERE LAST_HST_YN = "Y" AND FILE_SEQ = "'+ moa_list.FILE_SEQ+'"',moa_list,function(err,row){
+      if(err) throw err;
+      res.send(row);
+    });
+
   })
 
 
