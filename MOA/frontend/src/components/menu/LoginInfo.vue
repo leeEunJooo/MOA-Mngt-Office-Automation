@@ -13,26 +13,16 @@
             </button>
       </div>
   </div>
-   <!-- <div v-else>
-      <div id="notLoggedIn" class="notloggedIn" style = "padding-top: 20px">
-          <router-link to="/" @click = "logout">
-            로그아웃
-          </router-link>
-      </div>
-   </div> -->
   </div>
 </template>
 
 <script>
-// import { mapState } from "vuex"
 
 export default {
-  
     data: function() {
      return {
-       usernm:this.$store.state.username,
+      usernm:this.$store.state.username,
       users: "",
-      localStorage:[],
        }
      },
       created(){
@@ -43,6 +33,7 @@ export default {
           this.$store.commit('logout')  
           localStorage.clear(); 
           this.$router.push("/login");
+
         },
         loginchk(){
           this.$router.go(this.$router.currentRouter);

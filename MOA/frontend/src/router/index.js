@@ -85,37 +85,36 @@ const router = new VueRouter({
 // to : 이동할 URL정보가 담긴 라우터 객체
 // from : 현재 url 정보가 담긴 라우터 객체
 // next : to에서 저장한 URL로 이동하기 위해 반드시 호출해야하는 함수.
-// router.beforeEach((to, from, next) => {
-//    // 여기서 무엇을 해야 할까? 
-//    const loggedIn = JSON.parse(localStorage.getItem('token'))==undefined? false : true;
-//   console.log(to);
-//   console.log(from.path);
-//   console.log(next);
-//   console.log(loggedIn);
+router.beforeEach((to, from, next) => {
+  const loggedIn = JSON.parse(localStorage.getItem('token'))==null? false : true;
+  console.log(to);
+  console.log(from.path);
+  console.log(next);
+  console.log(loggedIn);
 
 
-//   //로그인 상태가 필요
-//   if (to.matched.some(record => record.meta.authRequired)) { // 로그인 상태가 아니면 '/' 여기로 보내버린다. 
-//       console.log('authRequired');
-//       if (loggedIn) {
-//         console.log('loggedin');
-//         next();
-//       }
-
-//   }
-//   else{
-//     console.log('NoauthRequired');
-//     if (loggedIn) {
-//         console.log('Butloggedin');
-//         // if(to.path == '/' || to.path == '/login' || to.path == '/signup'){
-//            next({path:'/moalist'});
-//            return;
-//         // }
-//       }
-//       next();
+  //로그인 상태가 필요
+  if (to.matched.some(record => record.meta.authRequired)) { // 로그인 상태가 아니면 '/' 여기로 보내버린다. 
+      console.log('authRequired');
+      if (loggedIn) {
+        console.log('loggedin');
+        next();
+        return;
+      }
+      next('/');
+  }
+  else{
+    console.log('NoauthRequired');
+    if (loggedIn) {
+        console.log('Butloggedin');
+        // if(to.path == '/' || to.path == '/login' || to.path == '/signup'){
+           next({path:'/moalist'});
+           return;
+        // }
+      }
+      next();
       
-//     }
-//   })
-
+    }
+  })
 // 설정한 VueRouter를 내보낸다.
 export default router

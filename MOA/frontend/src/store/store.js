@@ -32,7 +32,14 @@ export const store = new Vuex.Store({
             state.isLogin = false
             state.isLoginError = false
             state.token = '';
+            state.username = ''
             alert('로그아웃 되었습니다.');
+        },
+        init: function(state){
+            state.isLogin = false
+            state.isLoginError = false
+            state.token = '';
+            state.username = ''
         },
         loginCheck:function(state){
             axios.get(`${state.host}/auth/check`,{

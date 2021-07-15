@@ -26,6 +26,9 @@
 import ContentDetail from '@/components/moaList/ContentDetail.vue'
 import Test from '@/components/moaList/test.vue'
 
+// import ContentDetail from '../moaList/ContentDatail.vue'
+import SourceView from './SourceView.vue'
+
 export default {
 
     props : {
@@ -33,11 +36,12 @@ export default {
         detailInfo : {},
         ContentDetail, 
         file_seq : Number
-
+        //ContentDetail
     },
-    components: {
-        ContentDetail,
-        Test
+    components:{
+       SourceView,
+       ContentDetail,
+    Test
     },
     data:function(){
         return {
@@ -51,6 +55,7 @@ export default {
             ],
             cd_nm:"",
             file_nm:"",
+            menu_nm:"",
         }
         
     },
@@ -98,7 +103,7 @@ export default {
                 fileType.innerHTML = filetype;
                 fileContent.innerHTML = filename;
                 file_div.style.display="block";
-
+                this.menu_nm = filename;
                 
             }
             const moa_file_path = this.detailInfo.SROC_FILE_PATH_NM;
@@ -131,9 +136,18 @@ export default {
             } catch(err){
                 alert('해당파일이 없습니다.');
             }
+        },
 
-            
-
+        menudownloadsbtn:function(){
+            console.log("???");
+            console.log(this.menu_nm);
+            try{
+                let element = document.createElement('a');
+                element.setAttribute('href',`/api/download/menu/${this.menu_nm}`);
+                element.click();
+            } catch(err){
+                alert('해당파일이 없습니다.');
+            }
         },
 
         cancel:function(){

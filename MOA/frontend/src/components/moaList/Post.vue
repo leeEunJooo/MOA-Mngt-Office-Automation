@@ -16,13 +16,13 @@
                 </div>
             </li>
             <li>
-                <div class="sm_title">사용자</div>
+                <div class="sm_title"><span class="necessary">* </span>사용자</div>
                 <div>
                     <input class="typing" v-model="detailInfo.RUSER_NM"/>
                 </div>
             </li>
             <li>
-                <div class="sm_title">진행단계</div>
+                <div class="sm_title"><span class="necessary">* </span>진행단계</div>
                 <input class="typing" v-model="detailInfo.TRT_STEP_NM"/>
                 <!-- <v-select
                     :items="select_stage"
@@ -160,7 +160,8 @@
                     <input type="radio" id="n" value="N" v-model="detailInfo.ATC_FILE_MANUAL_YN">
                     <label for="n">N</label>
             </li>
-            <li class="height_fit_content" id="mannual_file">
+            <div v-show="detailInfo.ATC_FILE_MANUAL_YN === 'Y'">
+            <li class="height_fit_content" id="mannual_file" >
                 <div class="sm_title" style="margin-bottom:5px">매뉴얼파일</div>
                 <v-btn class="addfilebtn">
                     <img src="../../assets/img/paperclip.png" class=""/>
@@ -172,11 +173,12 @@
                 <div class="filebox1 file_list">
                     <span class="fileType" id="fileType"></span>
                     <span class="fileContent" id="fileContent"></span>
-                    <input type="file" id="realFile" name="mannual" @change="changeVal($event)" hidden/>
+                    <input type="file" id="realFile" name="mannual" @change="menu_changeVal($event)" hidden/>
                     <span class="deletebtn" id="deletebtn" @click="cancelVal($event)"></span>
                     <hr class="file_hr" id="file_hr" style="margin-top:8px; margin-bottom:35px; display:none;"/>
                 </div>
             </li>
+            </div>
             <li class="height_fit_content">
                 <div class="sm_title" style="margin: 5px 0px"><span class="necessary">* </span>자동화파일</div>
                 <v-btn class="addfilebtn">
@@ -193,7 +195,7 @@
                 </div>
             </li>
             <li class="height_fit_content" style="margin-top:15px">
-                <div class="sm_title" style="marg   in: 5px 0px">실행방법</div>
+                <div class="sm_title" style="margin: 5px 0px"><span class="necessary">* </span>실행방법</div>
                 <div class="textarea">
                     <textarea v-model="detailInfo.EXE_SBST">
 
@@ -246,6 +248,7 @@ data:function(){
         file_path:[],
         file_seq:"",
         users: "",
+        isMenu:"",
         detailInfo:{
             CUST_IDFY_SEQ:"",
             SROC_FILE_PATH_NM:"",
@@ -293,25 +296,30 @@ methods:{
         console.log(this.detailInfo);
         //작동시기
         var checkArr = [
-            this.users.USER_NM,
             this.detailInfo.NTCART_TITLE_NM,
             this.detailInfo.CYCL_DATE_TYPE_CD,
-            this.detailInfo.DOW_NM,
+            this.detailInfo.EXE_SBST,
             this.detailInfo.SYS_DIV_CD,
             this.detailInfo.LANG_CD,
             this.detailInfo.CONN_EVN_DIV_CD,
             this.detailInfo.RPY_RESLT_CD,
             this.detailInfo.TROBL_SVC_TYPE_CD,
-            this.detailInfo.RPY_RESLT_CD,
+            this.detailInfo.RUSER_NM,
+            this.detailInfo.TRT_STEP_NM,
+            this.detailInfo.WRKJOB_PRPS_NM,
+            this.detailInfo.ATC_FILE_MANUAL_Y,
+            this.detailInfo.SROC_FILE_PATH_NM,
             ]
-            checkArr.forEach(val => {
-            if(val == ""){
-                return false;
+            //forEach문 안먹혀서 for문으로 적용
+            for(var val of checkArr){
+                if(val ==""){
+                    return false;
+                }
             }
-        });
         return true;
     },
     save: function(){
+        console.log(this.checkContent());
         if(!this.checkContent()){
             alert('필수 내용을 입력하지 않으셨습니다.');
             return;
@@ -337,6 +345,7 @@ methods:{
         this.detailInfo.DATA_EXE_TIME = datetime;
 
         var formData = new FormData();
+        var fd = new FormData();
         //그다음 순서
         this.$http.post("/api/mlist/addFile",{
             detailInfo: this.detailInfo,
@@ -361,6 +370,19 @@ methods:{
                             console.log(response.data);
                         }
                     )
+                // 메뉴얼 파일 업로드
+                if(this.detailInfo.ATC_FILE_UPLD_PATH_NM !=""){
+                    fd.append('filepath', this.detailInfo.ATC_FILE_UPLD_PATH_NM);
+                    fd.append('file_seq', this.file_seq);
+                    this.$http.post("/api/upload/menu_upload",fd,{
+                    headers:{'Content-Type': 'multipart/form-data'},
+                    })
+                    .then(
+                        (response)=>{
+                            console.log(response.data);
+                        }
+                    )
+                }
 
                 setTimeout(function(){
                     alert(res.data.message);
@@ -368,6 +390,7 @@ methods:{
                 },1000);
             }
         )
+      
     },
 
     setCode : async function(iter, allCode, callback){
@@ -444,6 +467,34 @@ methods:{
             this.file_path = e.target.files[0];
             this.detailInfo.SROC_FILE_PATH_NM = e.target.files[0];
             console.log(this.detailInfo.SROC_FILE_PATH_NM);
+            const spltArr_type = filepath.split('.');
+            const splthArr_name = filepath.split('\\');
+            let filetype = spltArr_type[spltArr_type.length-1];
+            let filename = splthArr_name[splthArr_name.length-1];
+
+            const parent = e.target.parentNode;
+            console.log(parent);
+            
+            const fileType = parent.querySelector('#fileType');
+            const fileContent = parent.querySelector('#fileContent');
+            const delVtn = parent.querySelector('#deletebtn');
+            const hr = parent.querySelector('#file_hr');
+            fileType.innerHTML = filetype;
+            fileContent.innerHTML = filename;
+       
+            delVtn.innerHTML = "X";
+            hr.style.display="block";
+            
+         } 
+    },
+    menu_changeVal : function(e){
+        if(window.FileReader){ // modern browser
+            const filepath = e.target.value; 
+            console.log(e.target.files);
+            console.log(e.target.files[0]);
+            // this.file_path = e.target.files[0];
+            this.detailInfo.ATC_FILE_UPLD_PATH_NM = e.target.files[0];
+            console.log(this.detailInfo.ATC_FILE_UPLD_PATH_NM);
             const spltArr_type = filepath.split('.');
             const splthArr_name = filepath.split('\\');
             let filetype = spltArr_type[spltArr_type.length-1];
