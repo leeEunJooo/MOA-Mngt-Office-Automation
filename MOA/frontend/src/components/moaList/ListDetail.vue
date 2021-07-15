@@ -7,17 +7,10 @@
                 </div>
                 <input class="title" disabled/>
             </div>
-            
-            <!-- <SourceView></SourceView> -->
-            <ContentDatail :file_id=file_seq></ContentDatail>
-
+            <router-view></router-view>
             <div>
-                <!-- <Content :ContentDetail="ContentData"/> -->
             </div>
 
-
-        
-        
         <div class="post_btn">
             <v-btn v-on:click="cancel" class="close">닫기</v-btn>
         </div>
@@ -27,8 +20,6 @@
 </template>
 
 <script>
-import ContentDatail from './ContentDetail.vue'
-// import SourceView from './SourceView.vue'
 
 export default {
     props : {
@@ -36,8 +27,6 @@ export default {
         detailInfo : {},
     },
     components:{
-    //    SourceView,
-        ContentDatail, 
     },
 
     data:function(){
@@ -58,32 +47,6 @@ export default {
         
     },
     methods:{
-            
-
-        downloadsbtn:function(){
-            console.log("???");
-            console.log(this.file_nm);
-            try{
-                let element = document.createElement('a');
-                element.setAttribute('href',`/api/download/${this.file_nm}`);
-                element.click();
-            } catch(err){
-                alert('해당파일이 없습니다.');
-            }
-        },
-
-        menudownloadsbtn:function(){
-            console.log("???");
-            console.log(this.menu_nm);
-            try{
-                let element = document.createElement('a');
-                element.setAttribute('href',`/api/download/menu/${this.menu_nm}`);
-                element.click();
-            } catch(err){
-                alert('해당파일이 없습니다.');
-            }
-        },
-
         cancel:function(){
             window.close();
         }
@@ -94,8 +57,6 @@ export default {
     },
     mounted(){
     }
-
-    
 }
 </script>
 

@@ -1,5 +1,4 @@
 <template>
-
     <div>
         <div class="post_contents">
             <ul>
@@ -143,10 +142,10 @@
 
 
 export default {
-    props: ['file_id'],
     methods:{
         getInfo : async function(){
-                var id = this.file_id
+                // var id = this.file_id
+                var id = this.$route.params.id
                 await this.$http.post(`/api/mlist/listDetail/${id}`)
                 .then(
                 (res)=>{
@@ -210,11 +209,15 @@ export default {
             }
  
         },
-
+        sourcebtn:function(){
+            this.$router.push({ 
+                name: 'source',
+                params: {id: this.file_id}})
+        }
+        
     },
     data:function(){
         return {
-            file_seq:"",
             detailInfo:{}
         }
     },
@@ -222,8 +225,6 @@ export default {
         this.getInfo();
 
     },
-    mounted(){
-    }
  
 }
 </script>

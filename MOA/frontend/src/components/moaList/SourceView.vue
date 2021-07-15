@@ -1,19 +1,8 @@
 <template>
   <div class="code">
-     <!-- Two-way Data-Binding -->
+    <button @click="Back" type="button">뒤<br/>로<br/>가<br/>기<br/>버<br/>튼</button> 
       <codemirror v-model="code" :options="cmOptions" />
-
-      <!-- Or manually control the data synchronization -->
-      <!-- <codemirror
-        ref="cmEditor"
-        :value="code"
-        :options="cmOptions"
-        @ready="onCmReady"
-        @focus="onCmFocus"
-        @input="onCmCodeChange"
-      /> -->
-</div>
-
+  </div>
 </template>
 
 <script>
@@ -43,6 +32,9 @@ export default {
     codemirror
   },
   methods:{
+    Back(){
+        this.$router.go(-1); [2]
+    },
     onCmReady(cm) {
       console.log('the editor is readied!', cm)
     },
