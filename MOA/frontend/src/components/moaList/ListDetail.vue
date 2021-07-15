@@ -1,5 +1,4 @@
 <template>
-    <!--부모-->
     <div>
         <div class="list_detail">
             <div class="post_title">
@@ -8,41 +7,39 @@
                 </div>
                 <input v-model="detailInfo.NTCART_TITLE_NM" class="title" disabled/>
             </div>
-            <Test></Test>
-            {{id}}
+            
+            <!-- <SourceView></SourceView> -->
+            <ContentDatail file_id="file_seq"></ContentDatail>
+
             <div>
                 <!-- <Content :ContentDetail="ContentData"/> -->
-                <!-- <router-view></router-view> -->
-                <ContentDetail></ContentDetail>
             </div>
+
+
+        
+        
+        <div class="post_btn">
+            <v-btn v-on:click="cancel" class="close">닫기</v-btn>
+        </div>
 
         </div>
     </div>
 </template>
 
 <script>
-
-
-import ContentDetail from '@/components/moaList/ContentDetail.vue'
-import Test from '@/components/moaList/test.vue'
-
-// import ContentDetail from '../moaList/ContentDatail.vue'
-import SourceView from './SourceView.vue'
+import ContentDatail from './ContentDetail.vue'
+// import SourceView from './SourceView.vue'
 
 export default {
-
     props : {
         Id : Number,
         detailInfo : {},
-        ContentDetail, 
-        file_seq : Number
-        //ContentDetail
     },
     components:{
-       SourceView,
-       ContentDetail,
-    Test
+    //    SourceView,
+        ContentDatail, 
     },
+
     data:function(){
         return {
             team_div_cd: [
@@ -56,11 +53,13 @@ export default {
             cd_nm:"",
             file_nm:"",
             menu_nm:"",
+            file_seq:"sd",
         }
         
     },
     methods:{
             getInfo : async function(){
+                this.file_seq = this.$route.params.id;
                 var id = this.$route.params.id
                 await this.$http.post(`/api/mlist/listDetail/${id}`)
                 .then(
