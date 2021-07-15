@@ -142,7 +142,11 @@
 
 
 export default {
-    props: ['file_id'],
+    props: [
+        'file_id',
+        'downloadsbtn',
+        'menudownloadsbtn'
+    ],
     methods:{
         getInfo : async function(){
                 // var id = this.file_id
@@ -249,8 +253,6 @@ export default {
         this.getInfo();
 
     },
-    mounted(){
-    }
  
 }
 </script>
