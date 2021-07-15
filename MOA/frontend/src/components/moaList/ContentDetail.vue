@@ -1,4 +1,5 @@
 <template>
+
     <div>
         <div class="post_contents">
             <ul>
@@ -21,7 +22,7 @@
                 <li>
                     <div class="sm_title">작동시기</div>
                     <div>
-                         <input v-model="detailInfo.CYCL_DATE_TYPE_CD" disabled>
+                        <input v-model="detailInfo.CYCL_DATE_TYPE_CD" disabled>
                         <input v-model="detailInfo.DATA_EXE_TIME" disabled>
                     </div>
                 </li>
@@ -135,21 +136,95 @@
             </ul>
 
         </div>
-        
-        <div class="post_btn">
-            <v-btn v-on:click="cancel" class="close">닫기</v-btn>
-        </div>
     </div>
 </template>
 
 <script>
-export default {
-    props: ['ContentDetail'],
-    name: 'Content',
-    mounted (){
-        console.log(this.$props.ContentDetail)
-    }
 
+
+export default {
+    props: ['file_id'],
+    methods:{
+        getInfo : async function(){
+                var id = this.file_id
+                await this.$http.post(`/api/mlist/listDetail/${id}`)
+                .then(
+                (res)=>{
+                    this.detailInfo = res.data[0];
+                    //ATC_FILE_UPLD_PATH_NM SROC_FILE_PATH_NM
+                    //파일 존재 여부 체크
+                    console.log(this.detailInfo);
+                    //코드성 변경
+                    for(let i=0; i<Object.keys(this.detailInfo).length; i++){
+                        if(Object.keys(this.detailInfo)[i].includes("_CD")){
+                            this.cd_nm = Object.values(this.detailInfo)[i];
+                            this.$http.post(`/api/mlist/codeselect/${Object.values(this.detailInfo)[i]}`)
+                            .then(
+                                (response)=>{
+                                    this.detailInfo[Object.keys(this.detailInfo)[i]] = response.data[0].CD_NM;
+                                }
+                            )   
+                        }
+                    }
+ 
+            });
+
+            const mannual_f = this.detailInfo.ATC_FILE_MANUAL_YN;
+            if(mannual_f=="N"){
+                document.querySelector('#mannual_file_list').parentNode.style.display="none";
+            }
+            else{
+                const moa_file_path = this.detailInfo.ATC_FILE_UPLD_PATH_NM;
+                const spltArr_type = moa_file_path.split('.');
+                const splthArr_name = moa_file_path.split('\\');
+
+                let filetype = spltArr_type[spltArr_type.length-1];
+                let filename = splthArr_name[splthArr_name.length-1];
+               
+                const file_div = document.querySelector('#mannual_file_list');
+                const fileType = file_div.querySelector('#fileType');
+                const fileContent = file_div.querySelector('#fileContent');
+                
+                fileType.innerHTML = filetype;
+                fileContent.innerHTML = filename;
+                file_div.style.display="block";
+                this.menu_nm = filename;
+                
+            }
+            const moa_file_path = this.detailInfo.SROC_FILE_PATH_NM;
+            if(moa_file_path!=''){
+                const spltArr_type = moa_file_path.split('.');
+                const splthArr_name = moa_file_path.split('\\');
+
+                let filetype = spltArr_type[spltArr_type.length-1];
+                let filename = splthArr_name[splthArr_name.length-1];
+
+                const file_div = document.querySelector('#auto_file_list');
+                const fileType = file_div.querySelector('#fileType');
+                const fileContent = file_div.querySelector('#fileContent');
+                
+                fileType.innerHTML = filetype;
+                fileContent.innerHTML = filename;
+                file_div.style.display="block";
+                this.file_nm = filename;
+            }
+ 
+        },
+
+    },
+    data:function(){
+        return {
+            file_seq:"",
+            detailInfo:{}
+        }
+    },
+    created() {
+        this.getInfo();
+
+    },
+    mounted(){
+    }
+ 
 }
 </script>
 

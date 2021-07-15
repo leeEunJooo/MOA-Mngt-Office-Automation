@@ -52,7 +52,6 @@ const routes = [
       },
     ]
   },
-
   {
     path: '/moalist/:id',
     name: 'listdetail',
