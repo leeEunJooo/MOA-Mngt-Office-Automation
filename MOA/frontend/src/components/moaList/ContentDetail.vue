@@ -15,7 +15,7 @@
                     </div>
                 </li>
                 <li>
-                    <div class="sm_title">잔행단계</div>
+                    <div class="sm_title">진행단계</div>
                     <input v-model="detailInfo.TROBL_SVC_TYPE_CD" disabled>
                 </li>
                 <li>
