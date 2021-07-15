@@ -385,10 +385,12 @@ export default {
       //item.EXE_DATE update
       event.stopPropagation();
       this.show_alert_and_fade();
+      //let curtime = new Date();
       //수행시간은 sysdate로 수정
       this.$http.post('/api/mlist/update_exe_date',{
         FILE_SEQ:item.FILE_SEQ,
         USER : this.user,
+        //TIME : curtime
       })
       .then(
         (res) =>{
@@ -400,6 +402,8 @@ export default {
     dismissible_close () {
       event.stopPropagation();
       this.alert = false;
+      // window.location.reload();
+      
     },
     show_alert_and_fade: function(){
       this.alert = true; 

@@ -1,4 +1,6 @@
 <template>
+    <!-- 자식 -->
+
     <div>
         <div class="post_contents">
             <ul>
@@ -143,13 +145,21 @@
 </template>
 
 <script>
-export default {
-    props: ['ContentDetail'],
-    name: 'Content',
-    mounted (){
-        console.log(this.$props.ContentDetail)
-    }
 
+
+
+export default {
+    // props: ['ContentDetail'],
+    // name: 'Content',
+    // mounted () {
+    //     console.log(this.$props.ContentDetail)
+    // }
+    created() {
+        this.getInfo();
+    },
+    mounted(){
+    }
+ 
 }
 </script>
 
