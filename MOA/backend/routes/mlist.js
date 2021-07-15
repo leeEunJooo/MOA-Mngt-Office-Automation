@@ -162,12 +162,13 @@ var connection = conn.connection;
     console.log("search_text : ", search.search_text);
 
 
+    // File Sequence도 가져오기
     // if문으로 대분류 확인
     if (search.search_select_code.includes("ETC")) {
       console.log("코드 테이블에 포함되어 있지 않은 경우");
       //담당자(ETC1)
       if(search.search_select_code=="ETC1"){
-        connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where TKCGR_NM LIKE "%'+search.search_text +'%"', function (err, rows) {
+        connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where TKCGR_NM LIKE "%'+search.search_text +'%"', function (err, rows) {
           if (err) res.send("");
           console.log(rows);
           if(rows!=""){
@@ -180,7 +181,7 @@ var connection = conn.connection;
 
       //자동화 명칭(ETC2)
       if(search.search_select_code=="ETC2"){
-        connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where NTCART_TITLE_NM LIKE "%'+search.search_text +'%"', function (err, rows) {
+        connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where NTCART_TITLE_NM LIKE "%'+search.search_text +'%"', function (err, rows) {
           if (err) res.send("");
           console.log(rows);
           if(rows!=""){
@@ -193,584 +194,289 @@ var connection = conn.connection;
 
       // 전체검색(ETC3)
       if(search.search_select_code=="ETC3"){
-        console.log("typeof : ", typeof(search.search_text));
-        console.log("typeof2 : ", typeof(parseInt(search.search_text)));
-        console.log("typeof3 : ", parseInt(search.search_text));
+        // 1. 코드 테이블
+        // row : 코드 테이블의 CD_NM에 검색어가 포함된 경우 해당 검색어의 CD_ID를 저장
+        connection.query('SELECT CD_ID FROM TBL_MOA_CD_BAS WHERE CD_NM LIKE "%' + search.search_text + '%"', function (err, row) {
 
-        if (isNaN(parseInt(search.search_text))) {
-          console.log("숫자 포함 X !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+          // 코드 테이블에 검색어가 존재하는 경우
+          if (row != "") {
+            console.log("row : ", row);
 
-          connection.query('SELECT CD_ID FROM TBL_MOA_CD_BAS WHERE CD_NM LIKE "%' + search.search_text + '%"', function (err, row) {
-            if (err) res.send("");
-            console.log("row ", row);
-            
-            // row : 코드 테이블에 검색어가 포함된 경우 해당 검색어의 CD_ID를 저장
-            if (row != "") {
-              console.log("11111 - 코드 검색 포함");
-              console.log("11111 - row 길이? ", row.length);
-  
-              // 코드 테이블 외 컬럼 중 검색어를 포함하고 있는지 확인
-              connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(SROC_FILE_PATH_NM, DOW_NM, DATA_EXE_TIME, INPUT_VAL, TRT_STEP_NM, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, DTL_DESC_SBST, WRKJOB_PRPS_NM) against("' + search.search_text + '*" in boolean mode)',function(err,row1) {
-                if(err) throw err;
-  
-                // row1 : 코드 테이블 외 컬럼 중 검색어가 포함된 경우
-                if (row1 != "") {
-                  console.log("22222 - 코드외 존재");
-                  console.log("22222 - row1 길이? ", row1.length);
-  
-                  var query = "";
-                  var resultArray = []; // row에 저장된 CD_ID를 쿼리문 조건으로 사용, 실행 후 결과를 저장할 배열
-  
-                  // 코드 테이블 검색 결과 row의 길이가 1이면 데이터가 1차원 배열로 저장되기 때문에 원래 방식대로 데이터 처리를 하면 됨
-                  // row의 길이가 2 이상이면 데이터가 2차원 배열로 저장되기 때문에 2차원 배열에 맞게 데이터 처리
-                  if (row.length == 1) {
-                    // row에 저장된 CD_ID를 쿼리문 조건으로 사용하여 코드 테이블에 해당 CD_ID가 있는지 확인
-                    query += 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, CONN_EVN_DIV_CD) against("' + row[0].CD_ID + '*" in boolean mode) and e.LAST_HST_YN="Y";'
-  
-                    // row2 : row에 저장된 CD_ID를 쿼리문 조건으로 사용, 실행 후 결과를 저장
-                    connection.query(query, function(err, row2, field) {
-                      if (err) res.send("");
-  
-                      console.log("!!11", row1);
-                      console.log("@@22", row2);
-                      
-                      console.log("@@22 row2 길이 ", row2.length);
-                      // console.log("@@22 row2[0] 길이 ", row2[0].length);
-                      
-                      if (row2 != "") {
-                        // for (let i = 0; i < row2.length; i++) {
-                        //   resultArray.push(row2[i]);
-                        // }
-                      
-                        console.log("33333 - 코드성 존재 & 코드외 존재");
-                        console.log("!!!", row1);
-                        console.log("@@@", row2);
-                        // console.log("@@@", resultArray);
-                        
-                        // 코드 테이블에 포함된 내용 & 코드 외 컬럼들에 포함된 내용 전송
-                        res.json({
-                          row1 : row1,
-                          row2 : row2,
-                        });
-                      } else {
-                        console.log("!!!!", row1);
-                        console.log("@@@@", row2);
-                        // console.log("@@@@", resultArray);
-                        console.log("44444 - 코드외만 존재");
-                        
-                        // 코드 외 컬럼들에 포함된 내용만 전송
-                        res.send(row1);
-                      }
-                    });
-                  } else { // row의 길이가 2 이상인 경우
-                    // row에 저장된 CD_ID를 쿼리문 조건으로 사용하여 코드 테이블에 해당 CD_ID가 있는지 확인
-                    for (let i = 0; i < row.length; i++) {
-                      query += 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, CONN_EVN_DIV_CD) against("' + row[i].CD_ID + '*" in boolean mode) and e.LAST_HST_YN="Y";'
-                    }
-    
-                    connection.query(query, function(err, row2, field) {
-                      if (err) res.send("");
-                      
-                      console.log("!!", row1);
-                      console.log("@@", row2);
-                      
-                      console.log("@@ row2 길이 ", row2.length);
-                      console.log("@@ row2[0] 길이 ", row2[0].length);
-                      
-                      // 2차원 배열로 저장이 되기 때문에 데이터를 추출하여 1차원 배열에 저장
-                      if (row2 != "") {
-                        for (let i = 0; i < row2.length; i++) {
-                          if (row2[i].length != 0) {
-                            for (let j = 0; j < row2[i].length; j++) {
-                              resultArray.push(row2[i][j]);
-                            }
-                          } else {
-                              continue;
-                          }
-                        }
-                      
-                        console.log("33333 - 코드성 존재 & 코드외 존재");
-                        console.log("!!!", row1);
-                        // console.log("@@@", row2);
-                        console.log("@@@", resultArray);
-    
-                        res.json({
-                          row1 : row1,
-                          // row2 : row2,
-                          row2 : resultArray,
-                        });
-                      } else {
-                        console.log("!!!!", row1);
-                        console.log("@@@@", row2);
-                        // console.log("@@@@", resultArray);
-                        console.log("44444 - 코드외만 존재");
-    
-                        res.send(row1);
-                      }
-                    });
-                  }
-                } else {
-                  console.log("55555 - 코드외 존재 안함 & 코드성만 존재");
-                  console.log("55555 - row 길이? ", row.length);
-                  
-                  var query = "";
-                  var resultArray = []; // row에 저장된 CD_ID를 쿼리문 조건으로 사용, 실행 후 결과를 저장할 배열
-                  
-                  if (row.length == 1) {
-                    // row에 저장된 CD_ID를 쿼리문 조건으로 사용하여 코드 테이블에 해당 CD_ID가 있는지 확인
-                    query += 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, CONN_EVN_DIV_CD) against("' + row[0].CD_ID + '*" in boolean mode) and e.LAST_HST_YN="Y";'
-  
-                    // row2 : row에 저장된 CD_ID를 쿼리문 조건으로 사용, 실행 후 결과를 저장
-                    connection.query(query, function(err, row2, field) {
-                      if (err) res.send("");
-    
-                      console.log("@@22", row2);
-                      
-                      console.log("@@22 row2 길이 ", row2.length);
-                      // console.log("@@22 row2[0] 길이 ", row2[0].length);
-  
-                      console.log(">>>>>>>>>>>>>>>>>>>>>>>>", row2);
-  
-                      if (row2 != "") {
-                        // for (let i = 0; i < row2.length; i++) {
-                        //   resultArray.push(row2[i]);
-                        // }
-                      
-                        // console.log("33333 - 코드성 존재 & 코드외 존재");
-                        // console.log("!!!", row1);
-                        console.log("@@@", row2);
-                        // console.log("@@@", resultArray);
-                        
-                        // 코드 테이블에 포함된 내용 & 코드 외 컬럼들에 포함된 내용 전송
-                        // res.json({
-                        //   row1 : row1,
-                        //   row2 : row2,
-                        // });
-                        res.send(row2);
-                      } else {
-                        // console.log("!!!!", row1);
-                        console.log("@@@@", row2);
-                        // console.log("@@@@", resultArray);
-                        // console.log("44444 - 코드외만 존재");
-                        
-                        // 코드 외 컬럼들에 포함된 내용만 전송
-                        res.send("");
-                      }
-                    });
-                  } else { // row의 길이가 2 이상인 경우
-                    // row에 저장된 CD_ID를 쿼리문 조건으로 사용하여 코드 테이블에 해당 CD_ID가 있는지 확인
-                    for (let i = 0; i < row.length; i++) {
-                      query += 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, CONN_EVN_DIV_CD) against("' + row[i].CD_ID + '*" in boolean mode) and e.LAST_HST_YN="Y";'
-                    }
-    
-                    connection.query(query, function(err, row2, field) {
-                      if (err) res.send("");
-    
-                      // console.log("!!", row1);
-                      console.log("##", row2);
-                      
-                      console.log("## row2 길이 ", row2.length);
-                      console.log("## row2[0] 길이 ", row2[0].length);
-  
-                      console.log(">>>>>>>>>>>>>>>>>>>>>>>>", resultArray);
-  
-                      // 2차원 배열로 저장이 되기 때문에 데이터를 추출하여 1차원 배열에 저장
-                      if (row2 != "") {
-                        for (let i = 0; i < row2.length; i++) {
-                          if (row2[i].length != 0) {
-                            for (let j = 0; j < row2[i].length; j++) {
-                              resultArray.push(row2[i][j]);
-                            }
-                          } else {
-                              continue;
-                          }
-                        }
-                      
-                        // console.log("33333 - 코드성 존재 & 코드외 존재");
-                        // console.log("!!!", row1);
-                        // console.log("@@@", row2);
-                        console.log("@@@", resultArray);
-    
-                        // res.json({
-                        //   row1 : row1,
-                        //   // row2 : row2,
-                        //   row2 : resultArray,
-                        // });
-                        res.send(resultArray);
-                      } else {
-                        // console.log("!!!!", row1);
-                        // console.log("@@@@", row2);
-                        // console.log("@@@@", resultArray);
-                        // console.log("44444 - 코드외만 존재");
-    
-                        res.send("");
-                      }
-                    });
-                  }
-  
-  
-                  // for (let i = 0; i < row.length; i++){
-                  //   query += 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, CONN_EVN_DIV_CD) against("' + row[i].CD_ID + '*" in boolean mode) and e.LAST_HST_YN="Y";'
-                  // }
-                  //   console.log("query", query);
-                  //   connection.query(query, function(err, row2) {
-                  //     if (err) res.send("");
-  
-                  //     console.log("이게 언디파인?", row2);
-  
-                  //     if (row2 != "") {
-                  //       res.send(row2);
-                  //     } 
-                  //   });
-                  }
-              });
-            } else {
-              console.log("88888 - 코드 검색 포함 안함");
-              console.log("88888 - row 길이? ", row.length);
-              connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(SROC_FILE_PATH_NM, DOW_NM, DATA_EXE_TIME, INPUT_VAL, TRT_STEP_NM, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, DTL_DESC_SBST, WRKJOB_PRPS_NM) against("' + search.search_text + '*" in boolean mode)',function(err,row1) {
-                if(err) throw err;
-  
-                console.log("??", row1);
-  
-                if(row1 != ""){
-                  console.log("99999 - 코드외만 존재");
-                  console.log("???", row1);
-                  res.send(row1);
-                }else{
-                  console.log("10 - 코드성 & 코드외 존재 안함");
-                  console.log("???", row1);
-                  res.send("");
-                }
-              });
+            let val = '';
+
+            for(let i=0; i<row.length; i++){
+              val+=("'"+row[i].CD_ID + "'");
+              if(i == row.length-1) continue;
+              val+=",";
             }
-          });
-        } else {
-          console.log("숫자 포함 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-          
-          connection.query('SELECT CD_ID FROM TBL_MOA_CD_BAS WHERE CD_NM LIKE "%' + search.search_text + '%"', function (err, row) {
-            if (err) res.send("");
-            console.log("row ", row);
-            
-            // row : 코드 테이블에 검색어가 포함된 경우 해당 검색어의 CD_ID를 저장
-            if (row != "") {
-              console.log("11111 - 코드 검색 포함");
-              console.log("11111 - row 길이? ", row.length);
-  
-              let val = '';
-              let users = [];
-  
-              for (let i = 0; i < row.length; i++) {
-                val+=("'" + row[i].CD_ID + "'");
-  
-                if (i == row.length-1)
-                continue;
-  
-                val += ",";
+
+            //조회한 CD_ID를 가지고 USER_BAS에서 사용자 일련번호를 조회
+            connection.query('SELECT CUST_IDFY_SEQ FROM TBL_MOA_USER_BAS WHERE TEAM_DIV_CD in (' + val + ')', function(err,rows) {
+              // 팀코드가 존재하는 경우 (사용자 일련번호가 존재하는 경우)
+              if(rows != "") {
+                if (err) res.send("");
+
+                console.log("rows 길이 ?.? ", rows.length);
+                console.log("사용자일련번호 조회");
+                console.log(rows);
+
+                const value = [];
+
+                for (let i = 0; i < rows.length; i++) {
+                  value.push(rows[i].CUST_IDFY_SEQ);
+                }
+
+                console.log(value);
+
+                //조회한 사용자 일련번호로 자동화 목록리스트 조회
+                connection.query('SELECT NTCART_TITLE_NM, TKCGR_NM, FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE m.CUST_IDFY_SEQ in (' + value + ')',function(err,row3){
+                  if(err) throw err;
+
+                  console.log("자동화목록 조회");
+                  console.log(row3);
+
+                  // 자동화 목록 테이블에 사용자 일련번호 존재
+                  if(row3 != ""){
+                    var userAndCodeArray = [];
+
+                    // 팀코드 외에 나머지 코드들 중 검색어가 존재하는지 확인
+                    var forCodeTableQuery = 'SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and (LANG_CD in (' + val + ') or SYS_DIV_CD in (' + val + ') or CYCL_DATE_TYPE_CD in (' + val +') or RPY_RESLT_CD in (' + val + ') or TROBL_SVC_TYPE_CD in (' + val +') or CONN_EVN_DIV_CD in (' + val + '))';
+                    
+                    connection.query(forCodeTableQuery, function(err,row1){
+                      if(err) throw err;
+                      console.log("1 - 팀코드 외에 나머지 코드들 중 검색어가 존재");
+                      console.log("2 - row1 : ", row1);
+    
+                      // 팀 코드 외에 나머지 코드들 존재시 
+                      if(row1 != ""){
+                        // 자동화 목록 테이블에 사용자 일련번호 존재하는 경우
+                        for (let i = 0; i < row3.length; i++) {
+                          userAndCodeArray.push(row3[i]);
+                        }
+
+                        // 자동화 목록 테이블에 팀 코드 외 (사용자 일련번호 외)에 나머지 코드가 존재하는 경우
+                        for (let i = 0; i < row1.length; i++) {
+                          userAndCodeArray.push(row1[i]);
+                        }
+
+                        // 코드 외 테이블 조회
+                        // 코드 테이블 외 컬럼 중 검색어를 포함하고 있는지 확인
+                        var forNonCodeTableQuery = "";
+    
+                        forNonCodeTableQuery = 'SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and (SROC_FILE_PATH_NM LIKE "%' + search.search_text +'%" or DOW_NM LIKE "%' + search.search_text +'%" or DATA_EXE_TIME  LIKE "%' + search.search_text +'%" or INPUT_VAL  LIKE "%' + search.search_text +'%" or TRT_STEP_NM  LIKE "%' + search.search_text +'%" or ATTEN_MTR_SBST  LIKE "%' + search.search_text +'%" or ATC_FILE_MANUAL_YN  LIKE "%' + search.search_text +'%" or ATC_FILE_UPLD_PATH_NM  LIKE "%' + search.search_text +'%" or OTPUT_SBST  LIKE "%' + search.search_text +'%" or ETC_SBST  LIKE "%' + search.search_text +'%" or EXE_SBST  LIKE "%' + search.search_text +'%" or NTCART_TITLE_NM  LIKE "%' + search.search_text +'%" or TKCGR_NM  LIKE "%' + search.search_text +'%" or RUSER_NM  LIKE "%' + search.search_text +'%" or DTL_DESC_SBST  LIKE "%' + search.search_text +'%" or WRKJOB_PRPS_NM   LIKE "%' + search.search_text +'%")';
+    
+                        // 코드 외 테이블에 검색어가 존재하는지 조회
+                        connection.query(forNonCodeTableQuery, function(err,row2) {
+                          // 코드 외 테이블에 검색어가 존재할 경우
+                          if (row2 != "") {
+                            // 팀코드를 제외한 코드 테이블에 검색어 존재 & 코드 외 테이블에 검색어 존재
+                            console.log("3 - 사용자 일련번호 존재 & 팀코드를 제외한 코드 테이블에 검색어 존재 & 코드 외 테이블에 검색어 존재");
+                            console.log("4 - row2 : ", row2);
+
+                            res.json({
+                              row1 : userAndCodeArray,
+                              row2 : row2,
+                            });
+                          } 
+    
+                          // 자동화 목록 테이블에 사용자 일련번호 존재 & 팀 코드를 제외한 코드 테이블 검색어 존재
+                          else {
+                            console.log("5 - 자동화 목록 테이블에 사용자 일련번호 존재 & 팀 코드를 제외한 코드 테이블 검색어 존재");
+    
+                            res.send(userAndCodeArray);
+                          }
+                        });
+                      }
+    
+                      // 팀 코드 외에 나머지 코드들 존재 안할 경우
+                      else {
+                        // 코드 외 테이블 조회
+                        // 코드 테이블 외 컬럼 중 검색어를 포함하고 있는지 확인
+                        var forNonCodeTableQuery = 'SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and (SROC_FILE_PATH_NM LIKE "%' + search.search_text +'%" or DOW_NM LIKE "%' + search.search_text +'%" or DATA_EXE_TIME  LIKE "%' + search.search_text +'%" or INPUT_VAL  LIKE "%' + search.search_text +'%" or TRT_STEP_NM  LIKE "%' + search.search_text +'%" or ATTEN_MTR_SBST  LIKE "%' + search.search_text +'%" or ATC_FILE_MANUAL_YN  LIKE "%' + search.search_text +'%" or ATC_FILE_UPLD_PATH_NM  LIKE "%' + search.search_text +'%" or OTPUT_SBST  LIKE "%' + search.search_text +'%" or ETC_SBST  LIKE "%' + search.search_text +'%" or EXE_SBST  LIKE "%' + search.search_text +'%" or NTCART_TITLE_NM  LIKE "%' + search.search_text +'%" or TKCGR_NM  LIKE "%' + search.search_text +'%" or RUSER_NM  LIKE "%' + search.search_text +'%" or DTL_DESC_SBST  LIKE "%' + search.search_text +'%" or WRKJOB_PRPS_NM   LIKE "%' + search.search_text +'%")';
+    
+                        // 코드 외 테이블에 검색어가 존재하는지 조회
+                        connection.query(forNonCodeTableQuery, function(err,row2) {
+                          if (row2 != "") {
+                            // 자동화 목록 테이블에 사용자 일련번호 존재 & 코드 외 테이블에 검색어 존재
+                            console.log("6 - 자동화 목록 테이블에 사용자 일련번호 존재 & 코드 외 테이블에 검색어 존재");
+                            console.log("7 - row3 : ", row3);
+                            console.log("8 - row2 : ", row2);
+
+                            res.json({
+                              row1 : row3,
+                              row2 : row2,
+                            });
+                          } else {
+                            // 자동화 목록 테이블에 사용자 일련번호만 존재
+                            console.log("9 - 자동화 목록 테이블에 사용자 일련번호만 존재");
+    
+                            res.send(row3);
+                          }
+                        });
+                      }
+                    });
+                  }
+
+                  // 자동화 목록 테이블에 사용자 일련번호 존재하지 않는 경우
+                  else{
+                    // 팀코드 외에 나머지 코드들 중 검색어가 존재하는지 확인
+                    var forCodeTableQuery = 'SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and (LANG_CD in (' + val + ') or SYS_DIV_CD in (' + val + ') or CYCL_DATE_TYPE_CD in (' + val +') or RPY_RESLT_CD in (' + val + ') or TROBL_SVC_TYPE_CD in (' + val +') or CONN_EVN_DIV_CD in (' + val + '))';
+
+                    connection.query(forCodeTableQuery, function(err,row1){
+                      if(err) throw err;
+                      console.log("10 - 팀코드 외에 나머지 코드들 중 검색어가 존재");
+                      console.log("11 - row1 : ", row1);
+
+                      // 팀코드 외에 나머지 코드들 존재시 
+                      if(row1 != ""){
+
+                        // 코드 외 테이블 조회
+                        // 코드 테이블 외 컬럼 중 검색어를 포함하고 있는지 확인
+                        var forNonCodeTableQuery = "";
+
+                        forNonCodeTableQuery = 'SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and (SROC_FILE_PATH_NM LIKE "%' + search.search_text +'%" or DOW_NM LIKE "%' + search.search_text +'%" or DATA_EXE_TIME  LIKE "%' + search.search_text +'%" or INPUT_VAL  LIKE "%' + search.search_text +'%" or TRT_STEP_NM  LIKE "%' + search.search_text +'%" or ATTEN_MTR_SBST  LIKE "%' + search.search_text +'%" or ATC_FILE_MANUAL_YN  LIKE "%' + search.search_text +'%" or ATC_FILE_UPLD_PATH_NM  LIKE "%' + search.search_text +'%" or OTPUT_SBST  LIKE "%' + search.search_text +'%" or ETC_SBST  LIKE "%' + search.search_text +'%" or EXE_SBST  LIKE "%' + search.search_text +'%" or NTCART_TITLE_NM  LIKE "%' + search.search_text +'%" or TKCGR_NM  LIKE "%' + search.search_text +'%" or RUSER_NM  LIKE "%' + search.search_text +'%" or DTL_DESC_SBST  LIKE "%' + search.search_text +'%" or WRKJOB_PRPS_NM   LIKE "%' + search.search_text +'%")';
+
+                        // 코드 외 테이블에 검색어가 존재하는지 조회
+                        connection.query(forNonCodeTableQuery, function(err,row2) {
+                          // 코드 외 테이블에 검색어가 존재할 경우
+                          if (row2 != "") {
+                            // 팀코드를 제외한 코드 테이블에 검색어 존재 & 코드 외 테이블에 검색어 존재
+                            console.log("12 - 팀코드를 제외한 코드 테이블에 검색어 존재 & 코드 외 테이블에 검색어 존재");
+                            console.log("13 - row1 : ", row1);
+                            console.log("14 - row2 : ", row2);
+                            res.json({
+                              row1 : row1,
+                              row2 : row2,
+                            });
+                          } 
+
+                          // 팀 코드를 제외한 코드 테이블만 검색어 존재
+                          else {
+                            console.log("15 - 팀코드를 제외한 코드 테이블만 검색어 존재");
+
+                            res.send(row1);
+                          }
+                        });
+                      }
+
+                      // 팀 코드 외에 나머지 코드들 존재 안할 경우
+                      else {
+                        // 코드 외 테이블 조회
+                        // 코드 테이블 외 컬럼 중 검색어를 포함하고 있는지 확인
+                        var forNonCodeTableQuery = 'SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and (SROC_FILE_PATH_NM LIKE "%' + search.search_text +'%" or DOW_NM LIKE "%' + search.search_text +'%" or DATA_EXE_TIME  LIKE "%' + search.search_text +'%" or INPUT_VAL  LIKE "%' + search.search_text +'%" or TRT_STEP_NM  LIKE "%' + search.search_text +'%" or ATTEN_MTR_SBST  LIKE "%' + search.search_text +'%" or ATC_FILE_MANUAL_YN  LIKE "%' + search.search_text +'%" or ATC_FILE_UPLD_PATH_NM  LIKE "%' + search.search_text +'%" or OTPUT_SBST  LIKE "%' + search.search_text +'%" or ETC_SBST  LIKE "%' + search.search_text +'%" or EXE_SBST  LIKE "%' + search.search_text +'%" or NTCART_TITLE_NM  LIKE "%' + search.search_text +'%" or TKCGR_NM  LIKE "%' + search.search_text +'%" or RUSER_NM  LIKE "%' + search.search_text +'%" or DTL_DESC_SBST  LIKE "%' + search.search_text +'%" or WRKJOB_PRPS_NM   LIKE "%' + search.search_text +'%")';
+
+                        // 코드 외 테이블에 검색어가 존재하는지 조회
+                        connection.query(forNonCodeTableQuery, function(err,row1) {
+                          if (row1 != "") {
+                            // 코드 테이블에 검색어가 존재하지 않고 코드 외 테이블에 검색어가 존재할 경우
+                            console.log("16 - 코드 테이블에 검색어가 존재하지 않고 코드 외 테이블에 검색어가 존재할 경우");
+                            
+                            res.send(row1);
+                          } else {
+                            // 코드 테이블과 코드 외 테이블 모두 존재하지 않는 경우
+                            console.log("17 - 코드 테이블과 코드 외 테이블 모두 존재하지 않는 경우");
+
+                            res.send("");
+                          }
+                        });
+
+                      }
+                    });
+                  }
+                });
               }
-  
-              //조회한 CD_ID를 가지고 USER_BAS에서 사용자 일련번호를 조회
-              connection.query('SELECT CUST_IDFY_SEQ FROM TBL_MOA_USER_BAS WHERE TEAM_DIV_CD in ('+ val +')', function(err,rows){
-                if (rows != "") {
-                  if (err) res.send("");
-  
-                  console.log("rows 길이 ?.? ", rows.length);
-                  console.log("사용자일련번호 조회");
-                  console.log(rows);
-  
-                  const value = [];
-  
-                  for(let i = 0; i < rows.length; i++){
-                    value.push(rows[i].CUST_IDFY_SEQ);
-                  }
-  
-                  console.log(value);
-  
-                  //조회한 사용자 일련번호로 자동화 목록리스트 조회
-                  connection.query('SELECT NTCART_TITLE_NM, TKCGR_NM, FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE m.CUST_IDFY_SEQ in ('+ value +')', function(err,row3) {
-                    if(err) throw err;
-                    console.log("자동화목록 조회");
-                    console.log(row3);
-                    if(row3 != ""){
-                      console.log("왔다");
-                      console.log(row3);
-                      
-                      for (let i = 0; i < row3.length; i++) {
-                        users.push(row3[i]);
-                      }
-  
-                      console.log("users : ", users);
-                      
-                      // 코드 테이블 외 컬럼 중 검색어를 포함하고 있는지 확인
-              connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(SROC_FILE_PATH_NM, DOW_NM, DATA_EXE_TIME, INPUT_VAL, TRT_STEP_NM, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, DTL_DESC_SBST, WRKJOB_PRPS_NM) against("' + search.search_text + '*" in boolean mode)',function(err,row1) {
-                if(err) throw err;
-  
-                // row1 : 코드 테이블 외 컬럼 중 검색어가 포함된 경우
-                if (row1 != "") {
-                  console.log("22222 - 코드외 존재");
-                  console.log("22222 - row1 길이? ", row1.length);
-  
-                  var query = "";
-                  var resultArray = []; // row에 저장된 CD_ID를 쿼리문 조건으로 사용, 실행 후 결과를 저장할 배열
-  
-                  // 코드 테이블 검색 결과 row의 길이가 1이면 데이터가 1차원 배열로 저장되기 때문에 원래 방식대로 데이터 처리를 하면 됨
-                  // row의 길이가 2 이상이면 데이터가 2차원 배열로 저장되기 때문에 2차원 배열에 맞게 데이터 처리
-                  if (row.length == 1) {
-                    // row에 저장된 CD_ID를 쿼리문 조건으로 사용하여 코드 테이블에 해당 CD_ID가 있는지 확인
-                    query += 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, CONN_EVN_DIV_CD) against("' + row[0].CD_ID + '*" in boolean mode) and e.LAST_HST_YN="Y";'
-  
-                    // row2 : row에 저장된 CD_ID를 쿼리문 조건으로 사용, 실행 후 결과를 저장
-                    connection.query(query, function(err, row2, field) {
-                      if (err) res.send("");
-                      
-                      if (users.length != 0) {
-                        for (let i = 0; i < users.length; i++) {
-                          row2.push(users[i]);
-                        }
-                      }
-  
-                      console.log("!!11", row1);
-                      console.log("@@22", row2);
-                      
-                      console.log("@@22 row2 길이 ", row2.length);
-                      console.log("@@22 row2[0] 길이 ", row2[0].length);
-                      
+
+              //팀코드가 존재하지 않는경우 (사용자 일련번호가 존재하지 않는 경우)
+              else {
+                // 팀코드 외에 나머지 코드들 중 검색어가 존재하는지 확인
+                var forCodeTableQuery = 'SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and (LANG_CD in (' + val + ') or SYS_DIV_CD in (' + val + ') or CYCL_DATE_TYPE_CD in (' + val +') or RPY_RESLT_CD in (' + val + ') or TROBL_SVC_TYPE_CD in (' + val +') or CONN_EVN_DIV_CD in (' + val + '))';
+
+                connection.query(forCodeTableQuery, function(err,row1){
+                  if(err) throw err;
+                  console.log("18 - 팀코드 외에 나머지 코드들 중 검색어가 존재");
+                  console.log("19 - row1 : ", row1);
+
+                  // 팀코드 외에 나머지 코드들 존재시 
+                  if(row1 != ""){
+
+                    // 코드 외 테이블 조회
+                    // 코드 테이블 외 컬럼 중 검색어를 포함하고 있는지 확인
+                    var forNonCodeTableQuery = "";
+
+                    forNonCodeTableQuery = 'SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and (SROC_FILE_PATH_NM LIKE "%' + search.search_text +'%" or DOW_NM LIKE "%' + search.search_text +'%" or DATA_EXE_TIME  LIKE "%' + search.search_text +'%" or INPUT_VAL  LIKE "%' + search.search_text +'%" or TRT_STEP_NM  LIKE "%' + search.search_text +'%" or ATTEN_MTR_SBST  LIKE "%' + search.search_text +'%" or ATC_FILE_MANUAL_YN  LIKE "%' + search.search_text +'%" or ATC_FILE_UPLD_PATH_NM  LIKE "%' + search.search_text +'%" or OTPUT_SBST  LIKE "%' + search.search_text +'%" or ETC_SBST  LIKE "%' + search.search_text +'%" or EXE_SBST  LIKE "%' + search.search_text +'%" or NTCART_TITLE_NM  LIKE "%' + search.search_text +'%" or TKCGR_NM  LIKE "%' + search.search_text +'%" or RUSER_NM  LIKE "%' + search.search_text +'%" or DTL_DESC_SBST  LIKE "%' + search.search_text +'%" or WRKJOB_PRPS_NM   LIKE "%' + search.search_text +'%")';
+
+                    // 코드 외 테이블에 검색어가 존재하는지 조회
+                    connection.query(forNonCodeTableQuery, function(err,row2) {
+                      // 코드 외 테이블에 검색어가 존재할 경우
                       if (row2 != "") {
-                        // for (let i = 0; i < row2.length; i++) {
-                        //   resultArray.push(row2[i]);
-                        // }
-                      
-                        console.log("33333 - 코드성 존재 & 코드외 존재");
-                        console.log("!!!", row1);
-                        console.log("@@@", row2);
-                        // console.log("@@@", resultArray);
-                        
-                        // 코드 테이블에 포함된 내용 & 코드 외 컬럼들에 포함된 내용 전송
+                        // 팀코드를 제외한 코드 테이블에 검색어 존재 & 코드 외 테이블에 검색어 존재
+                        console.log("20 - 팀코드를 제외한 코드 테이블에 검색어 존재 & 코드 외 테이블에 검색어 존재");
+                        console.log("21 - row1 : ", row1);
+                        console.log("22 - row2 : ", row2);
                         res.json({
                           row1 : row1,
                           row2 : row2,
                         });
-                      } else {
-                        console.log("!!!!", row1);
-                        console.log("@@@@", row2);
-                        // console.log("@@@@", resultArray);
-                        console.log("44444 - 코드외만 존재");
-                        
-                        // 코드 외 컬럼들에 포함된 내용만 전송
-                        res.send(row1);
-                      }
-                    });
-                  } else { // row의 길이가 2 이상인 경우
-                    // row에 저장된 CD_ID를 쿼리문 조건으로 사용하여 코드 테이블에 해당 CD_ID가 있는지 확인
-                    for (let i = 0; i < row.length; i++) {
-                      query += 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, CONN_EVN_DIV_CD) against("' + row[i].CD_ID + '*" in boolean mode) and e.LAST_HST_YN="Y";'
-                    }
-    
-                    connection.query(query, function(err, row2, field) {
-                      if (err) res.send("");
-                      
-                      if (users.length != 0) {
-                        for (let i = 0; i < users.length; i++) {
-                          resultArray.push(users[i]);
-                        }
-                      }
-                      
-                      console.log("!!", row1);
-                      console.log("@@", row2);
-                      
-                      console.log("@@ row2 길이 ", row2.length);
-                      console.log("@@ row2[0] 길이 ", row2[0].length);
-                      
-                      // 2차원 배열로 저장이 되기 때문에 데이터를 추출하여 1차원 배열에 저장
-                      if (row2 != "") {
-                        for (let i = 0; i < row2.length; i++) {
-                          if (row2[i].length != 0) {
-                            for (let j = 0; j < row2[i].length; j++) {
-                              resultArray.push(row2[i][j]);
-                            }
-                          } else {
-                              continue;
-                          }
-                        }
-                      
-                        console.log("33333 - 코드성 존재 & 코드외 존재");
-                        console.log("!!!", row1);
-                        // console.log("@@@", row2);
-                        console.log("@@@", resultArray);
-    
-                        res.json({
-                          row1 : row1,
-                          // row2 : row2,
-                          row2 : resultArray,
-                        });
-                      } else {
-                        console.log("!!!!", row1);
-                        console.log("@@@@", row2);
-                        // console.log("@@@@", resultArray);
-                        console.log("44444 - 코드외만 존재");
-    
-                        res.send(row1);
-                      }
-                    });
-                  }
-                } else {
-                  console.log("55555 - 코드외 존재 안함 & 코드성만 존재");
-                  console.log("55555 - row 길이? ", row.length);
-                  
-                  var query = "";
-                  var resultArray = []; // row에 저장된 CD_ID를 쿼리문 조건으로 사용, 실행 후 결과를 저장할 배열
-                  
-                  if (row.length == 1) {
-                    // row에 저장된 CD_ID를 쿼리문 조건으로 사용하여 코드 테이블에 해당 CD_ID가 있는지 확인
-                    query += 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, CONN_EVN_DIV_CD) against("' + row[0].CD_ID + '*" in boolean mode) and e.LAST_HST_YN="Y";'
-  
-                    // row2 : row에 저장된 CD_ID를 쿼리문 조건으로 사용, 실행 후 결과를 저장
-                    connection.query(query, function(err, row2, field) {
-                      if (err) res.send("");
-    
-                      console.log("@@22", row2);
-                      
-                      console.log("@@22 row2 길이 ", row2.length);
-                      console.log("@@22 row2[0] 길이 ", row2[0].length);
-  
-                      if (users.length != 0) {
-                        for (let i = 0; i < users.length; i++) {
-                          row2.push(users[i]);
-                        }
-                      }
-  
-                      console.log(">>>>>>>>>>>>>>>>>>>>>>>>", row2);
-  
-                      if (row2 != "") {
-                        // for (let i = 0; i < row2.length; i++) {
-                        //   resultArray.push(row2[i]);
-                        // }
-                      
-                        // console.log("33333 - 코드성 존재 & 코드외 존재");
-                        // console.log("!!!", row1);
-                        console.log("@@@", row2);
-                        // console.log("@@@", resultArray);
-                        
-                        // 코드 테이블에 포함된 내용 & 코드 외 컬럼들에 포함된 내용 전송
-                        // res.json({
-                        //   row1 : row1,
-                        //   row2 : row2,
-                        // });
-                        res.send(row2);
-                      } else {
-                        // console.log("!!!!", row1);
-                        console.log("@@@@", row2);
-                        // console.log("@@@@", resultArray);
-                        // console.log("44444 - 코드외만 존재");
-                        
-                        // 코드 외 컬럼들에 포함된 내용만 전송
-                        res.send("");
-                      }
-                    });
-                  } else { // row의 길이가 2 이상인 경우
-                    // row에 저장된 CD_ID를 쿼리문 조건으로 사용하여 코드 테이블에 해당 CD_ID가 있는지 확인
-                    for (let i = 0; i < row.length; i++) {
-                      query += 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, CONN_EVN_DIV_CD) against("' + row[i].CD_ID + '*" in boolean mode) and e.LAST_HST_YN="Y";'
-                    }
-    
-                    connection.query(query, function(err, row2, field) {
-                      if (err) res.send("");
-    
-                      // console.log("!!", row1);
-                      console.log("##", row2);
-                      
-                      console.log("## row2 길이 ", row2.length);
-                      console.log("## row2[0] 길이 ", row2[0].length);
-                      
-                      if (users.length != 0) {
-                        for (let i = 0; i < users.length; i++) {
-                          resultArray.push(users[i]);
-                        }
-                      }
-  
-                      console.log(">>>>>>>>>>>>>>>>>>>>>>>>", resultArray);
-  
-                      // 2차원 배열로 저장이 되기 때문에 데이터를 추출하여 1차원 배열에 저장
-                      if (row2 != "") {
-                        for (let i = 0; i < row2.length; i++) {
-                          if (row2[i].length != 0) {
-                            for (let j = 0; j < row2[i].length; j++) {
-                              resultArray.push(row2[i][j]);
-                            }
-                          } else {
-                              continue;
-                          }
-                        }
-                      
-                        // console.log("33333 - 코드성 존재 & 코드외 존재");
-                        // console.log("!!!", row1);
-                        // console.log("@@@", row2);
-                        console.log("@@@", resultArray);
-    
-                        // res.json({
-                        //   row1 : row1,
-                        //   // row2 : row2,
-                        //   row2 : resultArray,
-                        // });
-                        res.send(resultArray);
-                      } else {
-                        // console.log("!!!!", row1);
-                        // console.log("@@@@", row2);
-                        // console.log("@@@@", resultArray);
-                        // console.log("44444 - 코드외만 존재");
-    
-                        res.send("");
-                      }
-                    });
-                  }
-  
-  
-                  // for (let i = 0; i < row.length; i++){
-                  //   query += 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, CONN_EVN_DIV_CD) against("' + row[i].CD_ID + '*" in boolean mode) and e.LAST_HST_YN="Y";'
-                  // }
-                  //   console.log("query", query);
-                  //   connection.query(query, function(err, row2) {
-                  //     if (err) res.send("");
-  
-                  //     console.log("이게 언디파인?", row2);
-  
-                  //     if (row2 != "") {
-                  //       res.send(row2);
-                  //     } 
-                  //   });
-                  }
-              });
-                    }
-                  });
-                } else {
-                  // res.send("");
-                }
-                // console.log("users2 : ", users);     
-              });
-  
-              // console.log("users3 : ", users);
-            } else {
-              console.log("88888 - 코드 검색 포함 안함");
-              console.log("88888 - row 길이? ", row.length);
-              connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where match(SROC_FILE_PATH_NM, DOW_NM, DATA_EXE_TIME, INPUT_VAL, TRT_STEP_NM, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, DTL_DESC_SBST, WRKJOB_PRPS_NM) against("' + search.search_text + '*" in boolean mode)',function(err,row1) {
-                if(err) throw err;
-  
-                console.log("??", row1);
-  
-                if(row1 != ""){
-                  console.log("99999 - 코드외만 존재");
-                  console.log("???", row1);
-                  res.send(row1);
-                }else{
-                  console.log("10 - 코드성 & 코드외 존재 안함");
-                  console.log("???", row1);
-                  res.send("");
-                }
-              });
-            }
-          });  
-        }
+                      } 
 
-      }
+                      // 팀 코드를 제외한 코드 테이블만 검색어 존재
+                      else {
+                        console.log("23 - 팀코드를 제외한 코드 테이블만 검색어 존재");
+
+                        res.send(row1);
+                      }
+                    });
+                  }
+
+                  // 팀 코드 외에 나머지 코드들 존재 안할 경우
+                  else {
+                    // 코드 외 테이블 조회
+                    // 코드 테이블 외 컬럼 중 검색어를 포함하고 있는지 확인
+                    var forNonCodeTableQuery = 'SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and (SROC_FILE_PATH_NM LIKE "%' + search.search_text +'%" or DOW_NM LIKE "%' + search.search_text +'%" or DATA_EXE_TIME  LIKE "%' + search.search_text +'%" or INPUT_VAL  LIKE "%' + search.search_text +'%" or TRT_STEP_NM  LIKE "%' + search.search_text +'%" or ATTEN_MTR_SBST  LIKE "%' + search.search_text +'%" or ATC_FILE_MANUAL_YN  LIKE "%' + search.search_text +'%" or ATC_FILE_UPLD_PATH_NM  LIKE "%' + search.search_text +'%" or OTPUT_SBST  LIKE "%' + search.search_text +'%" or ETC_SBST  LIKE "%' + search.search_text +'%" or EXE_SBST  LIKE "%' + search.search_text +'%" or NTCART_TITLE_NM  LIKE "%' + search.search_text +'%" or TKCGR_NM  LIKE "%' + search.search_text +'%" or RUSER_NM  LIKE "%' + search.search_text +'%" or DTL_DESC_SBST  LIKE "%' + search.search_text +'%" or WRKJOB_PRPS_NM   LIKE "%' + search.search_text +'%")';
+
+                    // 코드 외 테이블에 검색어가 존재하는지 조회
+                    connection.query(forNonCodeTableQuery, function(err,row1) {
+                      if (row1 != "") {
+                        // 코드 테이블에 검색어가 존재하지 않고 코드 외 테이블에 검색어가 존재할 경우
+                        console.log("24 - 코드 테이블에 검색어가 존재하지 않고 코드 외 테이블에 검색어가 존재할 경우");
+                        console.log("24 - 1 - row 1: ", row1);
+
+                        res.send(row1);
+                      } else {
+                        // 코드 테이블과 코드 외 테이블 모두 존재하지 않는 경우
+                        console.log("25 - 코드 테이블과 코드 외 테이블 모두 존재하지 않는 경우");
+
+                        res.send("");
+                      }
+                    });
+
+                  }
+                });
+              }   
+            });
+          }
+
+          // 코드 테이블에 검색어가 존재하지 않는 경우 -> 코드외 테이블 조회
+          else{
+            // 코드 테이블 외 컬럼 중 검색어를 포함하고 있는지 확인
+            var forNonCodeTableQuery = "";
+
+            forNonCodeTableQuery = 'SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and (SROC_FILE_PATH_NM LIKE "%' + search.search_text +'%" or DOW_NM LIKE "%' + search.search_text +'%" or DATA_EXE_TIME  LIKE "%' + search.search_text +'%" or INPUT_VAL  LIKE "%' + search.search_text +'%" or TRT_STEP_NM  LIKE "%' + search.search_text +'%" or ATTEN_MTR_SBST  LIKE "%' + search.search_text +'%" or ATC_FILE_MANUAL_YN  LIKE "%' + search.search_text +'%" or ATC_FILE_UPLD_PATH_NM  LIKE "%' + search.search_text +'%" or OTPUT_SBST  LIKE "%' + search.search_text +'%" or ETC_SBST  LIKE "%' + search.search_text +'%" or EXE_SBST  LIKE "%' + search.search_text +'%" or NTCART_TITLE_NM  LIKE "%' + search.search_text +'%" or TKCGR_NM  LIKE "%' + search.search_text +'%" or RUSER_NM  LIKE "%' + search.search_text +'%" or DTL_DESC_SBST  LIKE "%' + search.search_text +'%" or WRKJOB_PRPS_NM   LIKE "%' + search.search_text +'%")';
+
+            // 코드 외 테이블에 검색어가 존재하는지 조회
+            connection.query(forNonCodeTableQuery, function(err,row1) {
+              console.log("26 - row1 : ", row1);
+              if (row1 != "") {
+                // 코드 테이블에 검색어가 존재하지 않고 코드 외 테이블에 검색어가 존재할 경우
+                res.send(row1);
+              } else {
+                // 둘 다 없는 경우
+                res.send("");
+              }
+            });
+          }
+        });
+      } // 전체 검색 end
     } else {
       console.log("코드 테이블에 포함되어 있는 경우");
       //팀(TDC)일 경우
