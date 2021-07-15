@@ -142,11 +142,6 @@
 
 
 export default {
-    props: [
-        'file_id',
-        'downloadsbtn',
-        'menudownloadsbtn'
-    ],
     methods:{
         getInfo : async function(){
                 // var id = this.file_id
@@ -214,38 +209,15 @@ export default {
             }
  
         },
-        downloadsbtn:function(){
-            console.log("???");
-            console.log(this.file_nm);
-            try{
-                let element = document.createElement('a');
-                element.setAttribute('href',`/api/download/${this.file_nm}`);
-                element.click();
-            } catch(err){
-                alert('해당파일이 없습니다.');
-            }
-        },
-        menudownloadsbtn:function(){
-            console.log("???");
-            console.log(this.menu_nm);
-            try{
-                let element = document.createElement('a');
-                element.setAttribute('href',`/api/download/menu/${this.menu_nm}`);
-                element.click();
-            } catch(err){
-                alert('해당파일이 없습니다.');
-            }
-        },
         sourcebtn:function(){
             this.$router.push({ 
                 name: 'source',
                 params: {id: this.file_id}})
         }
-
+        
     },
     data:function(){
         return {
-            file_seq:"",
             detailInfo:{}
         }
     },

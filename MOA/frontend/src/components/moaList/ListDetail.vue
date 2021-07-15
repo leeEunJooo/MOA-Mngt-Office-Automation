@@ -20,7 +20,6 @@
 </template>
 
 <script>
-// import ContentDatail from './ContentDetail.vue'
 
 export default {
     props : {
@@ -28,7 +27,6 @@ export default {
         detailInfo : {},
     },
     components:{
-        // ContentDatail, 
     },
 
     data:function(){
