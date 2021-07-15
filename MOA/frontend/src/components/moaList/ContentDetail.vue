@@ -21,8 +21,8 @@
                 <li>
                     <div class="sm_title">작동시기</div>
                     <div>
-                        <input v-model="detailInfo.CYCL_DATE_TYPE_CD" disabled>
-                        <input v-model="detailInfo.DATA_EXE_TIME" disabled>
+                        <input class="small_input" v-model="detailInfo.CYCL_DATE_TYPE_CD" disabled>
+                        <input class="small_input" v-model="detailInfo.DATA_EXE_TIME" disabled>
                     </div>
                 </li>
                 <li>

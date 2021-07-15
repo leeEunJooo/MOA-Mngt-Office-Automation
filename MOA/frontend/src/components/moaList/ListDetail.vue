@@ -212,5 +212,8 @@ export default {
     .list_detail input{
         width: 500px;
     }
+    .list_detail .small_input{
+        width:150px;
+    }
     
 </style>
