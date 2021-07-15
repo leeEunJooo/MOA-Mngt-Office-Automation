@@ -18,6 +18,7 @@
 
             <v-text-field
                 v-model="search_text"
+                v-on:keyup.enter="search"
                 class="search_box2"
                 label="1팀"
                 placeholder="1팀"
@@ -174,8 +175,6 @@ export default {
          
         window.open(routeData.href, "_blank","width=680, height=850, toolbar=no, menubar=no, scrollbars=no, resizable=no");
       },
-
-
       
       search: function(){
         this.moa_list = [];
