@@ -21,8 +21,8 @@
                 <li>
                     <div class="sm_title">작동시기</div>
                     <div>
-                        <input v-model="detailInfo.CYCL_DATE_TYPE_CD" disabled>
-                        <input v-model="detailInfo.DATA_EXE_TIME" disabled>
+                        <input class="small_input" v-model="detailInfo.CYCL_DATE_TYPE_CD" disabled>
+                        <input class="small_input" v-model="detailInfo.DATA_EXE_TIME" disabled>
                     </div>
                 </li>
                 <li>
@@ -139,7 +139,7 @@
 </template>
 
 <script>
-
+import EventBus from '../../EventBus';
 
 export default {
     methods:{
@@ -207,13 +207,36 @@ export default {
                 file_div.style.display="block";
                 this.file_nm = filename;
             }
+
+            EventBus.$emit("title",this.detailInfo.NTCART_TITLE_NM);
  
         },
         sourcebtn:function(){
             this.$router.push({ 
                 name: 'source',
                 params: {id: this.file_id}})
-        }
+        },downloadsbtn:function(){
+            console.log("???");
+            console.log(this.file_nm);
+            try{
+                let element = document.createElement('a');
+                element.setAttribute('href',`/api/download/${this.file_nm}`);
+                element.click();
+            } catch(err){
+                alert('해당파일이 없습니다.');
+            }
+        },
+        menudownloadsbtn:function(){
+            console.log("???");
+            console.log(this.menu_nm);
+            try{
+                let element = document.createElement('a');
+                element.setAttribute('href',`/api/download/menu/${this.menu_nm}`);
+                element.click();
+            } catch(err){
+                alert('해당파일이 없습니다.');
+            }
+        },
         
     },
     data:function(){
