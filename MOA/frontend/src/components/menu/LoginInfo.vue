@@ -36,7 +36,6 @@ export default {
 
         },
         loginchk(){
-          this.$router.go(this.$router.currentRouter);
           this.$router.push("/login");
           
         }
