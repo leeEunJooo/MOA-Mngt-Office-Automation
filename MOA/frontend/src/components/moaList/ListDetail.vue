@@ -209,5 +209,8 @@ export default {
         width: 21px;
         cursor:pointer;
     }
+    .list_detail input{
+        width: 500px;
+    }
     
 </style>
