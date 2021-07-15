@@ -1,5 +1,4 @@
 <template>
-    <!--부모-->
     <div>
         <div class="list_detail">
             <div class="post_title">
@@ -8,19 +7,33 @@
                 </div>
                 <input v-model="detailInfo.NTCART_TITLE_NM" class="title" disabled/>
             </div>
-            <Test></Test>
-            {{id}}
+            
+            <!-- <SourceView></SourceView> -->
+            <ContentDatail file_id="file_seq"></ContentDatail>
+
             <div>
+<<<<<<< HEAD
                 <Content :ContentDetail="ContentData"/>
                 <!-- <router-view></router-view> -->
                 <ContentDetail></ContentDetail>
+=======
+                <!-- <Content :ContentDetail="ContentData"/> -->
+>>>>>>> 80d28e717e418797f75a5932bca9d75f9c734d4e
             </div>
+
+
+        
+        
+        <div class="post_btn">
+            <v-btn v-on:click="cancel" class="close">닫기</v-btn>
+        </div>
 
         </div>
     </div>
 </template>
 
 <script>
+<<<<<<< HEAD
 
 
 import ContentDetail from '@/components/moaList/ContentDetail.vue'
@@ -28,20 +41,25 @@ import Test from '@/components/moaList/test.vue'
 
 // import ContentDetail from '../moaList/ContentDatail.vue'
 //import SourceView from '.@/components/moaList/SourceView.vue'
+=======
+import ContentDatail from './ContentDetail.vue'
+// import SourceView from './SourceView.vue'
+>>>>>>> 80d28e717e418797f75a5932bca9d75f9c734d4e
 
 export default {
-
     props : {
         Id : Number,
         detailInfo : {},
-        ContentDetail, 
-        file_seq : Number
-        //ContentDetail
     },
     components:{
+<<<<<<< HEAD
        //SourceView,
        ContentDetail,
        Test
+=======
+    //    SourceView,
+        ContentDatail, 
+>>>>>>> 80d28e717e418797f75a5932bca9d75f9c734d4e
     },
 
     data:function(){
@@ -57,11 +75,13 @@ export default {
             cd_nm:"",
             file_nm:"",
             menu_nm:"",
+            file_seq:"sd",
         }
         
     },
     methods:{
             getInfo : async function(){
+                this.file_seq = this.$route.params.id;
                 var id = this.$route.params.id
                 await this.$http.post(`/api/mlist/listDetail/${id}`)
                 .then(
