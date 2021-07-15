@@ -213,7 +213,28 @@ export default {
             this.$router.push({ 
                 name: 'source',
                 params: {id: this.file_id}})
-        }
+        },downloadsbtn:function(){
+            console.log("???");
+            console.log(this.file_nm);
+            try{
+                let element = document.createElement('a');
+                element.setAttribute('href',`/api/download/${this.file_nm}`);
+                element.click();
+            } catch(err){
+                alert('해당파일이 없습니다.');
+            }
+        },
+        menudownloadsbtn:function(){
+            console.log("???");
+            console.log(this.menu_nm);
+            try{
+                let element = document.createElement('a');
+                element.setAttribute('href',`/api/download/menu/${this.menu_nm}`);
+                element.click();
+            } catch(err){
+                alert('해당파일이 없습니다.');
+            }
+        },
         
     },
     data:function(){
