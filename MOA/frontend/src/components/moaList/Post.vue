@@ -296,7 +296,6 @@ methods:{
         console.log(this.detailInfo);
         //작동시기
         var checkArr = [
-            this.users.USER_NM,
             this.detailInfo.NTCART_TITLE_NM,
             this.detailInfo.CYCL_DATE_TYPE_CD,
             this.detailInfo.EXE_SBST,
@@ -307,33 +306,34 @@ methods:{
             this.detailInfo.TROBL_SVC_TYPE_CD,
             this.detailInfo.RUSER_NM,
             this.detailInfo.TRT_STEP_NM,
-            this.detailInfo.DATA_EXE_TIME,
             this.detailInfo.WRKJOB_PRPS_NM,
             this.detailInfo.ATC_FILE_MANUAL_Y,
             this.detailInfo.SROC_FILE_PATH_NM,
             ]
-            checkArr.forEach(val => {
-            if(val == ""){
-                return false;
+            //forEach문 안먹혀서 for문으로 적용
+            for(var val of checkArr){
+                if(val ==""){
+                    return false;
+                }
             }
-        });
         return true;
     },
     save: function(){
+        console.log(this.checkContent());
         if(!this.checkContent()){
             alert('필수 내용을 입력하지 않으셨습니다.');
             return;
         }
 
         //등록하면 유저에 UPLD_CASCNT값 증가(ok)
-        // this.$http.post("/api/musers/uploadUpdate",{
-        //     users:this.users
-        // })
-        // .then(
-        //     (res)=>{
-        //         console.log(res);
-        //     }
-        // )
+        this.$http.post("/api/musers/uploadUpdate",{
+            users:this.users
+        })
+        .then(
+            (res)=>{
+                console.log(res);
+            }
+        )
         let hour = document.getElementById('hour').value;
         let min = document.getElementById('min').value;
 
@@ -370,7 +370,7 @@ methods:{
                             console.log(response.data);
                         }
                     )
-                
+                // 메뉴얼 파일 업로드
                 if(this.detailInfo.ATC_FILE_UPLD_PATH_NM !=""){
                     fd.append('filepath', this.detailInfo.ATC_FILE_UPLD_PATH_NM);
                     fd.append('file_seq', this.file_seq);
@@ -390,19 +390,7 @@ methods:{
                 },1000);
             }
         )
-        // console.log("메뉴얼 파일",this.detailInfo.ATC_FILE_UPLD_PATH_NM);
-        //  if(this.detailInfo.ATC_FILE_UPLD_PATH_NM !=""){
-        //             fd.append('filepath', this.detailInfo.ATC_FILE_UPLD_PATH_NM);
-        //             fd.append('file_seq', this.file_seq);
-        //             this.$http.post("/api/upload/menu_upload",fd,{
-        //             headers:{'Content-Type': 'multipart/form-data'},
-        //             })
-        //             .then(
-        //                 (response)=>{
-        //                     console.log(response.data);
-        //                 }
-        //             )
-        //         }
+      
     },
 
     setCode : async function(iter, allCode, callback){
