@@ -12,18 +12,9 @@
             <ContentDatail file_id="file_seq"></ContentDatail>
 
             <div>
-<<<<<<< HEAD
-                <Content :ContentDetail="ContentData"/>
-                <!-- <router-view></router-view> -->
-                <ContentDetail></ContentDetail>
-=======
                 <!-- <Content :ContentDetail="ContentData"/> -->
->>>>>>> 80d28e717e418797f75a5932bca9d75f9c734d4e
             </div>
 
-
-        
-        
         <div class="post_btn">
             <v-btn v-on:click="cancel" class="close">닫기</v-btn>
         </div>
