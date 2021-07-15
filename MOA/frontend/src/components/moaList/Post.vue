@@ -386,6 +386,7 @@ methods:{
 
                 setTimeout(function(){
                     alert(res.data.message);
+                    opener.parent.location.reload();
                     window.close();
                 },1000);
             }
