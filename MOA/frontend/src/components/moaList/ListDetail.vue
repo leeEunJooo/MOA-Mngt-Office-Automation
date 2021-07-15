@@ -9,7 +9,7 @@
             </div>
             
             <!-- <SourceView></SourceView> -->
-            <ContentDatail file_id="file_seq"></ContentDatail>
+            <ContentDatail :file_id="file_seq"></ContentDatail>
 
             <div>
                 <!-- <Content :ContentDetail="ContentData"/> -->
@@ -24,18 +24,8 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-
-
-import ContentDetail from '@/components/moaList/ContentDetail.vue'
-import Test from '@/components/moaList/test.vue'
-
-// import ContentDetail from '../moaList/ContentDatail.vue'
-//import SourceView from '.@/components/moaList/SourceView.vue'
-=======
 import ContentDatail from './ContentDetail.vue'
 // import SourceView from './SourceView.vue'
->>>>>>> 80d28e717e418797f75a5932bca9d75f9c734d4e
 
 export default {
     props : {
@@ -43,14 +33,8 @@ export default {
         detailInfo : {},
     },
     components:{
-<<<<<<< HEAD
-       //SourceView,
-       ContentDetail,
-       Test
-=======
     //    SourceView,
         ContentDatail, 
->>>>>>> 80d28e717e418797f75a5932bca9d75f9c734d4e
     },
 
     data:function(){
