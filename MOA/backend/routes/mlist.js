@@ -168,7 +168,7 @@ var connection = conn.connection;
       console.log("코드 테이블에 포함되어 있지 않은 경우");
       //담당자(ETC1)
       if(search.search_select_code=="ETC1"){
-        connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where TKCGR_NM LIKE "%'+search.search_text +'%"', function (err, rows) {
+        connection.query('SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and TKCGR_NM LIKE "%'+search.search_text +'%"', function (err, rows) {
           if (err) res.send("");
           console.log(rows);
           if(rows!=""){
@@ -181,7 +181,7 @@ var connection = conn.connection;
 
       //자동화 명칭(ETC2)
       if(search.search_select_code=="ETC2"){
-        connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where NTCART_TITLE_NM LIKE "%'+search.search_text +'%"', function (err, rows) {
+        connection.query('SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and NTCART_TITLE_NM LIKE "%'+search.search_text +'%"', function (err, rows) {
           if (err) res.send("");
           console.log(rows);
           if(rows!=""){
@@ -229,7 +229,7 @@ var connection = conn.connection;
                 console.log(value);
 
                 //조회한 사용자 일련번호로 자동화 목록리스트 조회
-                connection.query('SELECT NTCART_TITLE_NM, TKCGR_NM, FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE m.CUST_IDFY_SEQ in (' + value + ')',function(err,row3){
+                connection.query('SELECT  DISTINCT(m.FILE_SEQ), NTCART_TITLE_NM, TKCGR_NM, FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE LAST_HST_YN = "Y" and m.CUST_IDFY_SEQ in (' + value + ')',function(err,row3){
                   if(err) throw err;
 
                   console.log("자동화목록 조회");
@@ -507,7 +507,7 @@ var connection = conn.connection;
                 }
                 console.log(value);
                   //조회한 사용자 일련번호로 자동화 목록리스트 조회
-                  connection.query('SELECT NTCART_TITLE_NM, TKCGR_NM, FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE m.CUST_IDFY_SEQ in ('+ value+')',function(err,row3){
+                  connection.query('SELECT DISTINCT(m.FILE_SEQ),  NTCART_TITLE_NM, TKCGR_NM, FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE LAST_HST_YN = "Y" and m.CUST_IDFY_SEQ in ('+ value+')',function(err,row3){
                     if(err) throw err;
                     console.log("자동화목록 조회");
                     console.log(row3);
@@ -539,7 +539,7 @@ var connection = conn.connection;
                 value+=",";
               }
               console.log(value);
-              connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE LANG_CD in ('+value+')', function (err, rows) {
+              connection.query('SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE LAST_HST_YN = "Y" and LANG_CD in ('+value+')', function (err, rows) {
                 if (err) throw err;
                 console.log(rows);
                 res.send(rows);
@@ -566,7 +566,7 @@ var connection = conn.connection;
                 value+=",";
               }
               console.log(value);
-                connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE SYS_DIV_CD in ('+value+')', function (err, rows) {
+                connection.query('SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE LAST_HST_YN = "Y" and SYS_DIV_CD in ('+value+')', function (err, rows) {
                   if (err) res.send("");
                   console.log(rows);
                   res.send(rows);
@@ -590,7 +590,7 @@ var connection = conn.connection;
                 value+=",";
               }
               console.log(value);
-              connection.query('SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE CYCL_DATE_TYPE_CD in ('+value+')', function (err, rows) {
+              connection.query('SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE LAST_HST_YN = "Y" and CYCL_DATE_TYPE_CD in ('+value+')', function (err, rows) {
                 if (err) throw err;
                 console.log(rows);
                 res.send(rows);

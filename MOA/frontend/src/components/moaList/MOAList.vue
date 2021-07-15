@@ -88,7 +88,7 @@
             >
               <v-img src="../../assets/img/arrow_ic.png" class="arrow_ic"></v-img>
             </div>
-        </template> -->
+        </template> 
         </v-data-table>
 
        
@@ -168,6 +168,7 @@ export default {
     methods: {
       
       handleClick: function(items) {
+        console.log(items);
         let routeData = this.$router.resolve({
           name: 'listdetail',
           params: {id: items.FILE_SEQ}
