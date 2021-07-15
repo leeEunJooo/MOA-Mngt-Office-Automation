@@ -176,10 +176,6 @@ export default {
       },
       
       search: function(){
-        this.moa_list = [];
-        this.moa_list2 = [];
-        this.forCheck_list = [];
-
         // if(this.search_select == "대상시스템") this.search_select = "S01";
         console.log("!!!!!!!!!!!!!!!!!!!!!", this.search_select);
         console.log("@@@@@@@@@@@@@@@@@@@@@", this.search_text);
@@ -189,16 +185,16 @@ export default {
         })
         .then(
           (response)=>{
-
-
             if (Object.keys(response.data).includes('row1') && Object.keys(response.data).includes('row2')) {
+              this.moa_list = [];
+              this.moa_list2 = [];
+              this.forCheck_list = [];
+
               if (response.data.row1.length == 0 && response.data.row2.length == 0) {
                 alert("검색한 단어는 존재하지 않습니다.");
-                this.moa_list = [];
               } else {
                 console.log("처음 moa_list : ", this.moa_list);
                 console.log("처음 moa_list length : ", this.moa_list.length);
-                this.moa_list = [];
                 console.log("둘 다 포함");
                 console.log("response.data.data1 : ", response.data.row1);
                 console.log("response.data.data2 : ", response.data.row2);
@@ -327,41 +323,99 @@ export default {
             } else {
               if (response.data.length == 0) {
                 alert("검색한 단어는 존재하지 않습니다.");
-                this.moa_list=[];
               } else {
                 console.log("코드성 제외");
                 console.log(response);
                 console.log("response.data : ", response.data);
                 console.log("response.data 길이~!~! : ", response.data.length);
-                console.log("response.data row1[0]~!~! : ", response.data.row1);
+                // console.log("response.data row1[0]~!~! : ", response.data.row1);
                 // console.log("response.data row1[0]~!~! : ", response.data.row1[0]);
                 // console.log("response.data row1[1]~!~! : ", response.data.row1[1]);
-                this.moa_list = response.data;
-                console.log("moa_list : ", this.moa_list2.length);
+                // this.moa_list = response.data;
+                // console.log("moa_list : ", this.moa_list2.length);
+                this.moa_list = [];
+                this.moa_list2 = [];
+                this.forCheck_list = [];
 
-                if (response.data.length > 1) {
-                  console.log("response.data row1[0]~!~! : ", response.data[0]);
-                  console.log("response.data row1[1]~!~! : ", response.data[1]);
-
-                  this.moa_list = [];
-                  this.moa_list.push(response.data[0]);
-                  this.moa_list2 = response.data;
-
-                  // for(let i = 0; i < response.data.length; i++) {
-                  //   // this.moa_list.push(response.data.row1[i]);
-                  //   this.moa_list2.push(response.data[i]);
-                  // }
-
-                  console.log("moa_list21~!~! : ", this.moa_list2);
-
-                  for (let i = 1; i < this.moa_list2.length; i++) {
-                      if ((this.moa_list2[i].NTCART_TITLE_NM == this.moa_list[i - 1].NTCART_TITLE_NM) && (this.moa_list2[i].TKCGR_NM == this.moa_list[i - 1].TKCGR_NM)) {
-                        continue;
-                      } else if ((this.moa_list2[i].NTCART_TITLE_NM != this.moa_list[i - 1].NTCART_TITLE_NM) || (this.moa_list2[i].TKCGR_NM != this.moa_list[i - 1].TKCGR_NM)) {
-                        this.moa_list.push(this.moa_list2[i]);
-                      }
-                  }
+                for(let i = 0; i < response.data.length; i++) {
+                  // this.beforeChk_moa_list.push(response.data.row1[i]);
+                  this.moa_list2.push(response.data[i]);
                 }
+
+                for(let i = 0; i < response.data.length; i++) {
+                  this.forCheck_list.push(response.data[i]);
+                }
+
+                console.log("row1만 추가된 moa_list : ", this.moa_list2);
+                console.log("row1 추가된 moa_list length : ", this.moa_list2.length);
+
+                console.log("forCheck_list : ", this.forCheck_list);
+
+                var merged2 = this.moa_list2.concat(this.forCheck_list);
+
+                // 교집합 찾기
+                var intersection2 = this.forCheck_list.filter(x=>{
+                  return this.moa_list2.some(y=>{
+                    return ((x.NTCART_TITLE_NM == y.NTCART_TITLE_NM) && (x.TKCGR_NM == y.TKCGR_NM));
+                  })
+                })
+
+                console.log("intersection2 : ", intersection2);
+
+                // 교집합 제외하고 나머지 찾기
+                var firstComplement2 = merged2.filter(x=>{
+                  return !this.moa_list2.some(y=>{
+                    return ((x.NTCART_TITLE_NM == y.NTCART_TITLE_NM) && (x.TKCGR_NM == y.TKCGR_NM));
+                  }) && this.forCheck_list.some(z=>{
+                    return ((x.NTCART_TITLE_NM == z.NTCART_TITLE_NM) && (x.TKCGR_NM == z.TKCGR_NM));
+                  })
+                })
+                console.log("firstComplement2 : ", firstComplement2);
+
+                var secondComplement2 = merged2.filter(x=>{
+                  return !this.forCheck_list.some(y=>{
+                    return ((x.NTCART_TITLE_NM == y.NTCART_TITLE_NM) && (x.TKCGR_NM == y.TKCGR_NM));
+                  }) && this.moa_list2.some(z=>{
+                    return ((x.NTCART_TITLE_NM == z.NTCART_TITLE_NM) && (x.TKCGR_NM == z.TKCGR_NM));
+                  })
+                })
+                console.log("secondComplement2 : ", secondComplement2);
+
+                for (let i = 0; i < intersection2.length; i++) {
+                  this.moa_list.push(intersection2[i]);
+                }
+
+                for (let i = 0; i < firstComplement2.length; i++) {
+                  this.moa_list.push(firstComplement2[i]);
+                }
+                
+                for (let i = 0; i < secondComplement2.length; i++) {
+                  this.moa_list.push(secondComplement2[i]);
+                }
+
+                // if (response.data.length > 1) {
+                //   console.log("response.data row1[0]~!~! : ", response.data[0]);
+                //   console.log("response.data row1[1]~!~! : ", response.data[1]);
+
+                //   this.moa_list = [];
+                //   this.moa_list.push(response.data[0]);
+                //   this.moa_list2 = response.data;
+
+                //   // for(let i = 0; i < response.data.length; i++) {
+                //   //   // this.moa_list.push(response.data.row1[i]);
+                //   //   this.moa_list2.push(response.data[i]);
+                //   // }
+
+                //   console.log("moa_list21~!~! : ", this.moa_list2);
+
+                //   // for (let i = 1; i < this.moa_list2.length; i++) {
+                //   //     if ((this.moa_list2[i].NTCART_TITLE_NM == this.moa_list[i - 1].NTCART_TITLE_NM) && (this.moa_list2[i].TKCGR_NM == this.moa_list[i - 1].TKCGR_NM)) {
+                //   //       continue;
+                //   //     } else if ((this.moa_list2[i].NTCART_TITLE_NM != this.moa_list[i - 1].NTCART_TITLE_NM) || (this.moa_list2[i].TKCGR_NM != this.moa_list[i - 1].TKCGR_NM)) {
+                //   //       this.moa_list.push(this.moa_list2[i]);
+                //   //     }
+                //   // }
+                // }
 
                 for(let i = 0; i < this.moa_list.length; i++) {
                 this.moa_list[i].FIRST_REG_DATE = dayjs(this.moa_list[i].FIRST_REG_DATE).format('YYYY-MM-DD');
