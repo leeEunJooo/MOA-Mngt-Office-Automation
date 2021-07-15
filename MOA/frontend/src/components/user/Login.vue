@@ -13,6 +13,7 @@
           ></v-text-field>
 
             <v-text-field
+            v-on:keyup.enter="login"
             label="비밀번호를 입력해주세요"
             placeholder="비밀번호를 입력해주세요"
             required

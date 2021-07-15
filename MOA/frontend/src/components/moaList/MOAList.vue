@@ -54,6 +54,7 @@
             @click="show_alert_and_fade">
               <v-icon
               color="white"
+              v-on:click="close"
               >mdi-close</v-icon>
             </v-btn>
           </div>
@@ -315,15 +316,14 @@ export default {
       //item.EXE_DATE update
       event.stopPropagation();
       this.show_alert_and_fade();
-      console.log(item.FILE_SEQ);
+      console.log("file_seq", item.FILE_SEQ);
 
-      let curtime = new Date(); 
-      item.EXE_DATE = curtime;
+      // let curtime = new Date(); 
+      // item.EXE_DATE = curtime;
       //수행시간은 sysdate로 수정
       this.$http.post('/api/mlist/update_exe_date',{
         FILE_SEQ:item.FILE_SEQ,
         USER : this.user,
-        TIME : curtime
       })
       .then(
         (res) =>{
@@ -339,6 +339,9 @@ export default {
     show_alert_and_fade: function(){
       this.alert = true; 
       console.log(this.alert);
+    },
+    close:function(){
+        this.$router.go();
     }
     },
       

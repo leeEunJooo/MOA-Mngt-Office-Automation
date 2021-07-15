@@ -8,6 +8,64 @@ drop table tbl_moa_hst;
 drop table tbl_moa_bas;
 drop table tbl_moa_user_bas;
 
+
+
+
+
+
+
+
+
+
+
+
+SELECT DISTINCT m.FILE_SEQ, m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where SROC_FILE_PATH_NM LIKE "%a%";
+
+               --      + 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where DOW_NM LIKE "%' + search.search_text +'%";'
+--                     + 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where DATA_EXE_TIME LIKE "%' + search.search_text +'%";'
+--                     + 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where INPUT_VAL LIKE "%' + search.search_text +'%";'
+--                     + 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where TRT_STEP_NM LIKE "%' + search.search_text +'%";'
+--                     + 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where ATTEN_MTR_SBST LIKE "%' + search.search_text +'%";'
+--                     + 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where ATC_FILE_MANUAL_YN LIKE "%' + search.search_text +'%";'
+--                     + 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where ATC_FILE_UPLD_PATH_NM LIKE "%' + search.search_text +'%";'
+--                     + 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where OTPUT_SBST LIKE "%' + search.search_text +'%";'
+--                     + 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where ETC_SBST LIKE "%' + search.search_text +'%";'
+--                     + 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where EXE_SBST LIKE "%' + search.search_text +'%";'
+--                     + 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where NTCART_TITLE_NM LIKE "%' + search.search_text +'%";'
+--                     + 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where TKCGR_NM LIKE "%' + search.search_text +'%";'
+--                     + 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where RUSER_NM LIKE "%' + search.search_text +'%";'
+--                     + 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where DTL_DESC_SBST LIKE "%' + search.search_text +'%";'
+--                     + 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where WRKJOB_PRPS_NM LIKE "%' + search.search_text +'%";'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 -- 사용자 테이블 생성
 CREATE TABLE TBL_MOA_USER_BAS(
 CUST_IDFY_SEQ int NOT NULL auto_increment PRIMARY KEY,
@@ -26,7 +84,7 @@ update tbl_moa_user_bas set UPLD_CASCNT = 2 where CUST_IDFY_SEQ =4;
 update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ =6; 
 update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ =7; 
 -- select * from tbl_moa_user_bas;
--- select * from tbl_moa_bas;
+select * from tbl_moa_bas;
 
 -- 외래키 참조해제
 -- set foreign_key_checks=0;
