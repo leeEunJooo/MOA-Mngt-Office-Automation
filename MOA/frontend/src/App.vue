@@ -14,6 +14,11 @@ export default {
   components: {
     // DrawerNav,
   },
+  methods:{
+
+  },
+  created(){
+  },
 
 }
 </script>

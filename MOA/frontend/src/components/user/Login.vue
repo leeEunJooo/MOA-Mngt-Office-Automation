@@ -13,6 +13,7 @@
           ></v-text-field>
 
             <v-text-field
+            v-on:keyup.enter="login"
             label="비밀번호를 입력해주세요"
             placeholder="비밀번호를 입력해주세요"
             required
@@ -27,7 +28,7 @@
             <div class="login_save_box">
                 <v-checkbox
                   v-model="login_st"
-                  :label="`로그인 상태 유지 ${login_st.toString()}`"
+                  :label="`로그인 상태 유지`"
                   color="indigo"
                 ></v-checkbox>
             </div>
@@ -67,7 +68,7 @@
         user_id: "",
         password: "",
       },
-      login_st:false,
+      login_st:true,
     }
     },
 
@@ -102,20 +103,14 @@
           alert(err);
         });
     },
-    reserve () {
-        this.loading = true
-        setTimeout(() => (this.loading = false), 2000)
-      },
     },
     mounted(){
       var login_save_box = document.querySelector('.reset_pw_box');
       console.log(login_save_box.firstChild.classList.value);
       login_save_box.firstChild.classList.remove('text-center')
-       
-        // ('text-center')
-        // console.log( login_save_box.classList.remove('text-center'));
+      this.$store.commit('init');
+      localStorage.clear();
     },
-
     components:{
       ResetPW
     },

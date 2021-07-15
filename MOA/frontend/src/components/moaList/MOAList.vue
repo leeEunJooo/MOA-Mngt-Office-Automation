@@ -18,6 +18,7 @@
 
             <v-text-field
                 v-model="search_text"
+                v-on:keyup.enter="search"
                 class="search_box2"
                 label="1팀"
                 placeholder="1팀"
@@ -229,8 +230,6 @@ export default {
                   })
                 })
 
-                console.log("intersection : ", intersection);
-
                 // 교집합 제외하고 나머지 찾기
                 var firstComplement = merged.filter(x=>{
                   return !this.moa_list2.some(y=>{
@@ -261,58 +260,6 @@ export default {
                 for (let i = 0; i < secondComplement.length; i++) {
                   this.moa_list.push(secondComplement[i]);
                 }
-
-                // let dupYn = false;
-                // if (this.moa_list2.length >= this.forCheck_list.length) {
-                //   for (let i = 0; i < this.forCheck_list.length; i++) {
-                //     const curNtcartTitleNm = this.forCheck_list[i].NTCART_TITLE_NM;
-                //     const curTkcgrNm = this.forCheck_list[i].TKCGR_NM;
-
-                //     for (let j = 0; j < this.moa_list2.length; j++) {
-                //       if ((curNtcartTitleNm === this.moa_list2[j].NTCART_TITLE_NM) && (curTkcgrNm === this.moa_list2[j].TKCGR_NM)) {
-                //         dupYn = true;
-                //         break;
-                //       } else {
-                //         this.moa_list.push(this.moa_list2[j]);
-                //       }
-                //     }
-
-                //     this.moa_list.push(this.forCheck_list[i]);
-
-                //     if (dupYn) {
-                //       break;
-                //     }
-                //   }
-                // } else {
-                //   for (let i = 0; i < this.moa_list2.length; i++) {
-                //     console.log("i : ", i);
-                //     const curNtcartTitleNm = this.moa_list2[i].NTCART_TITLE_NM;
-                //     const curTkcgrNm = this.moa_list2[i].TKCGR_NM;
-
-                //     for (let j = 0; j < this.forCheck_list.length; j++) {
-                //       console.log("j : ", j);
-                //       if ((curNtcartTitleNm === this.forCheck_list[j].NTCART_TITLE_NM) && (curTkcgrNm === this.forCheck_list[j].TKCGR_NM)) {
-                //         console.log("if안 i : ", i);
-                //         console.log("if안 j : ", j);
-                //         this.moa_list.push(this.forCheck_list[j]);
-                //         dupYn = true;
-                //         continue;                        
-                //       } else {
-                //         console.log("ㅎㅎㅎ");
-                //         this.moa_list.push(this.forCheck_list[j]);
-                //       }
-                //     }
-
-                //     if (dupYn) {
-                //       break;
-                //     }
-                //   }
-                // }
-
-                console.log("row2도 추가된 moa_list : ", this.moa_list);
-                // console.log("moa_list2 : ", this.moa_list2);
-                // console.log("this.forCheck_list : ", this.forCheck_list);
-
                 for(let i = 0; i < this.moa_list.length; i++) {
                   this.moa_list[i].FIRST_REG_DATE = dayjs(this.moa_list[i].FIRST_REG_DATE).format('YYYY-MM-DD');
                   if(this.moa_list[i].EXE_DATE != '0000-00-00 00:00:00'){
@@ -439,14 +386,21 @@ export default {
       //item.EXE_DATE update
       event.stopPropagation();
       this.show_alert_and_fade();
+      console.log("file_seq", item.FILE_SEQ);
+
+      // let curtime = new Date(); 
+      // item.EXE_DATE = curtime;
       //수행시간은 sysdate로 수정
       this.$http.post('/api/mlist/update_exe_date',{
         FILE_SEQ:item.FILE_SEQ,
         USER : this.user,
+        //TIME : curtime
       })
       .then(
         (res) =>{
           console.log(res);
+          item.EXE_DATE =dayjs(res.data[0].EXE_DATE).format('YYYY-MM-DD HH:mm:ss');
+           
         }
       )
       
@@ -454,11 +408,13 @@ export default {
     dismissible_close () {
       event.stopPropagation();
       this.alert = false;
+      // window.location.reload();
+      
     },
     show_alert_and_fade: function(){
       this.alert = true; 
       console.log(this.alert);
-    }
+    },
     },
       
   }
@@ -474,7 +430,7 @@ export default {
   height: fit-content;
 }
 .moalist .title-section{
-    width:100%;
+    width:100%; 
     height:fit-content !important;
     font-family: GmarketSansBold !important;
     font-size: 27px !important;

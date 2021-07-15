@@ -31,30 +31,37 @@ router.post('/signUp', function (req, res) {
   //   'emp_pos_div_cd' : req.boby.team_div_cd.idx2
   // }
   // console.log(team_div_cd);
-  connection.query('SELECT user_id FROM TBL_MOA_USER_BAS WHERE user_id = "' + user.user_id + '"', function (err, row) {
-    console.log(res);
-    if (row[0] == undefined){ //  동일한 아이디가 없을경우,
-      const salt = bcrypt.genSaltSync();
-      const encryptedPassword = bcrypt.hashSync(user.user_pwd, salt);
-      connection.query('INSERT INTO TBL_MOA_USER_BAS (user_id, user_pwd, user_tel_no, user_nm, upld_cascnt, team_div_cd, emp_pos_div_cd ) VALUES ("' + user.user_id + '","' + encryptedPassword + '", "' + user.user_tel_no + '", "' + user.user_nm + '","' + 0 + '","' + user.team_div_cd + '","' + user.emp_pos_div_cd + '")', user, function (err, row2) {
-        if (err) throw err;
-      });
-      req.session.user.user_id=user.user_id;
-      req.session.user.user_nm=user.user_nm;
-      req.session.save();
-      res.json({
-        success: true,
-        message: '회원가입이 완료되었습니다.',
-        token: req.session,
-      })
-    }
-    else {
-      res.json({
-        success: false,
-        message: '이미 있는 아이디입니다. 다른 아이디를 입력해주세요.'
-      })
-    }
-  });
+  if(user.user_tel_no==""||user.user_nm==""||user.user_id=="" ||user.user_pwd==""||user.team_div_cd==""){
+    res.json({
+      success: false,
+      message: '필수값을 입력해주세요.',
+    })
+  }else{
+    connection.query('SELECT user_id FROM TBL_MOA_USER_BAS WHERE user_id = "' + user.user_id + '"', function (err, row) {
+      console.log(res);
+      if (row[0] == undefined){ //  동일한 아이디가 없을경우,
+        const salt = bcrypt.genSaltSync();
+        const encryptedPassword = bcrypt.hashSync(user.user_pwd, salt);
+        connection.query('INSERT INTO TBL_MOA_USER_BAS (user_id, user_pwd, user_tel_no, user_nm, upld_cascnt, team_div_cd, emp_pos_div_cd ) VALUES ("' + user.user_id + '","' + encryptedPassword + '", "' + user.user_tel_no + '", "' + user.user_nm + '","' + 0 + '","' + user.team_div_cd + '","' + user.emp_pos_div_cd + '")', user, function (err, row2) {
+          if (err) throw err;
+        });
+        req.session.user.user_id=user.user_id;
+        req.session.user.user_nm=user.user_nm;
+        req.session.save();
+        res.json({
+          success: true,
+          message: '회원가입이 완료되었습니다.',
+          token: req.session,
+        })
+      }
+      else {
+        res.json({
+          success: false,
+          message: '이미 있는 아이디입니다. 다른 아이디를 입력해주세요.'
+        })
+      }
+    });
+  }
 });
 
 router.post('/login', function (req, res) {

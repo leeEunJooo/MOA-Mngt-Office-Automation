@@ -52,7 +52,6 @@ const routes = [
       },
     ]
   },
-
   {
     path: '/moalist/:id',
     name: 'listdetail',
@@ -87,7 +86,6 @@ const router = new VueRouter({
 // from : 현재 url 정보가 담긴 라우터 객체
 // next : to에서 저장한 URL로 이동하기 위해 반드시 호출해야하는 함수.
 router.beforeEach((to, from, next) => {
-   // 여기서 무엇을 해야 할까? 
   const loggedIn = JSON.parse(localStorage.getItem('token'))==null? false : true;
   console.log(to);
   console.log(from.path);
@@ -101,8 +99,9 @@ router.beforeEach((to, from, next) => {
       if (loggedIn) {
         console.log('loggedin');
         next();
+        return;
       }
-
+      next('/');
   }
   else{
     console.log('NoauthRequired');
@@ -117,6 +116,5 @@ router.beforeEach((to, from, next) => {
       
     }
   })
-
 // 설정한 VueRouter를 내보낸다.
 export default router

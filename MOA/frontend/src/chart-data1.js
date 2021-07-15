@@ -2,7 +2,7 @@
 export const barChartData1 = {
   type: "bar",
     data: {
-      labels: ['1담당','2담당','3담당'],
+      labels: ['고객담당','빌링담당','CRM담당'],
       datasets: [
         {
           label: "담당별 자동화 건수",
