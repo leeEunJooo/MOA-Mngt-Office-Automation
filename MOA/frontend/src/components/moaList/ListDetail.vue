@@ -5,11 +5,11 @@
                 <div class="ic_circle">
                     <img src="../../assets/img/folder.png" class="folder_ic"/>
                 </div>
-                <input v-model="detailInfo.NTCART_TITLE_NM" class="title" disabled/>
+                <input class="title" disabled/>
             </div>
             
             <!-- <SourceView></SourceView> -->
-            <ContentDatail :file_id="file_seq"></ContentDatail>
+            <ContentDatail :file_id=file_seq :downloadsbtn=this.downloadsbtn :menudownloadsbtn=this.menudownloadsbtn></ContentDatail>
 
             <div>
                 <!-- <Content :ContentDetail="ContentData"/> -->
@@ -55,103 +55,14 @@ export default {
         
     },
     methods:{
-            getInfo : async function(){
-                this.file_seq = this.$route.params.id;
-                var id = this.$route.params.id
-                await this.$http.post(`/api/mlist/listDetail/${id}`)
-                .then(
-                (res)=>{
-                    this.detailInfo = res.data[0];
-                    //ATC_FILE_UPLD_PATH_NM SROC_FILE_PATH_NM
-                    //파일 존재 여부 체크
-                    console.log(this.detailInfo);
-                    //코드성 변경
-                    for(let i=0; i<Object.keys(this.detailInfo).length; i++){
-                        if(Object.keys(this.detailInfo)[i].includes("_CD")){
-                            this.cd_nm = Object.values(this.detailInfo)[i];
-                            this.$http.post(`/api/mlist/codeselect/${Object.values(this.detailInfo)[i]}`)
-                            .then(
-                                (response)=>{
-                                    this.detailInfo[Object.keys(this.detailInfo)[i]] = response.data[0].CD_NM;
-                                }
-                            )   
-                        }
-                    }
- 
-            });
-
-            const mannual_f = this.detailInfo.ATC_FILE_MANUAL_YN;
-            if(mannual_f=="N"){
-                document.querySelector('#mannual_file_list').parentNode.style.display="none";
-            }
-            else{
-                const moa_file_path = this.detailInfo.ATC_FILE_UPLD_PATH_NM;
-                const spltArr_type = moa_file_path.split('.');
-                const splthArr_name = moa_file_path.split('\\');
-
-                let filetype = spltArr_type[spltArr_type.length-1];
-                let filename = splthArr_name[splthArr_name.length-1];
-               
-                const file_div = document.querySelector('#mannual_file_list');
-                const fileType = file_div.querySelector('#fileType');
-                const fileContent = file_div.querySelector('#fileContent');
-                
-                fileType.innerHTML = filetype;
-                fileContent.innerHTML = filename;
-                file_div.style.display="block";
-                this.menu_nm = filename;
-                
-            }
-            const moa_file_path = this.detailInfo.SROC_FILE_PATH_NM;
-            if(moa_file_path!=''){
-                const spltArr_type = moa_file_path.split('.');
-                const splthArr_name = moa_file_path.split('\\');
-
-                let filetype = spltArr_type[spltArr_type.length-1];
-                let filename = splthArr_name[splthArr_name.length-1];
-
-                const file_div = document.querySelector('#auto_file_list');
-                const fileType = file_div.querySelector('#fileType');
-                const fileContent = file_div.querySelector('#fileContent');
-                
-                fileType.innerHTML = filetype;
-                fileContent.innerHTML = filename;
-                file_div.style.display="block";
-                this.file_nm = filename;
-            }
- 
-        },
-
-        downloadsbtn:function(){
-            console.log("???");
-            console.log(this.file_nm);
-            try{
-                let element = document.createElement('a');
-                element.setAttribute('href',`/api/download/${this.file_nm}`);
-                element.click();
-            } catch(err){
-                alert('해당파일이 없습니다.');
-            }
-        },
-
-        menudownloadsbtn:function(){
-            console.log("???");
-            console.log(this.menu_nm);
-            try{
-                let element = document.createElement('a');
-                element.setAttribute('href',`/api/download/menu/${this.menu_nm}`);
-                element.click();
-            } catch(err){
-                alert('해당파일이 없습니다.');
-            }
-        },
-
+            
         cancel:function(){
             window.close();
         }
     },
     created() {
-        this.getInfo();
+        this.file_seq = this.$route.params.id;
+        
     },
     mounted(){
     }
