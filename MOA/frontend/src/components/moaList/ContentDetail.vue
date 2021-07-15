@@ -2,6 +2,9 @@
     <!-- 자식 -->
 
     <div>
+
+         {{$props.ContentDetail}}
+
         <div class="post_contents">
             <ul>
                 <li>
@@ -149,16 +152,14 @@
 
 
 export default {
-    // props: ['ContentDetail'],
-    // name: 'Content',
-    // mounted () {
-    //     console.log(this.$props.ContentDetail)
-    // }
+    props: ['ContentDetail'],
+    name: 'Content',
+    mounted () {
+        console.log(this.$props.ContentDetail)
+    },
     created() {
         this.getInfo();
     },
-    mounted(){
-    }
  
 }
 </script>

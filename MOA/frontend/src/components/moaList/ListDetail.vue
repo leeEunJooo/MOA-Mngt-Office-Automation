@@ -11,7 +11,7 @@
             <Test></Test>
             {{id}}
             <div>
-                <!-- <Content :ContentDetail="ContentData"/> -->
+                <Content :ContentDetail="ContentData"/>
                 <!-- <router-view></router-view> -->
                 <ContentDetail></ContentDetail>
             </div>
@@ -27,7 +27,7 @@ import ContentDetail from '@/components/moaList/ContentDetail.vue'
 import Test from '@/components/moaList/test.vue'
 
 // import ContentDetail from '../moaList/ContentDatail.vue'
-import SourceView from './SourceView.vue'
+//import SourceView from '.@/components/moaList/SourceView.vue'
 
 export default {
 
@@ -39,10 +39,11 @@ export default {
         //ContentDetail
     },
     components:{
-       SourceView,
+       //SourceView,
        ContentDetail,
-    Test
+       Test
     },
+
     data:function(){
         return {
             team_div_cd: [
