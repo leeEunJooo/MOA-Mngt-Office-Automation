@@ -5,7 +5,7 @@
                 <div class="ic_circle">
                     <img src="../../assets/img/folder.png" class="folder_ic"/>
                 </div>
-                <input class="title" disabled/>
+                <input class="title" v-model="title" disabled/>
             </div>
             <router-view></router-view>
             <div>
@@ -20,17 +20,20 @@
 </template>
 
 <script>
+import EventBus from '../../EventBus';
 
 export default {
     props : {
         Id : Number,
         detailInfo : {},
+        
     },
     components:{
     },
 
     data:function(){
         return {
+            title:"",
             team_div_cd: [
                 {name: "1팀",idx: "T01", idx2:"D01"},
                 {name: "2팀",idx: "T02", idx2:"D01"},
@@ -53,7 +56,9 @@ export default {
     },
     created() {
         this.file_seq = this.$route.params.id;
-        
+        EventBus.$on('title', (payload)=>{
+            this.title = payload;
+        });    
     },
     mounted(){
     }

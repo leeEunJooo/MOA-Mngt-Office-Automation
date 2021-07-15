@@ -139,7 +139,7 @@
 </template>
 
 <script>
-
+import EventBus from '../../EventBus';
 
 export default {
     methods:{
@@ -207,6 +207,8 @@ export default {
                 file_div.style.display="block";
                 this.file_nm = filename;
             }
+
+            EventBus.$emit("title",this.detailInfo.NTCART_TITLE_NM);
  
         },
         sourcebtn:function(){
