@@ -79,7 +79,7 @@ router.get('/menu/:file_name', function(req, res, next) {
     //파일읽기(동기식IO메소드)
     if(fs.existsSync(file)){
       var data = fs.readFileSync(file,'utf8');
-      console.log(data);
+      // console.log(data);
       if(data == ""){
         res.send("파일이 존재하지 않습니다.");
       }else{
