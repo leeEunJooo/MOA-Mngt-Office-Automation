@@ -79,12 +79,16 @@ router.get('/menu/:file_name', function(req, res, next) {
     //파일 경로 지정
     var file = upload_folder + req.params.file_name; // ex) /upload/files/sample.txt
     //파일읽기(동기식IO메소드)
-    var data = fs.readFileSync(file,'utf8');
-    // console.log(data);
-    if(data == ""){
-      res.send("파일이 없습니다.");
+    if(fs.existsSync(file)){
+      var data = fs.readFileSync(file,'utf8');
+      console.log(data);
+      if(data == ""){
+        res.send("파일이 존재하지 않습니다.");
+      }else{
+        res.send(data);
+      }
     }else{
-      res.send(data);
+      res.send("파일이 존재하지 않습니다.");
     }
   });
 module.exports = router;
