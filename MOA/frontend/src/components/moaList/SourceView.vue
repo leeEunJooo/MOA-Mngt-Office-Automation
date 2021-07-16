@@ -1,35 +1,32 @@
 <template>
-  <div class="code">
-    <br>
-    <v-row>
-      <button @click="Back" type="button">
-        <v-img src="../../assets/img/back_ic2.png" class="back_ic"></v-img>
-      </button>
-      <button @click="Refresh" type="button">
-        <!-- <v-img src="../../assets/img/refresh_ic2.png" class="refresh_ic"></v-img> -->
-      </button>
+  <div class="source">
+    <div class="post_title">
+          <div class="ic_circle" @click="Back">
+              <v-img src="../../assets/img/back_ic.png" class="back_ic"></v-img>
+          </div>
+          <input class="title source-title" v-model="title" disabled/>
+    </div>
 
-    </v-row>
-    <br>
-    <br>
-      <codemirror class="codemirror" v-model="code" :options="cmOptions" />
-  </div>
+    <div class="code">
+        <codemirror
+          ref="editor"
+          class="codemirror" 
+          v-model="code" 
+          :options="cmOptions" />
+    </div>
+  </div>  
 </template>
 
 <script>
 
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/mode/go/go.js'
-import 'codemirror/theme/abbott.css'
+import 'codemirror/theme/ayu-mirage.css'
 import { codemirror } from 'vue-codemirror'
 
 export default {
   // contentDetail.Vue에서 id와 file_path데이터 가져오기
   props: {
-    id: {
-      type: String,
-      default : ''
-    },
     file_path:{
       type: String,
       default : ''
@@ -38,17 +35,24 @@ export default {
 
   data () {
     return {
-      // file_path:'',
+      title:this.$route.params.title,
       code: '',
       cmOptions: {
         // codemirror options
         tabSize: 4,
         mode: 'go',
-        theme: 'abbott',
+        // theme: 'abbott',
         lineNumbers: true,
         line: true,
         autoCloseTags: true,
         extraKeys: {"Ctrl-Space": "autocomplete"},
+        styleActiveLine: true,
+        lineWrapping: true,
+        theme: 'ayu-mirage',
+        matchBrackets: true,
+        autoCloseBrackets: true,
+        foldGutter: true,
+        gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
       }
     }
   },
@@ -59,8 +63,19 @@ export default {
     Back(){
         this.$router.go(-1); [2]
     },
-    Refresh(){
-        window.location.reload();
+    noRefresh(){
+      console.log(window.event.keyCode);
+         if ((window.event.keyCode == 78) && (window.event.ctrlKey == true))
+        {
+            window.event.keyCode = 0;
+            return false;
+        }
+        /* F5 번키 막음. */
+        if(window.event.keyCode == 116)
+        {
+            window.event.keyCode = 0;
+            return false;
+        }
     },
     onCmReady(cm) {
       console.log('the editor is readied!', cm)
@@ -71,19 +86,28 @@ export default {
     onCmCodeChange(newCode) {
       console.log('this is new code', newCode)
       this.code = newCode
+    },
+    fread(){
+      this.$http.post(`api/download/readfile/${this.file_path}`)
+      .then(
+        (res)=>{
+          this.code = res.data;
+        }
+      )
     }
   },
+  created(){   
+  },
   mounted() {
-    
+    //codemirror
+    // const cm = editor.codemirror;
+    this.noRefresh();
     //파일 읽기
-    this.$http.post(`api/download/readfile/${this.file_path}`)
-    .then(
-      (res)=>{
-        console.log("들어오니????");
-        console.log(res);
-        this.code = res.data;
-      }
-    )
+    this.fread();
+    
+    
+    
+    
 
   }
 
@@ -91,8 +115,23 @@ export default {
 </script>
 
 <style>
-.back_ic{
-  width: 35%;
-  vertical-align: left;
-}
+
+ .p-text-editor {
+    height: 100%;
+    min-height: 5rem;
+  }
+  .CodeMirror {
+    margin-top:20px;
+    line-height: 1.5;
+    height: 850px;
+    padding: 1rem;
+    border-radius: 10px;
+    overflow: auto;
+  }
+  .source-title{
+    border-bottom:none !important;
+  }
+  .source .ic_circle{
+    cursor: positer;
+  }
 </style>

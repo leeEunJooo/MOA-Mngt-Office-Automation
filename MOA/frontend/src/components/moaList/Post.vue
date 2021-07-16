@@ -206,7 +206,6 @@
                 <div class="sm_title" style="margin: 5px 0px">상세설명</div>
                 <div class="textarea">
                     <textarea v-model="detailInfo.DTL_DESC_SBST">
-
                     </textarea>
                 </div>
             </li>
@@ -313,6 +312,7 @@ methods:{
             //forEach문 안먹혀서 for문으로 적용
             for(var val of checkArr){
                 if(val ==""){
+                    console.log(val);
                     return false;
                 }
             }
@@ -417,9 +417,11 @@ methods:{
     },
 
     loadCD: function(){
+        console.log("aa",JSON.parse(localStorage.getItem('token')).user.user_id);
         this.$http
             .post("/api/musers/userinfo", {
                 user_id: JSON.parse(localStorage.getItem('token')).user.user_id
+                
             })
             .then(
             (response) => {
