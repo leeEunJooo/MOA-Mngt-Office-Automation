@@ -5,11 +5,6 @@
       <button @click="Back" type="button">
         <v-img src="../../assets/img/back_ic2.png" class="back_ic"></v-img>
       </button>
-
-      <button @click="Refresh" type="button">
-        <!-- <v-img src="../../assets/img/refresh_ic2.png" class="refresh_ic"></v-img> -->
-      </button>
-
     </v-row>
     <br>
     <br>
@@ -46,9 +41,6 @@ export default {
   methods:{
     Back(){
         this.$router.go(-1); [2]
-    },
-    Refresh(){
-        window.location.reload();
     },
     onCmReady(cm) {
       console.log('the editor is readied!', cm)
