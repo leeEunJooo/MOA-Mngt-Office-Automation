@@ -7,6 +7,10 @@ import MOAList from '@/components/moaList/MOAList'
 import ListDetail from '@/components/moaList/ListDetail'
 import DrawerNav from '@/components/DrawerNav'
 import NotFound from '@/components/NotFound'
+import SourceView from '@/components/moaList/SourceView'
+import ContentDetail from '@/components/moaList/ContentDetail'
+
+
 // import Upload from '@/components/moaList/Upload'
 import Post from '@/components/moaList/Post'
 
@@ -53,11 +57,24 @@ const routes = [
     ]
   },
   {
-    path: '/moalist/:id',
+    path: '/moalist/:id/',
     name: 'listdetail',
-    components: {
-      default:  ListDetail
-    },
+    component:ListDetail,
+    children:[
+      {
+        path:'source',
+        name: 'source',
+        component: SourceView,
+        props:true,
+        meta : {authRequired : false}
+      },
+      {
+        path:'content',
+        name: 'content',
+        component: ContentDetail,
+        meta : {authRequired : false}
+      },
+    ],
     meta : {authRequired : true}
   },
   {

@@ -1,6 +1,12 @@
 <template>
-
     <div>
+        <div class="post_title">
+            <div class="ic_circle">
+                <img src="../../assets/img/folder.png" class="folder_ic"/>
+            </div>
+            <input class="title" v-model="detailInfo.NTCART_TITLE_NM" disabled/>
+        </div>
+
         <div class="post_contents">
             <ul>
                 <li>
@@ -16,7 +22,7 @@
                     </div>
                 </li>
                 <li>
-                    <div class="sm_title">잔행단계</div>
+                    <div class="sm_title">진행단계</div>
                     <input v-model="detailInfo.TROBL_SVC_TYPE_CD" disabled>
                 </li>
                 <li>
@@ -146,12 +152,11 @@
 
 <script>
 
-
 export default {
-    props: ['file_id'],
     methods:{
         getInfo : async function(){
-                var id = this.file_id
+                // var id = this.file_id
+                var id = this.$route.params.id
                 await this.$http.post(`/api/mlist/listDetail/${id}`)
                 .then(
                 (res)=>{
@@ -215,11 +220,37 @@ export default {
             }
  
         },
-
+        sourcebtn:function(){
+            this.$router.push({ 
+                name: 'source',
+                params: {id: this.detailInfo.FILE_SEQ, file_path:this.file_nm, title:this.detailInfo.NTCART_TITLE_NM}}) //SourceView.vue에 데이터 넘겨주기
+        },
+        downloadsbtn:function(){
+            console.log("???");
+            console.log(this.file_nm);
+            try{
+                let element = document.createElement('a');
+                element.setAttribute('href',`/api/download/${this.file_nm}`);
+                element.click();
+            } catch(err){
+                alert('해당파일이 없습니다.');
+            }
+        },
+        menudownloadsbtn:function(){
+            console.log("???");
+            console.log(this.menu_nm);
+            try{
+                let element = document.createElement('a');
+                element.setAttribute('href',`/api/download/menu/${this.menu_nm}`);
+                element.click();
+            } catch(err){
+                alert('해당파일이 없습니다.');
+            }
+        },
+        
     },
     data:function(){
         return {
-            file_seq:"",
             detailInfo:{}
         }
     },
@@ -227,8 +258,6 @@ export default {
         this.getInfo();
 
     },
-    mounted(){
-    }
  
 }
 </script>

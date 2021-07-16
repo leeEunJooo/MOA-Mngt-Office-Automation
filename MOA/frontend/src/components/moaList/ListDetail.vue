@@ -1,23 +1,7 @@
 <template>
     <div>
         <div class="list_detail">
-            <div class="post_title">
-                <div class="ic_circle">
-                    <img src="../../assets/img/folder.png" class="folder_ic"/>
-                </div>
-                <input class="title" disabled/>
-            </div>
-            
-            <!-- <SourceView></SourceView> -->
-            <ContentDatail :file_id=file_seq></ContentDatail>
-
-            <div>
-                <!-- <Content :ContentDetail="ContentData"/> -->
-            </div>
-
-
-        
-        
+            <router-view></router-view>
         <div class="post_btn">
             <v-btn v-on:click="cancel" class="close">닫기</v-btn>
         </div>
@@ -27,17 +11,13 @@
 </template>
 
 <script>
-import ContentDatail from './ContentDetail.vue'
-// import SourceView from './SourceView.vue'
-
 export default {
     props : {
         Id : Number,
         detailInfo : {},
+        
     },
     components:{
-    //    SourceView,
-        ContentDatail, 
     },
 
     data:function(){
@@ -58,32 +38,6 @@ export default {
         
     },
     methods:{
-            
-
-        downloadsbtn:function(){
-            console.log("???");
-            console.log(this.file_nm);
-            try{
-                let element = document.createElement('a');
-                element.setAttribute('href',`/api/download/${this.file_nm}`);
-                element.click();
-            } catch(err){
-                alert('해당파일이 없습니다.');
-            }
-        },
-
-        menudownloadsbtn:function(){
-            console.log("???");
-            console.log(this.menu_nm);
-            try{
-                let element = document.createElement('a');
-                element.setAttribute('href',`/api/download/menu/${this.menu_nm}`);
-                element.click();
-            } catch(err){
-                alert('해당파일이 없습니다.');
-            }
-        },
-
         cancel:function(){
             window.close();
         }
@@ -94,8 +48,6 @@ export default {
     },
     mounted(){
     }
-
-    
 }
 </script>
 
@@ -242,6 +194,17 @@ export default {
         float: right;
         width: 21px;
         cursor:pointer;
+    }
+    .list_detail input{
+        width: 500px;
+    }
+    .list_detail .small_input{
+        width:150px;
+    }
+    .list_detail .back_ic{
+        width:28px;
+        height:22px;
+        cursor: pointer;
     }
     
 </style>

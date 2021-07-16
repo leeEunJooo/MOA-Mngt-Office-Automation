@@ -19,8 +19,23 @@ drop table tbl_moa_user_bas;
 
 
 
-SELECT DISTINCT m.FILE_SEQ, m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where SROC_FILE_PATH_NM LIKE "%a%";
-
+SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = 'Y' and (SROC_FILE_PATH_NM LIKE "%정대균%%"
+or DOW_NM LIKE "%정대균%"
+or DATA_EXE_TIME  LIKE "%정대균%"
+or INPUT_VAL  LIKE "%정대균%"
+or TRT_STEP_NM  LIKE "%정대균%"
+or ATTEN_MTR_SBST  LIKE "%정대균%"
+or ATC_FILE_MANUAL_YN  LIKE "%정대균%"
+or ATC_FILE_UPLD_PATH_NM  LIKE "%정대균%"
+or OTPUT_SBST  LIKE "%정대균%"
+or ETC_SBST  LIKE "%정대균%"
+or EXE_SBST  LIKE "%정대균%"
+or NTCART_TITLE_NM  LIKE "%정대균%"
+or TKCGR_NM  LIKE "%정대균%"
+or RUSER_NM  LIKE "%정대균%"
+or DTL_DESC_SBST  LIKE "%정대균%"
+or WRKJOB_PRPS_NM   LIKE "%정대균%"
+);
                --      + 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where DOW_NM LIKE "%' + search.search_text +'%";'
 --                     + 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where DATA_EXE_TIME LIKE "%' + search.search_text +'%";'
 --                     + 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where INPUT_VAL LIKE "%' + search.search_text +'%";'
