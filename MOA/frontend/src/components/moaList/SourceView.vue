@@ -126,7 +126,6 @@ export default {
     height: 850px;
     padding: 1rem;
     border-radius: 10px;
-    overflow: auto;
   }
   .source-title{
     border-bottom:none !important;
