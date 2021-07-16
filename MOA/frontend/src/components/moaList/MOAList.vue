@@ -194,6 +194,7 @@ export default {
 
               if (response.data.row1.length == 0 && response.data.row2.length == 0) {
                 alert("검색한 단어는 존재하지 않습니다.");
+                this.moa_list = [];
               } else {
                 console.log("처음 moa_list : ", this.moa_list);
                 console.log("처음 moa_list length : ", this.moa_list.length);
@@ -271,6 +272,7 @@ export default {
             } else {
               if (response.data.length == 0) {
                 alert("검색한 단어는 존재하지 않습니다.");
+                this.moa_list = [];
               } else {
                 console.log("코드성 제외");
                 console.log(response);

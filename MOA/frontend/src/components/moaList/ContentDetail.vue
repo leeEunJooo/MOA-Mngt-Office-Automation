@@ -21,9 +21,14 @@
                 </li>
                 <li>
                     <div class="sm_title">작동시기</div>
-                    <div>
-                        <input v-model="detailInfo.CYCL_DATE_TYPE_CD" disabled>
-                        <input v-model="detailInfo.DATA_EXE_TIME" disabled>
+                    <div v-if="detailInfo.DOW_NM === ''">
+                        <input v-model="detailInfo.CYCL_DATE_TYPE_CD" disabled style="width:90px">
+                        <input v-model="detailInfo.DATA_EXE_TIME" disabled style="width:90px">
+                    </div>
+                    <div v-else>
+                        <input v-model="detailInfo.CYCL_DATE_TYPE_CD" disabled style="width:90px">
+                        <input v-model="detailInfo.DOW_NM" disabled style="width:90px">
+                        <input v-model="detailInfo.DATA_EXE_TIME" disabled style="width:90px">
                     </div>
                 </li>
                 <li>
