@@ -30,8 +30,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
-  ::-webkit-scrollbar { display: none; }
-
   ::-webkit-scrollbar-thumb {
     width: 10px;
     background-color: rgb(174, 172, 235);
