@@ -1,7 +1,19 @@
 <template>
   <div class="code">
-    <button @click="Back" type="button">뒤<br/>로<br/>가<br/>기<br/>버<br/>튼</button> 
-      <codemirror v-model="code" :options="cmOptions" />
+    <br>
+    <v-row>
+      <button @click="Back" type="button">
+        <v-img src="../../assets/img/back_ic2.png" class="back_ic"></v-img>
+      </button>
+
+      <button @click="Refresh" type="button">
+        <!-- <v-img src="../../assets/img/refresh_ic2.png" class="refresh_ic"></v-img> -->
+      </button>
+
+    </v-row>
+    <br>
+    <br>
+      <codemirror class="codemirror" v-model="code" :options="cmOptions" />
   </div>
 </template>
 
@@ -35,6 +47,9 @@ export default {
     Back(){
         this.$router.go(-1); [2]
     },
+    Refresh(){
+        window.location.reload();
+    },
     onCmReady(cm) {
       console.log('the editor is readied!', cm)
     },
@@ -53,5 +68,8 @@ export default {
 </script>
 
 <style>
-
+.back_ic{
+  width: 35%;
+  vertical-align: left;
+}
 </style>

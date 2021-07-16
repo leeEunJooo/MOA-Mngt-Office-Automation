@@ -15,14 +15,14 @@
                     </div>
                 </li>
                 <li>
-                    <div class="sm_title">잔행단계</div>
+                    <div class="sm_title">진행단계</div>
                     <input v-model="detailInfo.TROBL_SVC_TYPE_CD" disabled>
                 </li>
                 <li>
                     <div class="sm_title">작동시기</div>
                     <div>
-                        <input v-model="detailInfo.CYCL_DATE_TYPE_CD" disabled>
-                        <input v-model="detailInfo.DATA_EXE_TIME" disabled>
+                        <input class="small_input" v-model="detailInfo.CYCL_DATE_TYPE_CD" disabled>
+                        <input class="small_input" v-model="detailInfo.DATA_EXE_TIME" disabled>
                     </div>
                 </li>
                 <li>
