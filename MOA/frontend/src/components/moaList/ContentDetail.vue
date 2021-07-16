@@ -1,5 +1,12 @@
 <template>
     <div>
+        <div class="post_title">
+            <div class="ic_circle">
+                <img src="../../assets/img/folder.png" class="folder_ic"/>
+            </div>
+            <input class="title" v-model="detailInfo.NTCART_TITLE_NM" disabled/>
+        </div>
+
         <div class="post_contents">
             <ul>
                 <li>
@@ -139,7 +146,6 @@
 </template>
 
 <script>
-import EventBus from '../../EventBus';
 
 export default {
     methods:{
@@ -207,15 +213,14 @@ export default {
                 file_div.style.display="block";
                 this.file_nm = filename;
             }
-
-            EventBus.$emit("title",this.detailInfo.NTCART_TITLE_NM);
  
         },
         sourcebtn:function(){
             this.$router.push({ 
                 name: 'source',
-                params: {id: this.detailInfo.FILE_SEQ, file_path:this.file_nm}}) //SourceView.vue에 데이터 넘겨주기
-        },downloadsbtn:function(){
+                params: {id: this.detailInfo.FILE_SEQ, file_path:this.file_nm, title:this.detailInfo.NTCART_TITLE_NM}}) //SourceView.vue에 데이터 넘겨주기
+        },
+        downloadsbtn:function(){
             console.log("???");
             console.log(this.file_nm);
             try{
