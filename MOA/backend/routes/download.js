@@ -27,13 +27,11 @@ router.get('/:file_name', function(req, res, next) {
       .on('finish',()=>{
         console.log('download complete');
       })
-
-
     //   res.download(file);
     } else {
         res.send('해당 파일이 없습니다.');
       return;
-    }1.
+    }
   } catch (e) { // 에러 발생시
     console.log(e);
     res.send('파일을 다운로드하는 중에 에러가 발생하였습니다.');

@@ -45,7 +45,7 @@ export default {
             cd_nm:"",
             file_nm:"",
             menu_nm:"",
-            file_seq:"sd",
+            file_seq:"",
         }
         
     },
