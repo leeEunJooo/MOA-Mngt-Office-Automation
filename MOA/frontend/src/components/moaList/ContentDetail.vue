@@ -214,7 +214,7 @@ export default {
         sourcebtn:function(){
             this.$router.push({ 
                 name: 'source',
-                params: {id: this.file_id}})
+                params: {id: this.detailInfo.FILE_SEQ, file_path:this.file_nm}}) //SourceView.vue에 데이터 넘겨주기
         },downloadsbtn:function(){
             console.log("???");
             console.log(this.file_nm);

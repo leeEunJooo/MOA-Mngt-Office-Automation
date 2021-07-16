@@ -5,7 +5,6 @@
       <button @click="Back" type="button">
         <v-img src="../../assets/img/back_ic2.png" class="back_ic"></v-img>
       </button>
-
       <button @click="Refresh" type="button">
         <!-- <v-img src="../../assets/img/refresh_ic2.png" class="refresh_ic"></v-img> -->
       </button>
@@ -25,9 +24,22 @@ import 'codemirror/theme/abbott.css'
 import { codemirror } from 'vue-codemirror'
 
 export default {
+  // contentDetail.Vue에서 id와 file_path데이터 가져오기
+  props: {
+    id: {
+      type: String,
+      default : ''
+    },
+    file_path:{
+      type: String,
+      default : ''
+    }
+  },
+
   data () {
     return {
-      code: 'const a = 10',
+      // file_path:'',
+      code: '',
       cmOptions: {
         // codemirror options
         tabSize: 4,
@@ -62,6 +74,17 @@ export default {
     }
   },
   mounted() {
+    
+    //파일 읽기
+    this.$http.post(`api/download/readfile/${this.file_path}`)
+    .then(
+      (res)=>{
+        console.log("들어오니????");
+        console.log(res);
+        this.code = res.data;
+      }
+    )
+
   }
 
 }

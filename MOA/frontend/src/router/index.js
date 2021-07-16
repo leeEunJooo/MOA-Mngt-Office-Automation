@@ -65,6 +65,7 @@ const routes = [
         path:'source',
         name: 'source',
         component: SourceView,
+        props:true,
         meta : {authRequired : false}
       },
       {
