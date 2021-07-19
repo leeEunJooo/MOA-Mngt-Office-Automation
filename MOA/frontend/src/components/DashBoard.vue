@@ -89,7 +89,8 @@ export default {
       }
   },
   mounted() {
-
+    
+    
     //담당별 자동화 건수
     this.$http.post("/api/musers/div_cnt")
     .then(
@@ -151,6 +152,8 @@ export default {
       (res)=>{
         console.log("기술별 자동화 건수");
         console.log(res);  
+        this.barChartData4.data.labels=[];
+        this.barChartData4.data.datasets[0].data = [];
         for(var j=0; j<res.data.length; j++){
           this.barChartData4.data.labels.push(res.data[j].cd_nm);
           this.barChartData4.data.datasets[0].data.push(res.data[j].upld_cascnt);
