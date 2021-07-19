@@ -1,16 +1,7 @@
 <template>
     <div>
         <div class="list_detail">
-            <div class="post_title">
-                <div class="ic_circle">
-                    <img src="../../assets/img/folder.png" class="folder_ic"/>
-                </div>
-                <input class="title" v-model="title" disabled/>
-            </div>
             <router-view></router-view>
-            <div>
-            </div>
-
         <div class="post_btn">
             <v-btn v-on:click="cancel" class="close">닫기</v-btn>
         </div>
@@ -20,8 +11,6 @@
 </template>
 
 <script>
-import EventBus from '../../EventBus';
-
 export default {
     props : {
         Id : Number,
@@ -33,7 +22,6 @@ export default {
 
     data:function(){
         return {
-            title:"",
             team_div_cd: [
                 {name: "1팀",idx: "T01", idx2:"D01"},
                 {name: "2팀",idx: "T02", idx2:"D01"},
@@ -45,7 +33,7 @@ export default {
             cd_nm:"",
             file_nm:"",
             menu_nm:"",
-            file_seq:"sd",
+            file_seq:"",
         }
         
     },
@@ -56,9 +44,7 @@ export default {
     },
     created() {
         this.file_seq = this.$route.params.id;
-        EventBus.$on('title', (payload)=>{
-            this.title = payload;
-        });    
+        
     },
     mounted(){
     }
@@ -214,6 +200,11 @@ export default {
     }
     .list_detail .small_input{
         width:150px;
+    }
+    .list_detail .back_ic{
+        width:28px;
+        height:22px;
+        cursor: pointer;
     }
     
 </style>

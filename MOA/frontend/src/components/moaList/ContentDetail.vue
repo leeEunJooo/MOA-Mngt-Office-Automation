@@ -1,5 +1,12 @@
 <template>
     <div>
+        <div class="post_title">
+            <div class="ic_circle">
+                <img src="../../assets/img/folder.png" class="folder_ic"/>
+            </div>
+            <input class="title" v-model="detailInfo.NTCART_TITLE_NM" disabled/>
+        </div>
+
         <div class="post_contents">
             <ul>
                 <li>
@@ -20,9 +27,14 @@
                 </li>
                 <li>
                     <div class="sm_title">작동시기</div>
-                    <div>
-                        <input class="small_input" v-model="detailInfo.CYCL_DATE_TYPE_CD" disabled>
-                        <input class="small_input" v-model="detailInfo.DATA_EXE_TIME" disabled>
+                    <div v-if="detailInfo.DOW_NM === ''">
+                        <input v-model="detailInfo.CYCL_DATE_TYPE_CD" disabled style="width:90px">
+                        <input v-model="detailInfo.DATA_EXE_TIME" disabled style="width:90px">
+                    </div>
+                    <div v-else>
+                        <input v-model="detailInfo.CYCL_DATE_TYPE_CD" disabled style="width:90px">
+                        <input v-model="detailInfo.DOW_NM" disabled style="width:90px">
+                        <input v-model="detailInfo.DATA_EXE_TIME" disabled style="width:90px">
                     </div>
                 </li>
                 <li>
@@ -83,6 +95,9 @@
                         <span class="fileType" id="fileType"></span>
                         <sapn class="fileContent" id="fileContent"></sapn>
                         <!-- <input v-model="detailInfo.ATC_FILE_UPLD_PATH_NM" disabled> -->
+                        <span class="downloadsbtn" id="downloadsbtn" @click="menudownloadsbtn($event)">
+                            <v-img src="../../assets/img/downloads_ic.png" class="arrow_ic"></v-img>
+                        </span>
                         <hr class="file_hr"/>
                     </div>
                 </li>
@@ -139,7 +154,6 @@
 </template>
 
 <script>
-import EventBus from '../../EventBus';
 
 export default {
     methods:{
@@ -207,15 +221,14 @@ export default {
                 file_div.style.display="block";
                 this.file_nm = filename;
             }
-
-            EventBus.$emit("title",this.detailInfo.NTCART_TITLE_NM);
  
         },
         sourcebtn:function(){
             this.$router.push({ 
                 name: 'source',
-                params: {id: this.detailInfo.FILE_SEQ, file_path:this.file_nm}}) //SourceView.vue에 데이터 넘겨주기
-        },downloadsbtn:function(){
+                params: {id: this.detailInfo.FILE_SEQ, file_path:this.file_nm, title:this.detailInfo.NTCART_TITLE_NM}}) //SourceView.vue에 데이터 넘겨주기
+        },
+        downloadsbtn:function(){
             console.log("???");
             console.log(this.file_nm);
             try{

@@ -30,4 +30,13 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
+  ::-webkit-scrollbar-thumb {
+    width: 10px;
+    background-color: rgb(174, 172, 235);
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: rgb(232, 232, 232);
+    border-radius: 10px;
+  }
 </style>
