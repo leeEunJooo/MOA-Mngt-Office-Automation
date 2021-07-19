@@ -95,6 +95,9 @@
                         <span class="fileType" id="fileType"></span>
                         <sapn class="fileContent" id="fileContent"></sapn>
                         <!-- <input v-model="detailInfo.ATC_FILE_UPLD_PATH_NM" disabled> -->
+                        <span class="downloadsbtn" id="downloadsbtn" @click="menudownloadsbtn($event)">
+                            <v-img src="../../assets/img/downloads_ic.png" class="arrow_ic"></v-img>
+                        </span>
                         <hr class="file_hr"/>
                     </div>
                 </li>
