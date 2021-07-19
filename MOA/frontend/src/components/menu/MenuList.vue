@@ -12,7 +12,8 @@
                 <img src="../../assets/img/menu2.png" class="menu1_img"/>
                 &nbsp;&nbsp;
                 <router-link to="/moalist">
-                    <span>MOAList</span>
+                    <!-- <span>MOAList</span> -->
+                    <a onClick="window.location.reload()" style="cursor: pointer;"><span>MOAList</span></a>
                 </router-link>
             </li>
         </ul>
