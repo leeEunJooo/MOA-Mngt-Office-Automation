@@ -13,7 +13,7 @@
                 &nbsp;&nbsp;
                 <router-link to="/moalist">
                     <!-- <span>MOAList</span> -->
-                    <a onClick="window.location.reload()" style="cursor: pointer;"><span>MOAList</span></a>
+                    <a @click="moalist" style="cursor: pointer;"><span>MOAList</span></a>
                 </router-link>
             </li>
         </ul>
@@ -23,6 +23,16 @@
 
 <script>
 export default {
+    methods:{
+        moalist:function(){
+            // console.log(window.location.href);
+            if(window.location.href.includes("/moalist")){
+                window.location.reload();
+            }else{
+                this.$router.push("/moalist");
+            }
+        }
+    }
 
 }
 </script>
