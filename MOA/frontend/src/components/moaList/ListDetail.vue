@@ -64,7 +64,7 @@ export default {
         this.file_seq = this.$route.params.id;
         this.getuserseq();
         EventBus.$on('CUST_IDFY_SEQ', (payload)=>{
-            if(this.user_seq == payload) this.delshow = true
+          this.delshow = (this.user_seq == payload)
         });  
     },
     mounted(){
