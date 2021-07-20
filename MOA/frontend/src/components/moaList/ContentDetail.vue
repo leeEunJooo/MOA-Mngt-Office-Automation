@@ -128,7 +128,7 @@
                 <li class="height_fit_content" style="margin-top:15px">
                     <div class="sm_title" style="margin: 5px 0px">상세설명</div>
                     <div class="textarea">
-                        <textarea v-model="detailInfo.ATTEN_MTR_SBST" disabled>
+                        <textarea v-model="detailInfo.DTL_DESC_SBST" disabled>
     
                         </textarea>
                     </div>
@@ -136,14 +136,14 @@
                 <li class="height_fit_content" style="margin-top:15px">
                     <div class="sm_title" style="margin: 5px 0px">실행시주의점</div>
                     <div class="textarea">
-                        <textarea v-model="detailInfo.EXE_SBST" disabled>
+                        <textarea v-model="detailInfo.ATTEN_MTR_SBST" disabled>
                         </textarea>
                     </div>
                 </li> 
                 <li class="height_fit_content" style="margin-top:15px">
                     <div class="sm_title" style="margin: 5px 0px">기타사항</div>
                     <div class="textarea">
-                        <textarea v-model="detailInfo.EXE_SBST" disabled>
+                        <textarea v-model="detailInfo.ETC_SBST" disabled>
                         </textarea>
                     </div>
                 </li>
