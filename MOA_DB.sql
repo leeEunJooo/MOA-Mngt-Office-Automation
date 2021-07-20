@@ -20,13 +20,39 @@ TEAM_DIV_CD VARCHAR(3) NOT NULL,
 EMP_POS_DIV_CD VARCHAR(3) NOT NULL
 );
 
-update tbl_moa_user_bas set UPLD_CASCNT = 0 where CUST_IDFY_SEQ =1; 
+
+-- INSERT INTO TBL_MOA_USER_BAS(USER_ID, USER_PWD, USER_TEL_NO, USER_NM, UPLD_CASCNT, TEAM_DIV_CD, EMP_POS_DIV_CD) 
+-- VALUES ('test04', 'test043', '01022445566','이은주', 0, 'T03', 'D01');  
+
+-- INSERT INTO TBL_MOA_USER_BAS(USER_ID, USER_PWD, USER_TEL_NO, USER_NM, UPLD_CASCNT, TEAM_DIV_CD, EMP_POS_DIV_CD) 
+-- VALUES ('test05', 'test05', '01099227171','안혜경', 0, 'T03', 'D01'); 
+
+-- INSERT INTO TBL_MOA_USER_BAS(USER_ID, USER_PWD, USER_TEL_NO, USER_NM, UPLD_CASCNT, TEAM_DIV_CD, EMP_POS_DIV_CD) 
+-- VALUES ('test06', 'test06', '01012123434','정대균', 0, 'T04', 'D01'); 
+
+-- INSERT INTO TBL_MOA_USER_BAS(USER_ID, USER_PWD, USER_TEL_NO, USER_NM, UPLD_CASCNT, TEAM_DIV_CD, EMP_POS_DIV_CD) 
+-- VALUES ('test07', 'test07', '01079798787','황윤섭', 0, 'T04', 'D01'); 
+
+-- INSERT INTO TBL_MOA_USER_BAS(USER_ID, USER_PWD, USER_TEL_NO, USER_NM, UPLD_CASCNT, TEAM_DIV_CD, EMP_POS_DIV_CD) 
+-- VALUES ('test08', 'test08', '01034617256','조대흠', 0, 'T06', 'D02'); 
+
+-- INSERT INTO TBL_MOA_USER_BAS(USER_ID, USER_PWD, USER_TEL_NO, USER_NM, UPLD_CASCNT, TEAM_DIV_CD, EMP_POS_DIV_CD) 
+-- VALUES ('test99', 'test99', '01094324321','홍길동', 0, 'T09', 'D03'); 
+
+-- INSERT INTO TBL_MOA_USER_BAS(USER_ID, USER_PWD, USER_TEL_NO, USER_NM, UPLD_CASCNT, TEAM_DIV_CD, EMP_POS_DIV_CD) 
+-- VALUES ('test11', 'test11', '01072817328','이수현', 0, 'T11', 'D03'); 
+
+-- INSERT INTO TBL_MOA_USER_BAS(USER_ID, USER_PWD, USER_TEL_NO, USER_NM, UPLD_CASCNT, TEAM_DIV_CD, EMP_POS_DIV_CD) 
+-- VALUES ('test10', 'test10', '01096742671','유세정', 0, 'T12', 'D03'); 
+
+update tbl_moa_user_bas set UPLD_CASCNT = 2 where CUST_IDFY_SEQ =8; 
 update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ=3;
 update tbl_moa_user_bas set UPLD_CASCNT = 5 where CUST_IDFY_SEQ =4; 
 update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ =6; 
-update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ =7; 
+update tbl_moa_user_bas set UPLD_CASCNT = 8 where CUST_IDFY_SEQ =7; 
 update tbl_moa_user_bas set UPLD_CASCNT = 0 where CUST_IDFY_SEQ =9; 
 update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ =5; 
+update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ =10; 
 
 select * from tbl_moa_user_bas;
 select * from tbl_moa_bas;
@@ -119,7 +145,7 @@ INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, C
 TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
 ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
 VALUES (7, '\\uploads\\N과M_2.java', 'L01', 'S06', 'C07', '','1:00', 'R02', 'B01', '', 
-'완료', 'E01', '', 'N', '', '올레TV탭 실시간 실적 SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '올레TV탭 실적 SMS자동 발송', '황윤섭', '정헌수 차장(스마트단말마케팅팀) 등 올레 TV탭 관련 사업부서', '22021-07-19', '2021-07-19', '9999-12-31','올레TV탭 신규 출시(5/10~)에 따른 LTE+TV동시판매 실적 실시간 확인을 위해 실시간 집계 및 SMS발송','스탭업무대상');
+'완료', 'E01', '', 'N', '', '올레TV탭 실시간 실적 SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '올레TV탭 실적 SMS자동 발송', '황윤섭', '정헌수 차장(스마트단말마케팅팀) 등 올레 TV탭 관련 사업부서', '2021-07-19', '2021-07-19', '9999-12-31','올레TV탭 신규 출시(5/10~)에 따른 LTE+TV동시판매 실적 실시간 확인을 위해 실시간 집계 및 SMS발송','스탭업무대상');
 
 
 INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
@@ -330,7 +356,7 @@ DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN
 OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
 VALUES (14,4, '\\uploads\\N과M_4.java', 'L02', 'S03', 'C04', '','0:00', 'R01', 'B01', '팀 이메일', 
 '완료', 'E01', '', 'N', '', '압축파일', '', '파일의 코드에 팀 이메일을 입력하고 파일을 실행시키기만 하면 비바체에서 엑셀을 다운로드 하고, ITSM에서 담당자가 누군지, 
-과제 내용 등을 조회하여 요구사항 분석시 파일을 자동으로 생성한 후 압축하여 팀 이메일로 팀내 과제 개발 담당자들에게 전송', '정기과제 요구 분석시 작성 자동화', '이은주', '팀 내 1명', '2021-07-19''9999-12-31', 'Y', 'N', 'R','스펙 확정 VIVACE의 스펙확정 자료를 기준으로 ITSM데이터 수집하여 과제별 엑셀 작성 후 각 담당자에게 이메일 전송','스탭업무대상');
+과제 내용 등을 조회하여 요구사항 분석시 파일을 자동으로 생성한 후 압축하여 팀 이메일로 팀내 과제 개발 담당자들에게 전송', '정기과제 요구 분석시 작성 자동화', '이은주', '팀 내 1명', '2021-07-19','9999-12-31', 'Y', 'N', 'R','스펙 확정 VIVACE의 스펙확정 자료를 기준으로 ITSM데이터 수집하여 과제별 엑셀 작성 후 각 담당자에게 이메일 전송','스탭업무대상');
 
 INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
 DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
