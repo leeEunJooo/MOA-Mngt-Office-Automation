@@ -8,79 +8,6 @@ drop table tbl_moa_hst;
 drop table tbl_moa_bas;
 drop table tbl_moa_user_bas;
 
-
-
-
-
-
-
-
-
-
-
-
-SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = 'Y' and (SROC_FILE_PATH_NM LIKE "%정대균%%"
-or DOW_NM LIKE "%정대균%"
-or DATA_EXE_TIME  LIKE "%정대균%"
-or INPUT_VAL  LIKE "%정대균%"
-or TRT_STEP_NM  LIKE "%정대균%"
-or ATTEN_MTR_SBST  LIKE "%정대균%"
-or ATC_FILE_MANUAL_YN  LIKE "%정대균%"
-or ATC_FILE_UPLD_PATH_NM  LIKE "%정대균%"
-or OTPUT_SBST  LIKE "%정대균%"
-or ETC_SBST  LIKE "%정대균%"
-or EXE_SBST  LIKE "%정대균%"
-or NTCART_TITLE_NM  LIKE "%정대균%"
-or TKCGR_NM  LIKE "%정대균%"
-or RUSER_NM  LIKE "%정대균%"
-or DTL_DESC_SBST  LIKE "%정대균%"
-or WRKJOB_PRPS_NM   LIKE "%정대균%"
-);
-               --      + 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where DOW_NM LIKE "%' + search.search_text +'%";'
---                     + 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where DATA_EXE_TIME LIKE "%' + search.search_text +'%";'
---                     + 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where INPUT_VAL LIKE "%' + search.search_text +'%";'
---                     + 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where TRT_STEP_NM LIKE "%' + search.search_text +'%";'
---                     + 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where ATTEN_MTR_SBST LIKE "%' + search.search_text +'%";'
---                     + 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where ATC_FILE_MANUAL_YN LIKE "%' + search.search_text +'%";'
---                     + 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where ATC_FILE_UPLD_PATH_NM LIKE "%' + search.search_text +'%";'
---                     + 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where OTPUT_SBST LIKE "%' + search.search_text +'%";'
---                     + 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where ETC_SBST LIKE "%' + search.search_text +'%";'
---                     + 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where EXE_SBST LIKE "%' + search.search_text +'%";'
---                     + 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where NTCART_TITLE_NM LIKE "%' + search.search_text +'%";'
---                     + 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where TKCGR_NM LIKE "%' + search.search_text +'%";'
---                     + 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where RUSER_NM LIKE "%' + search.search_text +'%";'
---                     + 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where DTL_DESC_SBST LIKE "%' + search.search_text +'%";'
---                     + 'SELECT m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where WRKJOB_PRPS_NM LIKE "%' + search.search_text +'%";'
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 -- 사용자 테이블 생성
 CREATE TABLE TBL_MOA_USER_BAS(
 CUST_IDFY_SEQ int NOT NULL auto_increment PRIMARY KEY,
@@ -95,10 +22,13 @@ EMP_POS_DIV_CD VARCHAR(3) NOT NULL
 
 update tbl_moa_user_bas set UPLD_CASCNT = 0 where CUST_IDFY_SEQ =1; 
 update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ=3;
-update tbl_moa_user_bas set UPLD_CASCNT = 2 where CUST_IDFY_SEQ =4; 
+update tbl_moa_user_bas set UPLD_CASCNT = 5 where CUST_IDFY_SEQ =4; 
 update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ =6; 
 update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ =7; 
--- select * from tbl_moa_user_bas;
+update tbl_moa_user_bas set UPLD_CASCNT = 0 where CUST_IDFY_SEQ =9; 
+update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ =5; 
+
+select * from tbl_moa_user_bas;
 select * from tbl_moa_bas;
 
 -- 외래키 참조해제
@@ -177,7 +107,95 @@ TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_
 ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
 VALUES (6, '\\download\\moa.xml', 'L01', 'S08', 'C01', '','06:00', 'R03', 'B01', '', 
 '완료', 'E01', '9시 이전 수행시 전사 발송, 9시 이후 수행시 내부 테스트 발송', 'N', '', '점검결과 메일+SMS', '.', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', 'MVNO-RDS 시스템 상세점검', '정대균', '정대균', '2021-06-15', '2021-06-15', '9999-12-31','MVNO-RDS 시스템 영역의 Portal, UI,배치, PWC, FDH연동 등 상세 점검','스탭업무대상');
+							
 
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (7, '\\uploads\\N과M_1.java', 'L01', 'S06', 'C01', '','9:00', 'R01', 'B01', '', 
+'완료', 'E01', '', 'N', '', '점검결과 메일', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', 'EDI솔루션(xTrus) 점검', '황윤섭', '황윤섭과장', '2021-07-19', '2021-07-19', '9999-12-31','Apple사와 연동을 하는 솔루션의 정상 가동여부, 연동결과 모니터링 기능','고객업무대상');
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (7, '\\uploads\\N과M_2.java', 'L01', 'S06', 'C07', '','1:00', 'R02', 'B01', '', 
+'완료', 'E01', '', 'N', '', '올레TV탭 실시간 실적 SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '올레TV탭 실적 SMS자동 발송', '황윤섭', '정헌수 차장(스마트단말마케팅팀) 등 올레 TV탭 관련 사업부서', '22021-07-19', '2021-07-19', '9999-12-31','올레TV탭 신규 출시(5/10~)에 따른 LTE+TV동시판매 실적 실시간 확인을 위해 실시간 집계 및 SMS발송','스탭업무대상');
+
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (7, '\\uploads\\N과M_3.java', 'L01', 'S09', 'C07', '','0:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS	', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '유통 Mail-Bot', '황윤섭', '황윤섭과장', '2021-07-19', '2021-07-19', '9999-12-31','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','스탭업무대상');
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (7, '\\uploads\\N과M_7.java', 'L01', 'S06', 'C07', '','0:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '유통 Mail-Bot', '황윤섭', '황윤섭과장', '2021-07-19', '2021-07-19', '9999-12-31','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','스탭업무대상');
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (7, '\\uploads\\N과M_6.java', 'L01', 'S06', 'C07', '','0:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '유통 Mail-Bot', '황윤섭', '황윤섭과장', '2021-07-19', '2021-07-19', '9999-12-31','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','스탭업무대상');
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (7, '\\uploads\\N과M_6.java', 'L01', 'S08', 'C07', '','0:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '유통 Mail-Bot', '황윤섭', '황윤섭과장', '2021-07-19', '2021-07-19', '9999-12-31','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','스탭업무대상');
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (7, '\\uploads\\N과M_6.java', 'L01', 'S07', 'C07', '','0:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '유통 Mail-Bot', '황윤섭', '황윤섭과장', '2021-07-19', '2021-07-19', '9999-12-31','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','스탭업무대상');
+
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (4, '\\uploads\\N과M_4.java', 'L02', 'S03', 'C05', '월요일','0:00', 'R01', 'B01', '팀 이메일', 
+'완료', 'E01', '', 'N', '', '압축파일', '', '파일의 코드에 팀 이메일을 입력하고 파일을 실행시키기만 하면 비바체에서 엑셀을 다운로드 하고, ITSM에서 담당자가 누군지, 
+과제 내용 등을 조회하여 요구사항 분석시 파일을 자동으로 생성한 후 압축하여 팀 이메일로 팀내 과제 개발 담당자들에게 전송', '정기과제 요구 분석시 작성 자동화', '이은주', '팀 내 1명', '2021-07-19', '2021-07-19', '9999-12-31','스펙 확정 VIVACE의 스펙확정 자료를 기준으로 ITSM데이터 수집하여 과제별 엑셀 작성 후 각 담당자에게 이메일 전송','스탭업무대상');
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (4, '\\uploads\\N과M_4.java', 'L02', 'S03', 'C04', '','0:00', 'R01', 'B01', '팀 이메일', 
+'완료', 'E01', '', 'N', '', '압축파일', '', '파일의 코드에 팀 이메일을 입력하고 파일을 실행시키기만 하면 비바체에서 엑셀을 다운로드 하고, ITSM에서 담당자가 누군지, 
+과제 내용 등을 조회하여 요구사항 분석시 파일을 자동으로 생성한 후 압축하여 팀 이메일로 팀내 과제 개발 담당자들에게 전송', '정기과제 요구 분석시 작성 자동화', '이은주', '팀 내 1명', '2021-07-19', '2021-07-19', '9999-12-31','스펙 확정 VIVACE의 스펙확정 자료를 기준으로 ITSM데이터 수집하여 과제별 엑셀 작성 후 각 담당자에게 이메일 전송','스탭업무대상');
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (4, '\\uploads\\N과M_5.java', 'L02', 'S15', 'C03', '29일','0:00', 'R04', 'B01', '엑셀파일(팀 이름, 메일 주소)', 
+'완료', 'E01', '일일 점검자 현황에 매달 올라오는 파일이 해당월로 존재해야함', 'N', '', 'N', '', '파이썬 파일을 실행하며 팀, 날짜, 이름, 메일 주소가 적힌 엑셀파일에서 날짜칸이 비어있는 사람의 이름을 가져와서  works > 보안점검자 에 이름을 넣는다.', '매월 지정하는 보안 담당자 지정 자동화', '이은주', '팀 보안 점검 담당자', '2021-07-19', '2021-07-19', '9999-12-31','works > space > 보안점검자 작성 자동화','스탭업무대상');
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (5, '\\uploads\\Login.vue', 'L02', 'S16', 'C03', '1일','0:00', 'R04', 'B01', '사용자 아이디, 비밀번호, 제목, 날짜, 시작시간, 종료시간, 이메일, 장소, 설명', 
+'완료', 'E01', '시간을 입력할 때 10분 단위로 입력해야한다.', 'N', '', 'N', '매월 12개정도 일정을 넣어야해서 만들었음', '윈도우에서 exe파일을 실행시켜 gui에 input값을 입력하고 실행버튼을 누른다', '일정 등록 자동화', '안혜경', '누구나', '2021-07-19', '2021-07-19', '9999-12-31','반복적인 일정 등록(소스리뷰, IA리뷰 등)을 자동화한다. UI에 일정 관련 정보를 입력 후 수정하면 일정등록','스탭업무대상');
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (8, '\\uploads\\UserList (1).vue', 'L03', 'S11', 'C02', '금요일','10:00', 'R02', 'B01', '', 
+'완료', 'E01', '', 'N', '', '', '', '실행방법', '조근점검', '조대흠', '조대흠', '2021-07-19', '2021-07-19', '9999-12-31','','고객업무대상');
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (8, '\\uploads\\UserList (1).vue', 'L04', 'S12', 'C03', '2일','9:00', 'R03', 'B01', '', 
+'완료', 'E01', '', 'N', '', '', '', '실행방법', '빌링관련자동화', '조대흠', '조대흠', '2021-07-19', '2021-07-19', '9999-12-31','','스탭업무대상');
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (10, '\\uploads\\Login (3).vue', 'L05', 'S14', 'C01', '','9:00', 'R04', 'B01', '', 
+'완료', 'E01', '', 'N', '', '', '', '실행방법', '조근점검', '유세정', '유세정', '2021-07-19', '2021-07-19', '9999-12-31','','고객업무대상');
 
 alter table tbl_moa_bas add FULLTEXT(SROC_FILE_PATH_NM, DOW_NM, DATA_EXE_TIME, INPUT_VAL, TRT_STEP_NM, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM,DTL_DESC_SBST);
 alter table tbl_moa_bas add FULLTEXT(LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, CONN_EVN_DIV_CD);
@@ -218,7 +236,7 @@ FOREIGN KEY(FILE_SEQ) REFERENCES TBL_MOA_BAS(FILE_SEQ),
 FOREIGN KEY(CUST_IDFY_SEQ) REFERENCES TBL_MOA_BAS(CUST_IDFY_SEQ)
 );
 
--- SELECT * FROM TBL_MOA_HST;
+SELECT * FROM TBL_MOA_HST;
 -- delete from TBL_MOA_HST where file_seq = 10;
 
 
@@ -258,7 +276,93 @@ OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FN
 VALUES (5,6, '\\download\\moa.xml', 'L01', 'S08', 'C01', '','06:00', 'R03', 'B01', '', 
 '완료', 'E01', '9시 이전 수행시 전사 발송, 9시 이후 수행시 내부 테스트 발송', 'N', '', '점검결과 메일+SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', 'MVNO-RDS 시스템 상세점검', '정대균', '정대균', '2021-06-15', '9999-12-31', 'Y', 'N', 'R','MVNO-RDS 시스템 영역의 Portal, UI,배치, PWC, FDH연동 등 상세 점검','스탭업무대상');
 
--- select * from TBL_MOA_EXECUTION_TXN;
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (6,7, '\\uploads\\N과M_1.java', 'L01', 'S06', 'C01', '','9:00', 'R01', 'B01', '', 
+'완료', 'E01', '', 'N', '', '점검결과 메일', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', 'EDI솔루션(xTrus) 점검', '황윤섭', '황윤섭과장', '2021-07-19', '9999-12-31', 'Y', 'N', 'R','Apple사와 연동을 하는 솔루션의 정상 가동여부, 연동결과 모니터링 기능','고객업무대상');
+
+
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (7,7, '\\uploads\\N과M_2.java', 'L01', 'S06', 'C07', '','1:00', 'R02', 'B01', '', 
+'완료', 'E01', '', 'N', '', '올레TV탭 실시간 실적 SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '올레TV탭 실적 SMS자동 발송', '황윤섭', '정헌수 차장(스마트단말마케팅팀) 등 올레 TV탭 관련 사업부서', '2021-07-19', '9999-12-31', 'Y', 'N', 'R','올레TV탭 신규 출시(5/10~)에 따른 LTE+TV동시판매 실적 실시간 확인을 위해 실시간 집계 및 SMS발송','스탭업무대상');
+
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (8,7, '\\uploads\\N과M_3.java', 'L01', 'S09', 'C07', '','0:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS	', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '유통 Mail-Bot', '황윤섭', '황윤섭과장', '2021-07-19', '9999-12-31', 'Y', 'N', 'R','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','스탭업무대상');
+
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (9, 7, '\\uploads\\N과M_7.java', 'L01', 'S06', 'C07', '','0:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '유통 Mail-Bot', '황윤섭', '황윤섭과장', '2021-07-19', '9999-12-31', 'Y', 'N', 'R','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','스탭업무대상');
+
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (10, 7, '\\uploads\\N과M_6.java', 'L01', 'S06', 'C07', '','0:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '유통 Mail-Bot', '황윤섭', '황윤섭과장','2021-07-19', '9999-12-31', 'Y', 'N', 'R','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','스탭업무대상');
+
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (11, 7, '\\uploads\\N과M_6.java', 'L01', 'S08', 'C07', '','0:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '유통 Mail-Bot', '황윤섭', '황윤섭과장', '2021-07-19', '9999-12-31', 'Y', 'N', 'R','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','스탭업무대상');
+
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (12,7, '\\uploads\\N과M_6.java', 'L01', 'S07', 'C07', '','0:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '유통 Mail-Bot', '황윤섭', '황윤섭과장', '2021-07-19', '9999-12-31', 'Y', 'N', 'R','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','스탭업무대상');
+
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (13,4, '\\uploads\\N과M_4.java', 'L02', 'S03', 'C05', '월요일','0:00', 'R01', 'B01', '팀 이메일', 
+'완료', 'E01', '', 'N', '', '압축파일', '', '파일의 코드에 팀 이메일을 입력하고 파일을 실행시키기만 하면 비바체에서 엑셀을 다운로드 하고, ITSM에서 담당자가 누군지, 과제 내용 등을 조회하여 요구사항 분석시 파일을 자동으로 생성한 후 압축하여 팀 이메일로 팀내 과제 개발 담당자들에게 전송', '정기과제 요구 분석시 작성 자동화', '이은주', '팀 내 1명', '2021-07-19','9999-12-31', 'Y', 'N', 'R','스펙 확정 VIVACE의 스펙확정 자료를 기준으로 ITSM데이터 수집하여 과제별 엑셀 작성 후 각 담당자에게 이메일 전송','스탭업무대상');
+
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (14,4, '\\uploads\\N과M_4.java', 'L02', 'S03', 'C04', '','0:00', 'R01', 'B01', '팀 이메일', 
+'완료', 'E01', '', 'N', '', '압축파일', '', '파일의 코드에 팀 이메일을 입력하고 파일을 실행시키기만 하면 비바체에서 엑셀을 다운로드 하고, ITSM에서 담당자가 누군지, 
+과제 내용 등을 조회하여 요구사항 분석시 파일을 자동으로 생성한 후 압축하여 팀 이메일로 팀내 과제 개발 담당자들에게 전송', '정기과제 요구 분석시 작성 자동화', '이은주', '팀 내 1명', '2021-07-19''9999-12-31', 'Y', 'N', 'R','스펙 확정 VIVACE의 스펙확정 자료를 기준으로 ITSM데이터 수집하여 과제별 엑셀 작성 후 각 담당자에게 이메일 전송','스탭업무대상');
+
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (15,4, '\\uploads\\N과M_5.java', 'L02', 'S15', 'C03', '29일','0:00', 'R04', 'B01', '엑셀파일(팀 이름, 메일 주소)', 
+'완료', 'E01', '일일 점검자 현황에 매달 올라오는 파일이 해당월로 존재해야함', 'N', '', 'N', '', '파이썬 파일을 실행하며 팀, 날짜, 이름, 메일 주소가 적힌 엑셀파일에서 날짜칸이 비어있는 사람의 이름을 가져와서  works > 보안점검자 에 이름을 넣는다.', '매월 지정하는 보안 담당자 지정 자동화', '이은주', '팀 보안 점검 담당자', '2021-07-19', '9999-12-31', 'Y', 'N', 'R','works > space > 보안점검자 작성 자동화','스탭업무대상');
+
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (16,5, '\\uploads\\Login.vue', 'L02', 'S16', 'C03', '1일','0:00', 'R04', 'B01', '사용자 아이디, 비밀번호, 제목, 날짜, 시작시간, 종료시간, 이메일, 장소, 설명', 
+'완료', 'E01', '시간을 입력할 때 10분 단위로 입력해야한다.', 'N', '', 'N', '매월 12개정도 일정을 넣어야해서 만들었음', '윈도우에서 exe파일을 실행시켜 gui에 input값을 입력하고 실행버튼을 누른다', '일정 등록 자동화', '안혜경', '누구나', '2021-07-19','9999-12-31', 'Y', 'N', 'R','반복적인 일정 등록(소스리뷰, IA리뷰 등)을 자동화한다. UI에 일정 관련 정보를 입력 후 수정하면 일정등록','스탭업무대상');
+
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (17,8, '\\uploads\\UserList (1).vue', 'L03', 'S11', 'C02', '금요일','10:00', 'R02', 'B01', '', 
+'완료', 'E01', '', 'N', '', '', '', '실행방법', '조근점검', '조대흠', '조대흠', '2021-07-19', '9999-12-31', 'Y', 'N', 'R','','고객업무대상');
+
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (18,8, '\\uploads\\UserList (1).vue', 'L04', 'S12', 'C03', '2일','9:00', 'R03', 'B01', '', 
+'완료', 'E01', '', 'N', '', '', '', '실행방법', '빌링관련자동화', '조대흠', '조대흠','2021-07-19', '9999-12-31', 'Y', 'N', 'R','','스탭업무대상');
+
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (19,10, '\\uploads\\Login (3).vue', 'L05', 'S14', 'C01', '','9:00', 'R04', 'B01', '', 
+'완료', 'E01', '', 'N', '', '', '', '실행방법', '조근점검', '유세정', '유세정','2021-07-19', '9999-12-31', 'Y', 'N', 'R','','고객업무대상');
+
+select * from TBL_MOA_EXECUTION_TXN;
 -- delete from TBL_MOA_EXECUTION_TXN where file_seq = 10;
 
 
@@ -292,7 +396,48 @@ INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE,
 VALUES (5, 6, '정대균', '0000-00-00 00:00:00', 'N', '','Y');
 
 INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
-VALUES (1, 4, '최민혜', sysdate(), 'N', '','Y');
+VALUES (6, 7, '황윤섭', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (7, 7, '황윤섭', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (8, 7, '황윤섭', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (9, 7, '황윤섭', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (10, 7, '황윤섭', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (11, 7, '황윤섭', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (12,7, '황윤섭', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (13, 4, '이은주', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (14,  4, '이은주', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (15,  4, '이은주', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (16, 5, '안혜경', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (17, 8, '조대흠', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (18, 8, '조대흠', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (18, 10, '유세정', '0000-00-00 00:00:00', 'N', '','Y');
+
+
 
 -- 코드공통 테이블 생성
 CREATE TABLE TBL_MOA_CD_BAS(
