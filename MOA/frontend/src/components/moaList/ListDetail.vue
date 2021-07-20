@@ -4,6 +4,7 @@
             <router-view></router-view>
         <div class="post_btn">
             <v-btn v-on:click="cancel" class="close">닫기</v-btn>
+            <v-btn v-show="delshow" v-on:click="delbtn" class="delete">삭제</v-btn>
         </div>
 
         </div>
@@ -11,11 +12,12 @@
 </template>
 
 <script>
+import EventBus from '../../EventBus';
+
 export default {
     props : {
         Id : Number,
         detailInfo : {},
-        
     },
     components:{
     },
@@ -34,19 +36,39 @@ export default {
             file_nm:"",
             menu_nm:"",
             file_seq:"",
+            user_seq:"",
+            delshow:false,
         }
         
     },
     methods:{
         cancel:function(){
             window.close();
+        },
+        getuserseq: async function(){
+            await this.$http
+            .post("/api/musers/userinfo", {
+                user_id: JSON.parse(localStorage.getItem('token')).user.user_id
+            })
+            .then(
+            (response) => {
+                this.user_seq = response.data[0].CUST_IDFY_SEQ
+                }
+            ) 
+        },
+        delbtn: function(){
+
         }
     },
     created() {
         this.file_seq = this.$route.params.id;
-        
+        this.getuserseq();
+        EventBus.$on('CUST_IDFY_SEQ', (payload)=>{
+            if(this.user_seq == payload) this.delshow = true
+        });  
     },
     mounted(){
+        
     }
 }
 </script>
@@ -165,6 +187,19 @@ export default {
         box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
         border: solid 3px #3b2fcb;
         background: white;
+    }
+    .post_btn .delete{
+        float: right;
+        width: 105px;
+        height: 40px !important;
+        margin: 30px 20px 30px 0px;
+        color: white;
+        font-size: 14px;
+        border-radius: 24px;
+        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+        border: solid 3px #3b2fcb;
+        background: #3b2fcb !important;
+
     }
 
     /* 파일 */

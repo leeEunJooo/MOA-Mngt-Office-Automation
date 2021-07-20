@@ -417,11 +417,9 @@ methods:{
     },
 
     loadCD: function(){
-        console.log("aa",JSON.parse(localStorage.getItem('token')).user.user_id);
         this.$http
             .post("/api/musers/userinfo", {
                 user_id: JSON.parse(localStorage.getItem('token')).user.user_id
-                
             })
             .then(
             (response) => {
@@ -493,19 +491,13 @@ methods:{
     menu_changeVal : function(e){
         if(window.FileReader){ // modern browser
             const filepath = e.target.value; 
-            console.log(e.target.files);
-            console.log(e.target.files[0]);
-            // this.file_path = e.target.files[0];
             this.detailInfo.ATC_FILE_UPLD_PATH_NM = e.target.files[0];
-            console.log(this.detailInfo.ATC_FILE_UPLD_PATH_NM);
             const spltArr_type = filepath.split('.');
             const splthArr_name = filepath.split('\\');
             let filetype = spltArr_type[spltArr_type.length-1];
             let filename = splthArr_name[splthArr_name.length-1];
 
             const parent = e.target.parentNode;
-            console.log(parent);
-            
             const fileType = parent.querySelector('#fileType');
             const fileContent = parent.querySelector('#fileContent');
             const delVtn = parent.querySelector('#deletebtn');
@@ -532,7 +524,6 @@ methods:{
 created() {
     // Select박스 Option 호출
     this.loadCD();
-    console.log(JSON.parse(localStorage.getItem('token')).user);
 },
 mounted(){
     this.addFile();
