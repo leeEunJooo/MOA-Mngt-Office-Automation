@@ -57,7 +57,8 @@ export default {
             ) 
         },
         delbtn: function(){
-
+            //디비업데이트
+            window.close();
         }
     },
     created() {
