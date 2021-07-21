@@ -271,7 +271,7 @@ data:function(){
             ETC_SBST:"",
             ATC_FILE_UPLD_PATH_NM:"",
             DTL_DESC_SBST:"",
-            WRKJOB_PRPS_NM:"고객업무대상",
+            WRKJOB_PRPS_NM:"",
         },
         
         // Select 박스 Option (name, code)
@@ -468,8 +468,7 @@ methods:{
             console.log(e.target.files);
             console.log(e.target.files[0]);
             this.file_path = e.target.files[0];
-            this.detailInfo.SROC_FILE_PATH_NM = e.target.files[0];
-            console.log(this.detailInfo.SROC_FILE_PATH_NM);
+
             const spltArr_type = filepath.split('.');
             const splthArr_name = filepath.split('\\');
             let filetype = spltArr_type[spltArr_type.length-1];
@@ -484,6 +483,8 @@ methods:{
             const hr = parent.querySelector('#file_hr');
             fileType.innerHTML = filetype;
             fileContent.innerHTML = filename;
+            this.detailInfo.SROC_FILE_PATH_NM = '\\\\uploads\\\\'+ filename;
+            console.log("this.detailInfo.SROC_FILE_PATH_NM", this.detailInfo.SROC_FILE_PATH_NM);
        
             delVtn.innerHTML = "X";
             hr.style.display="block";
@@ -496,8 +497,7 @@ methods:{
             console.log(e.target.files);
             console.log(e.target.files[0]);
             // this.file_path = e.target.files[0];
-            this.detailInfo.ATC_FILE_UPLD_PATH_NM = e.target.files[0];
-            console.log(this.detailInfo.ATC_FILE_UPLD_PATH_NM);
+           
             const spltArr_type = filepath.split('.');
             const splthArr_name = filepath.split('\\');
             let filetype = spltArr_type[spltArr_type.length-1];
@@ -512,6 +512,8 @@ methods:{
             const hr = parent.querySelector('#file_hr');
             fileType.innerHTML = filetype;
             fileContent.innerHTML = filename;
+             this.detailInfo.ATC_FILE_UPLD_PATH_NM = '\\\\menu_uploads\\\\'+ filename;
+            console.log(this.detailInfo.ATC_FILE_UPLD_PATH_NM);
        
             delVtn.innerHTML = "X";
             hr.style.display="block";

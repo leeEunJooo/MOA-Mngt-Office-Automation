@@ -11,7 +11,7 @@ var connection = conn.connection;
   //목록 ALL 조회
   router.get('/selectList', function (req, res) {
     console.log("메인");
-    connection.query('SELECT m.FILE_SEQ, m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE e.LAST_HST_YN="Y" ORDER BY m.file_seq desc', function (err, rows) {
+    connection.query('SELECT m.FILE_SEQ, m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE e.LAST_HST_YN="Y" and m.FNS_DATE > sysdate() ORDER BY m.file_seq desc', function (err, rows) {
       if (err) throw err;
       console.log("~?", rows);
       res.send(rows);
@@ -168,7 +168,7 @@ var connection = conn.connection;
       console.log("코드 테이블에 포함되어 있지 않은 경우");
       //담당자(ETC1)
       if(search.search_select_code=="ETC1"){
-        connection.query('SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and TKCGR_NM LIKE "%'+search.search_text +'%"', function (err, rows) {
+        connection.query('SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and m.FNS_DATE >sysdate() and TKCGR_NM LIKE "%'+search.search_text +'%"', function (err, rows) {
           if (err) res.send("");
           console.log(rows);
           if(rows!=""){
@@ -181,7 +181,7 @@ var connection = conn.connection;
 
       //자동화 명칭(ETC2)
       if(search.search_select_code=="ETC2"){
-        connection.query('SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and NTCART_TITLE_NM LIKE "%'+search.search_text +'%"', function (err, rows) {
+        connection.query('SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE, m.FILE_SEQ FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and m.FNS_DATE >sysdate() and NTCART_TITLE_NM LIKE "%'+search.search_text +'%"', function (err, rows) {
           if (err) res.send("");
           console.log(rows);
           if(rows!=""){
@@ -240,7 +240,7 @@ var connection = conn.connection;
                     var userAndCodeArray = [];
 
                     // 팀코드 외에 나머지 코드들 중 검색어가 존재하는지 확인
-                    var forCodeTableQuery = 'SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and (LANG_CD in (' + val + ') or SYS_DIV_CD in (' + val + ') or CYCL_DATE_TYPE_CD in (' + val +') or RPY_RESLT_CD in (' + val + ') or TROBL_SVC_TYPE_CD in (' + val +') or CONN_EVN_DIV_CD in (' + val + '))';
+                    var forCodeTableQuery = 'SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and m.FNS_DATE >sysdate() and (LANG_CD in (' + val + ') or SYS_DIV_CD in (' + val + ') or CYCL_DATE_TYPE_CD in (' + val +') or RPY_RESLT_CD in (' + val + ') or TROBL_SVC_TYPE_CD in (' + val +') or CONN_EVN_DIV_CD in (' + val + '))';
                     
                     connection.query(forCodeTableQuery, function(err,row1){
                       if(err) throw err;
@@ -263,7 +263,7 @@ var connection = conn.connection;
                         // 코드 테이블 외 컬럼 중 검색어를 포함하고 있는지 확인
                         var forNonCodeTableQuery = "";
     
-                        forNonCodeTableQuery = 'SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and (SROC_FILE_PATH_NM LIKE "%' + search.search_text +'%" or DOW_NM LIKE "%' + search.search_text +'%" or DATA_EXE_TIME  LIKE "%' + search.search_text +'%" or INPUT_VAL  LIKE "%' + search.search_text +'%" or TRT_STEP_NM  LIKE "%' + search.search_text +'%" or ATTEN_MTR_SBST  LIKE "%' + search.search_text +'%" or ATC_FILE_MANUAL_YN  LIKE "%' + search.search_text +'%" or ATC_FILE_UPLD_PATH_NM  LIKE "%' + search.search_text +'%" or OTPUT_SBST  LIKE "%' + search.search_text +'%" or ETC_SBST  LIKE "%' + search.search_text +'%" or EXE_SBST  LIKE "%' + search.search_text +'%" or NTCART_TITLE_NM  LIKE "%' + search.search_text +'%" or TKCGR_NM  LIKE "%' + search.search_text +'%" or RUSER_NM  LIKE "%' + search.search_text +'%" or DTL_DESC_SBST  LIKE "%' + search.search_text +'%" or WRKJOB_PRPS_NM   LIKE "%' + search.search_text +'%")';
+                        forNonCodeTableQuery = 'SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and m.FNS_DATE >sysdate() and (SROC_FILE_PATH_NM LIKE "%' + search.search_text +'%" or DOW_NM LIKE "%' + search.search_text +'%" or DATA_EXE_TIME  LIKE "%' + search.search_text +'%" or INPUT_VAL  LIKE "%' + search.search_text +'%" or TRT_STEP_NM  LIKE "%' + search.search_text +'%" or ATTEN_MTR_SBST  LIKE "%' + search.search_text +'%" or ATC_FILE_MANUAL_YN  LIKE "%' + search.search_text +'%" or ATC_FILE_UPLD_PATH_NM  LIKE "%' + search.search_text +'%" or OTPUT_SBST  LIKE "%' + search.search_text +'%" or ETC_SBST  LIKE "%' + search.search_text +'%" or EXE_SBST  LIKE "%' + search.search_text +'%" or NTCART_TITLE_NM  LIKE "%' + search.search_text +'%" or TKCGR_NM  LIKE "%' + search.search_text +'%" or RUSER_NM  LIKE "%' + search.search_text +'%" or DTL_DESC_SBST  LIKE "%' + search.search_text +'%" or WRKJOB_PRPS_NM   LIKE "%' + search.search_text +'%")';
     
                         // 코드 외 테이블에 검색어가 존재하는지 조회
                         connection.query(forNonCodeTableQuery, function(err,row2) {
@@ -292,7 +292,7 @@ var connection = conn.connection;
                       else {
                         // 코드 외 테이블 조회
                         // 코드 테이블 외 컬럼 중 검색어를 포함하고 있는지 확인
-                        var forNonCodeTableQuery = 'SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and (SROC_FILE_PATH_NM LIKE "%' + search.search_text +'%" or DOW_NM LIKE "%' + search.search_text +'%" or DATA_EXE_TIME  LIKE "%' + search.search_text +'%" or INPUT_VAL  LIKE "%' + search.search_text +'%" or TRT_STEP_NM  LIKE "%' + search.search_text +'%" or ATTEN_MTR_SBST  LIKE "%' + search.search_text +'%" or ATC_FILE_MANUAL_YN  LIKE "%' + search.search_text +'%" or ATC_FILE_UPLD_PATH_NM  LIKE "%' + search.search_text +'%" or OTPUT_SBST  LIKE "%' + search.search_text +'%" or ETC_SBST  LIKE "%' + search.search_text +'%" or EXE_SBST  LIKE "%' + search.search_text +'%" or NTCART_TITLE_NM  LIKE "%' + search.search_text +'%" or TKCGR_NM  LIKE "%' + search.search_text +'%" or RUSER_NM  LIKE "%' + search.search_text +'%" or DTL_DESC_SBST  LIKE "%' + search.search_text +'%" or WRKJOB_PRPS_NM   LIKE "%' + search.search_text +'%")';
+                        var forNonCodeTableQuery = 'SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and m.FNS_DATE >sysdate() and (SROC_FILE_PATH_NM LIKE "%' + search.search_text +'%" or DOW_NM LIKE "%' + search.search_text +'%" or DATA_EXE_TIME  LIKE "%' + search.search_text +'%" or INPUT_VAL  LIKE "%' + search.search_text +'%" or TRT_STEP_NM  LIKE "%' + search.search_text +'%" or ATTEN_MTR_SBST  LIKE "%' + search.search_text +'%" or ATC_FILE_MANUAL_YN  LIKE "%' + search.search_text +'%" or ATC_FILE_UPLD_PATH_NM  LIKE "%' + search.search_text +'%" or OTPUT_SBST  LIKE "%' + search.search_text +'%" or ETC_SBST  LIKE "%' + search.search_text +'%" or EXE_SBST  LIKE "%' + search.search_text +'%" or NTCART_TITLE_NM  LIKE "%' + search.search_text +'%" or TKCGR_NM  LIKE "%' + search.search_text +'%" or RUSER_NM  LIKE "%' + search.search_text +'%" or DTL_DESC_SBST  LIKE "%' + search.search_text +'%" or WRKJOB_PRPS_NM   LIKE "%' + search.search_text +'%")';
     
                         // 코드 외 테이블에 검색어가 존재하는지 조회
                         connection.query(forNonCodeTableQuery, function(err,row2) {
@@ -320,7 +320,7 @@ var connection = conn.connection;
                   // 자동화 목록 테이블에 사용자 일련번호 존재하지 않는 경우
                   else{
                     // 팀코드 외에 나머지 코드들 중 검색어가 존재하는지 확인
-                    var forCodeTableQuery = 'SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and (LANG_CD in (' + val + ') or SYS_DIV_CD in (' + val + ') or CYCL_DATE_TYPE_CD in (' + val +') or RPY_RESLT_CD in (' + val + ') or TROBL_SVC_TYPE_CD in (' + val +') or CONN_EVN_DIV_CD in (' + val + '))';
+                    var forCodeTableQuery = 'SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and m.FNS_DATE >sysdate() and (LANG_CD in (' + val + ') or SYS_DIV_CD in (' + val + ') or CYCL_DATE_TYPE_CD in (' + val +') or RPY_RESLT_CD in (' + val + ') or TROBL_SVC_TYPE_CD in (' + val +') or CONN_EVN_DIV_CD in (' + val + '))';
 
                     connection.query(forCodeTableQuery, function(err,row1){
                       if(err) throw err;
@@ -334,7 +334,7 @@ var connection = conn.connection;
                         // 코드 테이블 외 컬럼 중 검색어를 포함하고 있는지 확인
                         var forNonCodeTableQuery = "";
 
-                        forNonCodeTableQuery = 'SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and (SROC_FILE_PATH_NM LIKE "%' + search.search_text +'%" or DOW_NM LIKE "%' + search.search_text +'%" or DATA_EXE_TIME  LIKE "%' + search.search_text +'%" or INPUT_VAL  LIKE "%' + search.search_text +'%" or TRT_STEP_NM  LIKE "%' + search.search_text +'%" or ATTEN_MTR_SBST  LIKE "%' + search.search_text +'%" or ATC_FILE_MANUAL_YN  LIKE "%' + search.search_text +'%" or ATC_FILE_UPLD_PATH_NM  LIKE "%' + search.search_text +'%" or OTPUT_SBST  LIKE "%' + search.search_text +'%" or ETC_SBST  LIKE "%' + search.search_text +'%" or EXE_SBST  LIKE "%' + search.search_text +'%" or NTCART_TITLE_NM  LIKE "%' + search.search_text +'%" or TKCGR_NM  LIKE "%' + search.search_text +'%" or RUSER_NM  LIKE "%' + search.search_text +'%" or DTL_DESC_SBST  LIKE "%' + search.search_text +'%" or WRKJOB_PRPS_NM   LIKE "%' + search.search_text +'%")';
+                        forNonCodeTableQuery = 'SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and m.FNS_DATE >sysdate() and (SROC_FILE_PATH_NM LIKE "%' + search.search_text +'%" or DOW_NM LIKE "%' + search.search_text +'%" or DATA_EXE_TIME  LIKE "%' + search.search_text +'%" or INPUT_VAL  LIKE "%' + search.search_text +'%" or TRT_STEP_NM  LIKE "%' + search.search_text +'%" or ATTEN_MTR_SBST  LIKE "%' + search.search_text +'%" or ATC_FILE_MANUAL_YN  LIKE "%' + search.search_text +'%" or ATC_FILE_UPLD_PATH_NM  LIKE "%' + search.search_text +'%" or OTPUT_SBST  LIKE "%' + search.search_text +'%" or ETC_SBST  LIKE "%' + search.search_text +'%" or EXE_SBST  LIKE "%' + search.search_text +'%" or NTCART_TITLE_NM  LIKE "%' + search.search_text +'%" or TKCGR_NM  LIKE "%' + search.search_text +'%" or RUSER_NM  LIKE "%' + search.search_text +'%" or DTL_DESC_SBST  LIKE "%' + search.search_text +'%" or WRKJOB_PRPS_NM   LIKE "%' + search.search_text +'%")';
 
                         // 코드 외 테이블에 검색어가 존재하는지 조회
                         connection.query(forNonCodeTableQuery, function(err,row2) {
@@ -363,7 +363,7 @@ var connection = conn.connection;
                       else {
                         // 코드 외 테이블 조회
                         // 코드 테이블 외 컬럼 중 검색어를 포함하고 있는지 확인
-                        var forNonCodeTableQuery = 'SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and (SROC_FILE_PATH_NM LIKE "%' + search.search_text +'%" or DOW_NM LIKE "%' + search.search_text +'%" or DATA_EXE_TIME  LIKE "%' + search.search_text +'%" or INPUT_VAL  LIKE "%' + search.search_text +'%" or TRT_STEP_NM  LIKE "%' + search.search_text +'%" or ATTEN_MTR_SBST  LIKE "%' + search.search_text +'%" or ATC_FILE_MANUAL_YN  LIKE "%' + search.search_text +'%" or ATC_FILE_UPLD_PATH_NM  LIKE "%' + search.search_text +'%" or OTPUT_SBST  LIKE "%' + search.search_text +'%" or ETC_SBST  LIKE "%' + search.search_text +'%" or EXE_SBST  LIKE "%' + search.search_text +'%" or NTCART_TITLE_NM  LIKE "%' + search.search_text +'%" or TKCGR_NM  LIKE "%' + search.search_text +'%" or RUSER_NM  LIKE "%' + search.search_text +'%" or DTL_DESC_SBST  LIKE "%' + search.search_text +'%" or WRKJOB_PRPS_NM   LIKE "%' + search.search_text +'%")';
+                        var forNonCodeTableQuery = 'SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and m.FNS_DATE >sysdate() and (SROC_FILE_PATH_NM LIKE "%' + search.search_text +'%" or DOW_NM LIKE "%' + search.search_text +'%" or DATA_EXE_TIME  LIKE "%' + search.search_text +'%" or INPUT_VAL  LIKE "%' + search.search_text +'%" or TRT_STEP_NM  LIKE "%' + search.search_text +'%" or ATTEN_MTR_SBST  LIKE "%' + search.search_text +'%" or ATC_FILE_MANUAL_YN  LIKE "%' + search.search_text +'%" or ATC_FILE_UPLD_PATH_NM  LIKE "%' + search.search_text +'%" or OTPUT_SBST  LIKE "%' + search.search_text +'%" or ETC_SBST  LIKE "%' + search.search_text +'%" or EXE_SBST  LIKE "%' + search.search_text +'%" or NTCART_TITLE_NM  LIKE "%' + search.search_text +'%" or TKCGR_NM  LIKE "%' + search.search_text +'%" or RUSER_NM  LIKE "%' + search.search_text +'%" or DTL_DESC_SBST  LIKE "%' + search.search_text +'%" or WRKJOB_PRPS_NM   LIKE "%' + search.search_text +'%")';
 
                         // 코드 외 테이블에 검색어가 존재하는지 조회
                         connection.query(forNonCodeTableQuery, function(err,row1) {
@@ -389,7 +389,7 @@ var connection = conn.connection;
               //팀코드가 존재하지 않는경우 (사용자 일련번호가 존재하지 않는 경우)
               else {
                 // 팀코드 외에 나머지 코드들 중 검색어가 존재하는지 확인
-                var forCodeTableQuery = 'SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and (LANG_CD in (' + val + ') or SYS_DIV_CD in (' + val + ') or CYCL_DATE_TYPE_CD in (' + val +') or RPY_RESLT_CD in (' + val + ') or TROBL_SVC_TYPE_CD in (' + val +') or CONN_EVN_DIV_CD in (' + val + '))';
+                var forCodeTableQuery = 'SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and m.FNS_DATE >sysdate() and (LANG_CD in (' + val + ') or SYS_DIV_CD in (' + val + ') or CYCL_DATE_TYPE_CD in (' + val +') or RPY_RESLT_CD in (' + val + ') or TROBL_SVC_TYPE_CD in (' + val +') or CONN_EVN_DIV_CD in (' + val + '))';
 
                 connection.query(forCodeTableQuery, function(err,row1){
                   if(err) throw err;
@@ -403,7 +403,7 @@ var connection = conn.connection;
                     // 코드 테이블 외 컬럼 중 검색어를 포함하고 있는지 확인
                     var forNonCodeTableQuery = "";
 
-                    forNonCodeTableQuery = 'SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and (SROC_FILE_PATH_NM LIKE "%' + search.search_text +'%" or DOW_NM LIKE "%' + search.search_text +'%" or DATA_EXE_TIME  LIKE "%' + search.search_text +'%" or INPUT_VAL  LIKE "%' + search.search_text +'%" or TRT_STEP_NM  LIKE "%' + search.search_text +'%" or ATTEN_MTR_SBST  LIKE "%' + search.search_text +'%" or ATC_FILE_MANUAL_YN  LIKE "%' + search.search_text +'%" or ATC_FILE_UPLD_PATH_NM  LIKE "%' + search.search_text +'%" or OTPUT_SBST  LIKE "%' + search.search_text +'%" or ETC_SBST  LIKE "%' + search.search_text +'%" or EXE_SBST  LIKE "%' + search.search_text +'%" or NTCART_TITLE_NM  LIKE "%' + search.search_text +'%" or TKCGR_NM  LIKE "%' + search.search_text +'%" or RUSER_NM  LIKE "%' + search.search_text +'%" or DTL_DESC_SBST  LIKE "%' + search.search_text +'%" or WRKJOB_PRPS_NM   LIKE "%' + search.search_text +'%")';
+                    forNonCodeTableQuery = 'SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and m.FNS_DATE >sysdate() and (SROC_FILE_PATH_NM LIKE "%' + search.search_text +'%" or DOW_NM LIKE "%' + search.search_text +'%" or DATA_EXE_TIME  LIKE "%' + search.search_text +'%" or INPUT_VAL  LIKE "%' + search.search_text +'%" or TRT_STEP_NM  LIKE "%' + search.search_text +'%" or ATTEN_MTR_SBST  LIKE "%' + search.search_text +'%" or ATC_FILE_MANUAL_YN  LIKE "%' + search.search_text +'%" or ATC_FILE_UPLD_PATH_NM  LIKE "%' + search.search_text +'%" or OTPUT_SBST  LIKE "%' + search.search_text +'%" or ETC_SBST  LIKE "%' + search.search_text +'%" or EXE_SBST  LIKE "%' + search.search_text +'%" or NTCART_TITLE_NM  LIKE "%' + search.search_text +'%" or TKCGR_NM  LIKE "%' + search.search_text +'%" or RUSER_NM  LIKE "%' + search.search_text +'%" or DTL_DESC_SBST  LIKE "%' + search.search_text +'%" or WRKJOB_PRPS_NM   LIKE "%' + search.search_text +'%")';
 
                     // 코드 외 테이블에 검색어가 존재하는지 조회
                     connection.query(forNonCodeTableQuery, function(err,row2) {
@@ -432,7 +432,7 @@ var connection = conn.connection;
                   else {
                     // 코드 외 테이블 조회
                     // 코드 테이블 외 컬럼 중 검색어를 포함하고 있는지 확인
-                    var forNonCodeTableQuery = 'SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and (SROC_FILE_PATH_NM LIKE "%' + search.search_text +'%" or DOW_NM LIKE "%' + search.search_text +'%" or DATA_EXE_TIME  LIKE "%' + search.search_text +'%" or INPUT_VAL  LIKE "%' + search.search_text +'%" or TRT_STEP_NM  LIKE "%' + search.search_text +'%" or ATTEN_MTR_SBST  LIKE "%' + search.search_text +'%" or ATC_FILE_MANUAL_YN  LIKE "%' + search.search_text +'%" or ATC_FILE_UPLD_PATH_NM  LIKE "%' + search.search_text +'%" or OTPUT_SBST  LIKE "%' + search.search_text +'%" or ETC_SBST  LIKE "%' + search.search_text +'%" or EXE_SBST  LIKE "%' + search.search_text +'%" or NTCART_TITLE_NM  LIKE "%' + search.search_text +'%" or TKCGR_NM  LIKE "%' + search.search_text +'%" or RUSER_NM  LIKE "%' + search.search_text +'%" or DTL_DESC_SBST  LIKE "%' + search.search_text +'%" or WRKJOB_PRPS_NM   LIKE "%' + search.search_text +'%")';
+                    var forNonCodeTableQuery = 'SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and m.FNS_DATE >sysdate() and (SROC_FILE_PATH_NM LIKE "%' + search.search_text +'%" or DOW_NM LIKE "%' + search.search_text +'%" or DATA_EXE_TIME  LIKE "%' + search.search_text +'%" or INPUT_VAL  LIKE "%' + search.search_text +'%" or TRT_STEP_NM  LIKE "%' + search.search_text +'%" or ATTEN_MTR_SBST  LIKE "%' + search.search_text +'%" or ATC_FILE_MANUAL_YN  LIKE "%' + search.search_text +'%" or ATC_FILE_UPLD_PATH_NM  LIKE "%' + search.search_text +'%" or OTPUT_SBST  LIKE "%' + search.search_text +'%" or ETC_SBST  LIKE "%' + search.search_text +'%" or EXE_SBST  LIKE "%' + search.search_text +'%" or NTCART_TITLE_NM  LIKE "%' + search.search_text +'%" or TKCGR_NM  LIKE "%' + search.search_text +'%" or RUSER_NM  LIKE "%' + search.search_text +'%" or DTL_DESC_SBST  LIKE "%' + search.search_text +'%" or WRKJOB_PRPS_NM   LIKE "%' + search.search_text +'%")';
 
                     // 코드 외 테이블에 검색어가 존재하는지 조회
                     connection.query(forNonCodeTableQuery, function(err,row1) {
@@ -461,7 +461,7 @@ var connection = conn.connection;
             // 코드 테이블 외 컬럼 중 검색어를 포함하고 있는지 확인
             var forNonCodeTableQuery = "";
 
-            forNonCodeTableQuery = 'SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and (SROC_FILE_PATH_NM LIKE "%' + search.search_text +'%" or DOW_NM LIKE "%' + search.search_text +'%" or DATA_EXE_TIME  LIKE "%' + search.search_text +'%" or INPUT_VAL  LIKE "%' + search.search_text +'%" or TRT_STEP_NM  LIKE "%' + search.search_text +'%" or ATTEN_MTR_SBST  LIKE "%' + search.search_text +'%" or ATC_FILE_MANUAL_YN  LIKE "%' + search.search_text +'%" or ATC_FILE_UPLD_PATH_NM  LIKE "%' + search.search_text +'%" or OTPUT_SBST  LIKE "%' + search.search_text +'%" or ETC_SBST  LIKE "%' + search.search_text +'%" or EXE_SBST  LIKE "%' + search.search_text +'%" or NTCART_TITLE_NM  LIKE "%' + search.search_text +'%" or TKCGR_NM  LIKE "%' + search.search_text +'%" or RUSER_NM  LIKE "%' + search.search_text +'%" or DTL_DESC_SBST  LIKE "%' + search.search_text +'%" or WRKJOB_PRPS_NM   LIKE "%' + search.search_text +'%")';
+            forNonCodeTableQuery = 'SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq where LAST_HST_YN = "Y" and m.FNS_DATE >sysdate() and (SROC_FILE_PATH_NM LIKE "%' + search.search_text +'%" or DOW_NM LIKE "%' + search.search_text +'%" or DATA_EXE_TIME  LIKE "%' + search.search_text +'%" or INPUT_VAL  LIKE "%' + search.search_text +'%" or TRT_STEP_NM  LIKE "%' + search.search_text +'%" or ATTEN_MTR_SBST  LIKE "%' + search.search_text +'%" or ATC_FILE_MANUAL_YN  LIKE "%' + search.search_text +'%" or ATC_FILE_UPLD_PATH_NM  LIKE "%' + search.search_text +'%" or OTPUT_SBST  LIKE "%' + search.search_text +'%" or ETC_SBST  LIKE "%' + search.search_text +'%" or EXE_SBST  LIKE "%' + search.search_text +'%" or NTCART_TITLE_NM  LIKE "%' + search.search_text +'%" or TKCGR_NM  LIKE "%' + search.search_text +'%" or RUSER_NM  LIKE "%' + search.search_text +'%" or DTL_DESC_SBST  LIKE "%' + search.search_text +'%" or WRKJOB_PRPS_NM   LIKE "%' + search.search_text +'%")';
 
             // 코드 외 테이블에 검색어가 존재하는지 조회
             connection.query(forNonCodeTableQuery, function(err,row1) {
@@ -507,7 +507,7 @@ var connection = conn.connection;
                 }
                 console.log(value);
                   //조회한 사용자 일련번호로 자동화 목록리스트 조회
-                  connection.query('SELECT DISTINCT(m.FILE_SEQ),  NTCART_TITLE_NM, TKCGR_NM, FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE LAST_HST_YN = "Y" and m.CUST_IDFY_SEQ in ('+ value+')',function(err,row3){
+                  connection.query('SELECT DISTINCT(m.FILE_SEQ),  NTCART_TITLE_NM, TKCGR_NM, FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE LAST_HST_YN = "Y" and m.FNS_DATE >sysdate() and m.CUST_IDFY_SEQ in ('+ value+')',function(err,row3){
                     if(err) throw err;
                     console.log("자동화목록 조회");
                     console.log(row3);
@@ -539,7 +539,7 @@ var connection = conn.connection;
                 value+=",";
               }
               console.log(value);
-              connection.query('SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE LAST_HST_YN = "Y" and LANG_CD in ('+value+')', function (err, rows) {
+              connection.query('SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE LAST_HST_YN = "Y" and m.FNS_DATE >sysdate() and LANG_CD in ('+value+')', function (err, rows) {
                 if (err) throw err;
                 console.log(rows);
                 res.send(rows);
@@ -566,7 +566,7 @@ var connection = conn.connection;
                 value+=",";
               }
               console.log(value);
-                connection.query('SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE LAST_HST_YN = "Y" and SYS_DIV_CD in ('+value+')', function (err, rows) {
+                connection.query('SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE LAST_HST_YN = "Y" and m.FNS_DATE >sysdate() and SYS_DIV_CD in ('+value+')', function (err, rows) {
                   if (err) res.send("");
                   console.log(rows);
                   res.send(rows);
@@ -590,7 +590,7 @@ var connection = conn.connection;
                 value+=",";
               }
               console.log(value);
-              connection.query('SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE LAST_HST_YN = "Y" and CYCL_DATE_TYPE_CD in ('+value+')', function (err, rows) {
+              connection.query('SELECT DISTINCT(m.FILE_SEQ), m.NTCART_TITLE_NM, m.TKCGR_NM,m.FIRST_REG_DATE, ifnull(e.EXE_DATE,"0000-00-00 00:00:00") as EXE_DATE FROM TBL_MOA_BAS as m left join TBL_MOA_EXECUTION_TXN as e on e.file_seq = m.file_seq WHERE LAST_HST_YN = "Y" and m.FNS_DATE >sysdate() and CYCL_DATE_TYPE_CD in ('+value+')', function (err, rows) {
                 if (err) throw err;
                 console.log(rows);
                 res.send(rows);
@@ -627,4 +627,36 @@ var connection = conn.connection;
     });
   });
 
+  
+
+// 상세 목록 삭제
+router.post('/deleteDetail/:id', function(req, res){
+  console.log("삭제하기");
+  const id = req.params.id;
+  connection.query('UPDATE TBL_MOA_BAS SET FNS_DATE = sysdate() WHERE FILE_SEQ ='+ id, function(err, rows){
+    if(err) throw err;
+    console.log(rows);
+    if(rows!= ""){
+      res.json({
+        success: true,
+        message: '삭제가 완료되었습니다.',
+      })
+    }
+  })
+  //이력 테이블 상세 조회를 한 후 데이터 가져와서 삭제 컬럼 추가시 같이 insert 하기
+  connection.query('SELECT * FROM TBL_MOA_HST WHERE LAST_HST_YN="Y" AND FILE_SEQ ='+id, function(err, row){
+    if(err) throw err;
+    if(row != ""){
+      console.log(row);
+      connection.query('UPDATE TBL_MOA_HST SET FNS_DATE = sysdate(), LAST_HST_YN="" WHERE LAST_HST_YN="Y" AND FILE_SEQ ='+id, function(err,rows){
+        if(err) throw err;
+        console.log(rows);
+        connection.query('INSERT INTO TBL_MOA_HST (FILE_SEQ,CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) VALUES ("'+row[0].FILE_SEQ+'","' + row[0].CUST_IDFY_SEQ + '","'+ row[0].SROC_FILE_PATH_NM+'", "' + row[0].LANG_CD + '", "' + row[0].SYS_DIV_CD + '","' + row[0].CYCL_DATE_TYPE_CD + '","' + row[0].DOW_NM + '","' + row[0].DATA_EXE_TIME +'","' + row[0].RPY_RESLT_CD+'","' + row[0].TROBL_SVC_TYPE_CD  +'","' + row[0].INPUT_VAL +'","' + row[0].TRT_STEP_NM +'","' + row[0].CONN_EVN_DIV_CD +'","' + row[0].ATTEN_MTR_SBST+'","' + row[0].ATC_FILE_MANUAL_YN+'","' + row[0].ATC_FILE_UPLD_PATH_NM+'","' + row[0].OTPUT_SBST +'","' + row[0].ETC_SBST+'","' + row[0].EXE_SBST +'","' + row[0].NTCART_TITLE_NM +'","' + row[0].TKCGR_NM+'","' +row[0].RUSER_NM+'",sysdate(),sysdate(),"Y","N","D","'+row[0].DTL_DESC_SBST+'","'+row[0].WRKJOB_PRPS_NM+'")',row[0],function(err,result){
+          if(err) throw err;
+          console.log(result);
+        })
+      })
+    }
+  })
+})
 module.exports = router;

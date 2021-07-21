@@ -257,10 +257,6 @@ ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DAT
 VALUES (7, '\\uploads\\N과M_6.java', 'L01', 'S07', 'C07', '','0:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
 '완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '유통 Mail-Bot(K-Note)', '황윤섭', '황윤섭과장', '2021-07-19', '2021-07-19', '9999-12-31','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','스탭업무대상');
 
-
-alter table tbl_moa_bas add FULLTEXT(SROC_FILE_PATH_NM, DOW_NM, DATA_EXE_TIME, INPUT_VAL, TRT_STEP_NM, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM,DTL_DESC_SBST);
-alter table tbl_moa_bas add FULLTEXT(LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, CONN_EVN_DIV_CD);
-
 -- 자동화 세부정보 이력 테이블 생성
 CREATE TABLE TBL_MOA_HST(
 STTUS_CHG_HST_SEQ INT NOT NULL auto_increment PRIMARY KEY,
@@ -297,7 +293,7 @@ FOREIGN KEY(FILE_SEQ) REFERENCES TBL_MOA_BAS(FILE_SEQ),
 FOREIGN KEY(CUST_IDFY_SEQ) REFERENCES TBL_MOA_BAS(CUST_IDFY_SEQ)
 );
 
-SELECT * FROM TBL_MOA_HST;
+SELECT * FROM TBL_MOA_HST where file_seq=1;
 -- delete from TBL_MOA_HST where file_seq = 10;
 
 
@@ -451,7 +447,6 @@ VALUES (18,7, '\\uploads\\N과M_6.java', 'L01', 'S07', 'C07', '','0:05', 'R03', 
 
 select * from TBL_MOA_EXECUTION_TXN;
 -- delete from TBL_MOA_EXECUTION_TXN where file_seq = 10;
-
 
 -- 실행 테이블 생성
 CREATE TABLE TBL_MOA_EXECUTION_TXN(

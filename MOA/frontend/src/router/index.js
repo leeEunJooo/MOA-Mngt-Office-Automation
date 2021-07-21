@@ -59,6 +59,7 @@ const routes = [
   {
     path: '/moalist/:id/',
     name: 'listdetail',
+    props:true,
     component:ListDetail,
     children:[
       {

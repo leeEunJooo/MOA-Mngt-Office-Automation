@@ -168,6 +168,7 @@ export default {
     methods: {
       handleClick: function(items) {
         console.log(items);
+        
         let routeData = this.$router.resolve({
           name: 'listdetail',
           params: {id: items.FILE_SEQ}

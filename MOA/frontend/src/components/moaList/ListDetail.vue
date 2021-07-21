@@ -4,19 +4,15 @@
             <router-view></router-view>
         <div class="post_btn">
             <v-btn v-on:click="cancel" class="close">닫기</v-btn>
+            <v-btn v-show="this.user === this.cust_idfy_seq" v-on:click="deletedetail" class="deletedetail">삭제</v-btn>
         </div>
-
+        
         </div>
     </div>
 </template>
 
 <script>
 export default {
-    props : {
-        Id : Number,
-        detailInfo : {},
-        
-    },
     components:{
     },
 
@@ -34,19 +30,34 @@ export default {
             file_nm:"",
             menu_nm:"",
             file_seq:"",
+            user:"",
+            cust_idfy_seq:"",
         }
         
     },
     methods:{
         cancel:function(){
             window.close();
+        },
+        deletedetail:function(){
+            console.log("삭제하기", this.file_seq);
+            this.$http.post(`/api/mlist/deleteDetail/${this.file_seq}`)
+            .then(
+                (response)=>{
+                    alert(response.data.message);
+                    opener.parent.location.reload();
+                    window.close();
+                }
+            )   
         }
     },
     created() {
-        this.file_seq = this.$route.params.id;
-        
+        this.file_seq = this.$route.params.id;  
+        this.user = JSON.parse(localStorage.getItem('token')).user.CUST_IDFY_SEQ;
+        console.log("cust_idfy_seq", this.user);
     },
     mounted(){
+        
     }
 }
 </script>
@@ -166,6 +177,7 @@ export default {
         border: solid 3px #3b2fcb;
         background: white;
     }
+
 
     /* 파일 */
     .list_detail .fileType,

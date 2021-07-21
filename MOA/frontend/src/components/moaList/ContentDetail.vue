@@ -164,6 +164,7 @@ export default {
                 .then(
                 (res)=>{
                     this.detailInfo = res.data[0];
+                    this.cust_idfy_seq = this.detailInfo.CUST_IDFY_SEQ;
                     //ATC_FILE_UPLD_PATH_NM SROC_FILE_PATH_NM
                     //파일 존재 여부 체크
                     console.log(this.detailInfo);
