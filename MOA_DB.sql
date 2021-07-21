@@ -68,7 +68,7 @@ update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ =12;
 
 update tbl_moa_user_bas set UPLD_CASCNT = 0 where CUST_IDFY_SEQ =4; 
 update tbl_moa_user_bas set UPLD_CASCNT = 0 where CUST_IDFY_SEQ =5; 
-update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ =6; 
+update tbl_moa_user_bas set UPLD_CASCNT = 0 where CUST_IDFY_SEQ =6; 
 
 select * from tbl_moa_user_bas;
 select * from tbl_moa_bas;
