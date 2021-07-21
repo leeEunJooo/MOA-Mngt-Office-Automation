@@ -63,7 +63,6 @@ export default {
                     window.close();
                 }
             ) 
-            window.close();
         }
     },
     created() {
