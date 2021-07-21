@@ -112,7 +112,6 @@ router.post('/userinfo', function (req, res) {
   const users = {
     'user_id': req.body.user_id,
   };
-  console.log(users.user_id);
   connection.query('SELECT * FROM TBL_MOA_USER_BAS WHERE user_id = "' + users.user_id + '"', function (err, rows) {
     if (err) throw err;
     console.log(rows);

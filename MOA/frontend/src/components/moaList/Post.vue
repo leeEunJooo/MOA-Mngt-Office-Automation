@@ -417,11 +417,9 @@ methods:{
     },
 
     loadCD: function(){
-        console.log("aa",JSON.parse(localStorage.getItem('token')).user.user_id);
         this.$http
             .post("/api/musers/userinfo", {
                 user_id: JSON.parse(localStorage.getItem('token')).user.user_id
-                
             })
             .then(
             (response) => {
@@ -504,8 +502,6 @@ methods:{
             let filename = splthArr_name[splthArr_name.length-1];
 
             const parent = e.target.parentNode;
-            console.log(parent);
-            
             const fileType = parent.querySelector('#fileType');
             const fileContent = parent.querySelector('#fileContent');
             const delVtn = parent.querySelector('#deletebtn');
@@ -534,7 +530,6 @@ methods:{
 created() {
     // Select박스 Option 호출
     this.loadCD();
-    console.log(JSON.parse(localStorage.getItem('token')).user);
 },
 mounted(){
     this.addFile();

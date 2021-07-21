@@ -4,7 +4,7 @@
             <router-view></router-view>
         <div class="post_btn">
             <v-btn v-on:click="cancel" class="close">닫기</v-btn>
-            <v-btn v-show="this.user === this.cust_idfy_seq" v-on:click="deletedetail" class="deletedetail">삭제</v-btn>
+            <v-btn v-show="delshow" v-on:click="delbtn" class="delete">삭제</v-btn>
         </div>
         
         </div>
@@ -12,6 +12,8 @@
 </template>
 
 <script>
+import EventBus from '../../EventBus';
+
 export default {
     components:{
     },
@@ -30,8 +32,8 @@ export default {
             file_nm:"",
             menu_nm:"",
             file_seq:"",
-            user:"",
-            cust_idfy_seq:"",
+            user_seq:"",
+            delshow:false,
         }
         
     },
@@ -39,7 +41,19 @@ export default {
         cancel:function(){
             window.close();
         },
-        deletedetail:function(){
+        getuserseq: async function(){
+            await this.$http
+            .post("/api/musers/userinfo", {
+                user_id: JSON.parse(localStorage.getItem('token')).user.user_id
+            })
+            .then(
+            (response) => {
+                this.user_seq = response.data[0].CUST_IDFY_SEQ
+                }
+            ) 
+        },
+        delbtn: function(){
+            //디비업데이트
             console.log("삭제하기", this.file_seq);
             this.$http.post(`/api/mlist/deleteDetail/${this.file_seq}`)
             .then(
@@ -48,13 +62,16 @@ export default {
                     opener.parent.location.reload();
                     window.close();
                 }
-            )   
+            ) 
+            window.close();
         }
     },
     created() {
-        this.file_seq = this.$route.params.id;  
-        this.user = JSON.parse(localStorage.getItem('token')).user.CUST_IDFY_SEQ;
-        console.log("cust_idfy_seq", this.user);
+        this.file_seq = this.$route.params.id;
+        this.getuserseq();
+        EventBus.$on('CUST_IDFY_SEQ', (payload)=>{
+          this.delshow = (this.user_seq == payload)
+        });  
     },
     mounted(){
         
@@ -176,6 +193,19 @@ export default {
         box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
         border: solid 3px #3b2fcb;
         background: white;
+    }
+    .post_btn .delete{
+        float: right;
+        width: 105px;
+        height: 40px !important;
+        margin: 30px 20px 30px 0px;
+        color: white;
+        font-size: 14px;
+        border-radius: 24px;
+        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+        border: solid 3px #3b2fcb;
+        background: #3b2fcb !important;
+
     }
 
 

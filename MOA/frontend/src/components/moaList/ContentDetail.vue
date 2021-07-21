@@ -154,6 +154,7 @@
 </template>
 
 <script>
+import EventBus from '../../EventBus';
 
 export default {
     methods:{
@@ -164,10 +165,9 @@ export default {
                 .then(
                 (res)=>{
                     this.detailInfo = res.data[0];
-                    this.cust_idfy_seq = this.detailInfo.CUST_IDFY_SEQ;
+                    EventBus.$emit('CUST_IDFY_SEQ', res.data[0].CUST_IDFY_SEQ);
                     //ATC_FILE_UPLD_PATH_NM SROC_FILE_PATH_NM
                     //파일 존재 여부 체크
-                    console.log(this.detailInfo);
                     //코드성 변경
                     for(let i=0; i<Object.keys(this.detailInfo).length; i++){
                         if(Object.keys(this.detailInfo)[i].includes("_CD")){
@@ -230,8 +230,6 @@ export default {
                 params: {id: this.detailInfo.FILE_SEQ, file_path:this.file_nm, title:this.detailInfo.NTCART_TITLE_NM}}) //SourceView.vue에 데이터 넘겨주기
         },
         downloadsbtn:function(){
-            console.log("???");
-            console.log(this.file_nm);
             try{
                 let element = document.createElement('a');
                 element.setAttribute('href',`/api/download/${this.file_nm}`);
@@ -241,8 +239,6 @@ export default {
             }
         },
         menudownloadsbtn:function(){
-            console.log("???");
-            console.log(this.menu_nm);
             try{
                 let element = document.createElement('a');
                 element.setAttribute('href',`/api/download/menu/${this.menu_nm}`);
@@ -260,8 +256,11 @@ export default {
     },
     created() {
         this.getInfo();
-
+        
     },
+    mounted(){
+        
+    }
  
 }
 </script>
