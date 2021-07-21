@@ -25,7 +25,7 @@ router.post('/signUp', function (req, res) {
     'team_div_cd' : req.body.user.default_team.idx,
     'emp_pos_div_cd' : req.body.user.default_team.idx2
   }
-  console.log(user);
+  // console.log(user);
   // const team_div_cd ={
   //   'team_div_cd' : req.body.team_div_cd.idx,
   //   'emp_pos_div_cd' : req.boby.team_div_cd.idx2
@@ -38,7 +38,7 @@ router.post('/signUp', function (req, res) {
     })
   }else{
     connection.query('SELECT user_id FROM TBL_MOA_USER_BAS WHERE user_id = "' + user.user_id + '"', function (err, row) {
-      console.log(res);
+      // console.log(res);
       if (row[0] == undefined){ //  동일한 아이디가 없을경우,
         const salt = bcrypt.genSaltSync();
         const encryptedPassword = bcrypt.hashSync(user.user_pwd, salt);
@@ -83,7 +83,7 @@ router.post('/login', function (req, res) {
       if (row[0] !== undefined && row[0].user_id === user.user_id) {
         bcrypt.compare(user.user_pwd, row[0].user_pwd, function (err, res2) {
           if (res2) {
-            console.log(res2);
+            // console.log(res2);
             // req.session.is_logined = true;
             req.session.user=row[0];
             req.session.save();
@@ -114,7 +114,7 @@ router.post('/userinfo', function (req, res) {
   };
   connection.query('SELECT * FROM TBL_MOA_USER_BAS WHERE user_id = "' + users.user_id + '"', function (err, rows) {
     if (err) throw err;
-    console.log(rows);
+    // console.log(rows);
     res.send(rows);
     });
 });
@@ -140,7 +140,7 @@ router.post('/pwReset', function (req, res) {
     else {
       if(user.user_pwd == user.confirm_user_pwd){
         bcrypt.compare(user.user_pwd, row[0].USER_PWD, function (err, res2) {
-          console.log(res2);
+          // console.log(res2);
           if(res2){
             res.json({
               success: false,
@@ -177,7 +177,7 @@ router.post('/uploadUpdate', function(req,res){
   console.log(user.CUST_IDFY_SEQ);
   connection.query('UPDATE TBL_MOA_USER_BAS SET UPLD_CASCNT = UPLD_CASCNT+ 1 where CUST_IDFY_SEQ = "' + user.CUST_IDFY_SEQ + '"', user, function (err, row2){
     if(err) throw err;
-    console.log(row2);
+    // console.log(row2);
     res.send(row2);
   });
 });
@@ -191,7 +191,7 @@ router.post('/div_cnt', function(req,res){
   console.log("담당별 자동화 건수");
   connection.query('select e.cd_nm, sum(upld_cascnt) as upld_cascnt from tbl_moa_user_bas as m, TBL_MOA_CD_BAS as e where m.EMP_POS_DIV_CD = e.CD_ID group by EMP_POS_DIV_CD',function(err,rows){
     if(err) throw err;
-    console.log(rows);
+    // console.log(rows);
     res.send(rows);
   });
 });
@@ -202,7 +202,7 @@ router.post('/team_cnt', function(req,res){
   console.log("팀별 자동화 건수");
   connection.query('select e.cd_nm, sum(upld_cascnt) as upld_cascnt from tbl_moa_user_bas as m, TBL_MOA_CD_BAS as e where m.team_div_cd = e.CD_ID group by team_div_cd',function(err,rows){
     if(err) throw err;
-    console.log(rows);
+    // console.log(rows);
     res.send(rows);
   });
 });
@@ -212,7 +212,7 @@ router.post('/work_prps',function(req,res){
   console.log("업무 목적별 팀별 현황");
   connection.query('select c.cd_nm, WRKJOB_PRPS_NM, count(WRKJOB_PRPS_NM) as cnt from tbl_moa_bas as b left join tbl_moa_user_bas as u on b.cust_idfy_seq = u.cust_idfy_seq, tbl_moa_cd_bas as c where c.CD_ID = u.team_div_cd group by c.CD_ID, WRKJOB_PRPS_NM', function(err, rows){
     if(err) throw err;
-    console.log(rows);
+    // console.log(rows);
     res.send(rows);
   }); 
 });
@@ -223,7 +223,7 @@ router.post('/lang_cnt', function(req,res){
   console.log("기술별 자동화 건수");
   connection.query('select e.cd_nm, count(lang_cd) as upld_cascnt from tbl_moa_bas as m, TBL_MOA_CD_BAS as e where m.lang_cd = e.CD_ID group by lang_cd',function(err,rows){
     if(err) throw err;
-    console.log(rows);
+    // console.log(rows);
     res.send(rows);
   });
 });

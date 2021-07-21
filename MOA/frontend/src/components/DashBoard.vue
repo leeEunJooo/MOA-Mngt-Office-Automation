@@ -171,7 +171,7 @@ export default {
           this.barChartData3.data.datasets[0].data =[];
         for(var i=0; i<this.barChartData3.data.labels.length; i++){
             let flag = 0;
-            console.log("data.label",this.barChartData3.data.labels[i]);
+            // console.log("data.label",this.barChartData3.data.labels[i]);
             //백에서 보내온 데이터만큼 돌기(5개)
             for(var j=0; j<res.data.length; j++){
                //만약 팀이름이 같으면?
@@ -194,9 +194,9 @@ export default {
                   this.barChartData3.data.datasets[1].data.push(res.data[j].cnt);
                 }
               }
-              console.log("data", res.data[j],this.barChartData3.data.labels[i] );
+              // console.log("data", res.data[j],this.barChartData3.data.labels[i] );
             }
-            console.log("flag", flag);
+            // console.log("flag", flag);
             if(flag == 0){
               this.barChartData3.data.datasets[0].data.push(0);
               this.barChartData3.data.datasets[1].data.push(0);
@@ -209,7 +209,7 @@ export default {
               }
             }
 
-            console.log("data는", this.barChartData3.data.datasets[0], this.barChartData3.data.datasets[1]);
+            // console.log("data는", this.barChartData3.data.datasets[0], this.barChartData3.data.datasets[1]);
           }
     });
 
