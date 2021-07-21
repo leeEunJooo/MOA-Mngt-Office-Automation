@@ -95,17 +95,17 @@ export default {
     this.$http.post("/api/musers/div_cnt")
     .then(
       (res)=>{
-        console.log(res);
-        console.log(res.data.length);
-        console.log(res.data[0].upld_cascnt);
-        console.log(this.barChartData1.data.labels);
-        console.log("?????",this.barChartData1.data.datasets[0].data);
+        // console.log(res);
+        // console.log(res.data.length);
+        // console.log(res.data[0].upld_cascnt);
+        // console.log(this.barChartData1.data.labels);
+        // console.log("?????",this.barChartData1.data.datasets[0].data);
         for(var i=0; i<this.barChartData1.data.labels.length; i++){
           let flag = 0;
           for(var j=0; j<res.data.length; j++){
             if(this.barChartData1.data.labels[i] == res.data[j].cd_nm){
-              console.log("res.data[j].cd_nm",res.data[j].cd_nm);
-              console.log("this.barChartData1.data.labels[i]",this.barChartData1.data.labels[i]);
+              // console.log("res.data[j].cd_nm",res.data[j].cd_nm);
+              // console.log("this.barChartData1.data.labels[i]",this.barChartData1.data.labels[i]);
               this.barChartData1.data.datasets[0].data.push(res.data[j].upld_cascnt);
               flag =1;
               break;
@@ -124,17 +124,17 @@ export default {
     this.$http.post("/api/musers/team_cnt")
       .then(
         (res)=>{
-          console.log(res);
-          console.log(res.data.length);
-          console.log(res.data[0].upld_cascnt);
-          console.log(this.barChartData2.data.labels);
-          console.log("?????",this.barChartData2.data.datasets[0].data);
+          // console.log(res);
+          // console.log(res.data.length);
+          // console.log(res.data[0].upld_cascnt);
+          // console.log(this.barChartData2.data.labels);
+          // console.log("?????",this.barChartData2.data.datasets[0].data);
           for(var i=0; i<this.barChartData2.data.labels.length; i++){
             let flag = 0;
             for(var j=0; j<res.data.length; j++){
               if(this.barChartData2.data.labels[i] == res.data[j].cd_nm){
-                console.log("res.data[j].cd_nm",res.data[j].cd_nm);
-                console.log("this.barChartData2.data.labels[i]",this.barChartData2.data.labels[i]);
+                // console.log("res.data[j].cd_nm",res.data[j].cd_nm);
+                // console.log("this.barChartData2.data.labels[i]",this.barChartData2.data.labels[i]);
                 this.barChartData2.data.datasets[0].data.push(res.data[j].upld_cascnt);
                 flag =1;
                 break;
@@ -151,7 +151,7 @@ export default {
     .then(
       (res)=>{
         console.log("기술별 자동화 건수");
-        console.log(res);  
+        // console.log(res);  
         this.barChartData4.data.labels=[];
         this.barChartData4.data.datasets[0].data = [];
         for(var j=0; j<res.data.length; j++){
@@ -167,13 +167,16 @@ export default {
         console.log("업무 목적별 팀별");
         console.log(res);  
         //labels돌기(1~15팀)
+         this.barChartData3.data.datasets[1].data = [];
+          this.barChartData3.data.datasets[0].data =[];
         for(var i=0; i<this.barChartData3.data.labels.length; i++){
             let flag = 0;
+            console.log("data.label",this.barChartData3.data.labels[i]);
             //백에서 보내온 데이터만큼 돌기(5개)
             for(var j=0; j<res.data.length; j++){
                //만약 팀이름이 같으면?
               if(this.barChartData3.data.labels[i] == res.data[j].cd_nm){
-                console.log("오니???", res.data[j].WRKJOB_PRPS_NM)
+                console.log("오니???", res.data[j].WRKJOB_PRPS_NM, res.data[j].cd_nm)
                 //고객업무대상
                 if(this.barChartData3.data.datasets[0].label == res.data[j].WRKJOB_PRPS_NM){
                   flag =1;
@@ -182,23 +185,31 @@ export default {
                 }
                 //스텝업무대상
                 if(this.barChartData3.data.datasets[1].label == res.data[j].WRKJOB_PRPS_NM){
-                  flag =2;
+                  if(flag == 1){
+                    flag = 3;
+                  }else{
+                    flag =2;
+                  }
                   console.log("스텝업무 대상");
                   this.barChartData3.data.datasets[1].data.push(res.data[j].cnt);
                 }
               }
+              console.log("data", res.data[j],this.barChartData3.data.labels[i] );
             }
+            console.log("flag", flag);
             if(flag == 0){
               this.barChartData3.data.datasets[0].data.push(0);
               this.barChartData3.data.datasets[1].data.push(0);
             }else if(flag ==1 || flag == 2){
-              if(flag ==1 ){
+              if(flag ==1 ){ //고객업무대상일때
                 this.barChartData3.data.datasets[1].data.push(0);
               }
-              if(flag ==2){
+              if(flag ==2){ // 스텝업무대상
                 this.barChartData3.data.datasets[0].data.push(0);
               }
             }
+
+            console.log("data는", this.barChartData3.data.datasets[0], this.barChartData3.data.datasets[1]);
           }
     });
 
