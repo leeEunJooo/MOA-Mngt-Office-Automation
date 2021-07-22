@@ -492,18 +492,18 @@ VALUES (7, '\\uploads\\N과M_6.java', 'L01', 'S07', 'C07', '','00:05', 'R03', 'B
 
 
 
-update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\DT조근점검 flowchart.xaml' where file_seq = 4;
-update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\EDI 솔루션(xTrus) 점검.xaml' where file_seq = 15;
-update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\MVNO-RDS 조근점검.xaml' where file_seq = 14; 
-update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\유통 Mail-Bot.xaml' where file_seq = 13;
-update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\유통 Mail-Bot.xaml' where file_seq = 12;
-update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\유통 Mail-Bot.xaml' where file_seq = 11;
-update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\유통 Mail-Bot.xaml' where file_seq = 10;
-update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\올레TV탭 실적 발송.xaml' where file_seq = 16; 
-update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\유통조근점검.xaml' where file_seq = 17; 
-update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\유통조근점검.xaml' where file_seq = 18; 
-update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\유통조근점검.xaml' where file_seq = 19; 
-update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\유통조근점검.xaml' where file_seq = 20; 
+update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\DT조근점검 flowchart.xaml' where file_seq = 35;
+update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\EDI 솔루션(xTrus) 점검.xaml' where file_seq = 46;
+update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\MVNO-RDS 조근점검.xaml' where file_seq = 45; 
+update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\유통 Mail-Bot.xaml' where file_seq = 48;
+update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\유통 Mail-Bot.xaml' where file_seq = 49;
+update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\유통 Mail-Bot.xaml' where file_seq = 50;
+update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\유통 Mail-Bot.xaml' where file_seq = 51;
+update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\올레TV탭 실적 발송.xaml' where file_seq = 47; 
+update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\유통조근점검.xaml' where file_seq = 41; 
+update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\유통조근점검.xaml' where file_seq = 42; 
+update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\유통조근점검.xaml' where file_seq = 43; 
+update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\유통조근점검.xaml' where file_seq = 44; 
 
 -- 자동화 세부정보 이력 테이블 생성
 CREATE TABLE TBL_MOA_HST(
