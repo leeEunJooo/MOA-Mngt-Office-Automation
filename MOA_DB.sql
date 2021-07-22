@@ -6,7 +6,7 @@ drop table tbl_moa_cd_bas;
 drop table tbl_moa_execution_txn;
 drop table tbl_moa_hst;
 drop table tbl_moa_bas;
-drop table tbl_moa_user_bas;
+-- drop table tbl_moa_user_bas;
 
 -- 사용자 테이블 생성
 CREATE TABLE TBL_MOA_USER_BAS(
@@ -88,12 +88,15 @@ EMP_POS_DIV_CD VARCHAR(3) NOT NULL
 -- INSERT INTO TBL_MOA_USER_BAS(USER_ID, USER_PWD, USER_TEL_NO, USER_NM, UPLD_CASCNT, TEAM_DIV_CD, EMP_POS_DIV_CD) 
 -- VALUES ('test23', 'test23', '01000000000','장영실', 0, 'T05', 'D02');
 
+-- INSERT INTO TBL_MOA_USER_BAS(USER_ID, USER_PWD, USER_TEL_NO, USER_NM, UPLD_CASCNT, TEAM_DIV_CD, EMP_POS_DIV_CD) 
+-- VALUES ('test24', 'test24', '01000000000','김지영', 0, 'T01', 'D01');
+
 update tbl_moa_user_bas set UPLD_CASCNT = 2 where CUST_IDFY_SEQ =8; 
 update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ=3;
 update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ =14; 
 update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ =15; 
 update tbl_moa_user_bas set UPLD_CASCNT = 10 where CUST_IDFY_SEQ =7; 
-update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ =10; 
+update tbl_moa_user_bas set UPLD_CASCNT = 2 where CUST_IDFY_SEQ =10; 
 update tbl_moa_user_bas set UPLD_CASCNT = 3 where CUST_IDFY_SEQ =13; 
 update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ =12; 
 
@@ -103,16 +106,17 @@ update tbl_moa_user_bas set UPLD_CASCNT = 0 where CUST_IDFY_SEQ =6;
 
 update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ=11;
 update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ=16;
-update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ=17;
-update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ=18;
+update tbl_moa_user_bas set UPLD_CASCNT = 3 where CUST_IDFY_SEQ=17;
+update tbl_moa_user_bas set UPLD_CASCNT = 4 where CUST_IDFY_SEQ=18;
 update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ=19;
 update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ=20;
-update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ=21;
+update tbl_moa_user_bas set UPLD_CASCNT = 6 where CUST_IDFY_SEQ=21;
 update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ=22;
-update tbl_moa_user_bas set UPLD_CASCNT = 1 where CUST_IDFY_SEQ=23;
+update tbl_moa_user_bas set UPLD_CASCNT = 4 where CUST_IDFY_SEQ=23;
+update tbl_moa_user_bas set UPLD_CASCNT = 8 where CUST_IDFY_SEQ=24;
 
-select * from tbl_moa_user_bas;
-select * from tbl_moa_bas;
+-- select * from tbl_moa_user_bas;
+-- select * from tbl_moa_bas;
 
 -- 외래키 참조해제
 -- set foreign_key_checks=0;
@@ -158,7 +162,6 @@ WRKJOB_PRPS_NM VARCHAR(60) NOT NULL,
 FOREIGN KEY(CUST_IDFY_SEQ) REFERENCES TBL_MOA_USER_BAS(CUST_IDFY_SEQ)
 );
 
-update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\DT조근점검 flowchart.xaml' where file_seq = 4;
 
 -- 유세정 외 조대흠
 
@@ -209,13 +212,6 @@ ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DAT
 VALUES (13, '\\uploads\\N과M_4.java', 'L02', 'S03', 'C05', '월요일','00:00', 'R01', 'B01', '팀 이메일', 
 '완료', 'E01', '', 'N', '', '압축파일', '', '파일의 코드에 팀 이메일을 입력하고 파일을 실행시키기만 하면 비바체에서 엑셀을 다운로드 하고, ITSM에서 담당자가 누군지, 
 과제 내용 등을 조회하여 요구사항 분석시 파일을 자동으로 생성한 후 압축하여 팀 이메일로 팀내 과제 개발 담당자들에게 전송', '정기과제 요구 분석시 작성 자동화', '대우석', '팀 내 1명', '2021-07-19', '2021-07-19', '9999-12-31','스펙 확정 VIVACE의 스펙확정 자료를 기준으로 ITSM데이터 수집하여 과제별 엑셀 작성 후 각 담당자에게 이메일 전송','스탭업무대상');
-
--- INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
--- TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
--- ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
--- VALUES (4, '\\uploads\\N과M_4.java', 'L02', 'S03', 'C04', '','0:00', 'R01', 'B01', '팀 이메일', 
--- '완료', 'E01', '', 'N', '', '압축파일', '', '파일의 코드에 팀 이메일을 입력하고 파일을 실행시키기만 하면 비바체에서 엑셀을 다운로드 하고, ITSM에서 담당자가 누군지, 
--- 과제 내용 등을 조회하여 요구사항 분석시 파일을 자동으로 생성한 후 압축하여 팀 이메일로 팀내 과제 개발 담당자들에게 전송', '정기과제 요구 분석시 작성 자동화', '이은주', '팀 내 1명', '2021-07-19', '2021-07-19', '9999-12-31','스펙 확정 VIVACE의 스펙확정 자료를 기준으로 ITSM데이터 수집하여 과제별 엑셀 작성 후 각 담당자에게 이메일 전송','스탭업무대상');
 
 INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
 TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
@@ -303,62 +299,209 @@ VALUES (7, '\\uploads\\N과M_6.java', 'L01', 'S07', 'C07', '','00:05', 'R03', 'B
 INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
 TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
 ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
-VALUES (11, '\\uploads\\N과M_6.java', 'L01', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+VALUES (11, '\\uploads\\N과M_6.java', 'L05', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
 '완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', 'CRM서비스팀관련 자동화', '이수현', '이수현', '2021-07-20', '2021-07-20', '9999-12-31','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','고객업무대상');
 
 INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
 TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
 ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
-VALUES (16, '\\uploads\\N과M_6.java', 'L01', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+VALUES (16, '\\uploads\\N과M_6.java', 'L06', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
 '완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '오픈채널사업TF관련 자동화', '이재진', '이재진', '2021-07-06', '2021-07-06', '9999-12-31','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','고객업무대상');
 
 INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
 TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
 ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
-VALUES (17, '\\uploads\\N과M_6.java', 'L01', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+VALUES (17, '\\uploads\\N과M_6.java', 'L05', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
 '완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '오픈채널사업TF관련 자동화', '강동수', '강동수', '2021-07-06', '2021-07-06', '9999-12-31','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','스탭업무대상');
 
 INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
 TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
 ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
-VALUES (18, '\\uploads\\N과M_6.java', 'L01', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+VALUES (18, '\\uploads\\N과M_6.java', 'L04', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
 '완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', 'pay서비스팀관련 자동화', '김자은', '김자은', '2021-07-10', '2021-07-10', '9999-12-31','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','스탭업무대상');
 
 INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
 TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
 ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
-VALUES (19, '\\uploads\\N과M_6.java', 'L01', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+VALUES (19, '\\uploads\\N과M_6.java', 'L03', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
 '완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '빌링개발관련 자동화', '장범수', '장범수', '2021-07-14', '2021-07-14', '9999-12-31','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','스탭업무대상');
 
 INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
 TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
 ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
-VALUES (20, '\\uploads\\N과M_6.java', 'L01', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+VALUES (20, '\\uploads\\N과M_6.java', 'L02', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
 '완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '고객DX솔루션관련 자동화', '김현정', '김현정', '2021-07-21', '2021-07-21', '9999-12-31','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','고객업무대상');
-
+-- 가라데이터
 INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
 TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
 ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
-VALUES (21, '\\uploads\\N과M_6.java', 'L01', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+VALUES (21, '\\uploads\\N과M_6.java', 'L06', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
 '완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', 'BSS품질혁신TF관련 자동화', '이순신', '이순신', '2021-07-15', '2021-07-15', '9999-12-31','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','고객업무대상');
 
 INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
 TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
 ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
-VALUES (22, '\\uploads\\N과M_6.java', 'L01', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+VALUES (22, '\\uploads\\N과M_6.java', 'L05', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
 '완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', 'IT컨설팅관련 자동화', '유관순', '유관순', '2021-07-15', '2021-07-15', '9999-12-31','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','스탭업무대상');
 
 
 INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
 TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
 ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
-VALUES (23, '\\uploads\\N과M_6.java', 'L01', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+VALUES (23, '\\uploads\\N과M_6.java', 'L04', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
 '완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', 'Rater서비스관련 자동화', '장영실', '장영실', '2021-07-16', '2021-07-16', '9999-12-31','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','고객업무대상');
 
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (23, '\\uploads\\N과M_6.java', 'L05', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '조근점검 자동화', '장영실', '장영실', '2021-07-16', '2021-07-16', '9999-12-31','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','스탭업무대상');
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (23, '\\uploads\\N과M_6.java', 'L03', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', 'rater서비스 관련 조근점검', '장영실', '장영실', '2021-07-16', '2021-07-16', '9999-12-31','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','스탭업무대상');
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (23, '\\uploads\\N과M_6.java', 'L02', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '망분리자동화', '장영실', '장영실', '2021-07-14', '2021-07-14', '9999-12-31','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','스탭업무대상');
+
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (18, '\\uploads\\N과M_6.java', 'L02', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', 'pay 조근점검', '김자은', '김자은', '2021-07-14', '2021-07-14', '9999-12-31','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','고객업무대상');
+
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (18, '\\uploads\\N과M_6.java', 'L05', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', 'pay자동화시스템', '김자은', '김자은', '2021-07-21', '2021-07-21', '9999-12-31','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','고객업무대상');
+
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (18, '\\uploads\\N과M_6.java', 'L01', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', 'pay시스템', '김자은', '김자은', '2021-07-22', '2021-07-22', '9999-12-31','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','고객업무대상');
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (10, '\\uploads\\N과M_6.java', 'L04', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '오픈채널서비스시스템', '유세정', '유세정', '2021-07-22', '2021-07-22', '9999-12-31','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','고객업무대상');
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (17, '\\uploads\\UserList (1).vue', 'L03', 'S11', 'C02', '금요일','10:00', 'R02', 'B01', '', 
+'완료', 'E01', '', 'N', '', '', '', '실행방법', 'CRM사업팀 조근점검', '강동수', '강동수', '2021-07-22', '2021-07-22', '9999-12-31','','고객업무대상');
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (17, '\\uploads\\UserList (1).vue', 'L01', 'S11', 'C02', '금요일','10:00', 'R02', 'B01', '', 
+'완료', 'E01', '', 'N', '', '', '', '실행방법', 'CRM사업팀 자동화 시스템', '강동수', '강동수', '2021-07-22', '2021-07-22', '9999-12-31','','스탭업무대상');
+
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (24, '\\uploads\\N과M_6.java', 'L03', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '고객운영팀관련 자동화', '김지영', '김지영', '2021-07-17', '2021-07-17', '9999-12-31','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','고객업무대상');
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (24, '\\uploads\\N과M_6.java', 'L05', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '고객운영팀관련 자동화', '김지영', '김지영', '2021-07-18', '2021-07-18', '9999-12-31','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','고객업무대상');
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (24, '\\uploads\\N과M_6.java', 'L02', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '고객운영팀관련 자동화', '김지영', '김지영', '2021-07-18', '2021-07-18', '9999-12-31','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','고객업무대상');
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (24, '\\uploads\\N과M_6.java', 'L03', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '고객운영팀관련 자동화', '김지영', '김지영', '2021-07-18', '2021-07-18', '9999-12-31','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','고객업무대상');
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (24, '\\uploads\\N과M_6.java', 'L04', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '고객운영팀관련 자동화', '김지영', '김지영', '2021-07-20', '2021-07-20', '9999-12-31','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','고객업무대상');
+
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (24, '\\uploads\\N과M_6.java', 'L02', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '고객운영팀관련 자동화', '김지영', '김지영', '2021-07-20', '2021-07-20', '9999-12-31','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','스탭업무대상');
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (24, '\\uploads\\N과M_6.java', 'L03', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '고객운영팀관련 자동화', '김지영', '김지영', '2021-07-20', '2021-07-20', '9999-12-31','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','스탭업무대상');
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (24, '\\uploads\\N과M_6.java', 'L03', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '고객운영팀관련 자동화', '김지영', '김지영', '2021-07-20', '2021-07-20', '9999-12-31','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','스탭업무대상');
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (21, '\\uploads\\UserList (1).vue', 'L01', 'S11', 'C02', '금요일','10:00', 'R02', 'B01', '', 
+'완료', 'E01', '', 'N', '', '', '', '실행방법', 'BSS 품질혁신팀 조근점검', '이순신', '이순신', '2021-07-22', '2021-07-22', '9999-12-31','','고객업무대상');
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (21, '\\uploads\\UserList (1).vue', 'L02', 'S11', 'C02', '금요일','10:00', 'R02', 'B01', '', 
+'완료', 'E01', '', 'N', '', '', '', '실행방법', 'BSS 품질혁신팀 Mail', '이순신', '이순신', '2021-07-22', '2021-07-22', '9999-12-31','','고객업무대상');
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (21, '\\uploads\\UserList (1).vue', 'L04', 'S11', 'C02', '금요일','10:00', 'R02', 'B01', '', 
+'완료', 'E01', '', 'N', '', '', '', '실행방법', 'BSS 품질혁신팀 자동화 시스템', '이순신', '이순신', '2021-07-22', '2021-07-22', '9999-12-31','','스탭업무대상');
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (21, '\\uploads\\UserList (1).vue', 'L05', 'S11', 'C02', '금요일','10:00', 'R02', 'B01', '', 
+'완료', 'E01', '', 'N', '', '', '', '실행방법', 'BSS 품질혁신팀 일정 등록', '이순신', '이순신', '2021-07-22', '2021-07-22', '9999-12-31','','스탭업무대상');
+
+INSERT INTO TBL_MOA_BAS(CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, 
+TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, 
+ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, FIRST_REG_DATE, CHG_DATE, FNS_DATE,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (21, '\\uploads\\UserList (1).vue', 'L06', 'S11', 'C02', '금요일','10:00', 'R02', 'B01', '', 
+'완료', 'E01', '', 'N', '', '', '', '실행방법', 'BSS 품질혁신팀 솔루션', '이순신', '이순신', '2021-07-22', '2021-07-22', '9999-12-31','','스탭업무대상');
 
 
 
-
+update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\DT조근점검 flowchart.xaml' where file_seq = 4;
+update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\EDI 솔루션(xTrus) 점검.xaml' where file_seq = 15;
+update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\MVNO-RDS 조근점검.xaml' where file_seq = 14; 
+update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\유통 Mail-Bot.xaml' where file_seq = 13;
+update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\유통 Mail-Bot.xaml' where file_seq = 12;
+update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\유통 Mail-Bot.xaml' where file_seq = 11;
+update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\유통 Mail-Bot.xaml' where file_seq = 10;
+update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\올레TV탭 실적 발송.xaml' where file_seq = 16; 
+update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\유통조근점검.xaml' where file_seq = 17; 
+update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\유통조근점검.xaml' where file_seq = 18; 
+update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\유통조근점검.xaml' where file_seq = 19; 
+update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\유통조근점검.xaml' where file_seq = 20; 
 
 -- 자동화 세부정보 이력 테이블 생성
 CREATE TABLE TBL_MOA_HST(
@@ -396,7 +539,7 @@ FOREIGN KEY(FILE_SEQ) REFERENCES TBL_MOA_BAS(FILE_SEQ),
 FOREIGN KEY(CUST_IDFY_SEQ) REFERENCES TBL_MOA_BAS(CUST_IDFY_SEQ)
 );
 
-SELECT * FROM TBL_MOA_HST; where cust_idfy_seq=8;
+-- SELECT * FROM TBL_MOA_HST where cust_idfy_seq=8;
 -- delete from TBL_MOA_HST where file_seq = 10;
 
 
@@ -451,13 +594,6 @@ DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN
 OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
 VALUES (7,13, '\\uploads\\N과M_4.java', 'L02', 'S03', 'C05', '월요일','00:00', 'R01', 'B01', '팀 이메일', 
 '완료', 'E01', '', 'N', '', '압축파일', '', '파일의 코드에 팀 이메일을 입력하고 파일을 실행시키기만 하면 비바체에서 엑셀을 다운로드 하고, ITSM에서 담당자가 누군지, 과제 내용 등을 조회하여 요구사항 분석시 파일을 자동으로 생성한 후 압축하여 팀 이메일로 팀내 과제 개발 담당자들에게 전송', '정기과제 요구 분석시 작성 자동화', '대우석', '팀 내 1명', '2021-07-19','9999-12-31', 'Y', 'N', 'R','스펙 확정 VIVACE의 스펙확정 자료를 기준으로 ITSM데이터 수집하여 과제별 엑셀 작성 후 각 담당자에게 이메일 전송','스탭업무대상');
-
--- INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
--- DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
--- OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
--- VALUES (14,4, '\\uploads\\N과M_4.java', 'L02', 'S03', 'C04', '','0:00', 'R01', 'B01', '팀 이메일', 
--- '완료', 'E01', '', 'N', '', '압축파일', '', '파일의 코드에 팀 이메일을 입력하고 파일을 실행시키기만 하면 비바체에서 엑셀을 다운로드 하고, ITSM에서 담당자가 누군지, 
--- 과제 내용 등을 조회하여 요구사항 분석시 파일을 자동으로 생성한 후 압축하여 팀 이메일로 팀내 과제 개발 담당자들에게 전송', '정기과제 요구 분석시 작성 자동화', '이은주', '팀 내 1명', '2021-07-19','9999-12-31', 'Y', 'N', 'R','스펙 확정 VIVACE의 스펙확정 자료를 기준으로 ITSM데이터 수집하여 과제별 엑셀 작성 후 각 담당자에게 이메일 전송','스탭업무대상');
 
 INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
 DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
@@ -543,61 +679,203 @@ VALUES (20, 7, '\\uploads\\N과M_6.java', 'L01', 'S08', 'C07', '','00:05', 'R03'
 INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
 DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
 OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
-VALUES (21,11, '\\uploads\\N과M_6.java', 'L01', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+VALUES (21,11, '\\uploads\\N과M_6.java', 'L05', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
 '완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', 'CRM서비스팀관련 자동화', '이수현', '이수현', '2021-07-20', '9999-12-31', 'Y', 'N', 'R','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','고객업무대상');
 
 INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
 DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
 OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
-VALUES (22,16, '\\uploads\\N과M_6.java', 'L01', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+VALUES (22,16, '\\uploads\\N과M_6.java', 'L06', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
 '완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '오픈채널사업TF관련 자동화', '이재진', '이재진', '2021-07-06', '9999-12-31', 'Y', 'N', 'R','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','스탭업무대상');
 
 INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
 DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
 OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
-VALUES (23,17, '\\uploads\\N과M_6.java', 'L01', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+VALUES (23,17, '\\uploads\\N과M_6.java', 'L05', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
 '완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '오픈채널사업TF관련 자동화', '강동수', '강동수', '2021-07-06', '9999-12-31', 'Y', 'N', 'R','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','스탭업무대상');
 
 INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
 DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
 OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
-VALUES (24,18, '\\uploads\\N과M_6.java', 'L01', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+VALUES (24,18, '\\uploads\\N과M_6.java', 'L04', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
 '완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', 'pay서비스팀관련 자동화', '김자은', '김자은', '2021-07-10', '9999-12-31', 'Y', 'N', 'R','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','고객업무대상');
 
 INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
 DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
 OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
-VALUES (25,19, '\\uploads\\N과M_6.java', 'L01', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+VALUES (25,19, '\\uploads\\N과M_6.java', 'L03', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
 '완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '빌링개발관련 자동화', '장범수', '장범수', '2021-07-14', '9999-12-31', 'Y', 'N', 'R','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','스탭업무대상');
 
 INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
 DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
 OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
-VALUES (26,20, '\\uploads\\N과M_6.java', 'L01', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+VALUES (26,20, '\\uploads\\N과M_6.java', 'L02', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
 '완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '고객DX솔루션관련 자동화', '김현정', '김현정', '2021-07-21', '9999-12-31', 'Y', 'N', 'R','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','고객업무대상');
 
 INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
 DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
 OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
-VALUES (27,21, '\\uploads\\N과M_6.java', 'L01', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+VALUES (27,21, '\\uploads\\N과M_6.java', 'L06', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
 '완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', 'BSS품질혁신TF관련 자동화', '이순신', '이순신', '2021-07-15', '9999-12-31', 'Y', 'N', 'R','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','스탭업무대상');
 
 INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
 DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
 OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
-VALUES (28,22, '\\uploads\\N과M_6.java', 'L01', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+VALUES (28,22, '\\uploads\\N과M_6.java', 'L05', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
 '완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', 'IT컨설팅관련 자동화', '유관순', '유관순', '2021-07-15', '9999-12-31', 'Y', 'N', 'R','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','고객업무대상');
 
 INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
 DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
 OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
-VALUES (29,23, '\\uploads\\N과M_6.java', 'L01', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+VALUES (29,23, '\\uploads\\N과M_6.java', 'L04', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
 '완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', 'Rater서비스관련 자동화', '장영실', '장영실', '2021-07-16','9999-12-31', 'Y', 'N', 'R','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','스탭업무대상');
 
--- ------------------------------------------------------------------------------------------------------------------------------------
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (30,23, '\\uploads\\N과M_6.java', 'L05', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '조근점검 자동화', '장영실', '장영실', '2021-07-16','9999-12-31', 'Y', 'N', 'R','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','스탭업무대상');
 
 
-select * from TBL_MOA_EXECUTION_TXN;
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (31,23, '\\uploads\\N과M_6.java', 'L03', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', 'rater서비스 관련 조근점검', '장영실', '장영실','2021-07-16', '9999-12-31', 'Y', 'N', 'R','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','스탭업무대상');
+
+
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (32,23, '\\uploads\\N과M_6.java', 'L02', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '망분리자동화', '장영실', '장영실','2021-07-14', '9999-12-31', 'Y', 'N', 'R','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','스탭업무대상');
+
+
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (33,18, '\\uploads\\N과M_6.java', 'L02', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', 'pay 조근점검', '김자은', '김자은', '2021-07-14', '9999-12-31', 'Y', 'N', 'R','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','고객업무대상');
+
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (34,18, '\\uploads\\N과M_6.java', 'L05', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', 'pay자동화시스템', '김자은', '김자은', '2021-07-21', '9999-12-31', 'Y', 'N', 'R','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','고객업무대상');
+
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (35,18, '\\uploads\\N과M_6.java', 'L01', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', 'pay시스템', '김자은', '김자은', '2021-07-22', '9999-12-31', 'Y', 'N', 'R','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','고객업무대상');
+
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (36,10, '\\uploads\\N과M_6.java', 'L04', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '오픈채널서비스시스템', '유세정', '유세정', '2021-07-22', '9999-12-31', 'Y', 'N', 'R','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','고객업무대상');
+
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (37,17, '\\uploads\\UserList (1).vue', 'L03', 'S11', 'C02', '금요일','10:00', 'R02', 'B01', '', 
+'완료', 'E01', '', 'N', '', '', '', '실행방법', 'CRM사업팀 조근점검', '강동수', '강동수', '2021-07-22', '9999-12-31', 'Y', 'N', 'R','','고객업무대상');
+
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (38,17, '\\uploads\\UserList (1).vue', 'L01', 'S11', 'C02', '금요일','10:00', 'R02', 'B01', '', 
+'완료', 'E01', '', 'N', '', '', '', '실행방법', 'CRM사업팀 자동화 시스템', '강동수', '강동수', '2021-07-22', '9999-12-31', 'Y', 'N', 'R','','스탭업무대상');
+
+
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (39, 24, '\\uploads\\N과M_6.java', 'L03', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '고객운영팀관련 자동화', '김지영', '김지영', '2021-07-17', '9999-12-31', 'Y', 'N', 'R','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','고객업무대상');
+
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (40, 24, '\\uploads\\N과M_6.java', 'L05', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '고객운영팀관련 자동화', '김지영', '김지영', '2021-07-18', '9999-12-31', 'Y', 'N', 'R','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','고객업무대상');
+
+
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (41, 24, '\\uploads\\N과M_6.java', 'L02', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '고객운영팀관련 자동화', '김지영', '김지영', '2021-07-18', '9999-12-31', 'Y', 'N', 'R','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','고객업무대상');
+
+
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (42, 24, '\\uploads\\N과M_6.java', 'L03', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '고객운영팀관련 자동화', '김지영', '김지영', '2021-07-18',  '9999-12-31', 'Y', 'N', 'R','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','고객업무대상');
+
+
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (43, 24, '\\uploads\\N과M_6.java', 'L04', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '고객운영팀관련 자동화', '김지영', '김지영', '2021-07-20', '9999-12-31', 'Y', 'N', 'R','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','고객업무대상');
+
+
+
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (44, 24, '\\uploads\\N과M_6.java', 'L02', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '고객운영팀관련 자동화', '김지영', '김지영', '2021-07-20', '9999-12-31', 'Y', 'N', 'R','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','스탭업무대상');
+
+
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (45, 24, '\\uploads\\N과M_6.java', 'L03', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '고객운영팀관련 자동화', '김지영', '김지영', '2021-07-20', '9999-12-31', 'Y', 'N', 'R','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','스탭업무대상');
+
+
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (46, 24, '\\uploads\\N과M_6.java', 'L03', 'S07', 'C07', '','00:05', 'R03', 'B01', '원격처리 프로세스별 명령 문구를 antbot 메일 계정으로 송신함', 
+'완료', 'E01', '정의된 정확한 명령 문구를 발송해야함(문구가 다를 경우 실행 안됨)', 'N', '', '처리결과 메일 + SMS', '', 'AntBot Manager 서버(AntBot 웹 페이지)에 등록해 놓은 스케줄에 따라 자동수행됨', '고객운영팀관련 자동화', '김지영', '김지영', '2021-07-20', '9999-12-31', 'Y', 'N', 'R','외부에서 시스템 원격처리를 위해 Mail 수신여부를 주기적으로 polling하는 자동화 프로세스, 시스템점검, 배치재수행, 배치로그확인, M-RDS OTP 예외처리 등의 업무를 외부에서 실시간 처리 가능','스탭업무대상');
+
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (47,21, '\\uploads\\UserList (1).vue', 'L01', 'S11', 'C02', '금요일','10:00', 'R02', 'B01', '', 
+'완료', 'E01', '', 'N', '', '', '', '실행방법', 'BSS 품질혁신팀 조근점검', '이순신', '이순신', '2021-07-22', '9999-12-31', 'Y', 'N', 'R','','고객업무대상');
+
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (48,21, '\\uploads\\UserList (1).vue', 'L02', 'S11', 'C02', '금요일','10:00', 'R02', 'B01', '', 
+'완료', 'E01', '', 'N', '', '', '', '실행방법', 'BSS 품질혁신팀 Mail', '이순신', '이순신', '2021-07-22', '9999-12-31', 'Y', 'N', 'R','','고객업무대상');
+
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (49,21, '\\uploads\\UserList (1).vue', 'L04', 'S11', 'C02', '금요일','10:00', 'R02', 'B01', '', 
+'완료', 'E01', '', 'N', '', '', '', '실행방법', 'BSS 품질혁신팀 자동화 시스템', '이순신', '이순신', '2021-07-22', '9999-12-31', 'Y', 'N', 'R','','스탭업무대상');
+
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (50,21, '\\uploads\\UserList (1).vue', 'L05', 'S11', 'C02', '금요일','10:00', 'R02', 'B01', '', 
+'완료', 'E01', '', 'N', '', '', '', '실행방법', 'BSS 품질혁신팀 일정 등록', '이순신', '이순신', '2021-07-22', '9999-12-31', 'Y', 'N', 'R','','스탭업무대상');
+
+INSERT INTO TBL_MOA_HST(FILE_SEQ, CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, 
+DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, 
+OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) 
+VALUES (51,21, '\\uploads\\UserList (1).vue', 'L06', 'S11', 'C02', '금요일','10:00', 'R02', 'B01', '', 
+'완료', 'E01', '', 'N', '', '', '', '실행방법', 'BSS 품질혁신팀 솔루션', '이순신', '이순신', '2021-07-22', '9999-12-31', 'Y', 'N', 'R','','스탭업무대상');
+
+-- -------------------------------------------------------------------------------------------------------------------------
+
+-- select * from TBL_MOA_EXECUTION_TXN;
 -- delete from TBL_MOA_EXECUTION_TXN where file_seq = 10;
 
 -- 실행 테이블 생성
@@ -700,6 +978,72 @@ VALUES (28, 22, '유관순', '0000-00-00 00:00:00', 'N', '','Y');
 
 INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
 VALUES (29, 23, '장영실', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (30, 23, '장영실', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (31, 23, '장영실', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (32, 23, '장영실', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (33, 18, '김자은', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (34, 18, '김자은', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (35, 18, '김자은', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (36, 10, '유세정', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (37, 17, '강동수', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (38, 17, '강동수', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (39, 24, '김지영', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (40, 24, '김지영', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (41, 24, '김지영', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (42, 24, '김지영', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (43, 24, '김지영', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (44, 24, '김지영', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (45, 24, '김지영', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (46, 24, '김지영', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (47, 21, '이순신', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (48, 21, '이순신', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (49, 21, '이순신', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (50, 21, '이순신', '0000-00-00 00:00:00', 'N', '','Y');
+
+INSERT INTO TBL_MOA_EXECUTION_TXN(FILE_SEQ, CUST_IDFY_SEQ, EXE_EMP_NM, EXE_DATE, ERR_YN, ERR_MSG_SBST,LAST_HST_YN) 
+VALUES (51, 21, '이순신', '0000-00-00 00:00:00', 'N', '','Y');
 
 
 -- 코드공통 테이블 생성

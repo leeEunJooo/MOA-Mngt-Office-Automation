@@ -1,0 +1,262 @@
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="ktds.AntBot.Studio.TemplateWorkflow.Workflow" mva:VisualBasic.Settings="{x:Null}" sap2010:WorkflowViewState.IdRef="ktds.AntBot.Studio.TemplateWorkflow.Flowchart_1"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:antbot="http://schemas.antbot.co.kr/AntBot/Activities"
+ xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities"
+ xmlns:s="clr-namespace:System;assembly=mscorlib"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Text</x:String>
+      <x:String>ktds.AntBot.Common.Selenium</x:String>
+      <x:String>System.Activities</x:String>
+      <x:String>Microsoft.VisualBasic.CompilerServices</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>CommonLib</AssemblyReference>
+      <AssemblyReference>Common.CoreLib</AssemblyReference>
+      <AssemblyReference>Common.AuthLib</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Flowchart sap2010:WorkflowViewState.IdRef="Flowchart_1">
+    <Flowchart.Variables>
+      <Variable x:TypeArguments="antbot:SeleniumBrowser" Name="Browser_FTC" />
+      <Variable x:TypeArguments="x:Boolean" Name="Approval_Exist" />
+      <Variable x:TypeArguments="x:Boolean" Name="Input_Exist" />
+      <Variable x:TypeArguments="x:Boolean" Name="Output_Exist" />
+      <Variable x:TypeArguments="x:Boolean" Name="Login_Fail_Yn" />
+      <Variable x:TypeArguments="x:Int32" Name="Loop_Cnt" />
+      <Variable x:TypeArguments="x:Int32" Name="Loop_Cnt2" />
+    </Flowchart.Variables>
+    <Flowchart.StartNode>
+      <FlowStep x:Name="__ReferenceID0" sap2010:WorkflowViewState.IdRef="FlowStep_1">
+        <Sequence sap2010:WorkflowViewState.IdRef="Sequence_1">
+          <Assign sap2010:WorkflowViewState.IdRef="Assign_5">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:Int32">[Loop_Cnt2]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:Int32">0</InArgument>
+            </Assign.Value>
+          </Assign>
+          <If Condition="[now.DayOfWeek.ToString &lt;&gt; &quot;Sunday&quot;  AND now.DayOfWeek.ToString &lt;&gt; &quot;Saturday&quot;]" sap2010:WorkflowViewState.IdRef="If_1">
+            <If.Then>
+              <DoWhile sap2010:WorkflowViewState.IdRef="DoWhile_3" Condition="[Loop_Cnt2 &lt; 5]">
+                <Sequence sap2010:WorkflowViewState.IdRef="Sequence_7">
+                  <TryCatch sap2010:WorkflowViewState.IdRef="TryCatch_1">
+                    <TryCatch.Try>
+                      <Sequence sap2010:WorkflowViewState.IdRef="Sequence_5">
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_3">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Int32">[Loop_Cnt]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Int32">0</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <DoWhile sap2010:WorkflowViewState.IdRef="DoWhile_2" Condition="[Login_Fail_Yn AND Loop_Cnt &lt; 4]">
+                          <Sequence sap2010:WorkflowViewState.IdRef="Sequence_6">
+                            <antbot:KillProcessActivity WindowTitle="{x:Null}" _Process="{x:Null}" DisplayName="Kill Process" sap2010:WorkflowViewState.IdRef="KillProcessActivity_3" ProcessName="iexplore" />
+                            <antbot:KeyInActivity DelayAfter="{x:Null}" DelayBefore="{x:Null}" MDelayMiliSec="{x:Null}" DisplayName="Key입력" sap2010:WorkflowViewState.IdRef="KeyInActivity_8" KeyInText="(^WIN+M^)" />
+                            <Delay Duration="00:00:02" sap2010:WorkflowViewState.IdRef="Delay_3" />
+                            <antbot:SeleniumOpenBrowserActivity BrowserType="InternetExplorer" ContinueOnError="No" DisplayName="브라우져열기" sap2010:WorkflowViewState.IdRef="SeleniumOpenBrowserActivity_2" ResultBrowser="[Browser_FTC]" URL="http://bonm.kt.com:5000/bosweb/login/form" WindowState="Maxmize" />
+                            <antbot:ImageDetectorActivity ContinueOnError="{x:Null}" FindRectangle="{x:Null}" FindResult="{x:Null}" ActionType="LButtonDblClick" Capacity="70" DelayAfter="500" DelayBefore="500" DisplayName="이미지찾기" sap2010:WorkflowViewState.IdRef="ImageDetectorActivity_1" ImageFileName="zySxkCGto3mVMRSh3ZJM.png" OffsetX="112" OffsetY="26" Retry="3" />
+                            <antbot:SpecialKeyInActivity DelayAfter="{x:Null}" DelayBefore="{x:Null}" MDelayMiliSec="{x:Null}" DisplayName="Key입력(특수키)" sap2010:WorkflowViewState.IdRef="SpecialKeyInActivity_3" isAltKey="False" isCtrlKey="False" isShiftKey="False" isSpecialKey="True" isWinKey="False" spKey="BACKSPACE" />
+                            <antbot:KeyInActivity DelayAfter="{x:Null}" DelayBefore="{x:Null}" DirectInsert="True" DisplayName="Key입력" sap2010:WorkflowViewState.IdRef="KeyInActivity_1" KeyInText="82022554" MDelayMiliSec="50" />
+                            <antbot:SpecialKeyInActivity DelayAfter="{x:Null}" DelayBefore="{x:Null}" MDelayMiliSec="{x:Null}" DisplayName="특수Key입력" sap2010:WorkflowViewState.IdRef="SpecialKeyInActivity_1" isAltKey="False" isCtrlKey="False" isShiftKey="False" isSpecialKey="True" isWinKey="False" spKey="TAB" />
+                            <antbot:KeyInActivity DelayAfter="{x:Null}" DelayBefore="500" DirectInsert="True" DisplayName="Key입력" sap2010:WorkflowViewState.IdRef="KeyInActivity_2" KeyInText="ha258025!!" MDelayMiliSec="50" />
+                            <antbot:SpecialKeyInActivity DelayAfter="{x:Null}" DelayBefore="{x:Null}" MDelayMiliSec="{x:Null}" DisplayName="특수Key입력" sap2010:WorkflowViewState.IdRef="SpecialKeyInActivity_2" isAltKey="False" isCtrlKey="False" isShiftKey="False" isSpecialKey="True" isWinKey="False" spKey="ENTER" />
+                            <antbot:ImageDetectorActivity FindRectangle="{x:Null}" ActionType="None" Capacity="80" ContinueOnError="True" DelayAfter="1000" DelayBefore="500" DisplayName="이미지찾기" FindResult="[Login_Fail_Yn]" sap2010:WorkflowViewState.IdRef="ImageDetectorActivity_7" ImageFileName="OYFDRAleSvF0ncuBn3DI.png" OffsetX="-1" OffsetY="-1" Retry="1" />
+                            <antbot:SpecialKeyInActivity DelayAfter="{x:Null}" DelayBefore="{x:Null}" MDelayMiliSec="{x:Null}" DisplayName="특수Key입력" sap2010:WorkflowViewState.IdRef="SpecialKeyInActivity_4" isAltKey="False" isCtrlKey="False" isShiftKey="False" isSpecialKey="True" isWinKey="False" spKey="ENTER" />
+                            <Assign sap2010:WorkflowViewState.IdRef="Assign_4">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:Int32">[Loop_Cnt]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:Int32">[Loop_Cnt+1]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                          </Sequence>
+                        </DoWhile>
+                        <antbot:ImageDetectorActivity ContinueOnError="{x:Null}" FindRectangle="{x:Null}" FindResult="{x:Null}" ActionType="LButtonClick" Capacity="70" DelayAfter="2000" DelayBefore="500" DisplayName="이미지찾기" sap2010:WorkflowViewState.IdRef="ImageDetectorActivity_2" ImageFileName="1q6g0SU3zCMwVDWUK94K.png" OffsetX="57" OffsetY="17" Retry="3" />
+                        <antbot:ImageDetectorActivity ContinueOnError="{x:Null}" FindRectangle="{x:Null}" FindResult="{x:Null}" ActionType="LButtonDblClick" Capacity="80" DelayAfter="500" DelayBefore="500" DisplayName="이미지찾기" sap2010:WorkflowViewState.IdRef="ImageDetectorActivity_8" ImageFileName="EM5z5SFEDvd23xVj9GfP.png" OffsetX="104" OffsetY="13" Retry="3" />
+                        <antbot:SpecialKeyInActivity DelayAfter="{x:Null}" DelayBefore="{x:Null}" MDelayMiliSec="{x:Null}" DisplayName="특수Key입력" sap2010:WorkflowViewState.IdRef="SpecialKeyInActivity_5" isAltKey="False" isCtrlKey="False" isShiftKey="False" isSpecialKey="True" isWinKey="False" spKey="DEL" />
+                        <antbot:ImageDetectorActivity ContinueOnError="{x:Null}" FindRectangle="{x:Null}" FindResult="{x:Null}" ActionType="LButtonClick" Capacity="80" DelayAfter="500" DelayBefore="500" DisplayName="이미지찾기" sap2010:WorkflowViewState.IdRef="ImageDetectorActivity_9" ImageFileName="CyPy78GhAmHwGNffJaTq.png" OffsetX="104" OffsetY="15" Retry="3" />
+                        <antbot:CommentOut DisplayName="Comment Out" sap2010:WorkflowViewState.IdRef="CommentOut_7">
+                          <Sequence DisplayName="Ignored Activities">
+                            <antbot:KeyInActivity DelayAfter="{x:Null}" DelayBefore="500" DirectInsert="True" DisplayName="Key입력" sap2010:WorkflowViewState.IdRef="KeyInActivity_10" KeyInText="DR-2019-65698" MDelayMiliSec="50" />
+                          </Sequence>
+                        </antbot:CommentOut>
+                        <antbot:KeyInActivity DelayAfter="{x:Null}" DelayBefore="500" DirectInsert="True" DisplayName="Key입력" sap2010:WorkflowViewState.IdRef="KeyInActivity_9" KeyInText="자동발송" MDelayMiliSec="50" />
+                        <antbot:ImageDetectorActivity ContinueOnError="{x:Null}" FindRectangle="{x:Null}" FindResult="{x:Null}" ActionType="LButtonClick" Capacity="80" DelayAfter="500" DelayBefore="500" DisplayName="이미지찾기" sap2010:WorkflowViewState.IdRef="ImageDetectorActivity_10" ImageFileName="3xXRrJ96LfmdHbbUBrYO.png" OffsetX="38" OffsetY="16" Retry="3" />
+                        <antbot:CommentOut DisplayName="Comment Out" sap2010:WorkflowViewState.IdRef="CommentOut_8">
+                          <Sequence DisplayName="Ignored Activities">
+                            <antbot:ImageDetectorActivity ContinueOnError="{x:Null}" FindRectangle="{x:Null}" FindResult="{x:Null}" ActionType="LButtonClick" Capacity="80" DelayAfter="3000" DelayBefore="500" DisplayName="이미지찾기" sap2010:WorkflowViewState.IdRef="ImageDetectorActivity_14" ImageFileName="XJP3TJa9Y5gmEN0wmITR.png" OffsetX="42" OffsetY="79" Retry="3" />
+                          </Sequence>
+                        </antbot:CommentOut>
+                        <antbot:ImageDetectorActivity ContinueOnError="{x:Null}" FindRectangle="{x:Null}" FindResult="{x:Null}" ActionType="LButtonClick" Capacity="80" DelayAfter="3000" DelayBefore="500" DisplayName="이미지찾기" sap2010:WorkflowViewState.IdRef="ImageDetectorActivity_11" ImageFileName="aE1i5oGbM6Ap3aixbT5j.png" OffsetX="34" OffsetY="57" Retry="3" />
+                        <antbot:ImageDetectorActivity ContinueOnError="{x:Null}" FindRectangle="{x:Null}" FindResult="{x:Null}" ActionType="LButtonClick" Capacity="80" DelayAfter="500" DelayBefore="500" DisplayName="이미지찾기" sap2010:WorkflowViewState.IdRef="ImageDetectorActivity_12" ImageFileName="G8wl1z6FEF1sfxZimJ1W.png" OffsetX="57" OffsetY="19" Retry="3" />
+                        <antbot:ImageDetectorActivity ContinueOnError="{x:Null}" FindRectangle="{x:Null}" FindResult="{x:Null}" ActionType="LButtonClick" Capacity="80" DelayAfter="500" DelayBefore="500" DisplayName="이미지찾기" sap2010:WorkflowViewState.IdRef="ImageDetectorActivity_13" ImageFileName="CrqFljfIWMNJnJr8pTF0.png" OffsetX="51" OffsetY="20" Retry="3" />
+                        <Delay Duration="00:00:35" sap2010:WorkflowViewState.IdRef="Delay_4" />
+                        <antbot:ImageDetectorActivity FindRectangle="{x:Null}" FindResult="{x:Null}" ActionType="LButtonClick" Capacity="80" ContinueOnError="True" DelayAfter="1000" DelayBefore="2000" DisplayName="이미지찾기" sap2010:WorkflowViewState.IdRef="ImageDetectorActivity_15" ImageFileName="2ZmNu4wUFU0GxZSKX6wC.png" OffsetX="145" OffsetY="127" Retry="7" />
+                        <antbot:KillProcessActivity WindowTitle="{x:Null}" _Process="{x:Null}" DisplayName="Kill Process" sap2010:WorkflowViewState.IdRef="KillProcessActivity_2" ProcessName="iexplore" />
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_6">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Int32">[Loop_Cnt2]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Int32">10</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_1" logLevel="DEBUG" logMsg="정상 완료" />
+                      </Sequence>
+                    </TryCatch.Try>
+                    <TryCatch.Catches>
+                      <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+                        <ActivityAction x:TypeArguments="s:Exception">
+                          <ActivityAction.Argument>
+                            <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                          </ActivityAction.Argument>
+                          <Assign sap2010:WorkflowViewState.IdRef="Assign_7">
+                            <Assign.To>
+                              <OutArgument x:TypeArguments="x:Int32">[Loop_Cnt2]</OutArgument>
+                            </Assign.To>
+                            <Assign.Value>
+                              <InArgument x:TypeArguments="x:Int32">[Loop_Cnt2+1]</InArgument>
+                            </Assign.Value>
+                          </Assign>
+                        </ActivityAction>
+                      </Catch>
+                    </TryCatch.Catches>
+                  </TryCatch>
+                </Sequence>
+              </DoWhile>
+            </If.Then>
+          </If>
+        </Sequence>
+      </FlowStep>
+    </Flowchart.StartNode>
+    <x:Reference>__ReferenceID0</x:Reference>
+    <sads:DebugSymbol.Symbol>d0BDOlxBbnRCb3Rc7KGw7KeB6rCc7Y64X+uPhOunpOyYgeyXheuLqF/si6TsoIHrsJzshqFcYW50TWFpbi54YW1scSwDpAEPAgEBOAmfARQCAQI5C0AUAgF6QQueARACAQM+NT42AgF9OzY7QQIBe0EZQYkBAgEEQw+cARkCAQVDTkNiAgF4RBGbARwCAQZFE5oBHgIBB0cXhwEiAgENjwEblgEkAgEISBlPIgIBdFAZZyMCAUhoGWjqAgIBQ2kZae0CAgE+ahlqtAICAT1rGWvqAgIBOGwZcC0CATdxGXHXAQIBM3IZcuoCAgEucxl3LQIBLXgZeOsCAgEoeRl56gICASN6GXrqAgIBHnsZe2ACARx8GXzqAgIBFn0ZfcwBAgEUfhmFASICARCGARmGAZsBAgEOlAFFlAFSAgELkQFGkQFRAgEJTUNNRAIBd0pESk4CAXVQWFB9AgFxURtmJgIBSWikAWioAQIBR2i0AWi6AQIBRmjkAmjnAgIBRWjHAWjMAQIBRGmnAWmrAQIBQmm3AWm8AQIBQWnnAmnqAgIBQGnJAWnOAQIBP2ukAWuoAQIBPGu0AWu5AQIBO2vkAmvnAgIBOmvGAWvLAQIBOXG7AXHBAQIBNnFRcVYCATVx0AFx1AECATRypAFyqAECATJytAFyuQECATFy5AJy5wICATByxgFyywECAS94pAF4qAECASx4tAF4ugECASt45QJ46AICASp4xwF4zAECASl5pAF5qAECASd5tAF5uQECASZ55AJ55wICASV5xgF5ywECASR6pAF6qAECASJ6tAF6uQECASF65AJ65wICASB6xgF6ywECAR97KXszAgEdfIkBfI0BAgEbfLABfLYBAgEafJ4BfKQBAgEZfOQCfOcCAgEYfMMBfMkBAgEXfb8BfckBAgEVgwFDgwFFAgETgAFEgAFPAgERhgGRAYYBmAECAQ9SHVLQAQIBb1MdU9cBAgFtVB1UZAIBa1UdVbACAgFnVh1W8QICAWJXHVfBAgIBYVgdWOQBAgFeWR1ZuAICAV1aHVrhAQIBWVsdW7oCAgFYXB1c6QICAVBdHV26AgIBT14dZSYCAUpSwwFSzQECAXBTyQFT1AECAW5ULVQ3AgFsVewBVZcCAgFqVdgBVecBAgFoVqsBVq8BAgFmVrsBVsABAgFlVusCVu4CAgFkVs0BVtIBAgFjWMQBWM4BAgFgWN0BWOEBAgFfWr8BWssBAgFcWlVaWgIBW1raAVreAQIBWlxvXHMCAVdclgFcnAECAVZczgFc3wECAVRchAFcigECAVNc4wJc5gICAVJcqQFcrgECAVFjR2NTAgFNYEhgUgIBSw==</sads:DebugSymbol.Symbol>
+  </Flowchart>
+  <sap2010:WorkflowViewState.ViewStateManager>
+    <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="Assign_5" sap:VirtualizedContainerService.HintSize="677,60" />
+      <sap2010:ViewStateData Id="Assign_3" sap:VirtualizedContainerService.HintSize="464,60" />
+      <sap2010:ViewStateData Id="KillProcessActivity_3" sap:VirtualizedContainerService.HintSize="301,89" />
+      <sap2010:ViewStateData Id="KeyInActivity_8" sap:VirtualizedContainerService.HintSize="301,60" />
+      <sap2010:ViewStateData Id="Delay_3" sap:VirtualizedContainerService.HintSize="301,22" />
+      <sap2010:ViewStateData Id="SeleniumOpenBrowserActivity_2" sap:VirtualizedContainerService.HintSize="301,22" />
+      <sap2010:ViewStateData Id="ImageDetectorActivity_1" sap:VirtualizedContainerService.HintSize="301,171" />
+      <sap2010:ViewStateData Id="SpecialKeyInActivity_3" sap:VirtualizedContainerService.HintSize="301,109" />
+      <sap2010:ViewStateData Id="KeyInActivity_1" sap:VirtualizedContainerService.HintSize="301,60" />
+      <sap2010:ViewStateData Id="SpecialKeyInActivity_1" sap:VirtualizedContainerService.HintSize="301,109" />
+      <sap2010:ViewStateData Id="KeyInActivity_2" sap:VirtualizedContainerService.HintSize="301,60" />
+      <sap2010:ViewStateData Id="SpecialKeyInActivity_2" sap:VirtualizedContainerService.HintSize="301,109" />
+      <sap2010:ViewStateData Id="ImageDetectorActivity_7" sap:VirtualizedContainerService.HintSize="301,227" />
+      <sap2010:ViewStateData Id="SpecialKeyInActivity_4" sap:VirtualizedContainerService.HintSize="301,109" />
+      <sap2010:ViewStateData Id="Assign_4" sap:VirtualizedContainerService.HintSize="301,60" />
+      <sap2010:ViewStateData Id="Sequence_6" sap:VirtualizedContainerService.HintSize="323,1811">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="DoWhile_2" sap:VirtualizedContainerService.HintSize="464,1971" />
+      <sap2010:ViewStateData Id="ImageDetectorActivity_2" sap:VirtualizedContainerService.HintSize="464,178" />
+      <sap2010:ViewStateData Id="ImageDetectorActivity_8" sap:VirtualizedContainerService.HintSize="464,152" />
+      <sap2010:ViewStateData Id="SpecialKeyInActivity_5" sap:VirtualizedContainerService.HintSize="464,109" />
+      <sap2010:ViewStateData Id="ImageDetectorActivity_9" sap:VirtualizedContainerService.HintSize="464,152" />
+      <sap2010:ViewStateData Id="KeyInActivity_10" sap:VirtualizedContainerService.HintSize="464,60" />
+      <sap2010:ViewStateData Id="CommentOut_7" sap:VirtualizedContainerService.HintSize="464,50" />
+      <sap2010:ViewStateData Id="KeyInActivity_9" sap:VirtualizedContainerService.HintSize="464,60" />
+      <sap2010:ViewStateData Id="ImageDetectorActivity_10" sap:VirtualizedContainerService.HintSize="464,209" />
+      <sap2010:ViewStateData Id="ImageDetectorActivity_14" sap:VirtualizedContainerService.HintSize="464,246" />
+      <sap2010:ViewStateData Id="CommentOut_8" sap:VirtualizedContainerService.HintSize="464,50" />
+      <sap2010:ViewStateData Id="ImageDetectorActivity_11" sap:VirtualizedContainerService.HintSize="464,222" />
+      <sap2010:ViewStateData Id="ImageDetectorActivity_12" sap:VirtualizedContainerService.HintSize="464,156" />
+      <sap2010:ViewStateData Id="ImageDetectorActivity_13" sap:VirtualizedContainerService.HintSize="464,162" />
+      <sap2010:ViewStateData Id="Delay_4" sap:VirtualizedContainerService.HintSize="464,22" />
+      <sap2010:ViewStateData Id="ImageDetectorActivity_15" sap:VirtualizedContainerService.HintSize="464,290" />
+      <sap2010:ViewStateData Id="KillProcessActivity_2" sap:VirtualizedContainerService.HintSize="464,89" />
+      <sap2010:ViewStateData Id="Assign_6" sap:VirtualizedContainerService.HintSize="464,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_1" sap:VirtualizedContainerService.HintSize="464,92" />
+      <sap2010:ViewStateData Id="Sequence_5" sap:VirtualizedContainerService.HintSize="486,4888">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_7" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="Catch`1_1" sap:VirtualizedContainerService.HintSize="490,20">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="TryCatch_1" sap:VirtualizedContainerService.HintSize="504,5110" />
+      <sap2010:ViewStateData Id="Sequence_7" sap:VirtualizedContainerService.HintSize="526,5234">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="DoWhile_3" sap:VirtualizedContainerService.HintSize="552,5394" />
+      <sap2010:ViewStateData Id="If_1" sap:VirtualizedContainerService.HintSize="677,5540" />
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="699,5764">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_1">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">200,127.5</av:Point>
+            <av:Size x:Key="ShapeSize">200,50</av:Size>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Flowchart_1" sap:VirtualizedContainerService.HintSize="614,636">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <av:Point x:Key="ShapeLocation">270,2.5</av:Point>
+            <av:Size x:Key="ShapeSize">60,75</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">300,77.5 300,127.5</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ktds.AntBot.Studio.TemplateWorkflow.Flowchart_1" sap:VirtualizedContainerService.HintSize="654,716" />
+    </sap2010:ViewStateManager>
+  </sap2010:WorkflowViewState.ViewStateManager>
+</Activity>

@@ -1,0 +1,2008 @@
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="ktds.AntBot.Studio.TemplateWorkflow.Workflow" mva:VisualBasic.Settings="{x:Null}" sap2010:WorkflowViewState.IdRef="ktds.AntBot.Studio.TemplateWorkflow.Flowchart_1"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:antbot="http://schemas.antbot.co.kr/AntBot/Activities"
+ xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities"
+ xmlns:s="clr-namespace:System;assembly=mscorlib"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:sd="clr-namespace:System.Diagnostics;assembly=System"
+ xmlns:snm="clr-namespace:System.Net.Mail;assembly=System"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Text</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Activities</x:String>
+      <x:String>Microsoft.VisualBasic.CompilerServices</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>System.Configuration.Install</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>Microsoft.Bcl.AsyncInterfaces</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Flowchart DisplayName="이메일 체크" sap2010:WorkflowViewState.IdRef="Flowchart_1">
+    <Flowchart.Variables>
+      <Variable x:TypeArguments="x:Boolean" Default="False" Name="emailReady" />
+      <Variable x:TypeArguments="x:Boolean" Default="False" Name="FTC" />
+      <Variable x:TypeArguments="x:Boolean" Default="False" Name="KRDS_SysCheck" />
+      <Variable x:TypeArguments="x:Boolean" Default="False" Name="KRDS_DailyCheck" />
+      <Variable x:TypeArguments="x:Boolean" Default="False" Name="KRDS_Batch_Rerun" />
+      <Variable x:TypeArguments="x:Boolean" Default="False" Name="Team_DailyCheck" />
+      <Variable x:TypeArguments="x:Boolean" Default="False" Name="KRDS_SysCheck_Self" />
+      <Variable x:TypeArguments="x:Boolean" Default="False" Name="KRDS_Batch_Log" />
+      <Variable x:TypeArguments="x:Boolean" Name="MVNO_SysCheck_Self" />
+      <Variable x:TypeArguments="x:Boolean" Name="MRDS_SysCheck_Self" />
+      <Variable x:TypeArguments="x:Boolean" Name="Exception" />
+      <Variable x:TypeArguments="x:Boolean" Name="MVNO_DailyCheck" />
+      <Variable x:TypeArguments="x:Boolean" Name="KRDS_ACRU_MMS" />
+      <Variable x:TypeArguments="x:Boolean" Name="ITSM_DailyCheck" />
+      <Variable x:TypeArguments="x:Boolean" Name="MRDS_OTP_N" />
+      <Variable x:TypeArguments="x:Boolean" Name="MRDS_OTP_Y" />
+      <Variable x:TypeArguments="x:Boolean" Name="MVNO_DailyCheckReply" />
+      <Variable x:TypeArguments="x:Boolean" Name="DailyCheckReply" />
+      <Variable x:TypeArguments="x:String" Name="Reply_Var1" />
+      <Variable x:TypeArguments="x:String" Name="Reply_Var2" />
+      <Variable x:TypeArguments="x:String" Name="Reply_Var3" />
+      <Variable x:TypeArguments="x:Boolean" Name="KNOTE_SysCheck_Self" />
+      <Variable x:TypeArguments="s:Exception" Name="BizProcess_Exception" />
+      <Variable x:TypeArguments="x:String" Name="MailResult" />
+      <Variable x:TypeArguments="x:String" Name="MailBodyResult" />
+    </Flowchart.Variables>
+    <Flowchart.StartNode>
+      <FlowStep x:Name="__ReferenceID7" sap2010:WorkflowViewState.IdRef="FlowStep_14">
+        <Flowchart DisplayName="메일 확인" sap2010:WorkflowViewState.IdRef="Flowchart_4">
+          <Flowchart.Variables>
+            <Variable x:TypeArguments="scg:List(snm:MailMessage)" Name="emailList" />
+          </Flowchart.Variables>
+          <Flowchart.StartNode>
+            <FlowStep x:Name="__ReferenceID1" sap2010:WorkflowViewState.IdRef="FlowStep_19">
+              <TryCatch DisplayName="그룹메일 읽어오기 - TryCatch" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+                <TryCatch.Try>
+                  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_30">
+                    <antbot:ExecuteXamlWorkflowCodeActivity sap2010:Annotation.AnnotationText="ㅇ MailBox를 입력하세요~&#xA;1) 전체&#xA;2) 안읽음&#xA;3) 받은메일함&#xA;4) 내게쓴메일함&#xA;5) 메일검색 ( MailSearchText 와 필수 입력 입니다. ) &#xA;&#xA;ㅇ MailBodyEnterYn 를 이용하여 멀티로 입력된 엔터값을 제거합니다.&#xA;1) N : 제거&#xA;2) null : 유지&#xA;&#xA;ㅇ MailScrapType &#xA;1) TEXT : 텍스트로 조회&#xA;&#xA;ㅇ delay : 지연처리(00:00:00.000 형식)" DisplayName="그룹메일 2.0 메일읽기" sap2010:WorkflowViewState.IdRef="ExecuteXamlWorkflowCodeActivity_19" WorkflowPath="C:\AntBot\유통서비스팀_MailBot\메일읽기_그룹메일.xaml">
+                      <antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                        <InArgument x:TypeArguments="x:String" x:Key="MailBox">안읽음</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="MailSearchText">RPA원격</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="MailBodyEnterYn">Y</InArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="MailScrapType">TEXT</InArgument>
+                        <InArgument x:TypeArguments="x:TimeSpan" x:Key="delay">00:00:00.5000000</InArgument>
+                        <OutArgument x:TypeArguments="x:String" x:Key="MailResult">[MailResult]</OutArgument>
+                        <OutArgument x:TypeArguments="x:String" x:Key="MailBodyResult">[MailBodyResult]</OutArgument>
+                      </antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                    </antbot:ExecuteXamlWorkflowCodeActivity>
+                    <Assign DisplayName="End Process" sap2010:WorkflowViewState.IdRef="Assign_63">
+                      <Assign.To>
+                        <OutArgument x:TypeArguments="s:Exception">[BizProcess_Exception]</OutArgument>
+                      </Assign.To>
+                      <Assign.Value>
+                        <InArgument x:TypeArguments="s:Exception">[Nothing]</InArgument>
+                      </Assign.Value>
+                    </Assign>
+                  </Sequence>
+                </TryCatch.Try>
+                <TryCatch.Catches>
+                  <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+                    <ActivityAction x:TypeArguments="s:Exception">
+                      <ActivityAction.Argument>
+                        <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                      </ActivityAction.Argument>
+                      <Sequence sap2010:WorkflowViewState.IdRef="Sequence_31">
+                        <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_26" logLevel="WARN" logMsg="[예외발생] 로그인_그룹메일 수행시 예외 발생" />
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_64">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="s:Exception">[BizProcess_Exception]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="s:Exception">[exception]</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_105">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:String">[MailResult]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:String">메일없음</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_27" logLevel="WARN" logMsg="[&quot;[예외발생] 메시지&quot; &amp; exception.Message]" />
+                        <antbot:KillProcessActivity WindowTitle="{x:Null}" _Process="{x:Null}" DisplayName="Kill Process" sap2010:WorkflowViewState.IdRef="KillProcessActivity_1" ProcessName="iexplore" />
+                      </Sequence>
+                    </ActivityAction>
+                  </Catch>
+                </TryCatch.Catches>
+              </TryCatch>
+              <FlowStep.Next>
+                <FlowStep x:Name="__ReferenceID0" sap2010:WorkflowViewState.IdRef="FlowStep_18">
+                  <antbot:LogCodeActivity DisplayName="로그남기기" sap2010:WorkflowViewState.IdRef="LogCodeActivity_28" logLevel="DEBUG" logMsg="[&quot;황윤섭 : &quot;+MailResult + &quot;상세 : &quot;+MailBodyResult]" />
+                  <FlowStep.Next>
+                    <FlowStep x:Name="__ReferenceID2" sap2010:WorkflowViewState.IdRef="FlowStep_20">
+                      <Sequence DisplayName="메일 내용 확인" sap2010:WorkflowViewState.IdRef="Sequence_52">
+                        <If Condition="[MailResult &lt;&gt; &quot;메일없음&quot;]" sap2010:WorkflowViewState.IdRef="If_67">
+                          <If.Then>
+                            <Sequence sap2010:WorkflowViewState.IdRef="Sequence_51">
+                              <If Condition="[MailBodyResult.toUpper.Contains(&quot;RPA원격FTC&quot;)]" sap2010:WorkflowViewState.IdRef="If_48">
+                                <If.Then>
+                                  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_32">
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_65">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_66">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[FTC]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_29" logLevel="DEBUG" logMsg="FTC 메일 찾음" />
+                                  </Sequence>
+                                </If.Then>
+                              </If>
+                              <If Condition="[MailBodyResult.toUpper.Contains(&quot;RPA원격KRDS점검&quot;)]" sap2010:WorkflowViewState.IdRef="If_49">
+                                <If.Then>
+                                  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_33">
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_67">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_68">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[KRDS_SysCheck_Self]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_30" logLevel="DEBUG" logMsg="KRDS시스템점검(내부) 메일 찾음" />
+                                  </Sequence>
+                                </If.Then>
+                              </If>
+                              <If Condition="[MailBodyResult.toUpper.Contains(&quot;RPA원격MVNO점검&quot;)]" sap2010:WorkflowViewState.IdRef="If_50">
+                                <If.Then>
+                                  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_34">
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_69">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_70">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[MVNO_SysCheck_Self]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_31" logLevel="DEBUG" logMsg="MVNO-RDS시스템점검(내부) 메일 찾음" />
+                                  </Sequence>
+                                </If.Then>
+                              </If>
+                              <If Condition="[MailBodyResult.toUpper.Contains(&quot;RPA원격MRDS점검&quot;)]" sap2010:WorkflowViewState.IdRef="If_51">
+                                <If.Then>
+                                  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_35">
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_71">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_72">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[MRDS_SysCheck_Self]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_32" logLevel="DEBUG" logMsg="M-RDS시스템점검(내부) 메일 찾음" />
+                                  </Sequence>
+                                </If.Then>
+                              </If>
+                              <If Condition="[MailBodyResult.toUpper.Contains(&quot;RPA원격KNOTE점검&quot;)]" sap2010:WorkflowViewState.IdRef="If_52">
+                                <If.Then>
+                                  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_36">
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_73">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_74">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[KNOTE_SysCheck_Self]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_33" logLevel="DEBUG" logMsg="K-Note 시스템점검(내부) 메일 찾음" />
+                                  </Sequence>
+                                </If.Then>
+                              </If>
+                              <If Condition="[MailBodyResult.toUpper.Contains(&quot;RPA원격KRDS관제&quot;) OR MailBodyResult.toUpper.Contains(&quot;RPA원격KRDS장애&quot;)]" sap2010:WorkflowViewState.IdRef="If_53">
+                                <If.Then>
+                                  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_37">
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_75">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_76">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[KRDS_SysCheck]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_34" logLevel="DEBUG" logMsg="KRDS시스템점검(장애관제) 메일 찾음" />
+                                  </Sequence>
+                                </If.Then>
+                              </If>
+                              <If Condition="[MailBodyResult.toUpper.Contains(&quot;RPA원격KRDS조근&quot;)]" sap2010:WorkflowViewState.IdRef="If_54">
+                                <If.Then>
+                                  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_38">
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_77">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_78">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[KRDS_DailyCheck]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_35" logLevel="DEBUG" logMsg="KRDS조근점검 메일 찾음" />
+                                  </Sequence>
+                                </If.Then>
+                              </If>
+                              <If Condition="[MailBodyResult.toUpper.Contains(&quot;RPA원격MVNO조근&quot;)]" sap2010:WorkflowViewState.IdRef="If_55">
+                                <If.Then>
+                                  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_39">
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_79">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_80">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[MVNO_DailyCheck]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_36" logLevel="DEBUG" logMsg="MVNO-RDS 조근점검 메일 찾음" />
+                                  </Sequence>
+                                </If.Then>
+                              </If>
+                              <If Condition="[MailBodyResult.toUpper.Contains(&quot;RPA원격유통조근&quot;)]" sap2010:WorkflowViewState.IdRef="If_56">
+                                <If.Then>
+                                  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_40">
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_81">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_82">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[Team_DailyCheck]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_37" logLevel="DEBUG" logMsg="유통조근점검 메일 찾음" />
+                                  </Sequence>
+                                </If.Then>
+                              </If>
+                              <If Condition="[MailBodyResult.toUpper.Contains(&quot;RPA원격ITSM조근&quot;)]" sap2010:WorkflowViewState.IdRef="If_57">
+                                <If.Then>
+                                  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_41">
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_83">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_84">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[ITSM_DailyCheck]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_38" logLevel="DEBUG" logMsg="유통조근점검(ITSM) 메일 찾음" />
+                                  </Sequence>
+                                </If.Then>
+                              </If>
+                              <If Condition="[MailBodyResult.toUpper.Contains(&quot;RPA원격배치로그&quot;)]" sap2010:WorkflowViewState.IdRef="If_58">
+                                <If.Then>
+                                  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_42">
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_85">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_86">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[KRDS_Batch_Log]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_39" logLevel="DEBUG" logMsg="KRDS배치재수행 메일 찾음" />
+                                  </Sequence>
+                                </If.Then>
+                              </If>
+                              <If Condition="[MailBodyResult.toUpper.Contains(&quot;RPA원격배치재수행&quot;)]" sap2010:WorkflowViewState.IdRef="If_59">
+                                <If.Then>
+                                  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_43">
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_87">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_88">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[KRDS_Batch_Rerun]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_40" logLevel="DEBUG" logMsg="KRDS배치재수행 메일 찾음" />
+                                  </Sequence>
+                                </If.Then>
+                              </If>
+                              <If Condition="[MailBodyResult.toUpper.Contains(&quot;RPA예외상황조치&quot;)]" sap2010:WorkflowViewState.IdRef="If_60">
+                                <If.Then>
+                                  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_44">
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_89">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_90">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[Exception]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_41" logLevel="DEBUG" logMsg="예외상황조치 메일 찾음" />
+                                  </Sequence>
+                                </If.Then>
+                              </If>
+                              <If Condition="[MailBodyResult.toUpper.Contains(&quot;RPA원격실적발송&quot;)]" sap2010:WorkflowViewState.IdRef="If_61">
+                                <If.Then>
+                                  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_45">
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_91">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_92">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[KRDS_ACRU_MMS]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_42" logLevel="DEBUG" logMsg="KRDS도매단 실적발송 메일 찾음" />
+                                  </Sequence>
+                                </If.Then>
+                              </If>
+                              <If Condition="[MailBodyResult.toUpper.Contains(&quot;RPA원격OTP미사용&quot;) OR MailBodyResult.toUpper.Contains(&quot;RPA원격OTP예외&quot;)]" sap2010:WorkflowViewState.IdRef="If_62">
+                                <If.Then>
+                                  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_46">
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_93">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_94">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[MRDS_OTP_N]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_43" logLevel="DEBUG" logMsg="MRDS OTP 예외처리 메일 찾음" />
+                                  </Sequence>
+                                </If.Then>
+                              </If>
+                              <If Condition="[MailBodyResult.toUpper.Contains(&quot;RPA원격OTP사용&quot;) OR MailBodyResult.toUpper.Contains(&quot;RPA원격OTP원복&quot;)]" sap2010:WorkflowViewState.IdRef="If_63">
+                                <If.Then>
+                                  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_47">
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_95">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_96">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[MRDS_OTP_Y]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_44" logLevel="DEBUG" logMsg="MRDS OTP 예외처리 원복 메일 찾음" />
+                                  </Sequence>
+                                </If.Then>
+                              </If>
+                              <If Condition="[MailBodyResult.ToUpper.Split(&quot;.&quot;.ToCharArray)(0) = &quot;출근&quot; OR MailBodyResult.ToUpper.Split(&quot;.&quot;.ToCharArray)(0) = &quot;주간조치&quot; OR MailBodyResult.ToUpper.Split(&quot;.&quot;.ToCharArray)(0) = &quot;익일조치&quot; OR MailBodyResult.ToUpper.Split(&quot;.&quot;.ToCharArray)(0) = &quot;영향도무&quot;]" sap2010:WorkflowViewState.IdRef="If_66">
+                                <If.Then>
+                                  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_50">
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_97">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:String">[Reply_Var1]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:String">[MailBodyResult.ToUpper.Split(".".ToCharArray)(0)]</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <Assign sap2010:WorkflowViewState.IdRef="Assign_98">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:String">[Reply_Var2]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:String">[MailBodyResult.ToUpper.Split(".".ToCharArray)(1)]</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <If Condition="[MailBodyResult.ToUpper.Split(&quot;.&quot;.ToCharArray)(2).Contains(&quot;유통서비스팀&quot;)]" sap2010:WorkflowViewState.IdRef="If_65">
+                                      <If.Then>
+                                        <Sequence sap2010:WorkflowViewState.IdRef="Sequence_48">
+                                          <Assign sap2010:WorkflowViewState.IdRef="Assign_99">
+                                            <Assign.To>
+                                              <OutArgument x:TypeArguments="x:String">[Reply_Var3]</OutArgument>
+                                            </Assign.To>
+                                            <Assign.Value>
+                                              <InArgument x:TypeArguments="x:String">유통서비스팀</InArgument>
+                                            </Assign.Value>
+                                          </Assign>
+                                          <Assign sap2010:WorkflowViewState.IdRef="Assign_100">
+                                            <Assign.To>
+                                              <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                                            </Assign.To>
+                                            <Assign.Value>
+                                              <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                            </Assign.Value>
+                                          </Assign>
+                                          <Assign sap2010:WorkflowViewState.IdRef="Assign_101">
+                                            <Assign.To>
+                                              <OutArgument x:TypeArguments="x:Boolean">[DailyCheckReply]</OutArgument>
+                                            </Assign.To>
+                                            <Assign.Value>
+                                              <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                            </Assign.Value>
+                                          </Assign>
+                                          <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_45" logLevel="DEBUG" logMsg="유통서비스팀 조근점검 회신 메일 찾음" />
+                                        </Sequence>
+                                      </If.Then>
+                                      <If.Else>
+                                        <If Condition="[MailBodyResult.ToUpper.Split(&quot;.&quot;.ToCharArray)(2).Contains(&quot;MVNO&quot;)]" sap2010:WorkflowViewState.IdRef="If_64">
+                                          <If.Then>
+                                            <Sequence sap2010:WorkflowViewState.IdRef="Sequence_49">
+                                              <Assign sap2010:WorkflowViewState.IdRef="Assign_102">
+                                                <Assign.To>
+                                                  <OutArgument x:TypeArguments="x:String">[Reply_Var3]</OutArgument>
+                                                </Assign.To>
+                                                <Assign.Value>
+                                                  <InArgument x:TypeArguments="x:String">유통서비스팀</InArgument>
+                                                </Assign.Value>
+                                              </Assign>
+                                              <Assign sap2010:WorkflowViewState.IdRef="Assign_103">
+                                                <Assign.To>
+                                                  <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                                                </Assign.To>
+                                                <Assign.Value>
+                                                  <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                                </Assign.Value>
+                                              </Assign>
+                                              <Assign sap2010:WorkflowViewState.IdRef="Assign_104">
+                                                <Assign.To>
+                                                  <OutArgument x:TypeArguments="x:Boolean">[MVNO_DailyCheckReply]</OutArgument>
+                                                </Assign.To>
+                                                <Assign.Value>
+                                                  <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                                </Assign.Value>
+                                              </Assign>
+                                              <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_46" logLevel="DEBUG" logMsg="MVNO-RDS 조근점검 회신 메일 찾음" />
+                                            </Sequence>
+                                          </If.Then>
+                                        </If>
+                                      </If.Else>
+                                    </If>
+                                  </Sequence>
+                                </If.Then>
+                              </If>
+                            </Sequence>
+                          </If.Then>
+                        </If>
+                      </Sequence>
+                    </FlowStep>
+                  </FlowStep.Next>
+                </FlowStep>
+              </FlowStep.Next>
+            </FlowStep>
+          </Flowchart.StartNode>
+          <FlowStep sap2010:WorkflowViewState.IdRef="FlowStep_12">
+            <antbot:ForEachGenericCodeActivity x:TypeArguments="snm:MailMessage" DisplayName="메일 목록 확인" sap2010:WorkflowViewState.IdRef="ForEachGenericCodeActivity`1_4" Values="[emailList]">
+              <ActivityAction x:TypeArguments="snm:MailMessage">
+                <ActivityAction.Argument>
+                  <DelegateInArgument x:TypeArguments="snm:MailMessage" Name="item" />
+                </ActivityAction.Argument>
+                <Sequence sap2010:WorkflowViewState.IdRef="Sequence_8">
+                  <If Condition="[item.Subject.ToString.toUpper.Contains(&quot;RPA원격FTC&quot;)]" sap2010:WorkflowViewState.IdRef="If_10">
+                    <If.Then>
+                      <Sequence sap2010:WorkflowViewState.IdRef="Sequence_7">
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_21">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_23">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">[FTC]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_7" logLevel="DEBUG" logMsg="FTC 메일 찾음" />
+                      </Sequence>
+                    </If.Then>
+                  </If>
+                  <If Condition="[item.Subject.ToString.toUpper.Contains(&quot;RPA원격KRDS점검&quot;)]" sap2010:WorkflowViewState.IdRef="If_11">
+                    <If.Then>
+                      <Sequence sap2010:WorkflowViewState.IdRef="Sequence_10">
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_22">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_24">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">[KRDS_SysCheck_Self]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_8" logLevel="DEBUG" logMsg="KRDS시스템점검(내부) 메일 찾음" />
+                      </Sequence>
+                    </If.Then>
+                  </If>
+                  <If Condition="[item.Subject.ToString.toUpper.Contains(&quot;RPA원격MVNO점검&quot;)]" sap2010:WorkflowViewState.IdRef="If_24">
+                    <If.Then>
+                      <Sequence sap2010:WorkflowViewState.IdRef="Sequence_16">
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_35">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_36">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">[MVNO_SysCheck_Self]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_14" logLevel="DEBUG" logMsg="MVNO-RDS시스템점검(내부) 메일 찾음" />
+                      </Sequence>
+                    </If.Then>
+                  </If>
+                  <If Condition="[item.Subject.ToString.toUpper.Contains(&quot;RPA원격MRDS점검&quot;)]" sap2010:WorkflowViewState.IdRef="If_26">
+                    <If.Then>
+                      <Sequence sap2010:WorkflowViewState.IdRef="Sequence_17">
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_37">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_38">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">[MRDS_SysCheck_Self]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_15" logLevel="DEBUG" logMsg="M-RDS시스템점검(내부) 메일 찾음" />
+                      </Sequence>
+                    </If.Then>
+                  </If>
+                  <If Condition="[item.Subject.ToString.toUpper.Contains(&quot;RPA원격KNOTE점검&quot;)]" sap2010:WorkflowViewState.IdRef="If_46">
+                    <If.Then>
+                      <Sequence sap2010:WorkflowViewState.IdRef="Sequence_29">
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_61">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_62">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">[KNOTE_SysCheck_Self]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_25" logLevel="DEBUG" logMsg="K-Note 시스템점검(내부) 메일 찾음" />
+                      </Sequence>
+                    </If.Then>
+                  </If>
+                  <If Condition="[item.Subject.ToString.toUpper.Contains(&quot;RPA원격KRDS관제&quot;) OR item.Subject.ToString.toUpper.Contains(&quot;RPA원격KRDS장애&quot;)]" sap2010:WorkflowViewState.IdRef="If_20">
+                    <If.Then>
+                      <Sequence sap2010:WorkflowViewState.IdRef="Sequence_14">
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_31">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_32">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">[KRDS_SysCheck]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_12" logLevel="DEBUG" logMsg="KRDS시스템점검(장애관제) 메일 찾음" />
+                      </Sequence>
+                    </If.Then>
+                  </If>
+                  <If Condition="[item.Subject.ToString.toUpper.Contains(&quot;RPA원격KRDS조근&quot;)]" sap2010:WorkflowViewState.IdRef="If_14">
+                    <If.Then>
+                      <Sequence sap2010:WorkflowViewState.IdRef="Sequence_11">
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_25">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_26">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">[KRDS_DailyCheck]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_9" logLevel="DEBUG" logMsg="KRDS조근점검 메일 찾음" />
+                      </Sequence>
+                    </If.Then>
+                  </If>
+                  <If Condition="[item.Subject.ToString.toUpper.Contains(&quot;RPA원격MVNO조근&quot;)]" sap2010:WorkflowViewState.IdRef="If_30">
+                    <If.Then>
+                      <Sequence sap2010:WorkflowViewState.IdRef="Sequence_19">
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_41">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_42">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">[MVNO_DailyCheck]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_17" logLevel="DEBUG" logMsg="MVNO-RDS 조근점검 메일 찾음" />
+                      </Sequence>
+                    </If.Then>
+                  </If>
+                  <If Condition="[item.Subject.ToString.toUpper.Contains(&quot;RPA원격유통조근&quot;)]" sap2010:WorkflowViewState.IdRef="If_18">
+                    <If.Then>
+                      <Sequence sap2010:WorkflowViewState.IdRef="Sequence_13">
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_29">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_30">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">[Team_DailyCheck]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_11" logLevel="DEBUG" logMsg="유통조근점검 메일 찾음" />
+                      </Sequence>
+                    </If.Then>
+                  </If>
+                  <If Condition="[item.Subject.ToString.toUpper.Contains(&quot;RPA원격ITSM조근&quot;)]" sap2010:WorkflowViewState.IdRef="If_34">
+                    <If.Then>
+                      <Sequence sap2010:WorkflowViewState.IdRef="Sequence_21">
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_45">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_46">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">[ITSM_DailyCheck]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_19" logLevel="DEBUG" logMsg="유통조근점검(ITSM) 메일 찾음" />
+                      </Sequence>
+                    </If.Then>
+                  </If>
+                  <If Condition="[item.Subject.ToString.toUpper.Contains(&quot;RPA원격배치로그&quot;)]" sap2010:WorkflowViewState.IdRef="If_22">
+                    <If.Then>
+                      <Sequence sap2010:WorkflowViewState.IdRef="Sequence_15">
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_33">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_34">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">[KRDS_Batch_Log]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_13" logLevel="DEBUG" logMsg="KRDS배치재수행 메일 찾음" />
+                      </Sequence>
+                    </If.Then>
+                  </If>
+                  <If Condition="[item.Subject.ToString.toUpper.Contains(&quot;RPA원격배치재수행&quot;)]" sap2010:WorkflowViewState.IdRef="If_16">
+                    <If.Then>
+                      <Sequence sap2010:WorkflowViewState.IdRef="Sequence_12">
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_27">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_28">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">[KRDS_Batch_Rerun]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_10" logLevel="DEBUG" logMsg="KRDS배치재수행 메일 찾음" />
+                      </Sequence>
+                    </If.Then>
+                  </If>
+                  <If Condition="[item.Subject.ToString.toUpper.Contains(&quot;RPA예외상황조치&quot;)]" sap2010:WorkflowViewState.IdRef="If_28">
+                    <If.Then>
+                      <Sequence sap2010:WorkflowViewState.IdRef="Sequence_18">
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_39">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_40">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">[Exception]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_16" logLevel="DEBUG" logMsg="예외상황조치 메일 찾음" />
+                      </Sequence>
+                    </If.Then>
+                  </If>
+                  <If Condition="[item.Subject.ToString.toUpper.Contains(&quot;RPA원격실적발송&quot;)]" sap2010:WorkflowViewState.IdRef="If_32">
+                    <If.Then>
+                      <Sequence sap2010:WorkflowViewState.IdRef="Sequence_20">
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_43">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_44">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">[KRDS_ACRU_MMS]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_18" logLevel="DEBUG" logMsg="KRDS도매단 실적발송 메일 찾음" />
+                      </Sequence>
+                    </If.Then>
+                  </If>
+                  <If Condition="[item.Subject.ToString.toUpper.Contains(&quot;RPA원격OTP미사용&quot;) OR item.Subject.ToString.toUpper.Contains(&quot;RPA원격OTP예외&quot;)]" sap2010:WorkflowViewState.IdRef="If_36">
+                    <If.Then>
+                      <Sequence sap2010:WorkflowViewState.IdRef="Sequence_22">
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_47">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_48">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">[MRDS_OTP_N]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_20" logLevel="DEBUG" logMsg="MRDS OTP 예외처리 메일 찾음" />
+                      </Sequence>
+                    </If.Then>
+                  </If>
+                  <If Condition="[item.Subject.ToString.toUpper.Contains(&quot;RPA원격OTP사용&quot;) OR item.Subject.ToString.toUpper.Contains(&quot;RPA원격OTP원복&quot;)]" sap2010:WorkflowViewState.IdRef="If_37">
+                    <If.Then>
+                      <Sequence sap2010:WorkflowViewState.IdRef="Sequence_23">
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_49">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_50">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">[MRDS_OTP_Y]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_21" logLevel="DEBUG" logMsg="MRDS OTP 예외처리 원복 메일 찾음" />
+                      </Sequence>
+                    </If.Then>
+                  </If>
+                  <If Condition="[item.Body.ToString.ToUpper.Split(&quot;.&quot;.ToCharArray)(0) = &quot;출근&quot; OR item.Body.ToString.ToUpper.Split(&quot;.&quot;.ToCharArray)(0) = &quot;주간조치&quot; OR item.Body.ToString.ToUpper.Split(&quot;.&quot;.ToCharArray)(0) = &quot;익일조치&quot; OR item.Body.ToString.ToUpper.Split(&quot;.&quot;.ToCharArray)(0) = &quot;영향도무&quot;]" sap2010:WorkflowViewState.IdRef="If_42">
+                    <If.Then>
+                      <Sequence sap2010:WorkflowViewState.IdRef="Sequence_25">
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_55">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:String">[Reply_Var1]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:String">[item.Body.ToString.ToUpper.Split(".".ToCharArray)(0)]</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <Assign sap2010:WorkflowViewState.IdRef="Assign_56">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:String">[Reply_Var2]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:String">[item.Body.ToString.ToUpper.Split(".".ToCharArray)(1)]</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <If Condition="[item.Body.ToString.ToUpper.Split(&quot;.&quot;.ToCharArray)(2).Contains(&quot;유통서비스팀&quot;)]" sap2010:WorkflowViewState.IdRef="If_43">
+                          <If.Then>
+                            <Sequence sap2010:WorkflowViewState.IdRef="Sequence_27">
+                              <Assign sap2010:WorkflowViewState.IdRef="Assign_57">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:String">[Reply_Var3]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:String">유통서비스팀</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <Assign sap2010:WorkflowViewState.IdRef="Assign_53">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <Assign sap2010:WorkflowViewState.IdRef="Assign_54">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Boolean">[DailyCheckReply]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_23" logLevel="DEBUG" logMsg="유통서비스팀 조근점검 회신 메일 찾음" />
+                            </Sequence>
+                          </If.Then>
+                          <If.Else>
+                            <If Condition="[item.Body.ToString.ToUpper.Split(&quot;.&quot;.ToCharArray)(2).Contains(&quot;MVNO&quot;)]" sap2010:WorkflowViewState.IdRef="If_45">
+                              <If.Then>
+                                <Sequence sap2010:WorkflowViewState.IdRef="Sequence_28">
+                                  <Assign sap2010:WorkflowViewState.IdRef="Assign_58">
+                                    <Assign.To>
+                                      <OutArgument x:TypeArguments="x:String">[Reply_Var3]</OutArgument>
+                                    </Assign.To>
+                                    <Assign.Value>
+                                      <InArgument x:TypeArguments="x:String">유통서비스팀</InArgument>
+                                    </Assign.Value>
+                                  </Assign>
+                                  <Assign sap2010:WorkflowViewState.IdRef="Assign_59">
+                                    <Assign.To>
+                                      <OutArgument x:TypeArguments="x:Boolean">[emailReady]</OutArgument>
+                                    </Assign.To>
+                                    <Assign.Value>
+                                      <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                    </Assign.Value>
+                                  </Assign>
+                                  <Assign sap2010:WorkflowViewState.IdRef="Assign_60">
+                                    <Assign.To>
+                                      <OutArgument x:TypeArguments="x:Boolean">[MVNO_DailyCheckReply]</OutArgument>
+                                    </Assign.To>
+                                    <Assign.Value>
+                                      <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                    </Assign.Value>
+                                  </Assign>
+                                  <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_24" logLevel="DEBUG" logMsg="MVNO-RDS 조근점검 회신 메일 찾음" />
+                                </Sequence>
+                              </If.Then>
+                            </If>
+                          </If.Else>
+                        </If>
+                      </Sequence>
+                    </If.Then>
+                  </If>
+                </Sequence>
+              </ActivityAction>
+            </antbot:ForEachGenericCodeActivity>
+          </FlowStep>
+          <x:Reference>__ReferenceID0</x:Reference>
+          <x:Reference>__ReferenceID1</x:Reference>
+          <x:Reference>__ReferenceID2</x:Reference>
+        </Flowchart>
+        <FlowStep.Next>
+          <FlowDecision x:Name="__ReferenceID6" Condition="[emailReady]" sap2010:WorkflowViewState.IdRef="FlowDecision_1">
+            <FlowDecision.True>
+              <FlowStep x:Name="__ReferenceID8" sap2010:WorkflowViewState.IdRef="FlowStep_17">
+                <Sequence DisplayName="점검 절차 수행" sap2010:WorkflowViewState.IdRef="Sequence_9">
+                  <antbot:LogCodeActivity DisplayName="LOG출력" sap2010:WorkflowViewState.IdRef="LogCodeActivity_6" logLevel="INFO" logMsg="메일 인식 정상" />
+                  <If Condition="[FTC]" sap2010:WorkflowViewState.IdRef="If_12">
+                    <If.Then>
+                      <antbot:ExecuteXamlWorkflowCodeActivity DisplayName="Invoke Xaml" sap2010:WorkflowViewState.IdRef="ExecuteXamlWorkflowCodeActivity_1" WorkflowPath="C:\AntBot\FTC\antMain.xaml">
+                        <antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                          <scg:Dictionary x:TypeArguments="x:String, Argument" />
+                        </antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                      </antbot:ExecuteXamlWorkflowCodeActivity>
+                    </If.Then>
+                  </If>
+                  <If Condition="[KRDS_SysCheck_Self]" sap2010:WorkflowViewState.IdRef="If_13">
+                    <If.Then>
+                      <antbot:ExecuteXamlWorkflowCodeActivity DisplayName="Invoke Xaml" sap2010:WorkflowViewState.IdRef="ExecuteXamlWorkflowCodeActivity_2" WorkflowPath="C:\AntBot\KOS-RDS_시스템점검_장애(내부)\antMain.xaml">
+                        <antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                          <scg:Dictionary x:TypeArguments="x:String, Argument" />
+                        </antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                      </antbot:ExecuteXamlWorkflowCodeActivity>
+                    </If.Then>
+                  </If>
+                  <If Condition="[MVNO_SysCheck_Self]" sap2010:WorkflowViewState.IdRef="If_25">
+                    <If.Then>
+                      <antbot:ExecuteXamlWorkflowCodeActivity DisplayName="Invoke Xaml" sap2010:WorkflowViewState.IdRef="ExecuteXamlWorkflowCodeActivity_8" WorkflowPath="C:\AntBot\MVNO-RDS_시스템점검_장애(관제)\antMain.xaml">
+                        <antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                          <scg:Dictionary x:TypeArguments="x:String, Argument" />
+                        </antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                      </antbot:ExecuteXamlWorkflowCodeActivity>
+                    </If.Then>
+                  </If>
+                  <If Condition="[MRDS_SysCheck_Self]" sap2010:WorkflowViewState.IdRef="If_27">
+                    <If.Then>
+                      <antbot:ExecuteXamlWorkflowCodeActivity DisplayName="Invoke Xaml" sap2010:WorkflowViewState.IdRef="ExecuteXamlWorkflowCodeActivity_9" WorkflowPath="C:\AntBot\M-RDS_시스템점검_장애(관제)\antMain.xaml">
+                        <antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                          <scg:Dictionary x:TypeArguments="x:String, Argument" />
+                        </antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                      </antbot:ExecuteXamlWorkflowCodeActivity>
+                    </If.Then>
+                  </If>
+                  <If Condition="[KNOTE_SysCheck_Self]" sap2010:WorkflowViewState.IdRef="If_47">
+                    <If.Then>
+                      <antbot:ExecuteXamlWorkflowCodeActivity DisplayName="Invoke Xaml" sap2010:WorkflowViewState.IdRef="ExecuteXamlWorkflowCodeActivity_18" WorkflowPath="C:\AntBot\K-Note_시스템점검_장애(관제)\antMain.xaml">
+                        <antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                          <scg:Dictionary x:TypeArguments="x:String, Argument" />
+                        </antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                      </antbot:ExecuteXamlWorkflowCodeActivity>
+                    </If.Then>
+                  </If>
+                  <If Condition="[KRDS_SysCheck]" sap2010:WorkflowViewState.IdRef="If_21">
+                    <If.Then>
+                      <antbot:ExecuteXamlWorkflowCodeActivity DisplayName="Invoke Xaml" sap2010:WorkflowViewState.IdRef="ExecuteXamlWorkflowCodeActivity_6" WorkflowPath="C:\AntBot\KOS-RDS_시스템점검_장애(관제)\antMain.xaml">
+                        <antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                          <scg:Dictionary x:TypeArguments="x:String, Argument" />
+                        </antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                      </antbot:ExecuteXamlWorkflowCodeActivity>
+                    </If.Then>
+                  </If>
+                  <If Condition="[KRDS_DailyCheck]" sap2010:WorkflowViewState.IdRef="If_15">
+                    <If.Then>
+                      <antbot:ExecuteXamlWorkflowCodeActivity DisplayName="Invoke Xaml" sap2010:WorkflowViewState.IdRef="ExecuteXamlWorkflowCodeActivity_3" WorkflowPath="C:\AntBot\KOS-RDS_조근점검\antMain.xaml">
+                        <antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                          <scg:Dictionary x:TypeArguments="x:String, Argument" />
+                        </antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                      </antbot:ExecuteXamlWorkflowCodeActivity>
+                    </If.Then>
+                  </If>
+                  <If Condition="[MVNO_DailyCheck]" sap2010:WorkflowViewState.IdRef="If_31">
+                    <If.Then>
+                      <antbot:ExecuteXamlWorkflowCodeActivity DisplayName="Invoke Xaml" sap2010:WorkflowViewState.IdRef="ExecuteXamlWorkflowCodeActivity_11" WorkflowPath="C:\AntBot\MVNO-RDS_조근점검\antMain.xaml">
+                        <antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                          <scg:Dictionary x:TypeArguments="x:String, Argument" />
+                        </antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                      </antbot:ExecuteXamlWorkflowCodeActivity>
+                    </If.Then>
+                  </If>
+                  <If Condition="[Team_DailyCheck]" sap2010:WorkflowViewState.IdRef="If_19">
+                    <If.Then>
+                      <antbot:ExecuteXamlWorkflowCodeActivity DisplayName="Invoke Xaml" sap2010:WorkflowViewState.IdRef="ExecuteXamlWorkflowCodeActivity_5" WorkflowPath="C:\AntBot\유통서비스팀_조근점검\antMain.xaml">
+                        <antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                          <scg:Dictionary x:TypeArguments="x:String, Argument" />
+                        </antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                      </antbot:ExecuteXamlWorkflowCodeActivity>
+                    </If.Then>
+                  </If>
+                  <If Condition="[ITSM_DailyCheck]" sap2010:WorkflowViewState.IdRef="If_35">
+                    <If.Then>
+                      <antbot:ExecuteXamlWorkflowCodeActivity DisplayName="Invoke Xaml" sap2010:WorkflowViewState.IdRef="ExecuteXamlWorkflowCodeActivity_13" WorkflowPath="C:\AntBot\유통서비스팀_조근점검(ITSM)\antMain.xaml">
+                        <antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                          <scg:Dictionary x:TypeArguments="x:String, Argument" />
+                        </antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                      </antbot:ExecuteXamlWorkflowCodeActivity>
+                    </If.Then>
+                  </If>
+                  <If Condition="[KRDS_Batch_Log]" sap2010:WorkflowViewState.IdRef="If_23">
+                    <If.Then>
+                      <antbot:ExecuteXamlWorkflowCodeActivity DisplayName="Invoke Xaml" sap2010:WorkflowViewState.IdRef="ExecuteXamlWorkflowCodeActivity_7" WorkflowPath="C:\AntBot\KOS-RDS_배치실패건_로그확인\antMain.xaml">
+                        <antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                          <scg:Dictionary x:TypeArguments="x:String, Argument" />
+                        </antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                      </antbot:ExecuteXamlWorkflowCodeActivity>
+                    </If.Then>
+                  </If>
+                  <If Condition="[KRDS_Batch_Rerun]" sap2010:WorkflowViewState.IdRef="If_17">
+                    <If.Then>
+                      <antbot:ExecuteXamlWorkflowCodeActivity DisplayName="Invoke Xaml" sap2010:WorkflowViewState.IdRef="ExecuteXamlWorkflowCodeActivity_4" WorkflowPath="C:\AntBot\KOS-RDS_배치실패건_재처리\antMain.xaml">
+                        <antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                          <scg:Dictionary x:TypeArguments="x:String, Argument" />
+                        </antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                      </antbot:ExecuteXamlWorkflowCodeActivity>
+                    </If.Then>
+                  </If>
+                  <If Condition="[Exception]" sap2010:WorkflowViewState.IdRef="If_29">
+                    <If.Then>
+                      <antbot:ExecuteXamlWorkflowCodeActivity DisplayName="Invoke Xaml" sap2010:WorkflowViewState.IdRef="ExecuteXamlWorkflowCodeActivity_10" WorkflowPath="C:\AntBot\예외상황조치\antMain.xaml">
+                        <antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                          <scg:Dictionary x:TypeArguments="x:String, Argument" />
+                        </antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                      </antbot:ExecuteXamlWorkflowCodeActivity>
+                    </If.Then>
+                  </If>
+                  <If Condition="[KRDS_ACRU_MMS]" sap2010:WorkflowViewState.IdRef="If_38">
+                    <If.Then>
+                      <antbot:ExecuteXamlWorkflowCodeActivity DisplayName="Invoke Xaml" sap2010:WorkflowViewState.IdRef="ExecuteXamlWorkflowCodeActivity_14" WorkflowPath="C:\AntBot\조직개편_도매영업단_실적발송\antMain.xaml">
+                        <antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                          <scg:Dictionary x:TypeArguments="x:String, Argument" />
+                        </antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                      </antbot:ExecuteXamlWorkflowCodeActivity>
+                    </If.Then>
+                  </If>
+                  <If Condition="[MRDS_OTP_N]" sap2010:WorkflowViewState.IdRef="If_33">
+                    <If.Then>
+                      <antbot:ExecuteXamlWorkflowCodeActivity DisplayName="Invoke Xaml" sap2010:WorkflowViewState.IdRef="ExecuteXamlWorkflowCodeActivity_12" WorkflowPath="C:\AntBot\M-RDS_OTP예외처리\antMain.xaml">
+                        <antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                          <InArgument x:TypeArguments="x:Boolean" x:Key="OTP_Off_Yn">True</InArgument>
+                        </antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                      </antbot:ExecuteXamlWorkflowCodeActivity>
+                    </If.Then>
+                  </If>
+                  <If Condition="[MRDS_OTP_Y]" sap2010:WorkflowViewState.IdRef="If_39">
+                    <If.Then>
+                      <antbot:ExecuteXamlWorkflowCodeActivity DisplayName="Invoke Xaml" sap2010:WorkflowViewState.IdRef="ExecuteXamlWorkflowCodeActivity_15" WorkflowPath="C:\AntBot\M-RDS_OTP예외처리\antMain.xaml">
+                        <antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                          <InArgument x:TypeArguments="x:Boolean" x:Key="OTP_Off_Yn">False</InArgument>
+                        </antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                      </antbot:ExecuteXamlWorkflowCodeActivity>
+                    </If.Then>
+                  </If>
+                  <If Condition="[DailyCheckReply]" sap2010:WorkflowViewState.IdRef="If_44">
+                    <If.Then>
+                      <antbot:ExecuteXamlWorkflowCodeActivity DisplayName="Invoke Xaml" sap2010:WorkflowViewState.IdRef="ExecuteXamlWorkflowCodeActivity_17" WorkflowPath="C:\AntBot\조근점검_메일회신\antMain.xaml">
+                        <antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                          <scg:Dictionary x:TypeArguments="x:String, Argument" />
+                        </antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                      </antbot:ExecuteXamlWorkflowCodeActivity>
+                    </If.Then>
+                  </If>
+                  <If Condition="[MVNO_DailyCheckReply]" sap2010:WorkflowViewState.IdRef="If_41">
+                    <If.Then>
+                      <antbot:ExecuteXamlWorkflowCodeActivity DisplayName="Invoke Xaml" sap2010:WorkflowViewState.IdRef="ExecuteXamlWorkflowCodeActivity_16" WorkflowPath="C:\AntBot\조근점검_메일회신_MVNO-RDS\antMain.xaml">
+                        <antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                          <scg:Dictionary x:TypeArguments="x:String, Argument" />
+                        </antbot:ExecuteXamlWorkflowCodeActivity.ChildArguments>
+                      </antbot:ExecuteXamlWorkflowCodeActivity>
+                    </If.Then>
+                  </If>
+                </Sequence>
+              </FlowStep>
+            </FlowDecision.True>
+          </FlowDecision>
+        </FlowStep.Next>
+      </FlowStep>
+    </Flowchart.StartNode>
+    <FlowStep sap2010:WorkflowViewState.IdRef="FlowStep_7">
+      <Flowchart DisplayName="아웃룩 실행 체크" sap2010:WorkflowViewState.IdRef="Flowchart_2">
+        <Flowchart.Variables>
+          <Variable x:TypeArguments="x:Boolean" Default="False" Name="isRunningOutlook" />
+          <Variable x:TypeArguments="sco:Collection(sd:Process)" Name="processList" />
+        </Flowchart.Variables>
+        <Flowchart.StartNode>
+          <FlowStep x:Name="__ReferenceID3" sap2010:WorkflowViewState.IdRef="FlowStep_5">
+            <antbot:GetProcessesCodeActivity DisplayName="Get Processes" sap2010:WorkflowViewState.IdRef="GetProcessesCodeActivity_1" Processes="[ProcessList]" />
+            <FlowStep.Next>
+              <FlowStep x:Name="__ReferenceID5" sap2010:WorkflowViewState.IdRef="FlowStep_8">
+                <antbot:ForEachGenericCodeActivity x:TypeArguments="sd:Process" DisplayName="Outlook 실행 체크" sap2010:WorkflowViewState.IdRef="ForEachGenericCodeActivity`1_3" Values="[ProcessList]">
+                  <ActivityAction x:TypeArguments="sd:Process">
+                    <ActivityAction.Argument>
+                      <DelegateInArgument x:TypeArguments="sd:Process" Name="process" />
+                    </ActivityAction.Argument>
+                    <Sequence sap2010:WorkflowViewState.IdRef="Sequence_3">
+                      <If Condition="[process.ProcessName = &quot;OUTLOOK&quot;]" DisplayName="OUTLOOK 켜졌는지 체크" sap2010:WorkflowViewState.IdRef="If_4">
+                        <If.Then>
+                          <Assign sap2010:WorkflowViewState.IdRef="Assign_2">
+                            <Assign.To>
+                              <OutArgument x:TypeArguments="x:Boolean">[isRunningOutlook]</OutArgument>
+                            </Assign.To>
+                            <Assign.Value>
+                              <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                            </Assign.Value>
+                          </Assign>
+                        </If.Then>
+                      </If>
+                    </Sequence>
+                  </ActivityAction>
+                </antbot:ForEachGenericCodeActivity>
+                <FlowStep.Next>
+                  <FlowStep x:Name="__ReferenceID4" sap2010:WorkflowViewState.IdRef="FlowStep_1">
+                    <If Condition="[isRunningOutlook]" DisplayName="OUTLOOK 실행 하기" sap2010:WorkflowViewState.IdRef="If_3">
+                      <If.Else>
+                        <Sequence sap2010:WorkflowViewState.IdRef="Sequence_2">
+                          <Sequence.Variables>
+                            <Variable x:TypeArguments="sd:Process" Name="outlookProc" />
+                          </Sequence.Variables>
+                          <antbot:StartProcessCodeActivity Arguments="{x:Null}" DisplayName="Start Process" FileName="C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Microsoft Office 2013\Outlook 2013.lnk" sap2010:WorkflowViewState.IdRef="StartProcessCodeActivity_1" ResultProcess="[outlookProc]" />
+                          <Delay Duration="00:00:30" sap2010:WorkflowViewState.IdRef="Delay_1" />
+                          <antbot:UIAutomatorActivity FindResult="{x:Null}" ResultElementData="{x:Null}" ResultElementImage="{x:Null}" ResultElementText="{x:Null}" WindowHandle="{x:Null}" ActionType="LButtonClick" ActivityActionType="찾기" ContinueOnError="True" DelayAfter="5000" DelayBefore="30000" DisplayName="Ui Auto" ElementAttr="&lt;Name value=&quot;최소화&quot; checked=&quot;true&quot; /&gt;&lt;ClassName value=&quot;NetUIAppFrameHelper&quot; checked=&quot;true&quot; /&gt;&lt;LocalControlType value=&quot;단추&quot; checked=&quot;true&quot; /&gt;" ElementClassPath="&lt;ind0 value=&quot;NetUIAppFrameHelper&quot; checked=&quot;true&quot; /&gt;&lt;ind3 value=&quot;NetUIHWND&quot; checked=&quot;true&quot; /&gt;&lt;ind4 value=&quot;NUIPane&quot; checked=&quot;true&quot; /&gt;&lt;ind5 value=&quot;MsoWorkPane&quot; checked=&quot;true&quot; /&gt;&lt;ind6 value=&quot;MsoCommandBar&quot; checked=&quot;true&quot; /&gt;&lt;ind7 value=&quot;MsoCommandBarDock&quot; checked=&quot;true&quot; /&gt;&lt;ind8 value=&quot;rctrl_renwnd32&quot; checked=&quot;true&quot; /&gt;&lt;ind9 value=&quot;#32769&quot; checked=&quot;true&quot; /&gt;" ElementPosition="1844, 13" FindAttrName="Name" FindFullScan="True" sap2010:WorkflowViewState.IdRef="UIAutomatorActivity_1" ImageFileName="poXmakcJBVpm657lwAZv.png" IsControlView="False" IsDiffRectangle="False" IsRectangleDraw="True" OffsetX="15" OffsetY="12" ProcessName="OUTLOOK" Retry="3" WaitActive="False" WaitNotActive="False" WaitNotVisible="False" WaitVisible="False" WindowTitle="받은 편지함 - bss-antbot-rater@kt.com - Outlook" />
+                        </Sequence>
+                      </If.Else>
+                    </If>
+                  </FlowStep>
+                </FlowStep.Next>
+              </FlowStep>
+            </FlowStep.Next>
+          </FlowStep>
+        </Flowchart.StartNode>
+        <x:Reference>__ReferenceID3</x:Reference>
+        <x:Reference>__ReferenceID4</x:Reference>
+        <x:Reference>__ReferenceID5</x:Reference>
+      </Flowchart>
+    </FlowStep>
+    <x:Reference>__ReferenceID6</x:Reference>
+    <x:Reference>__ReferenceID7</x:Reference>
+    <x:Reference>__ReferenceID8</x:Reference>
+    <sads:DebugSymbol.Symbol>dzFDOlxBbnRCb3Rc7Jyg7Ya17ISc67mE7Iqk7YyAX01haWxCb3RcYW50TWFpbi54YW1szgIxA6YKDwIBATM1MzwCAQk0NTQ8AgEINTU1PAIBBzY1NjwCAQY3NTc8AgEFODU4PAIBBDk1OTwCAQM6NTo8AgECTwm5CBUCAWu7CDu7CEkCAWm+CBHiCRwCAQpVD4sBGgMBjQOOAROOAdMBAwGJA5EBF94EIgIBbL8IE78IlwECAWfACBPICBgCAWLJCBPRCBgCAV3SCBPaCBgCAVjbCBPjCBgCAVPkCBPsCBgCAU7tCBP1CBgCAUn2CBP+CBgCAUT/CBOHCRgCAT+ICROQCRgCATqRCROZCRgCATWaCROiCRgCATCjCROrCRgCASusCRO0CRgCASa1CRO9CRgCASG+CRPGCRgCARvHCRPPCRgCARXQCRPYCRgCARDZCRPhCRgCAQtXE2seAwGfA3MXhwEiAwGOA44BjAGOAdABAwGKA5IBGd0EHgIBbb8IigG/CJQBAgFowAghwAgoAgFjwggXxghAAgFlyQghyQg3AgFeywgXzwhAAgFg0ggh0gg3AgFZ1AgX2AhAAgFb2wgh2wg3AgFU3QgX4QhAAgFW5Agh5Ag4AgFP5ggX6ghAAgFR7Qgh7QgyAgFK7wgX8whAAgFM9ggh9gg0AgFF+AgX/AhAAgFH/wgh/wg0AgFAgQkXhQlAAgFCiAkhiAk0AgE7igkXjglAAgE9kQkhkQk0AgE2kwkXlwlAAgE4mgkhmgkzAgExnAkXoAlAAgEzowkhowk1AgEspQkXqQlAAgEurAkhrAkuAgEnrgkXsglAAgEptQkhtQkyAgEitwkXuwlAAgEkvgkhvgkvAgEcwAkXxAlAAgEexwkhxwkvAgEWyQkXzQlAAgEY0Akh0Ak0AgER0gkX1glAAgET2Qkh2Qk5AgEM2wkX3wlAAgEOWBViPgMBpANjFWoeAwGgA3QZdK8BAwGdA3UZfCIDAZgDfRmEASIDAZQDhQEZhQHGAQMBkQOGARmGAcwBAwGPA5IBJ5IBTwIBbpQBHdsEKAIBcMIIqgHCCMYBAgFmywiqAcsI1wECAWHUCKoB1AjYAQIBXN0IqgHdCNUBAgFX5girAeYI1wECAVLvCKoB7wjXAQIBTfgIqgH4CM8BAgFIgQmrAYEJ0QECAUOKCaoBignOAQIBPpMJqwGTCdUBAgE5nAmqAZwJ1QECATSlCaoBpQnUAQIBL64JqwGuCcoBAgEqtwmrAbcJ0wECASXACasBwAnRAQIBIMIJVsIJWgIBH8kJqwHJCdEBAgEaywlWywlbAgEZ0gmrAdIJzQECARTbCasB2wnWAQIBD1jsA1iVBAMBrgNaUFpTAwGtA11WXVoDAawDXlBeYAMBqwNgWGBoAwGpA19UX2ADAacDXFhcWQMBpgNbV1tcAwGlA2hDaEwDAaMDZURlWgMBoQN0kQF0rAEDAZ4Dekd6UgMBmwN3SHdeAwGZA4IBRIIBSAMBlwN/RX9RAwGVA4UBkQGFAcMBAwGSA4YBvwGGAckBAwGQA5UBH6sBJAMB+wKsAR/CASQDAe0CwwEf2QEkAwHfAtoBH/ABJAMB0QLxAR+HAiQDAcMCiAIfngIkAwG0Ap8CH7UCJAMBpgK2Ah/MAiQDAZgCzQIf4wIkAwGKAuQCH/oCJAMB/AH7Ah+RAyQDAe4BkgMfqAMkAwHgAakDH78DJAMB0gHAAx/WAyQDAcQB1wMf7QMkAwG1Ae4DH4QEJAMBpgGFBB/aBCQCAXGVAS2VAWYDAfwClwEjqQEuAwH+AqwBLawBaQMB7gKuASPAAS4DAfACwwEtwwFpAwHgAsUBI9cBLgMB4gLaAS3aAWkDAdIC3AEj7gEuAwHUAvEBLfEBagMBxALzASOFAi4DAcYCiAItiAKlAQMBtQKKAiOcAi4DAbgCnwItnwJpAwGnAqECI7MCLgMBqQK2Ai22AmkDAZkCuAIjygIuAwGbAs0CLc0CZwMBiwLPAiPhAi4DAY0C5AIt5AJpAwH9AeYCI/gCLgMB/wH7Ai37AmcDAe8B/QIjjwMuAwHxAZIDLZIDaAMB4QGUAyOmAy4DAeMBqQMtqQNnAwHTAasDI70DLgMB1QHAAy3AA2cDAcUBwgMj1AMuAwHHAdcDLdcDpAEDAbYB2QMj6wMuAwG5Ae4DLe4DowEDAacB8AMjggQuAwGqAYUELYUE7wICAXKHBCPYBC4CAXeYASWfAS4DAYUDoAElpwEuAwGBA6gBJagBrAEDAf8CrwEltgEuAwH3ArcBJb4BLgMB8wK/ASW/AbYBAwHxAsYBJc0BLgMB6QLOASXVAS4DAeUC1gEl1gG6AQMB4wLdASXkAS4DAdsC5QEl7AEuAwHXAu0BJe0BtwEDAdUC9AEl+wEuAwHNAvwBJYMCLgMByQKEAiWEArkBAwHHAosCJZICLgMBvwKTAiWaAi4DAbsCmwIlmwK4AQMBuQKiAiWpAi4DAbACqgIlsQIuAwGsArICJbICsQEDAaoCuQIlwAIuAwGiAsECJcgCLgMBngLJAiXJArYBAwGcAtACJdcCLgMBlALYAiXfAi4DAZAC4AIl4AKvAQMBjgLnAiXuAi4DAYYC7wIl9gIuAwGCAvcCJfcCtQEDAYAC/gIlhQMuAwH4AYYDJY0DLgMB9AGOAyWOA7IBAwHyAZUDJZwDLgMB6gGdAyWkAy4DAeYBpQMlpQOyAQMB5AGsAyWzAy4DAdwBtAMluwMuAwHYAbwDJbwDrwEDAdYBwwMlygMuAwHOAcsDJdIDLgMBygHTAyXTA7UBAwHIAdoDJeEDLgMBwAHiAyXpAy4DAbwB6gMl6gO2AQMBugHxAyX4Ay4DAbEB+QMlgAQuAwGtAYEEJYEEuQEDAasBiAQljwQuAwGhAZAEJZcELgMBnAGYBCXXBCoCAXidAVGdAVUDAYgDmgFSmgFeAwGGA6UBUaUBVQMBhAOiAVKiAVcDAYIDqAGeAagBqQEDAYADtAFRtAFVAwH6ArEBUrEBXgMB+AK8AVG8AVUDAfYCuQFSuQFmAwH0Ar8BngG/AbMBAwHyAssBUcsBVQMB7ALIAVLIAV4DAeoC0wFR0wFVAwHoAtABUtABZgMB5gLWAZ4B1gG3AQMB5ALiAVHiAVUDAd4C3wFS3wFeAwHcAuoBUeoBVQMB2gLnAVLnAWYDAdgC7QGeAe0BtAEDAdYC+QFR+QFVAwHQAvYBUvYBXgMBzgKBAlGBAlUDAcwC/gFS/gFnAwHKAoQCngGEArYBAwHIApACUZACVQMBwgKNAlKNAl4DAcACmAJRmAJVAwG+ApUCUpUCYQMBvAKbAp4BmwK1AQMBugKnAlGnAlUDAbMCpAJSpAJeAwGxAq8CUa8CVQMBrwKsAlKsAmMDAa0CsgKeAbICrgEDAasCvgJRvgJVAwGlArsCUrsCXgMBowLGAlHGAlUDAaECwwJSwwJjAwGfAskCngHJArMBAwGdAtUCUdUCVQMBlwLSAlLSAl4DAZUC3QJR3QJVAwGTAtoCUtoCYwMBkQLgAp4B4AKsAQMBjwLsAlHsAlUDAYkC6QJS6QJeAwGHAvQCUfQCVQMBhQLxAlLxAmMDAYMC9wKeAfcCsgEDAYECgwNRgwNVAwH7AYADUoADXgMB+QGLA1GLA1UDAfcBiANSiANiAwH1AY4DngGOA68BAwHzAZoDUZoDVQMB7QGXA1KXA14DAesBogNRogNVAwHpAZ8DUp8DZAMB5wGlA54BpQOvAQMB5QGxA1GxA1UDAd8BrgNSrgNeAwHdAbkDUbkDVQMB2wG2A1K2A10DAdkBvAOeAbwDrAEDAdcByANRyANVAwHRAcUDUsUDXgMBzwHQA1HQA1UDAc0BzQNSzQNhAwHLAdMDngHTA7IBAwHJAd8DUd8DVQMBwwHcA1LcA14DAcEB5wNR5wNVAwG/AeQDUuQDXgMBvQHqA54B6gOzAQMBuwH2A1H2A1UDAbQB8wNS8wNeAwGyAf4DUf4DVQMBsAH7A1L7A14DAa4BgQSeAYEEtgEDAawBjQRQjQSCAQMBpAGKBFGKBF0DAaIBlQRQlQSCAQMBnwGSBFGSBF0DAZ0BmAQzmASOAQIBeZoEKbQENAMBjQG3BCnVBC4CAXubBCuiBDQDAZgBowQrqgQ0AwGUAasEK7IENAMBkAGzBCuzBL0BAwGOAbcEN7cEkAECAXy5BC3TBDgCAX6gBFagBFwDAZsBnQRXnQRjAwGZAagEV6gEWwMBlwGlBFilBGQDAZUBsARXsARbAwGTAa0EWK0EaQMBkQGzBKQBswS6AQMBjwG6BC/BBDgDAYkBwgQvyQQ4AwGFAcoEL9EEOAMBgQHSBC/SBMMBAgF/vwRavwRgAwGMAbwEW7wEZwMBigHHBFvHBF8DAYgBxARcxARoAwGGAc8EW88EXwMBhAHMBFzMBHIDAYIB0gSoAdIEwAEDAYAB</sads:DebugSymbol.Symbol>
+  </Flowchart>
+  <sap2010:WorkflowViewState.ViewStateManager>
+    <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="ExecuteXamlWorkflowCodeActivity_19" sap:VirtualizedContainerService.HintSize="242,335">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_63" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="Sequence_30" sap:VirtualizedContainerService.HintSize="264,559">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="LogCodeActivity_26" sap:VirtualizedContainerService.HintSize="323,92" />
+      <sap2010:ViewStateData Id="Assign_64" sap:VirtualizedContainerService.HintSize="323,60" />
+      <sap2010:ViewStateData Id="Assign_105" sap:VirtualizedContainerService.HintSize="323,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_27" sap:VirtualizedContainerService.HintSize="323,92" />
+      <sap2010:ViewStateData Id="KillProcessActivity_1" sap:VirtualizedContainerService.HintSize="323,89" />
+      <sap2010:ViewStateData Id="Sequence_31" sap:VirtualizedContainerService.HintSize="345,671">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Catch`1_1" sap:VirtualizedContainerService.HintSize="404,20">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="TryCatch_1" sap:VirtualizedContainerService.HintSize="418,781" />
+      <sap2010:ViewStateData Id="LogCodeActivity_28" sap:VirtualizedContainerService.HintSize="200,50" />
+      <sap2010:ViewStateData Id="Assign_65" sap:VirtualizedContainerService.HintSize="273,60" />
+      <sap2010:ViewStateData Id="Assign_66" sap:VirtualizedContainerService.HintSize="273,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_29" sap:VirtualizedContainerService.HintSize="273,92" />
+      <sap2010:ViewStateData Id="Sequence_32" sap:VirtualizedContainerService.HintSize="295,416">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_48" sap:VirtualizedContainerService.HintSize="957,562" />
+      <sap2010:ViewStateData Id="Assign_67" sap:VirtualizedContainerService.HintSize="273,60" />
+      <sap2010:ViewStateData Id="Assign_68" sap:VirtualizedContainerService.HintSize="273,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_30" sap:VirtualizedContainerService.HintSize="273,92" />
+      <sap2010:ViewStateData Id="Sequence_33" sap:VirtualizedContainerService.HintSize="295,416">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_49" sap:VirtualizedContainerService.HintSize="957,562" />
+      <sap2010:ViewStateData Id="Assign_69" sap:VirtualizedContainerService.HintSize="303,60" />
+      <sap2010:ViewStateData Id="Assign_70" sap:VirtualizedContainerService.HintSize="303,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_31" sap:VirtualizedContainerService.HintSize="303,92" />
+      <sap2010:ViewStateData Id="Sequence_34" sap:VirtualizedContainerService.HintSize="325,416">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_50" sap:VirtualizedContainerService.HintSize="957,562" />
+      <sap2010:ViewStateData Id="Assign_71" sap:VirtualizedContainerService.HintSize="278,60" />
+      <sap2010:ViewStateData Id="Assign_72" sap:VirtualizedContainerService.HintSize="278,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_32" sap:VirtualizedContainerService.HintSize="278,92" />
+      <sap2010:ViewStateData Id="Sequence_35" sap:VirtualizedContainerService.HintSize="300,416">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_51" sap:VirtualizedContainerService.HintSize="957,562" />
+      <sap2010:ViewStateData Id="Assign_73" sap:VirtualizedContainerService.HintSize="282,60" />
+      <sap2010:ViewStateData Id="Assign_74" sap:VirtualizedContainerService.HintSize="282,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_33" sap:VirtualizedContainerService.HintSize="282,92" />
+      <sap2010:ViewStateData Id="Sequence_36" sap:VirtualizedContainerService.HintSize="304,416">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_52" sap:VirtualizedContainerService.HintSize="957,562" />
+      <sap2010:ViewStateData Id="Assign_75" sap:VirtualizedContainerService.HintSize="293,60" />
+      <sap2010:ViewStateData Id="Assign_76" sap:VirtualizedContainerService.HintSize="293,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_34" sap:VirtualizedContainerService.HintSize="293,92" />
+      <sap2010:ViewStateData Id="Sequence_37" sap:VirtualizedContainerService.HintSize="315,416">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_53" sap:VirtualizedContainerService.HintSize="957,562" />
+      <sap2010:ViewStateData Id="Assign_77" sap:VirtualizedContainerService.HintSize="273,60" />
+      <sap2010:ViewStateData Id="Assign_78" sap:VirtualizedContainerService.HintSize="273,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_35" sap:VirtualizedContainerService.HintSize="273,92" />
+      <sap2010:ViewStateData Id="Sequence_38" sap:VirtualizedContainerService.HintSize="295,416">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_54" sap:VirtualizedContainerService.HintSize="957,562" />
+      <sap2010:ViewStateData Id="Assign_79" sap:VirtualizedContainerService.HintSize="273,60" />
+      <sap2010:ViewStateData Id="Assign_80" sap:VirtualizedContainerService.HintSize="273,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_36" sap:VirtualizedContainerService.HintSize="273,92" />
+      <sap2010:ViewStateData Id="Sequence_39" sap:VirtualizedContainerService.HintSize="295,416">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_55" sap:VirtualizedContainerService.HintSize="957,562" />
+      <sap2010:ViewStateData Id="Assign_81" sap:VirtualizedContainerService.HintSize="273,60" />
+      <sap2010:ViewStateData Id="Assign_82" sap:VirtualizedContainerService.HintSize="273,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_37" sap:VirtualizedContainerService.HintSize="273,92" />
+      <sap2010:ViewStateData Id="Sequence_40" sap:VirtualizedContainerService.HintSize="295,416">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_56" sap:VirtualizedContainerService.HintSize="957,562" />
+      <sap2010:ViewStateData Id="Assign_83" sap:VirtualizedContainerService.HintSize="273,60" />
+      <sap2010:ViewStateData Id="Assign_84" sap:VirtualizedContainerService.HintSize="273,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_38" sap:VirtualizedContainerService.HintSize="273,92" />
+      <sap2010:ViewStateData Id="Sequence_41" sap:VirtualizedContainerService.HintSize="295,416">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_57" sap:VirtualizedContainerService.HintSize="957,562" />
+      <sap2010:ViewStateData Id="Assign_85" sap:VirtualizedContainerService.HintSize="273,60" />
+      <sap2010:ViewStateData Id="Assign_86" sap:VirtualizedContainerService.HintSize="273,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_39" sap:VirtualizedContainerService.HintSize="273,92" />
+      <sap2010:ViewStateData Id="Sequence_42" sap:VirtualizedContainerService.HintSize="295,416">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_58" sap:VirtualizedContainerService.HintSize="957,562" />
+      <sap2010:ViewStateData Id="Assign_87" sap:VirtualizedContainerService.HintSize="273,60" />
+      <sap2010:ViewStateData Id="Assign_88" sap:VirtualizedContainerService.HintSize="273,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_40" sap:VirtualizedContainerService.HintSize="273,92" />
+      <sap2010:ViewStateData Id="Sequence_43" sap:VirtualizedContainerService.HintSize="295,416">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_59" sap:VirtualizedContainerService.HintSize="957,562" />
+      <sap2010:ViewStateData Id="Assign_89" sap:VirtualizedContainerService.HintSize="273,60" />
+      <sap2010:ViewStateData Id="Assign_90" sap:VirtualizedContainerService.HintSize="273,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_41" sap:VirtualizedContainerService.HintSize="273,92" />
+      <sap2010:ViewStateData Id="Sequence_44" sap:VirtualizedContainerService.HintSize="295,416">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_60" sap:VirtualizedContainerService.HintSize="957,562" />
+      <sap2010:ViewStateData Id="Assign_91" sap:VirtualizedContainerService.HintSize="273,60" />
+      <sap2010:ViewStateData Id="Assign_92" sap:VirtualizedContainerService.HintSize="273,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_42" sap:VirtualizedContainerService.HintSize="273,92" />
+      <sap2010:ViewStateData Id="Sequence_45" sap:VirtualizedContainerService.HintSize="295,416">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_61" sap:VirtualizedContainerService.HintSize="957,562" />
+      <sap2010:ViewStateData Id="Assign_93" sap:VirtualizedContainerService.HintSize="273,60" />
+      <sap2010:ViewStateData Id="Assign_94" sap:VirtualizedContainerService.HintSize="273,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_43" sap:VirtualizedContainerService.HintSize="273,92" />
+      <sap2010:ViewStateData Id="Sequence_46" sap:VirtualizedContainerService.HintSize="295,416">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_62" sap:VirtualizedContainerService.HintSize="957,562" />
+      <sap2010:ViewStateData Id="Assign_95" sap:VirtualizedContainerService.HintSize="284,60" />
+      <sap2010:ViewStateData Id="Assign_96" sap:VirtualizedContainerService.HintSize="284,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_44" sap:VirtualizedContainerService.HintSize="284,92" />
+      <sap2010:ViewStateData Id="Sequence_47" sap:VirtualizedContainerService.HintSize="306,416">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_63" sap:VirtualizedContainerService.HintSize="957,562" />
+      <sap2010:ViewStateData Id="Assign_97" sap:VirtualizedContainerService.HintSize="810,60" />
+      <sap2010:ViewStateData Id="Assign_98" sap:VirtualizedContainerService.HintSize="810,60" />
+      <sap2010:ViewStateData Id="Assign_99" sap:VirtualizedContainerService.HintSize="299,60" />
+      <sap2010:ViewStateData Id="Assign_100" sap:VirtualizedContainerService.HintSize="299,60" />
+      <sap2010:ViewStateData Id="Assign_101" sap:VirtualizedContainerService.HintSize="299,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_45" sap:VirtualizedContainerService.HintSize="299,92" />
+      <sap2010:ViewStateData Id="Sequence_48" sap:VirtualizedContainerService.HintSize="321,516">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_102" sap:VirtualizedContainerService.HintSize="289,60" />
+      <sap2010:ViewStateData Id="Assign_103" sap:VirtualizedContainerService.HintSize="289,60" />
+      <sap2010:ViewStateData Id="Assign_104" sap:VirtualizedContainerService.HintSize="289,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_46" sap:VirtualizedContainerService.HintSize="289,92" />
+      <sap2010:ViewStateData Id="Sequence_49" sap:VirtualizedContainerService.HintSize="311,516">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_64" sap:VirtualizedContainerService.HintSize="464,662" />
+      <sap2010:ViewStateData Id="If_65" sap:VirtualizedContainerService.HintSize="810,808" />
+      <sap2010:ViewStateData Id="Sequence_50" sap:VirtualizedContainerService.HintSize="832,1132">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_66" sap:VirtualizedContainerService.HintSize="957,1278" />
+      <sap2010:ViewStateData Id="Sequence_51" sap:VirtualizedContainerService.HintSize="979,11034">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_67" sap:VirtualizedContainerService.HintSize="1104,11180" />
+      <sap2010:ViewStateData Id="Sequence_52" sap:VirtualizedContainerService.HintSize="200,50">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_20">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">200,327.5</av:Point>
+            <av:Size x:Key="ShapeSize">200,50</av:Size>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_18">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">200,227.5</av:Point>
+            <av:Size x:Key="ShapeSize">200,50</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">300,277.5 300,327.5</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_19">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">200,127.5</av:Point>
+            <av:Size x:Key="ShapeSize">200,50</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">300,177.5 300,227.5</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_21" sap:VirtualizedContainerService.HintSize="273,60" />
+      <sap2010:ViewStateData Id="Assign_23" sap:VirtualizedContainerService.HintSize="273,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_7" sap:VirtualizedContainerService.HintSize="273,92" />
+      <sap2010:ViewStateData Id="Sequence_7" sap:VirtualizedContainerService.HintSize="295,416">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_10" sap:VirtualizedContainerService.HintSize="966,562" />
+      <sap2010:ViewStateData Id="Assign_22" sap:VirtualizedContainerService.HintSize="273,60" />
+      <sap2010:ViewStateData Id="Assign_24" sap:VirtualizedContainerService.HintSize="273,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_8" sap:VirtualizedContainerService.HintSize="273,92" />
+      <sap2010:ViewStateData Id="Sequence_10" sap:VirtualizedContainerService.HintSize="295,416">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_11" sap:VirtualizedContainerService.HintSize="966,562" />
+      <sap2010:ViewStateData Id="Assign_35" sap:VirtualizedContainerService.HintSize="303,60" />
+      <sap2010:ViewStateData Id="Assign_36" sap:VirtualizedContainerService.HintSize="303,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_14" sap:VirtualizedContainerService.HintSize="303,92" />
+      <sap2010:ViewStateData Id="Sequence_16" sap:VirtualizedContainerService.HintSize="325,416">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_24" sap:VirtualizedContainerService.HintSize="966,562" />
+      <sap2010:ViewStateData Id="Assign_37" sap:VirtualizedContainerService.HintSize="278,60" />
+      <sap2010:ViewStateData Id="Assign_38" sap:VirtualizedContainerService.HintSize="278,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_15" sap:VirtualizedContainerService.HintSize="278,92" />
+      <sap2010:ViewStateData Id="Sequence_17" sap:VirtualizedContainerService.HintSize="300,416">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_26" sap:VirtualizedContainerService.HintSize="966,562" />
+      <sap2010:ViewStateData Id="Assign_61" sap:VirtualizedContainerService.HintSize="282,60" />
+      <sap2010:ViewStateData Id="Assign_62" sap:VirtualizedContainerService.HintSize="282,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_25" sap:VirtualizedContainerService.HintSize="282,92" />
+      <sap2010:ViewStateData Id="Sequence_29" sap:VirtualizedContainerService.HintSize="304,416">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_46" sap:VirtualizedContainerService.HintSize="966,562" />
+      <sap2010:ViewStateData Id="Assign_31" sap:VirtualizedContainerService.HintSize="293,60" />
+      <sap2010:ViewStateData Id="Assign_32" sap:VirtualizedContainerService.HintSize="293,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_12" sap:VirtualizedContainerService.HintSize="293,92" />
+      <sap2010:ViewStateData Id="Sequence_14" sap:VirtualizedContainerService.HintSize="315,416">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_20" sap:VirtualizedContainerService.HintSize="966,562" />
+      <sap2010:ViewStateData Id="Assign_25" sap:VirtualizedContainerService.HintSize="278,60" />
+      <sap2010:ViewStateData Id="Assign_26" sap:VirtualizedContainerService.HintSize="278,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_9" sap:VirtualizedContainerService.HintSize="278,91" />
+      <sap2010:ViewStateData Id="Sequence_11" sap:VirtualizedContainerService.HintSize="300,415">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_14" sap:VirtualizedContainerService.HintSize="966,561" />
+      <sap2010:ViewStateData Id="Assign_41" sap:VirtualizedContainerService.HintSize="278,60" />
+      <sap2010:ViewStateData Id="Assign_42" sap:VirtualizedContainerService.HintSize="278,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_17" sap:VirtualizedContainerService.HintSize="278,91" />
+      <sap2010:ViewStateData Id="Sequence_19" sap:VirtualizedContainerService.HintSize="300,415">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_30" sap:VirtualizedContainerService.HintSize="966,563" />
+      <sap2010:ViewStateData Id="Assign_29" sap:VirtualizedContainerService.HintSize="278,60" />
+      <sap2010:ViewStateData Id="Assign_30" sap:VirtualizedContainerService.HintSize="278,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_11" sap:VirtualizedContainerService.HintSize="278,91" />
+      <sap2010:ViewStateData Id="Sequence_13" sap:VirtualizedContainerService.HintSize="300,415">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_18" sap:VirtualizedContainerService.HintSize="611,563" />
+      <sap2010:ViewStateData Id="Assign_45" sap:VirtualizedContainerService.HintSize="278,60" />
+      <sap2010:ViewStateData Id="Assign_46" sap:VirtualizedContainerService.HintSize="278,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_19" sap:VirtualizedContainerService.HintSize="278,91" />
+      <sap2010:ViewStateData Id="Sequence_21" sap:VirtualizedContainerService.HintSize="300,415">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_34" sap:VirtualizedContainerService.HintSize="464,563" />
+      <sap2010:ViewStateData Id="Assign_33" sap:VirtualizedContainerService.HintSize="278,60" />
+      <sap2010:ViewStateData Id="Assign_34" sap:VirtualizedContainerService.HintSize="278,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_13" sap:VirtualizedContainerService.HintSize="278,91" />
+      <sap2010:ViewStateData Id="Sequence_15" sap:VirtualizedContainerService.HintSize="300,415">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_22" sap:VirtualizedContainerService.HintSize="611,563" />
+      <sap2010:ViewStateData Id="Assign_27" sap:VirtualizedContainerService.HintSize="278,60" />
+      <sap2010:ViewStateData Id="Assign_28" sap:VirtualizedContainerService.HintSize="278,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_10" sap:VirtualizedContainerService.HintSize="278,91" />
+      <sap2010:ViewStateData Id="Sequence_12" sap:VirtualizedContainerService.HintSize="300,415">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_16" sap:VirtualizedContainerService.HintSize="611,563" />
+      <sap2010:ViewStateData Id="Assign_39" sap:VirtualizedContainerService.HintSize="278,60" />
+      <sap2010:ViewStateData Id="Assign_40" sap:VirtualizedContainerService.HintSize="278,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_16" sap:VirtualizedContainerService.HintSize="278,91" />
+      <sap2010:ViewStateData Id="Sequence_18" sap:VirtualizedContainerService.HintSize="300,415">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_28" sap:VirtualizedContainerService.HintSize="966,563" />
+      <sap2010:ViewStateData Id="Assign_43" sap:VirtualizedContainerService.HintSize="278,60" />
+      <sap2010:ViewStateData Id="Assign_44" sap:VirtualizedContainerService.HintSize="278,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_18" sap:VirtualizedContainerService.HintSize="278,91" />
+      <sap2010:ViewStateData Id="Sequence_20" sap:VirtualizedContainerService.HintSize="300,415">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_32" sap:VirtualizedContainerService.HintSize="966,563" />
+      <sap2010:ViewStateData Id="Assign_47" sap:VirtualizedContainerService.HintSize="278,60" />
+      <sap2010:ViewStateData Id="Assign_48" sap:VirtualizedContainerService.HintSize="278,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_20" sap:VirtualizedContainerService.HintSize="278,91" />
+      <sap2010:ViewStateData Id="Sequence_22" sap:VirtualizedContainerService.HintSize="300,415">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_36" sap:VirtualizedContainerService.HintSize="966,563" />
+      <sap2010:ViewStateData Id="Assign_49" sap:VirtualizedContainerService.HintSize="296,60" />
+      <sap2010:ViewStateData Id="Assign_50" sap:VirtualizedContainerService.HintSize="296,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_21" sap:VirtualizedContainerService.HintSize="296,91" />
+      <sap2010:ViewStateData Id="Sequence_23" sap:VirtualizedContainerService.HintSize="318,415">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_37" sap:VirtualizedContainerService.HintSize="966,563" />
+      <sap2010:ViewStateData Id="Assign_55" sap:VirtualizedContainerService.HintSize="819,60" />
+      <sap2010:ViewStateData Id="Assign_56" sap:VirtualizedContainerService.HintSize="819,60" />
+      <sap2010:ViewStateData Id="Assign_57" sap:VirtualizedContainerService.HintSize="308,60" />
+      <sap2010:ViewStateData Id="Assign_53" sap:VirtualizedContainerService.HintSize="308,60" />
+      <sap2010:ViewStateData Id="Assign_54" sap:VirtualizedContainerService.HintSize="308,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_23" sap:VirtualizedContainerService.HintSize="308,91" />
+      <sap2010:ViewStateData Id="Sequence_27" sap:VirtualizedContainerService.HintSize="330,515">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_58" sap:VirtualizedContainerService.HintSize="301,60" />
+      <sap2010:ViewStateData Id="Assign_59" sap:VirtualizedContainerService.HintSize="301,60" />
+      <sap2010:ViewStateData Id="Assign_60" sap:VirtualizedContainerService.HintSize="301,60" />
+      <sap2010:ViewStateData Id="LogCodeActivity_24" sap:VirtualizedContainerService.HintSize="301,91" />
+      <sap2010:ViewStateData Id="Sequence_28" sap:VirtualizedContainerService.HintSize="323,515">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_45" sap:VirtualizedContainerService.HintSize="464,663" />
+      <sap2010:ViewStateData Id="If_43" sap:VirtualizedContainerService.HintSize="819,811" />
+      <sap2010:ViewStateData Id="Sequence_25" sap:VirtualizedContainerService.HintSize="841,1135">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_42" sap:VirtualizedContainerService.HintSize="966,1283" />
+      <sap2010:ViewStateData Id="Sequence_8" sap:VirtualizedContainerService.HintSize="988,11047">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ForEachGenericCodeActivity`1_4" sap:VirtualizedContainerService.HintSize="200,50" />
+      <sap2010:ViewStateData Id="FlowStep_12">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">430,325</av:Point>
+            <av:Size x:Key="ShapeSize">200,50</av:Size>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Flowchart_4" sap:VirtualizedContainerService.HintSize="706,636">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <av:Point x:Key="ShapeLocation">270,2.5</av:Point>
+            <av:Size x:Key="ShapeSize">60,75</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">300,77.5 300,127.5</av:PointCollection>
+            <x:Double x:Key="Width">692</x:Double>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="LogCodeActivity_6" sap:VirtualizedContainerService.HintSize="464,92" />
+      <sap2010:ViewStateData Id="ExecuteXamlWorkflowCodeActivity_1" sap:VirtualizedContainerService.HintSize="242,89" />
+      <sap2010:ViewStateData Id="If_12" sap:VirtualizedContainerService.HintSize="464,235" />
+      <sap2010:ViewStateData Id="ExecuteXamlWorkflowCodeActivity_2" sap:VirtualizedContainerService.HintSize="242,89" />
+      <sap2010:ViewStateData Id="If_13" sap:VirtualizedContainerService.HintSize="464,235" />
+      <sap2010:ViewStateData Id="ExecuteXamlWorkflowCodeActivity_8" sap:VirtualizedContainerService.HintSize="242,89" />
+      <sap2010:ViewStateData Id="If_25" sap:VirtualizedContainerService.HintSize="464,235" />
+      <sap2010:ViewStateData Id="ExecuteXamlWorkflowCodeActivity_9" sap:VirtualizedContainerService.HintSize="242,89" />
+      <sap2010:ViewStateData Id="If_27" sap:VirtualizedContainerService.HintSize="464,235" />
+      <sap2010:ViewStateData Id="ExecuteXamlWorkflowCodeActivity_18" sap:VirtualizedContainerService.HintSize="242,89" />
+      <sap2010:ViewStateData Id="If_47" sap:VirtualizedContainerService.HintSize="464,235" />
+      <sap2010:ViewStateData Id="ExecuteXamlWorkflowCodeActivity_6" sap:VirtualizedContainerService.HintSize="242,89" />
+      <sap2010:ViewStateData Id="If_21" sap:VirtualizedContainerService.HintSize="464,235" />
+      <sap2010:ViewStateData Id="ExecuteXamlWorkflowCodeActivity_3" sap:VirtualizedContainerService.HintSize="242,89" />
+      <sap2010:ViewStateData Id="If_15" sap:VirtualizedContainerService.HintSize="464,237" />
+      <sap2010:ViewStateData Id="ExecuteXamlWorkflowCodeActivity_11" sap:VirtualizedContainerService.HintSize="242,89" />
+      <sap2010:ViewStateData Id="If_31" sap:VirtualizedContainerService.HintSize="464,237" />
+      <sap2010:ViewStateData Id="ExecuteXamlWorkflowCodeActivity_5" sap:VirtualizedContainerService.HintSize="242,89" />
+      <sap2010:ViewStateData Id="If_19" sap:VirtualizedContainerService.HintSize="464,237" />
+      <sap2010:ViewStateData Id="ExecuteXamlWorkflowCodeActivity_13" sap:VirtualizedContainerService.HintSize="242,89" />
+      <sap2010:ViewStateData Id="If_35" sap:VirtualizedContainerService.HintSize="464,237" />
+      <sap2010:ViewStateData Id="ExecuteXamlWorkflowCodeActivity_7" sap:VirtualizedContainerService.HintSize="242,89" />
+      <sap2010:ViewStateData Id="If_23" sap:VirtualizedContainerService.HintSize="464,237" />
+      <sap2010:ViewStateData Id="ExecuteXamlWorkflowCodeActivity_4" sap:VirtualizedContainerService.HintSize="242,89" />
+      <sap2010:ViewStateData Id="If_17" sap:VirtualizedContainerService.HintSize="464,237" />
+      <sap2010:ViewStateData Id="ExecuteXamlWorkflowCodeActivity_10" sap:VirtualizedContainerService.HintSize="242,89" />
+      <sap2010:ViewStateData Id="If_29" sap:VirtualizedContainerService.HintSize="464,237" />
+      <sap2010:ViewStateData Id="ExecuteXamlWorkflowCodeActivity_14" sap:VirtualizedContainerService.HintSize="242,89" />
+      <sap2010:ViewStateData Id="If_38" sap:VirtualizedContainerService.HintSize="464,237" />
+      <sap2010:ViewStateData Id="ExecuteXamlWorkflowCodeActivity_12" sap:VirtualizedContainerService.HintSize="242,89" />
+      <sap2010:ViewStateData Id="If_33" sap:VirtualizedContainerService.HintSize="464,237" />
+      <sap2010:ViewStateData Id="ExecuteXamlWorkflowCodeActivity_15" sap:VirtualizedContainerService.HintSize="242,89" />
+      <sap2010:ViewStateData Id="If_39" sap:VirtualizedContainerService.HintSize="464,237" />
+      <sap2010:ViewStateData Id="ExecuteXamlWorkflowCodeActivity_17" sap:VirtualizedContainerService.HintSize="242,89" />
+      <sap2010:ViewStateData Id="If_44" sap:VirtualizedContainerService.HintSize="464,237" />
+      <sap2010:ViewStateData Id="ExecuteXamlWorkflowCodeActivity_16" sap:VirtualizedContainerService.HintSize="242,89" />
+      <sap2010:ViewStateData Id="If_41" sap:VirtualizedContainerService.HintSize="464,237" />
+      <sap2010:ViewStateData Id="Sequence_9" sap:VirtualizedContainerService.HintSize="200,50">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_17">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">200,414.02</av:Point>
+            <av:Size x:Key="ShapeSize">200,50</av:Size>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowDecision_1" sap:VirtualizedContainerService.HintSize="70,87">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <av:Point x:Key="ShapeLocation">265,296.5</av:Point>
+            <av:Size x:Key="ShapeSize">70,87</av:Size>
+            <av:PointCollection x:Key="TrueConnector">265,340 170,340 170,439.52 200,439.52</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_14">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">200,204.5</av:Point>
+            <av:Size x:Key="ShapeSize">200,50</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">300,254.5 300,296.5</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="GetProcessesCodeActivity_1" sap:VirtualizedContainerService.HintSize="200,22">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Assign_2" sap:VirtualizedContainerService.HintSize="242,60" />
+      <sap2010:ViewStateData Id="If_4" sap:VirtualizedContainerService.HintSize="464,208" />
+      <sap2010:ViewStateData Id="Sequence_3" sap:VirtualizedContainerService.HintSize="486,332">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ForEachGenericCodeActivity`1_3" sap:VirtualizedContainerService.HintSize="200,50" />
+      <sap2010:ViewStateData Id="StartProcessCodeActivity_1" sap:VirtualizedContainerService.HintSize="301,89" />
+      <sap2010:ViewStateData Id="Delay_1" sap:VirtualizedContainerService.HintSize="301,22" />
+      <sap2010:ViewStateData Id="UIAutomatorActivity_1" sap:VirtualizedContainerService.HintSize="301,320" />
+      <sap2010:ViewStateData Id="Sequence_2" sap:VirtualizedContainerService.HintSize="323,635">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="If_3" sap:VirtualizedContainerService.HintSize="200,50">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_1">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">200,264.5</av:Point>
+            <av:Size x:Key="ShapeSize">200,50</av:Size>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">200,184.5</av:Point>
+            <av:Size x:Key="ShapeSize">200,50</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">300,235.5 300,264.5</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_5">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">200,127.5</av:Point>
+            <av:Size x:Key="ShapeSize">200,22</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">300,149.5 300,184.5</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Flowchart_2" sap:VirtualizedContainerService.HintSize="200,50">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <av:Point x:Key="ShapeLocation">270,2.5</av:Point>
+            <av:Size x:Key="ShapeSize">60,75</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">300,77.5 300,127.5</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_7">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">200,114</av:Point>
+            <av:Size x:Key="ShapeSize">200,50</av:Size>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Flowchart_1" sap:VirtualizedContainerService.HintSize="614,636">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            <av:Point x:Key="ShapeLocation">270,2.5</av:Point>
+            <av:Size x:Key="ShapeSize">60,75</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">300,77.5 300,107.5 170,107.5 170,229.5 200,229.5</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ktds.AntBot.Studio.TemplateWorkflow.Flowchart_1" sap:VirtualizedContainerService.HintSize="654,716" />
+    </sap2010:ViewStateManager>
+  </sap2010:WorkflowViewState.ViewStateManager>
+</Activity>
