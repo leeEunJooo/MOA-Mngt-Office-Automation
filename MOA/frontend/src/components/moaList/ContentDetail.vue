@@ -158,6 +158,8 @@ import EventBus from '../../EventBus';
 
 export default {
     methods:{
+
+        
         getInfo : async function(){
                 // var id = this.file_id
                 var id = this.$route.params.id

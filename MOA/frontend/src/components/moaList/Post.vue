@@ -227,6 +227,7 @@
 
     </div>
     <div class="post_btn">
+        <div class="addinfomsg">* 선택항목의 데이터 추가를 원하시면 담당자에게 연락 부탁드립니다.<br> &nbsp;&nbsp;&nbsp;담당자 : 정대균</div>
         <v-btn class="close" v-on:click="close_browser">취소</v-btn>
         <v-btn class="save" v-on:click="save">저장</v-btn>
     </div>
@@ -336,7 +337,7 @@ methods:{
         )
         let hour = document.getElementById('hour').value;
         let min = document.getElementById('min').value;
-
+        hour = hour ==""? 0 :hour;
         min = min ==""? 0 :min;
         hour = hour < 10? "0"+hour : hour;
         min = min < 10? "0"+min : min;
@@ -802,6 +803,13 @@ mounted(){
     /* 중요표시 */
     .posting .necessary{
         color:red;
+    }
+    .posting .addinfomsg{
+        float: left;
+        font-size:15px;
+        color:red;
+        width: inherit;
+        margin: 30px 20px 30px 15px;
     }
 
 </style>

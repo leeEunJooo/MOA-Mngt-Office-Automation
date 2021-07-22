@@ -3,6 +3,7 @@
         <div class="list_detail">
             <router-view></router-view>
         <div class="post_btn">
+            
             <v-btn v-on:click="cancel" class="close">닫기</v-btn>
             <v-btn v-show="delshow" v-on:click="delbtn" class="delete">삭제</v-btn>
         </div>
@@ -207,6 +208,7 @@ export default {
 
     }
 
+    
 
     /* 파일 */
     .list_detail .fileType,
