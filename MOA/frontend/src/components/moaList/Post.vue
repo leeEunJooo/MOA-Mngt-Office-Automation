@@ -227,7 +227,7 @@
 
     </div>
     <div class="post_btn">
-        <div class="addinfomsg">* 선택항목의 데이터 추가를 원하시면 담당자에게 연락 부탁드립니다.<br> &nbsp;&nbsp;&nbsp;담당자 : 정대균</div>
+        <div class="addinfomsg">* 목록에 없는 항목추가를 원하실 경우 관리자에게 문의 바랍니다.<br> &nbsp;&nbsp;담당자 : 정대균</div>
         <v-btn class="close" v-on:click="close_browser">취소</v-btn>
         <v-btn class="save" v-on:click="save">저장</v-btn>
     </div>
@@ -807,7 +807,8 @@ mounted(){
     .posting .addinfomsg{
         float: left;
         font-size:15px;
-        color:red;
+        font-weight: bold;
+        /* color:rgb(139, 136, 136); */
         width: inherit;
         margin: 30px 20px 30px 15px;
     }
