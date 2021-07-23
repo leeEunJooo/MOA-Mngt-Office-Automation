@@ -116,7 +116,7 @@ update tbl_moa_user_bas set UPLD_CASCNT = 4 where CUST_IDFY_SEQ=23;
 update tbl_moa_user_bas set UPLD_CASCNT = 8 where CUST_IDFY_SEQ=24;
 
 -- select * from tbl_moa_user_bas;
-select * from tbl_moa_bas;
+-- select * from tbl_moa_bas;
 
 -- 외래키 참조해제
 -- set foreign_key_checks=0;
