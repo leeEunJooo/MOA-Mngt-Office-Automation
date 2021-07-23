@@ -75,7 +75,7 @@
         <v-data-table
             :headers="headers"
             :items="moa_list"
-            :items-per-page="5"
+            :items-per-page="15"
             class="data_table"
             @click:row="handleClick"
         >      
