@@ -48,14 +48,28 @@ export const barChartData2 = {
       options: {
         maintainAspectRatio: false, // default value. false일 경우 포함된 div의 크기에 맞춰서 그려짐.
         scales: {
+          xAxes: [{
+            gridLines: {
+              color: "rgba(0, 0, 0, 0)",
+            }  
+          }
+          ],
+
           yAxes: [
             {
               ticks: {
                 beginAtZero: true,
               },
+
+              gridLines: {
+                color: "rgba(0, 0, 0, 0)",
+              }   
             },
           ],
         },
+        legend: {
+          display: false
+        }
       },
   };
   
