@@ -2,8 +2,6 @@
 
     <div class="moalist">
       
-      <div class ="title-section"> MOA List </div>
-      
       <div class="list-btn-row-box">
             <v-select
                 v-model="search_select"
@@ -481,7 +479,7 @@ export default {
     
 }
 .list-btn-row-box .addfile_btn{
-    width: 94px !important;
+    width: 100px !important;
     height: 40px !important;
     background-color: #5244f5 !important;
     color : white !important;
@@ -504,7 +502,7 @@ export default {
   
 }
 .v-data-table-header{
-  background-color: #ebecfd !important;
+  background-color: #dcddfc !important;
 }
 .v-data-table__wrapper .text-start{
   font-size: 19px !important;
