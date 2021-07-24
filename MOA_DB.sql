@@ -504,6 +504,10 @@ update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\유통조근점검.xaml' 
 update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\유통조근점검.xaml' where file_seq = 42; 
 update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\유통조근점검.xaml' where file_seq = 43; 
 update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\유통조근점검.xaml' where file_seq = 44; 
+update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\ITSM AP변경단계 처리 자동화.py' where file_seq = 36; 
+update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\ITMS_SPEC처리_자동화.py' where file_seq = 37; 
+update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\ITMS 요구사항수집자동화.py' where file_seq = 38; 
+update TBL_MOA_BAS set SROC_FILE_PATH_NM = '\\uploads\\SecurityCheck.py' where file_seq = 39; 
 
 -- 자동화 세부정보 이력 테이블 생성
 CREATE TABLE TBL_MOA_HST(
