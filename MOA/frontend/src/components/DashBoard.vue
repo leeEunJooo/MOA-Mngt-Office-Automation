@@ -1,77 +1,54 @@
 <template>
 
   <div class="dashboard">
-      <div class="dashboard-content">
-        <!--제목-->
-        <div class="title-section">DashBoard</div>
-        <div class="space"></div>
-        <div class = "sub-title"> 자산현황</div>
-        <hr class="line1">
-        <br>
-        
-        <!--윗쪽 그래프 2개-->
-          <div class="chart-section1">
-            <v-row>
-              
-              <!--담당별 자동화 건수 그래프-->
-              <v-col>
-                <div class="chart1-title"> [ 담당별 자동화 건수 ]</div>
-                
-                <div class = "bar-chart1">
-                  <canvas id="bar-chart1"></canvas>
+        <div class="title-section">자산현황</div>
+          <div class="chart_section1">
+              <div class="graph_bg">
+                <div class="chart_title">
+                  <img src="../assets/img/chart_ic.png" class="chart_ic"/>
+                  <span class="boldft">담당별</span> 자동화 건수
+                  </div>
+                <div class = "chart">
+                  <canvas id="bar-chart1" class = "chartcontent"></canvas>
                 </div>
-              </v-col>
+              </div>
 
               <!--팀별 자동화 건수 그래프-->
-              <v-col>
-                <div class="chart2-title"> [ 팀별 자동화 건수 ]</div>
-
-                <div class = "bar-chart2">
-                  <canvas id="bar-chart2"></canvas>
+              <div class="graph_bg">
+                <div class="chart_title"><img src="../assets/img/chart_ic.png" class="chart_ic"/><span class="boldft">팀별</span> 자동화 건수</div>
+                <div class = "chart">
+                  <canvas id="bar-chart2" class = "chartcontent"></canvas>
                 </div>
-              </v-col>
-
-            </v-row>
+              </div>
           </div>
 
-          <br>
-          <hr class="line2">
-          <br>
-          <br>
 
-        <!--아래쪽 그래프 2개-->
-          <div class="chart-section2">
-            <v-row>
-              
+          <div class="chart_section2">
               <!--업무 목적별 팀별 현황 그래프-->
-              <v-col>
-                <div class="chart3-title"> [ 업무 목적별 팀별 현황 ]</div>
-                
-                <div class = "bar-chart3">
-                  <canvas id="bar-chart3"></canvas>
+              <div class="graph_bg left">
+                <div class="chart_title"><img src="../assets/img/chart_ic.png" class="chart_ic"/><span class="boldft">업무 목적별</span> 팀별 현황</div>
+                <div class = "chart">
+                  <canvas id="bar-chart3" class = "chartcontent"></canvas>
                 </div>
-              </v-col>
+              </div>
 
               <!--기술별 자동화 건수 그래프-->
-              <v-col>
-                <div class="chart4-title"> [ 기술별 자동화 건수 ]</div>
-
-                <div class = "bar-chart4">
-                  <canvas id="bar-chart4"></canvas>
+              <div class="graph_bg right">
+                <div class="chart_title"><img src="../assets/img/chart_ic.png" class="chart_ic"/><span class="boldft">기술별</span> 자동화 건수</div>
+                <div class="chart">
+                  <canvas id="bar-chart4" class = "chartcontent"></canvas>
                 </div>
-              </v-col>
+              </div>
 
-            </v-row>
-          </div>
+          </div>   
 
-        <br><br><br><br>
-        
-      </div>
+
   </div>
 
 </template>
 
 <script>
+import '../css/dash.css'
 import barChartData1 from '../chart-data1.js'
 import barChartData2 from '../chart-data2.js'
 import barChartData3 from '../chart-data3.js'
@@ -95,17 +72,10 @@ export default {
     this.$http.post("/api/musers/div_cnt")
     .then(
       (res)=>{
-        // console.log(res);
-        // console.log(res.data.length);
-        // console.log(res.data[0].upld_cascnt);
-        // console.log(this.barChartData1.data.labels);
-        // console.log("?????",this.barChartData1.data.datasets[0].data);
         for(var i=0; i<this.barChartData1.data.labels.length; i++){
           let flag = 0;
           for(var j=0; j<res.data.length; j++){
             if(this.barChartData1.data.labels[i] == res.data[j].cd_nm){
-              // console.log("res.data[j].cd_nm",res.data[j].cd_nm);
-              // console.log("this.barChartData1.data.labels[i]",this.barChartData1.data.labels[i]);
               this.barChartData1.data.datasets[0].data.push(res.data[j].upld_cascnt);
               flag =1;
               break;
@@ -124,17 +94,10 @@ export default {
     this.$http.post("/api/musers/team_cnt")
       .then(
         (res)=>{
-          // console.log(res);
-          // console.log(res.data.length);
-          // console.log(res.data[0].upld_cascnt);
-          // console.log(this.barChartData2.data.labels);
-          // console.log("?????",this.barChartData2.data.datasets[0].data);
           for(var i=0; i<this.barChartData2.data.labels.length; i++){
             let flag = 0;
             for(var j=0; j<res.data.length; j++){
               if(this.barChartData2.data.labels[i] == res.data[j].cd_nm){
-                // console.log("res.data[j].cd_nm",res.data[j].cd_nm);
-                // console.log("this.barChartData2.data.labels[i]",this.barChartData2.data.labels[i]);
                 this.barChartData2.data.datasets[0].data.push(res.data[j].upld_cascnt);
                 flag =1;
                 break;
@@ -164,8 +127,6 @@ export default {
     this.$http.post("/api/musers/work_prps")
     .then(
       (res)=>{ //team_div_cd, WRKJOB_PRPS_NM
-        console.log("업무 목적별 팀별");
-        console.log(res);  
         //labels돌기(1~15팀)
          this.barChartData3.data.datasets[1].data = [];
           this.barChartData3.data.datasets[0].data =[];
@@ -176,11 +137,9 @@ export default {
             for(var j=0; j<res.data.length; j++){
                //만약 팀이름이 같으면?
               if(this.barChartData3.data.labels[i] == res.data[j].cd_nm){
-                console.log("오니???", res.data[j].WRKJOB_PRPS_NM, res.data[j].cd_nm)
                 //고객업무대상
                 if(this.barChartData3.data.datasets[0].label == res.data[j].WRKJOB_PRPS_NM){
                   flag =1;
-                  console.log("고객업무 대상");
                   this.barChartData3.data.datasets[0].data.push(res.data[j].cnt);
                 }
                 //스텝업무대상
@@ -231,101 +190,6 @@ export default {
 }
 </script>
 
-<style>
-  .dashboard{
-    width:100%;
-    padding:70px 70px 0px 70px;
-    height: fit-content;
-  }
-  .dashboard .title-section{
-    width:100%;
-    height:fit-content !important;
-    font-family: GmarketSansBold !important;
-    font-size: 27px !important;
-    font-weight: bold;
-    line-height: 0.14;
-    letter-spacing: 0.04px;
-    text-align: left;
-    color: #575757;
-  }
-  .dashboard .sub-title{
-    font-size: 18px;
-    font-family: GmarketSansBold !important;
-    font-weight: bold !important;
-    color: black !important;
-    padding:0px 0px 3px 10px !important;
-  }
-
-  .dashboard .space{
-    padding:60px 0px 0px 0px !important;
-  }
-
-  .dashboard .line1{
-    background-color: #5244f5 !important;
-    height: 3px;
-  }
-
-  .dashboard .line2{
-    background-color: #5244f5 !important;
-    height: 2.5px;
-    width: 97%;
-    margin: auto;
-  }
-
-  .dashboard .chart1-title{
-    font-size: 13px;
-    font-family: GmarketSansBold !important;
-    font-weight: bold !important;
-    padding:20px 0px 0px 70px !important;
-  }
-
-  .dashboard .chart2-title{
-    font-size: 13px;
-    font-family: GmarketSansBold !important;
-    font-weight: bold !important;
-    padding:20px 0px 0px 29px !important;
-  }
-
-  .dashboard .chart3-title{
-    font-size: 13px;
-    font-family: GmarketSansBold !important;
-    font-weight: bold !important;
-    padding:4px 0px 0px 70px !important;
-  }
-
-  .dashboard .chart4-title{
-    font-size: 13px;
-    font-family: GmarketSansBold !important;
-    font-weight: bold !important;
-    padding:4px 0px 0px 35px !important;
-  }
-
-   .dashboard .bar-chart1{
-    padding:20px 0px 0px 60px !important;
-    width: 80%;
-    height: 90%; 
-  } 
-
-  .dashboard .bar-chart2{
-    padding:10px 0px 0px 20px !important;
-    width: 80%;
-    height: 90%; 
-  } 
-
-  .dashboard .bar-chart3{
-    padding:30px 0px 0px 70px !important;
-    width: 81%;
-    height: 95%; 
-  } 
-
-  .dashboard .bar-chart4{
-    padding:30px 0px 0px 20px !important;
-    width: 81%;
-    height: 95%; 
-  } 
-
-  .dashboard-content{
-    margin : auto;
-  }
-
+<style lang="scss">
+@import '../css/dash.css';
 </style>

@@ -1,0 +1,64 @@
+ .dashboard{
+    width:100%;
+    padding:70px 70px 100px 70px;
+    height: fit-content;
+  }
+  .dashboard .line1{
+    background-color: #5244f5 !important;
+    height: 3px;
+  }
+  .dashboard .title-section{
+    width:100%;
+    height:fit-content !important;
+    font-family: GmarketSansBold !important;
+    font-size: 27px !important;
+    font-weight: bold;
+    line-height: 0.14;
+    letter-spacing: 0.04px;
+    text-align: left;
+    color: #575757;
+  }
+.dashboard .chart_title{
+    font-size: 22px;
+    color: #575757;
+    font-family: GmarketSansLight !important;
+    padding:20px 0px !important;
+  }
+
+.dashboard .chart_title span{
+    font-family: GmarketSansMedium !important;
+}
+
+
+.chart_section1,
+.chart_section2{
+width: 100%;
+margin-top:70px;
+} 
+
+
+  .dashboard .chartcontent{
+    width: 100%;
+  }
+
+.dashboard .chart{
+    background-color: rgb(243, 245, 255,.2);
+    border-radius: 30px;
+    box-shadow: -25px -25px 20px rgba(255,255,255,1), 28px 28px 40px rgba(133, 132, 197, 0.25);
+    padding:40px 55px!important;
+    width: 100%;
+    height: 340px; 
+  }
+
+.dashboard .graph_bg{
+    width: 40%;
+    margin: auto 5% ;
+    min-width: 300px;
+    display: inline-block;
+}
+
+.dashboard .chart_ic{
+    width: 25px;
+    height: 25px;
+    margin: -10px 10px;
+}
