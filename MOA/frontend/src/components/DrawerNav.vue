@@ -18,7 +18,8 @@
       <v-app-bar-nav-icon @click="drawer = !drawer">
       </v-app-bar-nav-icon>
       <router-link to="/" class="home-link">
-        <v-toolbar-title class="header-title">MOA</v-toolbar-title>
+        <v-toolbar-title class="header-title">
+          <span class = "m">M</span>anagement <span class="m">O</span>ffice of <span class="m">A</span>utomation</v-toolbar-title>
       </router-link>
     </v-app-bar>
 
@@ -94,5 +95,8 @@
     font-family: GmarketSansBold;
     color: #5244f5;
     text-decoration: none !important;
+  }
+  .m{
+    font-weight: bold;
   }
 </style>

@@ -35,7 +35,7 @@
                 v-on:click="addfile"
                 class="addfile_btn"
                 height="32px">
-                Add File
+                Add Job
             </v-btn> 
       </div>
       <v-alert
@@ -470,17 +470,18 @@ export default {
     margin: 0px 10px;
 }
 .list-btn-row-box .search_btn{
-    width: 90px !important;
+    width: 94px !important;
     height: 40px !important;
     background-color: #f0217b !important;
     color : white !important;
     padding: 10px 15px !important;
     border-radius: 5px;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16);
+    font-size : 18px;
     
 }
 .list-btn-row-box .addfile_btn{
-    width: 90px !important;
+    width: 94px !important;
     height: 40px !important;
     background-color: #5244f5 !important;
     color : white !important;
@@ -488,19 +489,26 @@ export default {
     padding: 5px 15px !important;
     border-radius: 5px;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16);
+    font-size : 18px;
 }
 .v-input__slot{
   min-height: 45% !important;
 }
 .data_table{
-  text-align: center;
+  text-align: center;  
 }
 .data_table span{
-  font-size: 14px;
+  font-size: 21px;
   color: rgb(52, 52, 52);
   font-weight: bold;
+  
 }
-
+.v-data-table-header{
+  background-color: #ebecfd !important;
+}
+.v-data-table__wrapper .text-start{
+  font-size: 19px !important;
+}
 
 /* 테이블 */
 .activate_btn{
