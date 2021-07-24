@@ -1,7 +1,6 @@
 <template>
 
   <div class="dashboard">
-        <div class="title-section">자산현황</div>
           <div class="chart_section1">
               <div class="graph_bg">
                 <div class="chart_title">

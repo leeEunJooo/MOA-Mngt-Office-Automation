@@ -33,7 +33,7 @@
 .chart_section1,
 .chart_section2{
 width: 100%;
-margin-top:70px;
+/* margin-top:70px; */
 } 
 
 
@@ -44,16 +44,21 @@ margin-top:70px;
 .dashboard .chart{
     background-color: rgb(243, 245, 255,.2);
     border-radius: 30px;
-    box-shadow: -25px -25px 20px rgba(255,255,255,1), 28px 28px 40px rgba(133, 132, 197, 0.25);
     padding:40px 55px!important;
     width: 100%;
-    height: 340px; 
+    height: 400px; 
   }
+
+.dashboard .chart:hover{
+  box-shadow: -25px -25px 20px rgba(255,255,255,1), 28px 28px 40px rgba(133, 132, 197, 0.25);
+  transition: all 0.3s;
+
+}
 
 .dashboard .graph_bg{
     width: 40%;
     margin: auto 5% ;
-    min-width: 300px;
+    min-width: 350px;
     display: inline-block;
 }
 
