@@ -1,6 +1,6 @@
  .dashboard{
     width:100%;
-    padding:70px 70px 100px 70px;
+    padding:30px 70px 100px 0px;
     height: fit-content;
   }
   .dashboard .line1{
@@ -50,7 +50,7 @@ width: 100%;
   }
 
 .dashboard .chart:hover{
-  box-shadow: -25px -25px 20px rgba(255,255,255,1), 28px 28px 40px rgba(133, 132, 197, 0.25);
+  box-shadow: -25px -25px 30px rgba(255,255,255,1), 28px 28px 40px rgba(133, 132, 197, 0.25);
   transition: all 0.3s;
 
 }
