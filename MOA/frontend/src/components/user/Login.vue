@@ -87,7 +87,7 @@
               this.$store.commit('loginToken', {token:JSON.stringify(res.data.token), user_nm:res.data.token.user.user_nm});
               alert(res.data.message);
               
-              this.$router.push("/moalist");
+              this.$router.push("/dashboard");
             }
             if (res.data.success == false) {
               alert(res.data.message);
@@ -96,7 +96,7 @@
           },
           () => {
             // error 를 보여줌
-            alert("아이디가 없대");
+            alert("로그인에 실패하였습니다.");
           }
         )
         .catch((err) => {

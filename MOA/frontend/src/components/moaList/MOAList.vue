@@ -95,6 +95,7 @@
 
 <script>
 import dayjs from 'dayjs'
+import EventBus from '../../EventBus';
 
 export default {
   //스텝별, 업무별
@@ -109,6 +110,7 @@ export default {
         moa_list:[],
         moa_list2:[], 
         date:"",
+        temp:"a",
         items: [
           // '팀', '담당자', '대상시스템', '수행시간', '사용기술', '자동화 명칭', '매뉴얼', '전체검색'],
           {name: "팀", code: "TDC"},
@@ -139,6 +141,7 @@ export default {
     },
 
     created() {
+
       this.$http.get("/api/mlist/selectList")
       .then((response) => {
         this.moa_list = response.data;
@@ -161,6 +164,14 @@ export default {
             this.user = response.data[0];
                 }
             )
+
+          
+    },
+    mounted(){
+      EventBus.$on('listadd', function(text) {
+        console.log(text);
+        this.temp = text;
+      });
     },
 
     methods: {
@@ -415,8 +426,8 @@ export default {
       this.alert = true; 
       console.log(this.alert);
     },
-    },
-      
+
+    } 
   }
 </script>
 
@@ -426,7 +437,7 @@ export default {
 }
 .moalist{
   width:100%;
-  padding:70px 70px 0px 70px;
+  padding:10px 70px 100px 70px;
   height: fit-content;
 }
 .moalist .title-section{

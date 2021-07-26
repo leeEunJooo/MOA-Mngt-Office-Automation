@@ -126,7 +126,7 @@ router.beforeEach((to, from, next) => {
     if (loggedIn) {
         console.log('Butloggedin');
         // if(to.path == '/' || to.path == '/login' || to.path == '/signup'){
-           next({path:'/moalist'});
+           next({path:'/dashboard'});
            return;
         // }
       }

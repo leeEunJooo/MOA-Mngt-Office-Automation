@@ -109,16 +109,16 @@ var connection = conn.connection;
       // console.log("insertid ",row[0]);
       if(row!=null){
         //file_seq 조회
-        connection.query('SELECT FILE_SEQ FROM TBL_MOA_BAS ORDER BY FILE_SEQ DESC limit 1',function(err,rows){
+        connection.query('SELECT * FROM TBL_MOA_BAS ORDER BY FILE_SEQ DESC limit 1',function(err,rows){
           // if(err) throw err;
-          console.log(rows[0].FILE_SEQ);
+          console.log(rows[0]);
           //이력테이블 등록
           connection.query('INSERT INTO TBL_MOA_HST (FILE_SEQ,CUST_IDFY_SEQ, SROC_FILE_PATH_NM, LANG_CD, SYS_DIV_CD, CYCL_DATE_TYPE_CD, DOW_NM, DATA_EXE_TIME, RPY_RESLT_CD, TROBL_SVC_TYPE_CD, INPUT_VAL, TRT_STEP_NM, CONN_EVN_DIV_CD, ATTEN_MTR_SBST, ATC_FILE_MANUAL_YN, ATC_FILE_UPLD_PATH_NM, OTPUT_SBST, ETC_SBST, EXE_SBST, NTCART_TITLE_NM, TKCGR_NM, RUSER_NM, ST_DATE, FNS_DATE, LAST_HST_YN, FILE_UPD_YN, STTUS_DIV_CD,DTL_DESC_SBST,WRKJOB_PRPS_NM) VALUES ("'+rows[0].FILE_SEQ+'","' + detailInfo.CUST_IDFY_SEQ + '","'+ detailInfo.SROC_FILE_PATH_NM+'", "' + detailInfo.LANG_CD + '", "' + detailInfo.SYS_DIV_CD + '","' + detailInfo.CYCL_DATE_TYPE_CD + '","' + detailInfo.DOW_NM + '","' + detailInfo.DATA_EXE_TIME +'","' + detailInfo.RPY_RESLT_CD+'","' + detailInfo.TROBL_SVC_TYPE_CD  +'","' + detailInfo.INPUT_VAL +'","' + detailInfo.TRT_STEP_NM +'","' + detailInfo.CONN_EVN_DIV_CD +'","' + detailInfo.ATTEN_MTR_SBST+'","' + detailInfo.ATC_FILE_MANUAL_YN+'","' + detailInfo.ATC_FILE_UPLD_PATH_NM+'","' + detailInfo.OTPUT_SBST +'","' + detailInfo.ETC_SBST+'","' + detailInfo.EXE_SBST +'","' + detailInfo.NTCART_TITLE_NM +'","' + detailInfo.TKCGR_NM+'","' +detailInfo.RUSER_NM+'",sysdate(),"'+detailInfo.FNS_DATE+'","Y","Y","R","'+detailInfo.DTL_DESC_SBST+'","'+detailInfo.WRKJOB_PRPS_NM+'")',detailInfo,function(err,row2){
             if(err) throw err;
             // console.log(row2);
             if(row2!=""){
             res.json({
-              data:rows[0].FILE_SEQ,
+              data:rows[0],
               success: true,
               message: '등록이 완료되었습니다.',
             })

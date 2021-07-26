@@ -195,17 +195,17 @@
                 </div>
             </li>
             <li class="height_fit_content" style="margin-top:15px">
-                <div class="sm_title" style="margin: 5px 0px"><span class="necessary">* </span>실행방법</div>
+                <div class="sm_title" style="margin: 5px 0px">상세설명</div>
                 <div class="textarea">
-                    <textarea v-model="detailInfo.EXE_SBST">
-
+                    <textarea v-model="detailInfo.DTL_DESC_SBST">
                     </textarea>
                 </div>
             </li>
             <li class="height_fit_content" style="margin-top:15px">
-                <div class="sm_title" style="margin: 5px 0px">상세설명</div>
+                <div class="sm_title" style="margin: 5px 0px"><span class="necessary">* </span>실행방법</div>
                 <div class="textarea">
-                    <textarea v-model="detailInfo.DTL_DESC_SBST">
+                    <textarea v-model="detailInfo.EXE_SBST">
+
                     </textarea>
                 </div>
             </li>
@@ -236,6 +236,7 @@
 </template>
 
 <script>
+import EventBus from '../../EventBus';
 
 export default {
 props : {
@@ -357,7 +358,7 @@ methods:{
                 console.log(res);
                 console.log(res.data.data);
                 console.log(res.data);
-                this.file_seq = res.data.data;
+                this.file_seq = res.data.data.FILE_SEQ;
                 console.log("this.file_seq", this.file_seq);
                 //파일 업로드
                 formData.append('filepath', this.file_path);
@@ -387,7 +388,8 @@ methods:{
 
                 setTimeout(function(){
                     alert(res.data.message);
-                    opener.parent.location.reload();
+                    EventBus.$emit('listadd', "asdasd하하");
+                    // opener.parent.location.reload();
                     window.close();
                 },1000);
             }

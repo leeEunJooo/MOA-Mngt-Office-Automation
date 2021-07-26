@@ -5,7 +5,7 @@
               <div class="graph_bg">
                 <div class="chart_title">
                   <img src="../assets/img/chart_ic.png" class="chart_ic"/>
-                  <span class="boldft">담당별</span> 자동화 건수
+                  <span class="boldft">담당별 자동화 건수</span>
                   </div>
                 <div class = "chart">
                   <canvas id="bar-chart1" class = "chartcontent"></canvas>
@@ -64,10 +64,9 @@ export default {
           barChartData4: barChartData4
       }
   },
-  mounted() {
-    
-    
-    //담당별 자동화 건수
+  methods: {
+    chart1: async function(){
+       //담당별 자동화 건수
     this.$http.post("/api/musers/div_cnt")
     .then(
       (res)=>{
@@ -84,12 +83,12 @@ export default {
             this.barChartData1.data.datasets[0].data.push(0);
           }
         }
+        const ctx1 = document.getElementById('bar-chart1');
+        new Chart(ctx1, this.barChartData1);
       });
-
-    
-
-
-    //팀별 자동화 건수
+    },
+    chart2: async function(){
+      //팀별 자동화 건수
     this.$http.post("/api/musers/team_cnt")
       .then(
         (res)=>{
@@ -106,24 +105,14 @@ export default {
               this.barChartData2.data.datasets[0].data.push(0);
             }
           }
+          const ctx2 = document.getElementById('bar-chart2');
+          new Chart(ctx2, this.barChartData2);
         });
-
-    //기술별 자동화 건수
-    this.$http.post("/api/musers/lang_cnt")
-    .then(
-      (res)=>{
-        console.log("기술별 자동화 건수");
-        // console.log(res);  
-        this.barChartData4.data.labels=[];
-        this.barChartData4.data.datasets[0].data = [];
-        for(var j=0; j<res.data.length; j++){
-          this.barChartData4.data.labels.push(res.data[j].cd_nm);
-          this.barChartData4.data.datasets[0].data.push(res.data[j].upld_cascnt);
-        }
-    });
-
-    //업무 목적별 팀별 현황
-    this.$http.post("/api/musers/work_prps")
+    },
+  
+    chart3 : async function(){
+      //업무 목적별 팀별 현황
+    await this.$http.post("/api/musers/work_prps")
     .then(
       (res)=>{ //team_div_cd, WRKJOB_PRPS_NM
         //labels돌기(1~15팀)
@@ -166,25 +155,35 @@ export default {
                 this.barChartData3.data.datasets[0].data.push(0);
               }
             }
-
+            const ctx3 = document.getElementById('bar-chart3');
+            new Chart(ctx3, this.barChartData3);
             // console.log("data는", this.barChartData3.data.datasets[0], this.barChartData3.data.datasets[1]);
           }
     });
-
-
-    const ctx1 = document.getElementById('bar-chart1');
-    new Chart(ctx1, this.barChartData1);
-
-    const ctx2 = document.getElementById('bar-chart2');
-    new Chart(ctx2, this.barChartData2);
-
-    const ctx3 = document.getElementById('bar-chart3');
-    new Chart(ctx3, this.barChartData3);
-
-    const ctx4 = document.getElementById('bar-chart4');
-    new Chart(ctx4, this.barChartData4);
-
-    
+    },
+    chart4: async function(){
+      //기술별 자동화 건수
+    this.$http.post("/api/musers/lang_cnt")
+    .then(
+      (res)=>{
+        console.log("기술별 자동화 건수");
+        // console.log(res);  
+        this.barChartData4.data.labels=[];
+        this.barChartData4.data.datasets[0].data = [];
+        for(var j=0; j<res.data.length; j++){
+          this.barChartData4.data.labels.push(res.data[j].cd_nm);
+          this.barChartData4.data.datasets[0].data.push(res.data[j].upld_cascnt);
+        }
+        const ctx4 = document.getElementById('bar-chart4');
+        new Chart(ctx4, this.barChartData4);
+    });
+    },
+  },
+  mounted() {
+    this.chart1();
+    this.chart2();
+    this.chart3();
+    this.chart4();
   }
 }
 </script>

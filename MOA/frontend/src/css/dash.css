@@ -67,3 +67,6 @@ width: 100%;
     height: 25px;
     margin: -10px 10px;
 }
+.dashboard .boldft{
+  font-weight: bold;
+}

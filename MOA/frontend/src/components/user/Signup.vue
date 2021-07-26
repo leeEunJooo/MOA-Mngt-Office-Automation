@@ -58,6 +58,27 @@ export default {
     
     methods: {
         signUp: function () {
+            if(this.user.user_nm == "") {
+                alert("이름을 입력하세요.");
+                return;
+            }
+            if(this.user.user_tel_no == "") {
+                alert("전화번호를 입력하세요");
+                return;
+            }
+            if(this.user.default_team == "") {
+                alert("팀을 골라주세요");
+                return;
+            }
+            if(this.user.user_id == "") {
+                alert("아이디를 입력하세요.");
+                return;
+            }
+            if(this.user.user_pwd == "") {
+                alert("비밀번호를 입력하세요.");
+                return;
+            }
+
         this.$http
         .post("/api/musers/signUp", {
             user: this.user
@@ -70,15 +91,13 @@ export default {
                     localStorage.setItem('loginUser', JSON.stringify(res.data));
                     console.log(res.data);
                     this.$store.commit('loginToken', {token:JSON.stringify(res.data.token), user_nm:this.user.user_nm});
-                    this.$router.push("/moalist"); 
+                    this.$router.push("/dashboard"); 
                 }
                 if (res.data.success == false) {
                     alert(res.data.message);
                 }
             })
-            .catch(function () {
-            alert("error");
-            });
+           
         },
     },
     
