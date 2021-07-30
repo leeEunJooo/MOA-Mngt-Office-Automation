@@ -29,6 +29,7 @@ export const barChartData4 = {
       },
       options: {
         maintainAspectRatio: false, // default value. false일 경우 포함된 div의 크기에 맞춰서 그려짐.
+       
       }
     
   };

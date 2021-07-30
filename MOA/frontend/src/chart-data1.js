@@ -38,17 +38,13 @@ export const barChartData1 = {
             },
             gridLines: {
               color: "rgba(0, 0, 0, 0)",
+          }
           },
-     
-          },
-          
         ],
-       
-
       },
       legend: {
         display: false
-      }
+      },
     },
 };
 
