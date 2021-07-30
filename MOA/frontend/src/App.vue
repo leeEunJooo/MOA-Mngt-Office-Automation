@@ -9,6 +9,7 @@
 <script>
 // import DrawerNav from './components/DrawerNav.vue';
 
+
 export default {
   name: 'App',
   components: {
@@ -24,10 +25,12 @@ export default {
 </script>
 
 <style>
+@import 'assets/font/font.css';
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  /* font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  -moz-osx-font-smoothing: grayscale; */
   color: #2c3e50;
 }
   ::-webkit-scrollbar-thumb {

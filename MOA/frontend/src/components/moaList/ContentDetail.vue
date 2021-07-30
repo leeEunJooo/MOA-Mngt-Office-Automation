@@ -268,5 +268,15 @@ export default {
 </script>
 
 <style>
-
+.post_contents ul li .sm_title{
+        width:20%;
+        font-size: 16px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.89;
+        letter-spacing: normal;
+        text-align: left;
+        color: #3b3b3b;
+    }
 </style>

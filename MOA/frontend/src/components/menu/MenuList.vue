@@ -5,7 +5,7 @@
                 <img src="../../assets/img/menu1.png" class="menu1_img"/>
                 &nbsp;&nbsp;
                 <router-link to="/dashboard">
-                    <span>DashBoard</span>
+                  <span class="dashboard_menu">DashBoard</span>
                 </router-link>
             </li>
             <li>
@@ -13,7 +13,7 @@
                 &nbsp;&nbsp;
                 <router-link to="/moalist">
                     <!-- <span>MOAList</span> -->
-                    <a @click="moalist" style="cursor: pointer;"><span>MOAList</span></a>
+                    <a @click="moalist" style="cursor: pointer;"><span class="moalist_menu">MOAList</span></a>
                 </router-link>
             </li>
         </ul>
@@ -31,8 +31,9 @@ export default {
             }else{
                 this.$router.push("/moalist");
             }
-        }
-    }
+        },
+    },
+
 
 }
 </script>

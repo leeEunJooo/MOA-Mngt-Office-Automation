@@ -14,7 +14,7 @@
           transition="scale-transition"
           width="40"
         />
-asdsadasdasd
+
         <v-img
           alt="Vuetify Name"
           class="shrink mt-1 hidden-sm-and-down"

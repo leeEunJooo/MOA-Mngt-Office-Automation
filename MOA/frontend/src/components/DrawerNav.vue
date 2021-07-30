@@ -32,7 +32,8 @@
 </template>
 
 <script>
- 
+
+
   import LoginInfo from './menu/LoginInfo.vue';
   import MenuList from './menu/MenuList.vue';
 
@@ -51,6 +52,7 @@
 </script>
 
 <style>
+
   .v-sheet.v-toolbar:not(.v-sheet--outlined){
     box-shadow:none !important;
   }
@@ -58,7 +60,7 @@
     background-color:#f5f7fc;
   }
   .header-title{
-    font-family: GmarketSansBold;
+    font-family: GmarketSansMedium !important;
     font-size: 25px !important;
     color: #5244f5;
     padding-left: 20px;
@@ -92,7 +94,6 @@
     
   }
   .home-link{
-    font-family: GmarketSansBold;
     color: #5244f5;
     text-decoration: none !important;
   }

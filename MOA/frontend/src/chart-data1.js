@@ -1,7 +1,4 @@
 
-
-
-
 export const barChartData1 = {
   type: "bar",
     data: {

@@ -14,7 +14,7 @@
 
               <!--팀별 자동화 건수 그래프-->
               <div class="graph_bg">
-                <div class="chart_title"><img src="../assets/img/chart_ic.png" class="chart_ic"/><span class="boldft">팀별</span> 자동화 건수</div>
+                <div class="chart_title"><img src="../assets/img/chart_ic.png" class="chart_ic"/><span class="boldft">팀별 자동화 건수</span> </div>
                 <div class = "chart">
                   <canvas id="bar-chart2" class = "chartcontent"></canvas>
                 </div>
@@ -25,7 +25,7 @@
           <div class="chart_section2">
               <!--업무 목적별 팀별 현황 그래프-->
               <div class="graph_bg left">
-                <div class="chart_title"><img src="../assets/img/chart_ic.png" class="chart_ic"/><span class="boldft">업무 목적별</span> 팀별 현황</div>
+                <div class="chart_title"><img src="../assets/img/chart_ic.png" class="chart_ic"/><span class="boldft">업무 목적별 팀별 현황</span></div>
                 <div class = "chart">
                   <canvas id="bar-chart3" class = "chartcontent"></canvas>
                 </div>
@@ -33,7 +33,7 @@
 
               <!--기술별 자동화 건수 그래프-->
               <div class="graph_bg right">
-                <div class="chart_title"><img src="../assets/img/chart_ic.png" class="chart_ic"/><span class="boldft">기술별</span> 자동화 건수</div>
+                <div class="chart_title"><img src="../assets/img/chart_ic.png" class="chart_ic"/><span class="boldft">기술별 자동화 건수</span></div>
                 <div class="chart">
                   <canvas id="bar-chart4" class = "chartcontent"></canvas>
                 </div>
@@ -45,7 +45,6 @@
   </div>
 
 </template>
-
 <script>
 import '../css/dash.css'
 import barChartData1 from '../chart-data1.js'
@@ -53,6 +52,7 @@ import barChartData2 from '../chart-data2.js'
 import barChartData3 from '../chart-data3.js'
 import barChartData4 from '../chart-data4.js'
 import Chart from 'chart.js'
+
 
 export default {
   name: 'Chart',
@@ -184,10 +184,18 @@ export default {
     this.chart2();
     this.chart3();
     this.chart4();
-  }
+    var menu = document.querySelector('.dashboard_menu').style;
+    menu.setProperty('text-decoration','underline');
+    menu = document.querySelector('.moalist_menu').style;
+    menu.setProperty('text-decoration','none');
+  },
+ 
 }
+
+
 </script>
 
 <style lang="scss">
 @import '../css/dash.css';
+
 </style>

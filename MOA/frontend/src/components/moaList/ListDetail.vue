@@ -132,18 +132,7 @@ export default {
     .post_contents ul li div{
         display: inline-block;
     }
-    .post_contents ul li .sm_title{
-        width:20%;
-        font-family: AppleSDGothicNeoB00;
-        font-size: 16px;
-        font-weight: normal;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: 1.89;
-        letter-spacing: normal;
-        text-align: left;
-        color: #3b3b3b;
-    }
+    
     .post_contents .textarea{
         width: 100%;
         height: 108px;

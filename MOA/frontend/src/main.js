@@ -5,6 +5,7 @@ import router from './router'
 import vuetify from './plugins/vuetify'
 import { store } from './store/store'
 
+
 Vue.config.productionTip = false
 Vue.prototype.$http = axios;
 Vue.config.devtools = false;

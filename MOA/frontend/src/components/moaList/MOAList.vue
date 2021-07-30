@@ -141,6 +141,7 @@ export default {
     },
 
     created() {
+      
 
       this.$http.get("/api/mlist/selectList")
       .then((response) => {
@@ -172,6 +173,10 @@ export default {
         console.log(text);
         this.temp = text;
       });
+      var menu = document.querySelector('.dashboard_menu').style;
+      menu.setProperty('text-decoration','none');
+      menu = document.querySelector('.moalist_menu').style;
+      menu.setProperty('text-decoration','underline');
     },
 
     methods: {
@@ -432,6 +437,7 @@ export default {
 </script>
 
 <style>
+
 .v-text-field.v-text-field--solo:not(.v-text-field--solo-flat) > .v-input__control > .v-input__slot{
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16) !important;
 }

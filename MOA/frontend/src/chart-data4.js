@@ -1,5 +1,6 @@
 export const barChartData4 = {
     type: "doughnut",
+    
       data: {
         labels: [
           // 'AntBot',
@@ -22,14 +23,14 @@ export const barChartData4 = {
               'rgba(153, 102, 255, 0.9)'
             ],
 
-            hoverOffset: 7
+            hoverOffset: 7,
           }
         ],
       },
       options: {
         maintainAspectRatio: false, // default value. false일 경우 포함된 div의 크기에 맞춰서 그려짐.
-        
-      },
+      }
+    
   };
   
   export default barChartData4;
