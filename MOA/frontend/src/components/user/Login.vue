@@ -110,6 +110,10 @@
       login_save_box.firstChild.classList.remove('text-center')
       this.$store.commit('init');
       localStorage.clear();
+      var menu = document.querySelector('.dashboard_menu').style;
+      menu.setProperty('text-decoration','none');
+      menu = document.querySelector('.moalist_menu').style;
+      menu.setProperty('text-decoration','none');
     },
     components:{
       ResetPW
